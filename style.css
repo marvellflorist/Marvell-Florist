@@ -49,10 +49,11 @@ border-bottom: 2px solid #c9b59a;
 /* --- HERO SECTION --- */
 
 .hero {
-height: 70vh;
-background: url("assets/hero-bg.jpg") center/cover no-repeat;
-display: flex;
-align-items: center;
+  height: 100vh;
+  background-image: url("assets/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .hero-content {
