@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Marvell Florist | Batam</title>
 
-  <!-- Fonts: restrained, editorial -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+    /* RESET */
     * {
       margin: 0;
       padding: 0;
@@ -16,9 +19,10 @@
     }
 
     body {
-      font-family: "Inter", sans-serif;
-      color: #ffffff;
-      background-color: #000;
+      background: #000;
+      color: #fff;
+      font-family: "EB Garamond", serif;
+      overflow-x: hidden;
     }
 
     /* HEADER */
@@ -30,72 +34,96 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 10;
+      z-index: 20;
     }
 
     .logo {
-      height: 38px;
-      opacity: 0.85;
+      height: 36px;
     }
 
     nav a {
+      font-family: "Inter", sans-serif;
       margin-left: 32px;
       text-decoration: none;
       font-size: 14px;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
       color: rgba(255,255,255,0.9);
     }
 
     /* HERO */
     .hero {
+      position: relative;
       min-height: 100vh;
-      background-image: url("assets/background.png.jpeg");
+      background-image: url("assets/background.png");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       display: flex;
       align-items: center;
-      padding: 140px 10vw 80px;
+      justify-content: center;
+      padding: 160px 8vw 80px;
+      text-align: center;
+    }
+
+    /* CHARACTER – LARGE, FADE IN */
+    .character {
+      position: absolute;
+      left: -8%;
+      top: -15%;
+      width: 1000px;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInCharacter 1.6s ease-out forwards;
+      animation-delay: 0.4s;
+    }
+
+    @keyframes fadeInCharacter {
+      to {
+        opacity: 0.95;
+        transform: translateY(0);
+      }
     }
 
     .hero-text {
-      max-width: 620px;
+      position: relative;
+      z-index: 10;
+      max-width: 680px;
     }
 
     h1 {
-      font-family: "DM Serif Display", serif;
-      font-size: 72px;
-      font-weight: 400;
-      line-height: 1.05;
-      margin-bottom: 20px;
-
-      /* very subtle shadow – just enough */
+      font-family: "Inter", sans-serif;
+      font-size: 78px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1.02;
+      margin-bottom: 22px;
       text-shadow: 0 2px 6px rgba(0,0,0,0.25);
     }
 
     p {
-      font-size: 18px;
-      line-height: 1.7;
-      font-weight: 300;
-      color: rgba(255,255,255,0.92);
-      margin-bottom: 38px;
-
-      /* even subtler */
+      font-family: "EB Garamond", serif;
+      font-size: 21px;
+      line-height: 1.75;
+      margin-bottom: 40px;
+      color: rgba(255,255,255,0.95);
       text-shadow: 0 1px 4px rgba(0,0,0,0.25);
     }
 
     .button {
+      font-family: "Inter", sans-serif;
       display: inline-block;
-      padding: 14px 34px;
+      padding: 14px 38px;
       border-radius: 999px;
       background: rgba(255,255,255,0.9);
-      color: #1f1f1f;
+      color: #111;
       text-decoration: none;
       font-size: 14px;
       letter-spacing: 0.4px;
     }
 
-    /* MOBILE */
+    /* MOBILE (minimal, not final) */
     @media (max-width: 768px) {
       header {
         padding: 20px 24px;
@@ -106,7 +134,14 @@
       }
 
       p {
-        font-size: 16px;
+        font-size: 18px;
+      }
+
+      .character {
+        width: 560px;
+        left: -35%;
+        top: -5%;
+        opacity: 0;
       }
     }
   </style>
@@ -115,7 +150,7 @@
 <body>
 
 <header>
-  <img src="assets/logo.png" alt="Marvell Florist" class="logo">
+  <img src="assets/logo.png" alt="Marvell Florist" class="logo" />
   <nav>
     <a href="index.html">Beranda</a>
     <a href="shop.html">Toko</a>
@@ -125,6 +160,8 @@
 </header>
 
 <section class="hero">
+  <img src="assets/character.png" alt="" class="character" />
+
   <div class="hero-text">
     <h1>Marvell Florist</h1>
     <p>Where every petal is a little more marvelous.</p>
