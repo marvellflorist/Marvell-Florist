@@ -1,0 +1,137 @@
+/* --- GENERAL --- */
+
+body {
+margin: 0;
+font-family: "Inter", sans-serif;
+background-color: #f7f2ea;
+color: #3a342f;
+}
+
+/* --- NAVIGATION --- */
+
+header {
+background: rgba(255, 255, 255, 0.7);
+backdrop-filter: blur(6px);
+position: sticky;
+top: 0;
+z-index: 100;
+}
+
+nav {
+display: flex;
+justify-content: space-between;
+padding: 20px 40px;
+}
+
+.logo {
+font-family: "Playfair Display", serif;
+font-size: 26px;
+font-weight: 600;
+color: #2e2a27;
+}
+
+.nav-links {
+display: flex;
+gap: 30px;
+list-style: none;
+}
+
+.nav-links a {
+color: #4a443f;
+text-decoration: none;
+font-size: 16px;
+}
+
+.nav-links a.active {
+border-bottom: 2px solid #c9b59a;
+}
+
+/* --- HERO SECTION --- */
+
+.hero {
+height: 70vh;
+background: url("assets/hero-bg.jpg") center/cover no-repeat;
+display: flex;
+align-items: center;
+}
+
+.hero-content {
+margin-left: 50px;
+max-width: 450px;
+}
+
+.hero-content h1 {
+font-family: "Playfair Display", serif;
+font-size: 48px;
+margin-bottom: 10px;
+}
+
+.hero-content p {
+font-size: 18px;
+margin-bottom: 25px;
+}
+
+.button {
+padding: 12px 25px;
+background: #d7c7ae;
+border-radius: 6px;
+text-decoration: none;
+color: #2e2a27;
+font-weight: bold;
+}
+
+/* --- PAGES --- */
+
+.page-header {
+padding: 60px 40px 20px;
+font-family: "Playfair Display", serif;
+font-size: 26px;
+}
+
+/* --- SHOP CATEGORIES --- */
+
+.categories {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+padding: 40px;
+}
+
+.category-card {
+flex: 1 1 220px;
+padding: 20px;
+background: #efe6d7;
+text-align: center;
+border-radius: 10px;
+text-decoration: none;
+color: #3a342f;
+font-weight: 600;
+}
+
+/* --- ABOUT PAGE --- */
+
+.about-content {
+padding: 40px;
+line-height: 1.7;
+}
+
+.location {
+margin: 30px 0;
+}
+
+.map-btn {
+display: inline-block;
+margin-top: 10px;
+padding: 10px 16px;
+background: #c9b59a;
+color: #fff;
+border-radius: 6px;
+text-decoration: none;
+}
+
+/* --- CONTACT PAGE --- */
+
+.contact-section {
+padding: 40px;
+line-height: 2;
+}
