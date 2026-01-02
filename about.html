@@ -1,45 +1,171 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tentang | Marvell Florist</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marvell Florist | Batam</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      color: #ffffff;
+      font-family: "EB Garamond", serif;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .logo {
+      height: 36px;
+      opacity: 0.85;
+    }
+
+    nav a {
+      font-family: Helvetica, Arial, sans-serif;
+      margin-left: 32px;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background-image: url("assets/background.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      padding: 140px 10vw 80px;
+    }
+
+    /* CHARACTER LAYER */
+    .character {
+      position: absolute;
+      right: 8%;
+      bottom: 0;
+      width: 320px;
+      z-index: 5;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 10;
+      max-width: 620px;
+    }
+
+    h1 {
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 72px;
+      font-weight: 400;
+      line-height: 1.05;
+      margin-bottom: 18px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.22);
+    }
+
+    p {
+      font-family: "EB Garamond", serif;
+      font-size: 19px;
+      line-height: 1.75;
+      font-weight: 400;
+      margin-bottom: 38px;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.22);
+    }
+
+    .button {
+      font-family: Helvetica, Arial, sans-serif;
+      display: inline-block;
+      padding: 14px 34px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      color: #1f1f1f;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.4px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      header {
+        padding: 20px 24px;
+      }
+
+      h1 {
+        font-size: 44px;
+      }
+
+      p {
+        font-size: 17px;
+      }
+
+      .character {
+        width: 220px;
+        right: 4%;
+      }
+    }
+  </style>
 </head>
 
 <body>
+
 <header>
-<nav>
-<div class="logo">Marvell Florist</div>
-<ul class="nav-links">
-<li><a href="index.html">Beranda</a></li>
-<li><a href="shop.html">Toko</a></li>
-<li><a href="about.html" class="active">Tentang</a></li>
-<li><a href="contact.html">Kontak</a></li>
-</ul>
-</nav>
+  <img src="assets/logo.png" alt="Marvell Florist" class="logo">
+  <nav>
+    <a href="index.html">Beranda</a>
+    <a href="shop.html">Toko</a>
+    <a href="about.html">Tentang</a>
+    <a href="contact.html">Kontak</a>
+  </nav>
 </header>
 
-<section class="page-header">
-<h1>Tentang Kami</h1>
+<section class="hero">
+  <!-- Foreground character -->
+  <img src="assets/character.png" alt="" class="character" id="character">
+
+  <!-- Text -->
+  <div class="hero-text">
+    <h1>Marvell Florist</h1>
+    <p>Where every petal is a little more marvelous.</p>
+    <a href="shop.html" class="button">Belanja Sekarang</a>
+  </div>
 </section>
 
-<section class="about-content">
-<p>Marvell Florist adalah toko bunga yang berlokasi di Batam, menghadirkan rangkaian bunga yang dibuat dengan detail dan estetika seni klasik yang lembut. Kami menggabungkan keindahan bunga dengan sentuhan warna ala Monet untuk menciptakan nuansa yang hangat, elegan, dan menenangkan.</p>
+<script>
+  // Subtle parallax for the character layer
+  window.addEventListener("scroll", () => {
+    const character = document.getElementById("character");
+    if (!character) return;
 
-<h2>Lokasi Kami</h2>
-
-<div class="location">
-<h3>Ruko Kintamani Blk C No.11 – Batam</h3>
-<a class="map-btn" href="https://maps.google.com" target="_blank">Lihat di Google Maps</a>
-</div>
-
-<div class="location">
-<h3>Ruko Limindo Trade Center Blok B No.2 – Batam</h3>
-<a class="map-btn" href="https://maps.google.com" target="_blank">Lihat di Google Maps</a>
-</div>
-
-</section>
+    const scrolled = window.scrollY;
+    character.style.transform = translateY(${scrolled * 0.3}px);
+  });
+</script>
 
 </body>
 </html>
