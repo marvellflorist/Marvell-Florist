@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marvell Florist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  background: #0b0908;
+  overscroll-behavior-y: none;
+}
+body {
+  font-family: "Fraunces", serif;
+  background: linear-gradient(180deg, #f5efe6 0%, #f2eadf 100%);
+  color: #fff;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+body.gallery-open section:not(#gallery) {
+  filter: saturate(0.9) brightness(0.95) blur(0.8px);
+}
+body.gallery-open section {
+  transition: filter 0.35s ease;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Inter Tight", sans-serif;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 50;
+}
+header img { height: 36px; }
+nav a {
+  font-family: "Inter Tight", sans-serif;
+  margin-left: 28px;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+section {
+  position: relative;
+  min-height: 160vh;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.section-content {
+  position: sticky;
+  top: 50vh;
+  transform: translateY(-50%);
+  z-index: 20;
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 6vw;
+}
+.section-content h1 {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 46px;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.section-content p {
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.layer-bg {
+  position: absolute;
+  inset: -30%;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+.layer-fg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160%;
+  height: 300%;
+  transform: translate(-50%, -50%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  will-change: transform;
+  pointer-events: none;
+}
+
+#home .layer-bg { background-image: url("assets/scene1-bg.png"); }
+#home .layer-fg {
+  background-image: url("assets/scene1-fg.png");
+  top: 52%;
+  background-position: center top;
+  width: 160%;
+  height: 300%;
+}
+
+#gallery {
+  min-height: auto;
+  color: #2f2a25;
+  background: none;
+  isolation: isolate;
+}
+#gallery::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/scene3.jpg") center / cover no-repeat fixed;
+  filter: saturate(0.92) contrast(0.94) blur(0.6px);
+  transform: scale(1.01);
+  z-index: 0;
+}
+#gallery::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(247, 241, 231, 0.18);
+  z-index: 1;
+}
+#gallery .section-content {
+  position: relative;
+  z-index: 2;
+  top: auto;
+  transform: none;
+  max-width: 1160px;
+  text-align: left;
+  padding-top: 130px;
+  padding-bottom: 120px;
+}
+#gallery h1,
+#gallery p {
+  color: #2f2a25;
+  text-shadow: none;
+}
+.gallery-lead {
+  max-width: 760px;
+  color: #453f35;
+}
+.gallery-list {
+  margin-top: 34px;
+  display: grid;
+  gap: 24px;
+}
+.gallery-category {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(246, 238, 225, 0.54);
+  border: 1px solid rgba(71, 60, 45, 0.12);
+  box-shadow: 0 16px 34px rgba(45, 34, 24, 0.12);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: box-shadow 0.36s ease;
+}
+.gallery-category.is-open {
+  box-shadow: 0 18px 36px rgba(45, 34, 24, 0.14);
+}
+.category-toggle {
+  width: 100%;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+  display: block;
+}
+.category-toggle:focus-visible {
+  outline: 2px solid rgba(56, 46, 35, 0.45);
+  outline-offset: -2px;
+}
+.category-cover {
+  position: relative;
+  height: clamp(280px, 33vw, 390px);
+}
+.category-cover img {
+  width: 100%;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+.category-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 36px rgba(0, 0, 0, 0.12);
+}
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 26px;
+  background: linear-gradient(to top, rgba(21, 16, 12, 0.52) 0%, rgba(21, 16, 12, 0.14) 60%, rgba(21, 16, 12, 0.05) 100%);
+  transition: background 0.3s ease;
+}
+.gallery-category:hover .category-overlay,
+.gallery-category:focus-within .category-overlay {
+  background: linear-gradient(to top, rgba(21, 16, 12, 0.58) 0%, rgba(21, 16, 12, 0.2) 64%, rgba(21, 16, 12, 0.08) 100%);
+}
+.category-title {
+  font-family: "Inter Tight", sans-serif;
+  color: #fff;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+  text-align: left;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+.category-subtitle {
+  color: rgba(255, 255, 255, 0.93);
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 680px;
+}
+.category-expand-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  background: #fff;
+  color: #191816;
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+  transition: transform 0.14s cubic-bezier(0.2, 0.88, 0.28, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.gallery-category:hover .category-expand-label,
+.gallery-category:focus-within .category-expand-label {
+  transform: translateY(-1px) scale(1.008);
+  box-shadow: 0 11px 22px rgba(0, 0, 0, 0.24);
+}
+.category-panel {
+  position: relative;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.54s ease-in-out, opacity 0.42s ease-in-out, padding 0.42s ease-in-out;
+  padding: 0 30px;
+}
+.gallery-category.is-open .category-panel {
+  opacity: 1;
+  padding: 22px 30px 26px;
+  overflow-y: auto;
+  overscroll-behavior: auto;
+}
+.collection-heading {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 30px;
+  color: #2d2924;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+.collection-desc {
+  margin-top: 10px;
+  max-width: 760px;
+  font-size: 15px;
+  color: #4d4438;
+  line-height: 1.55;
+}
+.masonry-grid {
+  margin-top: 26px;
+  column-count: 2;
+  column-gap: 34px;
+}
+.masonry-item {
+  break-inside: avoid;
+  position: relative;
+  margin-bottom: 34px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #1e1e1e;
+  box-shadow: 0 16px 34px rgba(30, 24, 18, 0.2);
+  transition: transform 0.16s cubic-bezier(0.2, 0.88, 0.28, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.masonry-item img {
+  width: 100%;
+  display: block;
+  height: auto;
+  object-fit: cover;
+  object-position: center 44%;
+}
+.design-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.46);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.masonry-item:hover .design-overlay,
+.masonry-item:focus-within .design-overlay,
+.masonry-item.is-active .design-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.design-title {
+  font-family: "Inter Tight", sans-serif;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.design-consult-btn {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  color: #1b1713;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 999px;
+  padding: 12px 26px;
+  letter-spacing: 0.18px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s cubic-bezier(0.2, 0.88, 0.28, 1), transform 0.2s cubic-bezier(0.2, 0.88, 0.28, 1), box-shadow 0.26s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease;
+}
+.masonry-item:hover .design-title,
+.masonry-item:focus-within .design-title,
+.masonry-item.is-active .design-title,
+.masonry-item:hover .design-consult-btn,
+.masonry-item:focus-within .design-consult-btn,
+.masonry-item.is-active .design-consult-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+.design-consult-btn:hover {
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+}
+.masonry-item:hover {
+  transform: translateY(-1px) scale(1.008);
+  box-shadow: 0 18px 32px rgba(17, 12, 8, 0.2);
+}
+.category-consult-wrap {
+  margin-top: 16px;
+  padding-top: 10px;
+}
+.category-consult-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #201b16;
+  background: #fff;
+  border: 1px solid rgba(42, 34, 27, 0.14);
+  border-radius: 999px;
+  padding: 12px 24px;
+  box-shadow: 0 10px 22px rgba(26, 20, 15, 0.14);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.category-consult-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(26, 20, 15, 0.2);
+}
+.gallery-category.is-open .category-panel::-webkit-scrollbar {
+  width: 9px;
+}
+.gallery-category.is-open .category-panel::-webkit-scrollbar-thumb {
+  background: rgba(73, 61, 47, 0.34);
+  border-radius: 999px;
+}
+.gallery-category.is-open .category-panel::-webkit-scrollbar-track {
+  background: rgba(73, 61, 47, 0.08);
+}
+.gallery-category.is-open .masonry-grid {
+  padding-bottom: 18px;
+}
+.gallery-category.is-open .category-consult-wrap {
+  padding-bottom: 10px;
+}
+.gallery-category .collection-heading,
+.gallery-category .collection-desc,
+.gallery-category .masonry-grid,
+.gallery-category .category-consult-wrap {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.34s ease, transform 0.34s ease;
+}
+.gallery-category.is-open .collection-heading,
+.gallery-category.is-open .collection-desc,
+.gallery-category.is-open .masonry-grid,
+.gallery-category.is-open .category-consult-wrap {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#about .layer-bg { background-image: url("assets/scene2-bg.png"); }
+#about .layer-fg {
+  background-image: url("assets/scene2-fg.png");
+  width: 175%;
+  height: 300%;
+  background-position: center;
+}
+
+#contact {
+  position: relative;
+  height: 220vh;
+  min-height: 220vh;
+  background: transparent;
+  color: #fff;
+}
+#contact .parallax-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+#contact .layer-bg {
+  background-image: url("assets/scene4-bg.PNG");
+  z-index: 1;
+}
+#contact .layer-fg-curtain,
+#contact .layer-fg1 {
+  background-image: url("assets/scene4-fg1.PNG");
+  z-index: 4;
+}
+#contact .layer-fg-people,
+#contact .layer-fg2 {
+  background-image: url("assets/scene4-fg2.PNG");
+  z-index: 3;
+}
+#contact .scene4FG2::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4%;
+  width: 52%;
+  height: 12%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.38) 42%,
+    rgba(0, 0, 0, 0.12) 66%,
+    rgba(0, 0, 0, 0) 82%
+  );
+  filter: blur(14px);
+  opacity: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+#contact .layer-bg,
+#contact .layer-fg-curtain,
+#contact .layer-fg-people,
+#contact .layer-fg1,
+#contact .layer-fg2 {
+  inset: 0;
+  width: auto;
+  height: auto;
+  top: 0;
+  left: 0;
+  transform-origin: center center;
+  transform: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+#contact .layer-fg1 {
+  background-position: left center;
+}
+#contact .section-content {
+  position: absolute;
+  inset: 0;
+  z-index: auto;
+  top: auto;
+  transform: none;
+  max-width: none;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  padding: 124px 7vw 88px;
+  text-align: left;
+}
+.contact-layout {
+  position: relative;
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 430px) minmax(540px, 1fr);
+  gap: 44px;
+  align-items: start;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.82s ease, transform 0.82s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#contact.is-visible .contact-layout {
+  opacity: 1;
+  transform: translateY(0);
+}
+.contact-intro {
+  position: relative;
+  z-index: 7;
+  align-self: start;
+  padding-top: 8px;
+}
+#contact h1,
+#contact p,
+#contact a {
+  color: #f4eee4;
+}
+#contact h1 {
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(102px, 12.2vw, 178px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 0.82;
+  text-transform: none;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  margin-bottom: 16px;
+  text-align: left;
+}
+.contact-slogan {
+  margin: 0;
+  max-width: 360px;
+  font-family: "Fraunces", serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #efe7dc;
+  opacity: 0.9;
+  text-shadow: none;
+  text-align: left;
+}
+.contact-slogan-highlight {
+  background: transparent;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0;
+}
+.contact-socials {
+  position: relative;
+  z-index: 2;
+  width: clamp(560px, 64vw, 980px);
+  max-width: 74%;
+  justify-self: end;
+  margin-top: 84px;
+  padding-right: clamp(16px, 2.4vw, 36px);
+}
+.contact-card-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px;
+  background: rgba(245, 245, 245, 0.06);
+  border: 3px solid rgba(245, 245, 245, 0.7);
+  max-height: 75vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.contact-card-grid::-webkit-scrollbar {
+  width: 8px;
+}
+.contact-card-grid::-webkit-scrollbar-thumb {
+  background: rgba(245, 245, 245, 0.42);
+  border-radius: 999px;
+}
+.contact-card-grid::-webkit-scrollbar-track {
+  background: rgba(245, 245, 245, 0.12);
+}
+.contact-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  border-radius: 0;
+  overflow: hidden;
+  background: #121317;
+  border: 0;
+  box-shadow: none;
+  transition: transform 0.24s ease;
+}
+.contact-card-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+.contact-card-media .contact-card-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 4px 8px;
+  background: rgba(18, 19, 23, 0.66);
+  border: 1px solid rgba(245, 245, 245, 0.38);
+  border-radius: 999px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 245, 0.9);
+}
+.contact-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.26s ease;
+}
+.contact-image-hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.24s ease;
+}
+.contact-card-overlay {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px 12px 13px;
+  background: #f5f5f5;
+  transition: background 0.24s ease;
+  text-align: left;
+}
+.contact-card-label {
+  display: block;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgba(41, 30, 23, 0.78);
+}
+.contact-card-title {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #2a2119;
+  line-height: 1.05;
+}
+.contact-card-desc {
+  margin-top: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+  color: rgba(44, 34, 26, 0.82);
+}
+.contact-card-arrow {
+  opacity: 0;
+  transform: translateX(-3px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.contact-card:hover {
+  transform: translateY(-2px);
+}
+.contact-card:hover .contact-card-overlay {
+  background: #f7f7f7;
+}
+.contact-card:hover .contact-card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+.contact-card:hover .contact-image-hover {
+  background: rgba(0, 0, 0, 0.46);
+}
+.contact-card:hover img {
+  transform: scale(1.03);
+}
+
+#intro {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+#intro img {
+  width: 120px;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  header { padding: 20px 24px; }
+  .section-content h1 { font-size: 32px; }
+  nav a { margin-left: 16px; }
+  #gallery .section-content { padding-top: 110px; }
+  #gallery::before { background-attachment: scroll; }
+  .gallery-list { gap: 18px; }
+  .gallery-category { border-radius: 14px; }
+  .category-cover { height: clamp(230px, 52vw, 300px); }
+  .category-overlay { padding: 18px; }
+  .category-title { font-size: 23px; }
+  .category-subtitle { font-size: 13px; }
+  .category-panel { padding: 0 16px; }
+  .gallery-category.is-open .category-panel { padding: 18px 16px 22px; }
+  .collection-heading { font-size: 28px; }
+  .collection-desc { font-size: 14px; }
+  .masonry-grid { column-count: 1; }
+  .masonry-item { border-radius: 14px; margin-bottom: 22px; }
+  #home .layer-fg {
+    width: 156%;
+    height: 510%;
+    background-size: contain;
+    left: 50%;
+    background-position: center 30%;
+  }
+  #contact .layer-bg {
+    inset: 0;
+  }
+  #about .layer-fg {
+    width: 168%;
+    height: 540%;
+    background-size: cover;
+    left: 50%;
+    background-position: center 58%;
+  }
+  #contact .section-content {
+    padding: 106px 24px 58px;
+    min-height: 100vh;
+  }
+  .contact-layout {
+    width: min(620px, 100%);
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .contact-intro { padding-top: 0; }
+  .contact-socials {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0;
+    padding-right: 0;
+    justify-self: start;
+  }
+  #contact h1 {
+    font-size: clamp(74px, 18vw, 108px);
+    letter-spacing: -0.01em;
+    line-height: 0.86;
+    margin-bottom: 12px;
+    text-align: left;
+  }
+  .contact-slogan {
+    max-width: 380px;
+    font-size: 16px;
+    line-height: 1.68;
+    margin-bottom: 18px;
+  }
+  .contact-card-grid {
+    width: 100%;
+    margin-left: 0;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 10px;
+    max-height: none;
+    overflow: visible;
+  }
+  .contact-card img { height: 100%; }
+  .contact-card-title { font-size: clamp(22px, 8.5vw, 30px); }
+  .contact-card-desc { font-size: 14px; }
+  section { min-height: 130vh; }
+  #contact {
+    height: 220vh;
+    min-height: 220vh;
+  }
+}
+</style>
+</head>
+<body>
+<div id="intro">
+  <img src="assets/logo2.svg" alt="Marvell Florist Logo">
+</div>
+
+<header>
+  <a href="index.html" aria-label="Go to home page">
+    <img src="assets/logo.png" alt="Marvell Florist">
+  </a>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section id="home" data-parallax>
+  <div class="layer-bg"></div>
+  <div class="layer-fg"></div>
+  <div class="section-content">
+    <h1>Marvell Florist</h1>
+    <p>Where every petal is a little more marvelous.</p>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-content">
+    <h1>Gallery</h1>
+    <p class="gallery-lead">Setiap rangkaian dibuat secara custom dan mengikuti ketersediaan bunga musiman. Tim kami akan mengonfirmasi seluruh detail sebelum pesanan difinalkan.</p>
+    <div class="gallery-list">
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <img src="assets/bouquets.jpg" alt="Bouquet Collection">
+            <div class="category-overlay">
+              <p class="category-title">Bouquet</p>
+              <p class="category-subtitle">Hand-tied arrangements for gifting moments and personal celebrations.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Bouquet Collection</h2>
+          <p class="collection-desc">Hand-tied arrangements for gifting moments and personal celebrations.</p>
+          <div class="masonry-grid">
+            <div class="masonry-item"><img src="assets/bouquets.jpg" alt="Design BQ-01"><div class="design-overlay"><p class="design-title">Design BQ-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/background.png" alt="Design BQ-02"><div class="design-overlay"><p class="design-title">Design BQ-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design BQ-03"><div class="design-overlay"><p class="design-title">Design BQ-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Bouquet" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <img src="assets/scene4-bg.png" alt="Papan Bunga Collection">
+            <div class="category-overlay">
+              <p class="category-title">Papan Bunga</p>
+              <p class="category-subtitle">Custom congratulatory and ceremonial floral boards.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Papan Bunga Collection</h2>
+          <p class="collection-desc">Custom congratulatory and ceremonial floral boards.</p>
+          <div class="masonry-grid">
+            <div class="masonry-item"><img src="assets/scene4-bg.png" alt="Design PB-01"><div class="design-overlay"><p class="design-title">Design PB-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/scene2-bg.png" alt="Design PB-02"><div class="design-overlay"><p class="design-title">Design PB-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/background.png" alt="Design PB-03"><div class="design-overlay"><p class="design-title">Design PB-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Papan%20Bunga" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <img src="assets/scene2-fg.png" alt="Standing Flowers Collection">
+            <div class="category-overlay">
+              <p class="category-title">Standing Flowers</p>
+              <p class="category-subtitle">Vertical statement pieces for formal and event spaces.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Standing Flowers Collection</h2>
+          <p class="collection-desc">Vertical statement pieces for formal and event spaces.</p>
+          <div class="masonry-grid">
+            <div class="masonry-item"><img src="assets/scene2-fg.png" alt="Design SF-01"><div class="design-overlay"><p class="design-title">Design SF-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/scene4-fg.png" alt="Design SF-02"><div class="design-overlay"><p class="design-title">Design SF-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/scene1-fg.png" alt="Design SF-03"><div class="design-overlay"><p class="design-title">Design SF-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Standing%20Flowers" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <img src="dekorasi.jpg" alt="Sympathy and Funeral Collection">
+            <div class="category-overlay">
+              <p class="category-title">Sympathy &amp; Funeral</p>
+              <p class="category-subtitle">Respectful floral expressions designed for condolence moments.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Sympathy &amp; Funeral Collection</h2>
+          <p class="collection-desc">Respectful floral expressions designed for condolence moments.</p>
+          <div class="masonry-grid">
+            <div class="masonry-item"><img src="dekorasi.jpg" alt="Design SY-01"><div class="design-overlay"><p class="design-title">Design SY-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SY-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/scene4-bg.png" alt="Design SY-02"><div class="design-overlay"><p class="design-title">Design SY-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SY-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Sympathy%20%26%20Funeral" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <img src="assets/scene1-bg.png" alt="Celebration and Congratulatory Collection">
+            <div class="category-overlay">
+              <p class="category-title">Celebration &amp; Congratulatory</p>
+              <p class="category-subtitle">Festive floral styles for milestones, openings, and achievements.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Celebration &amp; Congratulatory Collection</h2>
+          <p class="collection-desc">Festive floral styles for milestones, openings, and achievements.</p>
+          <div class="masonry-grid">
+            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design CE-01"><div class="design-overlay"><p class="design-title">Design CE-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CE-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/background.png" alt="Design CE-02"><div class="design-overlay"><p class="design-title">Design CE-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CE-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Celebration%20%26%20Congratulatory" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <img src="assets/artificial.JPG" alt="Supplies Collection">
+            <div class="category-overlay">
+              <p class="category-title">Supplies</p>
+              <p class="category-subtitle">Selected florist materials and decorative support items.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Supplies Collection</h2>
+          <p class="collection-desc">Selected florist materials and decorative support items.</p>
+          <div class="masonry-grid">
+            <div class="masonry-item"><img src="assets/artificial.JPG" alt="Design SUP-01"><div class="design-overlay"><p class="design-title">Design SUP-01</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/x.png" alt="Design SUP-02"><div class="design-overlay"><p class="design-title">Design SUP-02</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/background.png.jpeg" alt="Design SUP-03"><div class="design-overlay"><p class="design-title">Design SUP-03</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Supplies" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <img src="assets/scene1-fg.png" alt="Custom Request Collection">
+            <div class="category-overlay">
+              <p class="category-title">Custom Request</p>
+              <p class="category-subtitle">Bespoke concepts tailored from your brief and visual direction.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Custom Request Collection</h2>
+          <p class="collection-desc">Bespoke concepts tailored from your brief and visual direction.</p>
+          <div class="masonry-grid">
+            <div class="masonry-item"><img src="dekorasi.jpg" alt="Design CR-01"><div class="design-overlay"><p class="design-title">Design CR-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CR-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design CR-02"><div class="design-overlay"><p class="design-title">Design CR-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CR-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Custom%20Request" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="about" data-parallax>
+  <div class="layer-bg"></div>
+  <div class="layer-fg"></div>
+  <div class="section-content">
+    <h1>About</h1>
+    <p>
+      Berdiri sejak tahun 2006 di Batam, Marvell Florist merangkai bunga untuk berbagai momen; perayaan,
+      ucapan, hingga simpati dengan penuh ketelitian. Setiap rangkaian dibuat dengan mempertimbangkan
+      karakter, kebutuhan, serta konteks di baliknya.
+    </p>
+    <p>
+      Selain rangkaian bunga, kami juga menyediakan papan bunga dan berbagai kebutuhan florist. Setiap
+      pesanan dibuat secara khusus sesuai permintaan agar pesan yang disampaikan terasa tepat.
+    </p>
+  </div>
+</section>
+
+<section id="contact" data-parallax>
+  <div class="parallax-container">
+    <div class="layer-bg"></div>
+    <div class="layer-fg layer-fg-curtain layer-fg1 scene4FG1"></div>
+    <div class="layer-fg layer-fg-people layer-fg2 scene4FG2"></div>
+  </div>
+  <div class="section-content">
+    <div class="contact-layout">
+      <div class="contact-intro">
+        <h1>Contact</h1>
+        <p class="contact-slogan"><span class="contact-slogan-highlight">Reach us for floral consultations and tailored supplies support.</span><br><span class="contact-slogan-highlight">Every request is confirmed with our team before production.</span></p>
+      </div>
+      <div class="contact-socials">
+        <div class="contact-card-grid">
+        <a class="contact-card" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">
+          <span class="contact-card-media"><img src="assets/bouquets.jpg" alt="WhatsApp Primary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+          <span class="contact-card-overlay">
+            <span class="contact-card-title">WhatsApp (Primary) <span class="contact-card-arrow">&#8594;</span></span>
+            <span class="contact-card-desc">Consult custom bouquet and arrangement requests with our primary team.</span>
+          </span>
+        </a>
+        <a class="contact-card" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">
+          <span class="contact-card-media"><img src="assets/scene1-fg.png" alt="WhatsApp Secondary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+          <span class="contact-card-overlay">
+            <span class="contact-card-title">WhatsApp (Secondary) <span class="contact-card-arrow">&#8594;</span></span>
+            <span class="contact-card-desc">Alternative line for floral inquiries, scheduling, and order follow-up.</span>
+          </span>
+        </a>
+        <a class="contact-card" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">
+          <span class="contact-card-media"><img src="assets/artificial.JPG" alt="WhatsApp Supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Supplies</span></span>
+          <span class="contact-card-overlay">
+            <span class="contact-card-title">WhatsApp Supplies <span class="contact-card-arrow">&#8594;</span></span>
+            <span class="contact-card-desc">Reach our supplies desk for florist materials and stock support.</span>
+          </span>
+        </a>
+        <a class="contact-card" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">
+          <span class="contact-card-media"><img src="assets/instagram.jpg" alt="Instagram"><span class="contact-image-hover"></span><span class="contact-card-label">Instagram</span></span>
+          <span class="contact-card-overlay">
+            <span class="contact-card-title">@marvellflorist <span class="contact-card-arrow">&#8594;</span></span>
+            <span class="contact-card-desc">View recent works, visual references, and latest floral styling updates.</span>
+          </span>
+        </a>
+        <a class="contact-card" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">
+          <span class="contact-card-media"><img src="assets/location1.jpg" alt="Lokasi Rangkaian Bunga"><span class="contact-image-hover"></span><span class="contact-card-label">Locations</span></span>
+          <span class="contact-card-overlay">
+            <span class="contact-card-title">Lokasi (Rangkaian Bunga) <span class="contact-card-arrow">&#8594;</span></span>
+            <span class="contact-card-desc">Visit our floral arrangement location for consultations and pickups.</span>
+          </span>
+        </a>
+        <a class="contact-card" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">
+          <span class="contact-card-media"><img src="assets/location2.jpg" alt="Lokasi Supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Locations</span></span>
+          <span class="contact-card-overlay">
+            <span class="contact-card-title">Lokasi (Supplies) <span class="contact-card-arrow">&#8594;</span></span>
+            <span class="contact-card-desc">Store location for florist supplies, supporting materials, and essentials.</span>
+          </span>
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const sections = document.querySelectorAll("section[data-parallax]");
+const state = new Map();
+sections.forEach((section) => {
+  state.set(section, {
+    bg: 0,
+    fg: 0,
+    fgCurtain: 0,
+    fgCurtainX: 0,
+    fgPeople: 0,
+    mouseX: 0,
+    mouseY: 0,
+    mouseTargetX: 0,
+    mouseTargetY: 0
+  });
+});
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+const galleryCategories = document.querySelectorAll(".gallery-category");
+const gallerySection = document.getElementById("gallery");
+if (window.matchMedia("(pointer: fine)").matches) {
+  sections.forEach((section) => {
+    section.addEventListener("mousemove", (event) => {
+      const rect = section.getBoundingClientRect();
+      const nx = clamp(((event.clientX - rect.left) / rect.width) * 2 - 1, -1, 1);
+      const ny = clamp(((event.clientY - rect.top) / rect.height) * 2 - 1, -1, 1);
+      const current = state.get(section);
+      if (!current) return;
+      current.mouseTargetX = nx * 28;
+      current.mouseTargetY = ny * 20;
+    });
+
+    section.addEventListener("mouseleave", () => {
+      const current = state.get(section);
+      if (!current) return;
+      current.mouseTargetX = 0;
+      current.mouseTargetY = 0;
+    });
+  });
+}
+
+function getOpenPanelHeight() {
+  if (window.innerWidth <= 768) {
+    return Math.round(Math.min(520, Math.max(340, window.innerHeight * 0.58)));
+  }
+  return Math.round(Math.min(760, Math.max(480, window.innerHeight * 0.68)));
+}
+
+function updateGalleryOpenState() {
+  const hasOpen = Array.from(galleryCategories).some((item) => item.classList.contains("is-open"));
+  let isGalleryInView = false;
+  if (gallerySection) {
+    const rect = gallerySection.getBoundingClientRect();
+    isGalleryInView = rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4;
+  }
+  document.body.classList.toggle("gallery-open", hasOpen && isGalleryInView);
+}
+
+galleryCategories.forEach((category, index) => {
+  const toggle = category.querySelector(".category-toggle");
+  const panel = category.querySelector(".category-panel");
+  if (!toggle || !panel) return;
+
+  const panelId = `gallery-panel-${index + 1}`;
+  panel.id = panelId;
+  toggle.setAttribute("aria-controls", panelId);
+  toggle.setAttribute("aria-expanded", "false");
+  panel.style.maxHeight = "0px";
+
+  toggle.addEventListener("click", () => {
+    const isOpen = category.classList.contains("is-open");
+
+    galleryCategories.forEach((item) => {
+      const itemToggle = item.querySelector(".category-toggle");
+      const itemPanel = item.querySelector(".category-panel");
+      const activeItems = item.querySelectorAll(".masonry-item.is-active");
+      item.classList.remove("is-open");
+      if (itemToggle) itemToggle.setAttribute("aria-expanded", "false");
+      if (itemPanel) itemPanel.style.maxHeight = "0px";
+      activeItems.forEach((active) => active.classList.remove("is-active"));
+    });
+
+    if (!isOpen) {
+      category.classList.add("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+      requestAnimationFrame(() => {
+        const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
+        panel.style.maxHeight = `${targetHeight}px`;
+      });
+    }
+
+    updateGalleryOpenState();
+  });
+});
+
+window.addEventListener("resize", () => {
+  galleryCategories.forEach((category) => {
+    const panel = category.querySelector(".category-panel");
+    if (!panel) return;
+    if (category.classList.contains("is-open")) {
+      const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
+      panel.style.maxHeight = `${targetHeight}px`;
+    }
+  });
+  updateGalleryOpenState();
+});
+
+window.addEventListener("scroll", updateGalleryOpenState, { passive: true });
+
+if (gallerySection) {
+  const masonryItems = gallerySection.querySelectorAll(".masonry-item");
+  masonryItems.forEach((item) => {
+    item.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (target.closest(".design-consult-btn")) return;
+
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      if (!isMobile) return;
+
+      event.preventDefault();
+      const panel = item.closest(".category-panel");
+      if (!panel) return;
+
+      panel.querySelectorAll(".masonry-item.is-active").forEach((active) => {
+        if (active !== item) active.classList.remove("is-active");
+      });
+      item.classList.toggle("is-active");
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    if (target.closest(".masonry-item")) return;
+    gallerySection.querySelectorAll(".masonry-item.is-active").forEach((item) => {
+      item.classList.remove("is-active");
+    });
+  });
+}
+
+updateGalleryOpenState();
+
+const canHoverPreview = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+const previewTimers = new WeakMap();
+if (canHoverPreview) {
+  galleryCategories.forEach((category) => {
+    const coverImage = category.querySelector(".category-cover img");
+    const panelImages = Array.from(category.querySelectorAll(".masonry-grid img"));
+    if (!coverImage) return;
+
+    const frames = Array.from(
+      new Set([
+        coverImage.getAttribute("src"),
+        ...panelImages.map((img) => img.getAttribute("src"))
+      ].filter(Boolean))
+    ).slice(0, 5);
+
+    if (frames.length < 2) return;
+    let frameIndex = 0;
+    let fadeTimer = null;
+
+    const renderFrame = (index, immediate = false) => {
+      if (fadeTimer) window.clearTimeout(fadeTimer);
+      if (immediate) {
+        coverImage.classList.remove("is-fading");
+        coverImage.setAttribute("src", frames[index]);
+        return;
+      }
+      coverImage.classList.add("is-fading");
+      fadeTimer = window.setTimeout(() => {
+        coverImage.setAttribute("src", frames[index]);
+        coverImage.classList.remove("is-fading");
+      }, 180);
+    };
+
+    const stopPreview = () => {
+      const timer = previewTimers.get(category);
+      if (timer) {
+        window.clearInterval(timer);
+        previewTimers.delete(category);
+      }
+      frameIndex = 0;
+      renderFrame(0, false);
+    };
+
+    const startPreview = () => {
+      if (previewTimers.get(category)) return;
+      const timer = window.setInterval(() => {
+        frameIndex = (frameIndex + 1) % frames.length;
+        renderFrame(frameIndex, false);
+      }, 1750);
+      previewTimers.set(category, timer);
+    };
+
+    category.addEventListener("mouseenter", startPreview);
+    category.addEventListener("mouseleave", stopPreview);
+    category.addEventListener("focusin", startPreview);
+    category.addEventListener("focusout", () => {
+      requestAnimationFrame(() => {
+        const active = document.activeElement;
+        if (!(active instanceof HTMLElement) || !category.contains(active)) {
+          stopPreview();
+        }
+      });
+    });
+  });
+}
+
+function animate() {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+  sections.forEach((section) => {
+    const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+    const progress = clamp((window.scrollY - section.offsetTop) / travel, 0, 1);
+    const bg = section.querySelector(".layer-bg");
+    const fg = section.querySelector(".layer-fg");
+    const fgCurtain = section.querySelector(".layer-fg-curtain");
+    const fgPeople = section.querySelector(".layer-fg-people");
+    const current = state.get(section);
+
+    const isContact = section.id === "contact";
+    let bgTarget = progress * (isMobile ? -72 : -120);
+    let fgRange = section.id === "about" ? 240 : 360;
+
+    if (section.id === "home" && fg) {
+      const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
+      fgRange = isMobile ? Math.max(0, Math.min(75, maxSafeTravel * 0.3)) : clamp(maxSafeTravel, 140, 320);
+    } else if (isMobile && fg) {
+      const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
+      const desiredRange = section.id === "about" ? 65 : 75;
+      fgRange = Math.min(desiredRange, maxSafeTravel * 0.3);
+    }
+
+    const fgTarget = progress * -fgRange;
+    if (isContact && bg) {
+      const bgMaxScale = isMobile ? 1.035 : 1.045;
+      const bgSafeTravel = Math.max((bg.offsetHeight * bgMaxScale - section.offsetHeight) / 2, 0);
+      const bgDesiredRange = isMobile ? 14 : 22;
+      bgTarget = progress * -Math.min(bgDesiredRange, bgSafeTravel);
+    }
+
+    current.bg = lerp(current.bg, bgTarget, isContact ? 0.032 : 0.08);
+    const fgLerp = isMobile ? 0.05 : (section.id === "home" ? 0.045 : 0.06);
+    current.fg = lerp(current.fg, fgTarget, fgLerp);
+
+    const allowMouseDepth = !isMobile && window.matchMedia("(pointer: fine)").matches;
+    const targetMouseX = allowMouseDepth ? current.mouseTargetX : 0;
+    const targetMouseY = allowMouseDepth ? current.mouseTargetY : 0;
+    current.mouseX = lerp(current.mouseX, targetMouseX, 0.12);
+    current.mouseY = lerp(current.mouseY, targetMouseY, 0.12);
+
+    if (bg) {
+      if (isContact) {
+        const bgScale = isMobile ? 1.035 : 1.045;
+        bg.style.transform = `translateY(${current.bg}px) scale(${bgScale})`;
+      } else {
+        const bgX = allowMouseDepth ? current.mouseX : 0;
+        const bgY = allowMouseDepth ? current.mouseY : 0;
+        bg.style.transform = `translate3d(${bgX}px, ${current.bg + bgY}px, 0)`;
+      }
+    }
+
+    if (isContact && fgCurtain && fgPeople) {
+      const curtainScale = 1.01 + progress * (isMobile ? 0.012 : 0.016);
+      const fg2Progress = clamp(progress / 0.5, 0, 1);
+      const peopleStartScale = isMobile ? 1.18 : 1.24;
+      const peopleBaseY = isMobile ? 18 : 30;
+      const peopleScale = peopleStartScale;
+      const curtainSafeTravel = Math.max((fgCurtain.offsetHeight * curtainScale - section.offsetHeight) / 2, 0);
+      const peopleSafeTravel = Math.max((fgPeople.offsetHeight * peopleStartScale - section.offsetHeight) / 2, 0);
+      const curtainDesiredRange = isMobile ? 52 : 96;
+      const peopleDesiredRange = isMobile ? 56 : 102;
+      const curtainRange = Math.min(curtainDesiredRange, curtainSafeTravel);
+      const peopleRange = Math.min(peopleDesiredRange, peopleSafeTravel);
+      const curtainBaseY = isMobile ? 10 : 14;
+      const curtainBaseX = isMobile ? -34 : -58;
+      const curtainXRange = 0;
+
+      const curtainTarget = progress * curtainRange;
+      const curtainTargetX = progress * curtainXRange;
+      const peopleTarget = fg2Progress * -peopleRange;
+      current.fgCurtain = lerp(current.fgCurtain, curtainTarget, isMobile ? 0.038 : 0.048);
+      current.fgCurtainX = lerp(current.fgCurtainX, curtainTargetX, isMobile ? 0.044 : 0.056);
+      current.fgPeople = lerp(current.fgPeople, peopleTarget, isMobile ? 0.086 : 0.11);
+
+      fgCurtain.style.transform = `translate3d(${curtainBaseX + current.fgCurtainX}px, ${curtainBaseY + current.fgCurtain}px, 0) scale(${curtainScale})`;
+      fgPeople.style.transform = `translateY(${peopleBaseY + current.fgPeople}px) scale(${peopleScale})`;
+    } else if (fg) {
+      const baseFgOffset = isMobile
+        ? (section.id === "home" ? -33 : (section.id === "about" ? -24 : -37))
+        : (section.id === "home" ? -20 : -50);
+      const fgMouseX = allowMouseDepth ? current.mouseX * 0.78 : 0;
+      const fgMouseY = allowMouseDepth ? current.mouseY * 0.78 : 0;
+      fg.style.transform = `translate(calc(-50% + ${fgMouseX}px), calc(${baseFgOffset}% + ${current.fg + fgMouseY}px))`;
+    }
+
+    if (section.id === "contact") {
+      const contactActive = window.scrollY + window.innerHeight * 0.7 > section.offsetTop
+        && window.scrollY < section.offsetTop + section.offsetHeight;
+      section.classList.toggle("is-visible", contactActive);
+    }
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("load", () => {
+  const intro = document.getElementById("intro");
+  if (!intro) return;
+  setTimeout(() => {
+    intro.style.transition = "opacity 1s ease";
+    intro.style.opacity = "0";
+    setTimeout(() => intro.remove(), 1000);
+  }, 1800);
+});
+</script>
+</body>
+</html>

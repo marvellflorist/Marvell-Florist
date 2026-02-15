@@ -1,0 +1,26 @@
+backend:
+  name: github
+  repo: marvellflorist/Marvell-Florist
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "gallery"
+    label: "Gallery Products"
+    files:
+      - label: "Products"
+        name: "products"
+        file: "content/gallery.json"
+        format: "json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}} - Rp {{fields.price}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Price", name: "price", widget: "number", value_type: "int", min: 0 }
+              - { label: "Category", name: "category", widget: "string" }
+              - { label: "Image", name: "image", widget: "image" }

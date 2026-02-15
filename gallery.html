@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery - Marvell Florist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Fraunces", serif;
+  background: #16120f;
+  color: #f3eee4;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 18px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(18, 14, 11, 0.78);
+  backdrop-filter: blur(8px);
+}
+header img { height: 34px; }
+nav a {
+  font-family: "Inter Tight", sans-serif;
+  margin-left: 22px;
+  font-size: 13px;
+  letter-spacing: 0.35px;
+  color: #f3eee4;
+  text-decoration: none;
+}
+main {
+  width: min(1240px, 92vw);
+  margin: 0 auto;
+  padding: 56px 0 88px;
+}
+h1 {
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(34px, 4vw, 56px);
+  margin-bottom: 8px;
+}
+.subtitle {
+  max-width: 760px;
+  margin-bottom: 34px;
+  color: rgba(243, 238, 228, 0.88);
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+.product-card {
+  position: relative;
+  border: 0;
+  padding: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  background: #201915;
+  min-height: 340px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.32);
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.4);
+}
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.product-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px;
+  background: linear-gradient(to top, rgba(14, 11, 9, 0.72) 0%, rgba(14, 11, 9, 0.12) 58%, rgba(14, 11, 9, 0.04) 100%);
+}
+.product-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #f6f1e8;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.48);
+}
+.product-price {
+  margin-top: 4px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #f6f1e8;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.44);
+}
+.product-category {
+  margin-top: 8px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #f6f1e8;
+  opacity: 0.95;
+}
+.detail-panel {
+  margin-top: 34px;
+  padding: 24px;
+  border-radius: 14px;
+  background: rgba(246, 238, 225, 0.08);
+  border: 1px solid rgba(246, 238, 225, 0.24);
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: 18px;
+}
+.detail-panel[hidden] { display: none; }
+.detail-image {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  height: 240px;
+  background: #221a14;
+}
+.detail-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 700;
+}
+.detail-price {
+  margin-top: 8px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 22px;
+  color: #f6f1e8;
+}
+.detail-category {
+  margin-top: 6px;
+  color: rgba(243, 238, 228, 0.85);
+}
+.detail-actions {
+  margin-top: 18px;
+}
+.wa-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter Tight", sans-serif;
+  text-decoration: none;
+  color: #1c1713;
+  background: #f6f1e8;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-weight: 600;
+}
+.status {
+  margin-top: 20px;
+  color: rgba(243, 238, 228, 0.82);
+}
+@media (max-width: 900px) {
+  .detail-panel {
+    grid-template-columns: 1fr;
+  }
+  .detail-image {
+    height: 220px;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" aria-label="Go to home page">
+    <img src="assets/logo.png" alt="Marvell Florist">
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Gallery</h1>
+  <p class="subtitle">Browse editable products managed in CMS. Tap any card to view details and order directly on WhatsApp.</p>
+
+  <section id="gallery-grid" class="gallery-grid" aria-live="polite"></section>
+
+  <section id="product-detail" class="detail-panel" hidden>
+    <img id="detail-image" class="detail-image" alt="Selected product image">
+    <div>
+      <h2 id="detail-title" class="detail-title"></h2>
+      <p id="detail-price" class="detail-price"></p>
+      <p id="detail-category" class="detail-category"></p>
+      <div class="detail-actions">
+        <a id="detail-wa" class="wa-button" target="_blank" rel="noopener noreferrer">Order on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <p id="status" class="status">Loading products...</p>
+</main>
+
+<script>
+const DATA_URL = "content/gallery.json";
+const WA_NUMBER = "6281275017456";
+
+const grid = document.getElementById("gallery-grid");
+const detailSection = document.getElementById("product-detail");
+const detailImage = document.getElementById("detail-image");
+const detailTitle = document.getElementById("detail-title");
+const detailPrice = document.getElementById("detail-price");
+const detailCategory = document.getElementById("detail-category");
+const detailWa = document.getElementById("detail-wa");
+const statusText = document.getElementById("status");
+
+function formatRupiah(value) {
+  const safe = Number.isFinite(Number(value)) ? Number(value) : 0;
+  return `Rp ${new Intl.NumberFormat("id-ID").format(safe)}`;
+}
+
+function toWhatsAppMessage(product) {
+  const message = `Hello, saya ingin pesan produk ini:%0A- Nama: ${encodeURIComponent(product.title)}%0A- Harga: ${encodeURIComponent(formatRupiah(product.price))}%0A- Kategori: ${encodeURIComponent(product.category)}`;
+  return `https://wa.me/${WA_NUMBER}?text=${message}`;
+}
+
+function renderDetail(product) {
+  detailImage.src = product.image;
+  detailImage.alt = product.title;
+  detailTitle.textContent = product.title;
+  detailPrice.textContent = formatRupiah(product.price);
+  detailCategory.textContent = product.category;
+  detailWa.href = toWhatsAppMessage(product);
+  detailSection.hidden = false;
+  detailSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function createCard(product) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "product-card";
+  button.innerHTML = `
+    <img src="${product.image}" alt="${product.title}">
+    <div class="product-overlay">
+      <p class="product-title">${product.title}</p>
+      <p class="product-price">${formatRupiah(product.price)}</p>
+      <p class="product-category">${product.category}</p>
+    </div>
+  `;
+  button.addEventListener("click", () => renderDetail(product));
+  return button;
+}
+
+async function loadProducts() {
+  try {
+    const response = await fetch(DATA_URL, { cache: "no-store" });
+    if (!response.ok) throw new Error(`Failed to load ${DATA_URL}`);
+
+    const payload = await response.json();
+    const items = Array.isArray(payload.items) ? payload.items : [];
+
+    if (items.length === 0) {
+      statusText.textContent = "No products yet. Add products in CMS at /admin/.";
+      return;
+    }
+
+    const validItems = items.filter((item) => item && item.title && item.image);
+    validItems.forEach((item) => grid.appendChild(createCard(item)));
+
+    statusText.textContent = "";
+    renderDetail(validItems[0]);
+  } catch (error) {
+    console.error(error);
+    statusText.textContent = "Could not load products. Check content/gallery.json and try again.";
+  }
+}
+
+loadProducts();
+</script>
+</body>
+</html>
