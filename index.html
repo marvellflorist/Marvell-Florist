@@ -639,6 +639,10 @@ section {
   opacity: 0.96;
   transition: transform 0.3s ease, filter 0.3s ease, opacity 0.4s ease;
 }
+#about .scene2-strip-fg1 .scene2-strip-fg-image,
+#about .scene2-strip-fg2 .scene2-strip-fg-image {
+  object-position: 42% center;
+}
 #about .scene2-strip-fg-image:focus-visible {
   outline: 2px solid rgba(244, 238, 228, 0.75);
   outline-offset: -2px;
@@ -1002,7 +1006,7 @@ section {
     height: 510%;
     background-size: contain;
     left: 50%;
-    background-position: center bottom;
+    background-position: center 34%;
   }
   #contact .layer-bg {
     inset: 0;
@@ -1027,10 +1031,17 @@ section {
   }
   #about .scene2-strip-fg1 .scene2-strip-fg-image,
   #about .scene2-strip-fg2 .scene2-strip-fg-image {
-    object-position: 72% center;
+    object-position: 28% center;
   }
   .about-content-inner {
     align-items: center;
+    text-align: center;
+  }
+  .about-heading {
+    align-self: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
   }
   .about-heading,
@@ -1067,14 +1078,12 @@ section {
     min-height: 100vh;
   }
   #contact .contact-grid-layer {
-    z-index: 5;
-    transition: none;
+    z-index: 2;
   }
   #contact .contact-socials {
-    filter: blur(0);
-    opacity: 1;
-    transform: scale(1);
-    transition: none;
+    filter: blur(2.4px);
+    opacity: 0.86;
+    transform: scale(0.992);
   }
   #contact .contact-grid-layer {
     padding-top: 58vh;
@@ -1689,10 +1698,45 @@ function preparePixelSampler(imgElement) {
     if (!ready || !canvas.width || !canvas.height) return 0;
     const rect = imgElement.getBoundingClientRect();
     if (!rect.width || !rect.height) return 0;
-    const rawX = (clientX - rect.left) * (canvas.width / rect.width);
-    const rawY = (clientY - rect.top) * (canvas.height / rect.height);
-    const x = Math.max(0, Math.min(canvas.width - 1, Math.floor(rawX)));
-    const y = Math.max(0, Math.min(canvas.height - 1, Math.floor(rawY)));
+
+    // Map pointer to source image pixels using object-fit/object-position geometry.
+    const localX = clientX - rect.left;
+    const localY = clientY - rect.top;
+    const sourceW = canvas.width;
+    const sourceH = canvas.height;
+    const scale = Math.max(rect.width / sourceW, rect.height / sourceH);
+    const drawnW = sourceW * scale;
+    const drawnH = sourceH * scale;
+
+    const computed = window.getComputedStyle(imgElement);
+    const [rawPosX = "50%", rawPosY = "50%"] = computed.objectPosition.split(/\s+/);
+    const parsePos = (value, axis) => {
+      const token = String(value || "").toLowerCase();
+      if (token.endsWith("%")) {
+        const parsed = Number.parseFloat(token);
+        return Number.isFinite(parsed) ? parsed / 100 : 0.5;
+      }
+      if (token === "left" || token === "top") return 0;
+      if (token === "right" || token === "bottom") return 1;
+      if (token === "center") return 0.5;
+      const numeric = Number.parseFloat(token);
+      if (Number.isFinite(numeric)) {
+        const range = axis === "x" ? Math.abs(rect.width - drawnW) : Math.abs(rect.height - drawnH);
+        if (range > 0) return clamp(numeric / range, 0, 1);
+      }
+      return 0.5;
+    };
+
+    const posX = parsePos(rawPosX, "x");
+    const posY = parsePos(rawPosY, "y");
+    const offsetX = (rect.width - drawnW) * posX;
+    const offsetY = (rect.height - drawnH) * posY;
+    const srcX = (localX - offsetX) / scale;
+    const srcY = (localY - offsetY) / scale;
+
+    if (srcX < 0 || srcX >= sourceW || srcY < 0 || srcY >= sourceH) return 0;
+    const x = Math.max(0, Math.min(sourceW - 1, Math.floor(srcX)));
+    const y = Math.max(0, Math.min(sourceH - 1, Math.floor(srcY)));
     return ctx.getImageData(x, y, 1, 1).data[3];
   };
   aboutPixelSamplers.set(imgElement, sampleAlpha);
@@ -1773,6 +1817,7 @@ const contactGridLayer = document.querySelector("#contact .contact-grid-layer");
 const contactSocials = document.querySelector("#contact .contact-socials");
 let homePinnedState = false;
 let contactGridExitTimer = null;
+let contactGridMobileIdleTimer = null;
 if (contactGridLayer && contactSocials) {
   const activateGrid = () => {
     if (contactGridExitTimer) window.clearTimeout(contactGridExitTimer);
@@ -1799,6 +1844,25 @@ if (contactGridLayer && contactSocials) {
       }
     });
   });
+
+  const isMobilePointer = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+  if (isMobilePointer) {
+    const mobileActivate = () => {
+      activateGrid();
+      if (contactGridMobileIdleTimer) window.clearTimeout(contactGridMobileIdleTimer);
+      contactGridMobileIdleTimer = window.setTimeout(() => {
+        deactivateGrid();
+      }, 1300);
+    };
+
+    const cardGrid = contactSocials.querySelector(".contact-card-grid");
+    contactSocials.addEventListener("touchstart", mobileActivate, { passive: true });
+    contactSocials.addEventListener("click", mobileActivate, { passive: true });
+    if (cardGrid) {
+      cardGrid.addEventListener("scroll", mobileActivate, { passive: true });
+      cardGrid.addEventListener("touchmove", mobileActivate, { passive: true });
+    }
+  }
 }
 
 function animate() {
@@ -1892,7 +1956,7 @@ function animate() {
       fgPeople.style.transform = `translateY(${peopleBaseY + current.fgPeople}px) scale(${peopleScale})`;
     } else if (fg) {
       const baseFgOffset = isMobile
-        ? (section.id === "home" ? -24 : (section.id === "about" ? -24 : -37))
+        ? (section.id === "home" ? -31 : (section.id === "about" ? -24 : -37))
         : (section.id === "home" ? -20 : -50);
       const fgMouseStrength = section.id === "home" ? 0.58 : 0.78;
       const fgMouseX = allowMouseDepth ? current.mouseX * fgMouseStrength : 0;
