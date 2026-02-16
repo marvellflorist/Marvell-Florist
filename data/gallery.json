@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "name": "Artificial Classic",
+      "price": "200000",
+      "category": "Artificial Flowers",
+      "image": "/assets/artificial.JPG"
+    },
+    {
+      "name": "Bouquet Signature",
+      "price": "350000",
+      "category": "Bouquets",
+      "image": "/assets/bouquets.jpg"
+    },
+    {
+      "name": "Dekorasi Mobil Elegant",
+      "price": "500000",
+      "category": "Dekorasi Mobil",
+      "image": "/dekorasi.jpg"
+    },
+    {
+      "name": "Papan Ucapan Premium",
+      "price": "650000",
+      "category": "Papan Bunga",
+      "image": ""
+    },
+    {
+      "name": "Pita Peresmian Gold",
+      "price": "300000",
+      "category": "Pita Peresmian",
+      "image": ""
+    },
+    {
+      "name": "Standing Floral Luxe",
+      "price": "550000",
+      "category": "Standing Flowers",
+      "image": "/assets/location1.jpg"
+    },
+    {
+      "name": "Starter Supplies Kit",
+      "price": "180000",
+      "category": "Supplies",
+      "image": "/assets/location2.jpg"
+    }
+  ]
+}

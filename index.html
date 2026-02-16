@@ -248,17 +248,26 @@ section {
 }
 .category-title {
   font-family: "Inter Tight", sans-serif;
-  color: #fff;
+  color: #f5efe6;
   font-size: 28px;
   letter-spacing: 0.2px;
   text-align: left;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.62);
 }
 .category-subtitle {
-  color: rgba(255, 255, 255, 0.93);
+  color: rgba(245, 239, 230, 0.95);
   font-size: 14px;
   line-height: 1.5;
   max-width: 680px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.48);
+}
+#gallery .gallery-category .category-title {
+  color: #f5efe6;
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.62);
+}
+#gallery .gallery-category .category-subtitle {
+  color: rgba(245, 239, 230, 0.95);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.48);
 }
 .category-expand-label {
   display: inline-flex;
@@ -369,7 +378,7 @@ section {
 }
 .design-title {
   font-family: "Inter Tight", sans-serif;
-  color: #fff;
+  color: #f5efe6;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.3px;
@@ -380,6 +389,10 @@ section {
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#gallery .masonry-item .design-title {
+  color: #f5efe6;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.62);
 }
 .design-consult-btn {
   font-family: "Inter Tight", sans-serif;
@@ -495,6 +508,18 @@ section {
 #about .scene2-strip-bg {
   z-index: 1;
   pointer-events: none;
+}
+#about .scene2-strip-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(246, 232, 198, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.34s ease-in-out;
+}
+#about.about-selected .scene2-strip-bg::after {
+  opacity: 1;
 }
 #about .scene2-strip-fg {
   pointer-events: none;
@@ -653,7 +678,7 @@ section {
   align-items: flex-start;
   padding-top: 64vh;
   pointer-events: none;
-  transition: z-index 0s linear 0.52s;
+  transition: z-index 0s linear 0.74s;
 }
 #contact .contact-grid-layer.is-grid-elevated {
   z-index: 5;
@@ -791,9 +816,10 @@ section {
   padding-right: 0;
   pointer-events: auto;
   filter: blur(2.4px);
-  transform: scale(1);
+  opacity: 0.86;
+  transform: scale(0.992);
   transform-origin: center top;
-  transition: filter 0.52s ease-out, transform 0.52s ease-out;
+  transition: filter 0.74s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.74s cubic-bezier(0.22, 1, 0.36, 1), transform 0.74s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .contact-card-grid {
   width: 100%;
@@ -811,6 +837,7 @@ section {
 }
 #contact .contact-grid-layer.is-grid-active .contact-socials {
   filter: blur(0);
+  opacity: 1;
   transform: scale(1.02);
 }
 #contact .contact-grid-layer.is-grid-active .contact-card-grid {
@@ -1103,154 +1130,7 @@ section {
   <div class="section-content">
     <h1>Gallery</h1>
     <p class="gallery-lead">Setiap rangkaian dibuat secara custom dan mengikuti ketersediaan bunga musiman. Tim kami akan mengonfirmasi seluruh detail sebelum pesanan difinalkan.</p>
-    <div class="gallery-list">
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <div class="category-cover-placeholder" aria-hidden="true"></div>
-            <div class="category-overlay">
-              <p class="category-title">Artificial Flowers</p>
-              <p class="category-subtitle">Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Artificial Flowers Collection</h2>
-          <p class="collection-desc">Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.</p>
-          <div class="masonry-grid">
-            <div class="collection-placeholder">This collection will be updated soon.</div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Artificial%20Flowers" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <div class="category-cover-placeholder" aria-hidden="true"></div>
-            <div class="category-overlay">
-              <p class="category-title">Bouquets</p>
-              <p class="category-subtitle">Bouquet custom untuk hadiah, perayaan, dan momen spesial.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Bouquets Collection</h2>
-          <p class="collection-desc">Bouquet custom untuk hadiah, perayaan, dan momen spesial.</p>
-          <div class="masonry-grid">
-            <div class="collection-placeholder">This collection will be updated soon.</div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Bouquets" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <div class="category-cover-placeholder" aria-hidden="true"></div>
-            <div class="category-overlay">
-              <p class="category-title">Dekorasi Mobil</p>
-              <p class="category-subtitle">Dekorasi bunga mobil untuk pernikahan, event, dan kebutuhan seremonial.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Dekorasi Mobil Collection</h2>
-          <p class="collection-desc">Dekorasi bunga mobil untuk pernikahan, event, dan kebutuhan seremonial.</p>
-          <div class="masonry-grid">
-            <div class="collection-placeholder">This collection will be updated soon.</div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Dekorasi%20Mobil" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <div class="category-cover-placeholder" aria-hidden="true"></div>
-            <div class="category-overlay">
-              <p class="category-title">Papan Bunga</p>
-              <p class="category-subtitle">Papan bunga ucapan untuk peresmian, duka cita, dan momen formal lainnya.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Papan Bunga Collection</h2>
-          <p class="collection-desc">Papan bunga ucapan untuk peresmian, duka cita, dan momen formal lainnya.</p>
-          <div class="masonry-grid">
-            <div class="collection-placeholder">This collection will be updated soon.</div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Papan%20Bunga" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <div class="category-cover-placeholder" aria-hidden="true"></div>
-            <div class="category-overlay">
-              <p class="category-title">Pita Peresmian</p>
-              <p class="category-subtitle">Pita peresmian untuk acara grand opening dan kegiatan seremonial.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Pita Peresmian Collection</h2>
-          <p class="collection-desc">Pita peresmian untuk acara grand opening dan kegiatan seremonial.</p>
-          <div class="masonry-grid">
-            <div class="collection-placeholder">This collection will be updated soon.</div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Pita%20Peresmian" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <div class="category-cover-placeholder" aria-hidden="true"></div>
-            <div class="category-overlay">
-              <p class="category-title">Standing Flowers</p>
-              <p class="category-subtitle">Standing flowers untuk dekorasi acara dan kebutuhan display formal.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Standing Flowers Collection</h2>
-          <p class="collection-desc">Standing flowers untuk dekorasi acara dan kebutuhan display formal.</p>
-          <div class="masonry-grid">
-            <div class="collection-placeholder">This collection will be updated soon.</div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Standing%20Flowers" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <div class="category-cover-placeholder" aria-hidden="true"></div>
-            <div class="category-overlay">
-              <p class="category-title">Supplies</p>
-              <p class="category-subtitle">Kebutuhan florist, bahan pendukung, dan perlengkapan dekorasi.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Supplies Collection</h2>
-          <p class="collection-desc">Kebutuhan florist, bahan pendukung, dan perlengkapan dekorasi.</p>
-          <div class="masonry-grid">
-            <div class="collection-placeholder">This collection will be updated soon.</div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/628116667920?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Supplies" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
-        </div>
-      </article>
-    </div>
+    <div class="gallery-list" id="gallery-list"></div>
   </div>
 </section>
 
@@ -1379,8 +1259,139 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
-const galleryCategories = document.querySelectorAll(".gallery-category");
 const gallerySection = document.getElementById("gallery");
+const galleryList = document.getElementById("gallery-list");
+let galleryCategories = [];
+
+const galleryCategoryMeta = [
+  {
+    name: "Artificial Flowers",
+    subtitle: "Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Bouquets",
+    subtitle: "Bouquet custom untuk hadiah, perayaan, dan momen spesial.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Dekorasi Mobil",
+    subtitle: "Dekorasi bunga mobil untuk pernikahan, event, dan kebutuhan seremonial.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Papan Bunga",
+    subtitle: "Papan bunga ucapan untuk peresmian, duka cita, dan momen formal lainnya.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Pita Peresmian",
+    subtitle: "Pita peresmian untuk acara grand opening dan kegiatan seremonial.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Standing Flowers",
+    subtitle: "Standing flowers untuk dekorasi acara dan kebutuhan display formal.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Supplies",
+    subtitle: "Kebutuhan florist, bahan pendukung, dan perlengkapan dekorasi.",
+    phone: "628116667920"
+  }
+];
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatRupiah(value) {
+  const numeric = Number(String(value ?? "").replace(/[^\d.-]/g, ""));
+  if (!Number.isFinite(numeric)) return "Rp -";
+  return `Rp ${new Intl.NumberFormat("id-ID").format(Math.round(numeric))}`;
+}
+
+function buildConsultHref(phone, text) {
+  return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+}
+
+function renderGalleryFromData(data) {
+  if (!galleryList) return;
+  const items = Array.isArray(data?.items) ? data.items : [];
+  const grouped = new Map();
+  galleryCategoryMeta.forEach((meta) => grouped.set(meta.name, []));
+
+  items.forEach((item) => {
+    if (!item || typeof item !== "object") return;
+    const normalizedCategory = galleryCategoryMeta.find((meta) => meta.name === item.category)?.name;
+    if (!normalizedCategory) return;
+    grouped.get(normalizedCategory).push(item);
+  });
+
+  const categoryMarkup = galleryCategoryMeta.map((meta) => {
+    const categoryItems = grouped.get(meta.name) || [];
+    const cover = categoryItems.find((entry) => entry.image)?.image || "";
+
+    const masonry = categoryItems.length
+      ? categoryItems.map((item) => {
+        const safeName = escapeHTML(item.name || "Produk");
+        const safePrice = formatRupiah(item.price);
+        const safeImage = escapeHTML(item.image || "");
+        const consultText = `Halo, saya ingin konsultasi desain ${item.name || "produk"} dengan harga ${safePrice} pada kategori ${meta.name}.`;
+        const consultHref = buildConsultHref(meta.phone, consultText);
+        return `
+            <div class="masonry-item">
+              <img src="${safeImage}" alt="${safeName}" loading="lazy">
+              <div class="design-overlay">
+                <p class="design-title">${safeName}</p>
+                <p class="design-title">${safePrice}</p>
+                <a class="design-consult-btn" href="${consultHref}" target="_blank" rel="noopener noreferrer">Konsultasi Desain Ini</a>
+              </div>
+            </div>
+        `;
+      }).join("")
+      : '<div class="collection-placeholder">This collection will be updated soon.</div>';
+
+    const collectionConsult = buildConsultHref(
+      meta.phone,
+      `Halo, saya ingin konsultasi koleksi: ${meta.name}`
+    );
+
+    return `
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            ${cover ? `<img src="${escapeHTML(cover)}" alt="${escapeHTML(meta.name)} cover" loading="lazy">` : '<div class="category-cover-placeholder" aria-hidden="true"></div>'}
+            <div class="category-overlay">
+              <p class="category-title">${escapeHTML(meta.name)}</p>
+              <p class="category-subtitle">${escapeHTML(meta.subtitle)}</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">${escapeHTML(meta.name)} Collection</h2>
+          <p class="collection-desc">${escapeHTML(meta.subtitle)}</p>
+          <div class="masonry-grid">
+            ${masonry}
+          </div>
+          <div class="category-consult-wrap">
+            <a class="category-consult-btn" href="${collectionConsult}" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  galleryList.innerHTML = categoryMarkup;
+  galleryCategories = Array.from(galleryList.querySelectorAll(".gallery-category"));
+}
+
 if (window.matchMedia("(pointer: fine)").matches) {
   sections.forEach((section) => {
     section.addEventListener("mousemove", (event) => {
@@ -1432,156 +1443,172 @@ function updateGalleryOpenState() {
   document.body.classList.toggle("gallery-open", hasOpen && isGalleryInView);
 }
 
-galleryCategories.forEach((category, index) => {
-  const toggle = category.querySelector(".category-toggle");
-  const panel = category.querySelector(".category-panel");
-  if (!toggle || !panel) return;
+function initializeGalleryInteractions() {
+  galleryCategories.forEach((category, index) => {
+    const toggle = category.querySelector(".category-toggle");
+    const panel = category.querySelector(".category-panel");
+    if (!toggle || !panel) return;
 
-  const panelId = `gallery-panel-${index + 1}`;
-  panel.id = panelId;
-  toggle.setAttribute("aria-controls", panelId);
-  toggle.setAttribute("aria-expanded", "false");
-  panel.style.maxHeight = "0px";
+    const panelId = `gallery-panel-${index + 1}`;
+    panel.id = panelId;
+    toggle.setAttribute("aria-controls", panelId);
+    toggle.setAttribute("aria-expanded", "false");
+    panel.style.maxHeight = "0px";
 
-  toggle.addEventListener("click", () => {
-    const isOpen = category.classList.contains("is-open");
+    toggle.addEventListener("click", () => {
+      const isOpen = category.classList.contains("is-open");
 
-    galleryCategories.forEach((item) => {
-      const itemToggle = item.querySelector(".category-toggle");
-      const itemPanel = item.querySelector(".category-panel");
-      const activeItems = item.querySelectorAll(".masonry-item.is-active");
-      item.classList.remove("is-open");
-      if (itemToggle) itemToggle.setAttribute("aria-expanded", "false");
-      if (itemPanel) itemPanel.style.maxHeight = "0px";
-      activeItems.forEach((active) => active.classList.remove("is-active"));
+      galleryCategories.forEach((item) => {
+        const itemToggle = item.querySelector(".category-toggle");
+        const itemPanel = item.querySelector(".category-panel");
+        const activeItems = item.querySelectorAll(".masonry-item.is-active");
+        item.classList.remove("is-open");
+        if (itemToggle) itemToggle.setAttribute("aria-expanded", "false");
+        if (itemPanel) itemPanel.style.maxHeight = "0px";
+        activeItems.forEach((active) => active.classList.remove("is-active"));
+      });
+
+      if (!isOpen) {
+        category.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+        requestAnimationFrame(() => {
+          const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
+          panel.style.maxHeight = `${targetHeight}px`;
+        });
+      }
+
+      updateGalleryOpenState();
     });
+  });
 
-    if (!isOpen) {
-      category.classList.add("is-open");
-      toggle.setAttribute("aria-expanded", "true");
-      requestAnimationFrame(() => {
+  window.addEventListener("resize", () => {
+    galleryCategories.forEach((category) => {
+      const panel = category.querySelector(".category-panel");
+      if (!panel) return;
+      if (category.classList.contains("is-open")) {
         const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
         panel.style.maxHeight = `${targetHeight}px`;
-      });
-    }
-
+      }
+    });
     updateGalleryOpenState();
   });
-});
 
-window.addEventListener("resize", () => {
-  galleryCategories.forEach((category) => {
-    const panel = category.querySelector(".category-panel");
-    if (!panel) return;
-    if (category.classList.contains("is-open")) {
-      const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
-      panel.style.maxHeight = `${targetHeight}px`;
-    }
-  });
-  updateGalleryOpenState();
-});
+  window.addEventListener("scroll", updateGalleryOpenState, { passive: true });
 
-window.addEventListener("scroll", updateGalleryOpenState, { passive: true });
+  if (gallerySection) {
+    const masonryItems = gallerySection.querySelectorAll(".masonry-item");
+    masonryItems.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        if (target.closest(".design-consult-btn")) return;
 
-if (gallerySection) {
-  const masonryItems = gallerySection.querySelectorAll(".masonry-item");
-  masonryItems.forEach((item) => {
-    item.addEventListener("click", (event) => {
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        if (!isMobile) return;
+
+        event.preventDefault();
+        const panel = item.closest(".category-panel");
+        if (!panel) return;
+
+        panel.querySelectorAll(".masonry-item.is-active").forEach((active) => {
+          if (active !== item) active.classList.remove("is-active");
+        });
+        item.classList.toggle("is-active");
+      });
+    });
+
+    document.addEventListener("click", (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
-      if (target.closest(".design-consult-btn")) return;
-
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-      if (!isMobile) return;
-
-      event.preventDefault();
-      const panel = item.closest(".category-panel");
-      if (!panel) return;
-
-      panel.querySelectorAll(".masonry-item.is-active").forEach((active) => {
-        if (active !== item) active.classList.remove("is-active");
+      if (target.closest(".masonry-item")) return;
+      gallerySection.querySelectorAll(".masonry-item.is-active").forEach((item) => {
+        item.classList.remove("is-active");
       });
-      item.classList.toggle("is-active");
     });
-  });
+  }
 
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
-    if (target.closest(".masonry-item")) return;
-    gallerySection.querySelectorAll(".masonry-item.is-active").forEach((item) => {
-      item.classList.remove("is-active");
-    });
-  });
-}
+  const canHoverPreview = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const previewTimers = new WeakMap();
+  if (canHoverPreview) {
+    galleryCategories.forEach((category) => {
+      const coverImage = category.querySelector(".category-cover img");
+      const panelImages = Array.from(category.querySelectorAll(".masonry-grid img"));
+      if (!coverImage) return;
 
-updateGalleryOpenState();
+      const frames = Array.from(
+        new Set([
+          coverImage.getAttribute("src"),
+          ...panelImages.map((img) => img.getAttribute("src"))
+        ].filter(Boolean))
+      ).slice(0, 5);
 
-const canHoverPreview = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-const previewTimers = new WeakMap();
-if (canHoverPreview) {
-  galleryCategories.forEach((category) => {
-    const coverImage = category.querySelector(".category-cover img");
-    const panelImages = Array.from(category.querySelectorAll(".masonry-grid img"));
-    if (!coverImage) return;
+      if (frames.length < 2) return;
+      let frameIndex = 0;
+      let fadeTimer = null;
 
-    const frames = Array.from(
-      new Set([
-        coverImage.getAttribute("src"),
-        ...panelImages.map((img) => img.getAttribute("src"))
-      ].filter(Boolean))
-    ).slice(0, 5);
-
-    if (frames.length < 2) return;
-    let frameIndex = 0;
-    let fadeTimer = null;
-
-    const renderFrame = (index, immediate = false) => {
-      if (fadeTimer) window.clearTimeout(fadeTimer);
-      if (immediate) {
-        coverImage.classList.remove("is-fading");
-        coverImage.setAttribute("src", frames[index]);
-        return;
-      }
-      coverImage.classList.add("is-fading");
-      fadeTimer = window.setTimeout(() => {
-        coverImage.setAttribute("src", frames[index]);
-        coverImage.classList.remove("is-fading");
-      }, 180);
-    };
-
-    const stopPreview = () => {
-      const timer = previewTimers.get(category);
-      if (timer) {
-        window.clearInterval(timer);
-        previewTimers.delete(category);
-      }
-      frameIndex = 0;
-      renderFrame(0, false);
-    };
-
-    const startPreview = () => {
-      if (previewTimers.get(category)) return;
-      const timer = window.setInterval(() => {
-        frameIndex = (frameIndex + 1) % frames.length;
-        renderFrame(frameIndex, false);
-      }, 1750);
-      previewTimers.set(category, timer);
-    };
-
-    category.addEventListener("mouseenter", startPreview);
-    category.addEventListener("mouseleave", stopPreview);
-    category.addEventListener("focusin", startPreview);
-    category.addEventListener("focusout", () => {
-      requestAnimationFrame(() => {
-        const active = document.activeElement;
-        if (!(active instanceof HTMLElement) || !category.contains(active)) {
-          stopPreview();
+      const renderFrame = (index, immediate = false) => {
+        if (fadeTimer) window.clearTimeout(fadeTimer);
+        if (immediate) {
+          coverImage.classList.remove("is-fading");
+          coverImage.setAttribute("src", frames[index]);
+          return;
         }
+        coverImage.classList.add("is-fading");
+        fadeTimer = window.setTimeout(() => {
+          coverImage.setAttribute("src", frames[index]);
+          coverImage.classList.remove("is-fading");
+        }, 180);
+      };
+
+      const stopPreview = () => {
+        const timer = previewTimers.get(category);
+        if (timer) {
+          window.clearInterval(timer);
+          previewTimers.delete(category);
+        }
+        frameIndex = 0;
+        renderFrame(0, false);
+      };
+
+      const startPreview = () => {
+        if (previewTimers.get(category)) return;
+        const timer = window.setInterval(() => {
+          frameIndex = (frameIndex + 1) % frames.length;
+          renderFrame(frameIndex, false);
+        }, 1750);
+        previewTimers.set(category, timer);
+      };
+
+      category.addEventListener("mouseenter", startPreview);
+      category.addEventListener("mouseleave", stopPreview);
+      category.addEventListener("focusin", startPreview);
+      category.addEventListener("focusout", () => {
+        requestAnimationFrame(() => {
+          const active = document.activeElement;
+          if (!(active instanceof HTMLElement) || !category.contains(active)) {
+            stopPreview();
+          }
+        });
       });
     });
-  });
+  }
+
+  updateGalleryOpenState();
 }
+
+async function initializeGallery() {
+  try {
+    const response = await fetch("/data/gallery.json", { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    renderGalleryFromData(payload);
+  } catch (error) {
+    renderGalleryFromData({ items: [] });
+  }
+  initializeGalleryInteractions();
+}
+
+initializeGallery();
 
 const aboutSection = document.getElementById("about");
 const aboutFigures = aboutSection ? Array.from(aboutSection.querySelectorAll(".scene2-strip-fg-image[data-bio-target]")) : [];
@@ -1732,7 +1759,7 @@ if (contactGridLayer && contactSocials) {
     if (contactGridExitTimer) window.clearTimeout(contactGridExitTimer);
     contactGridExitTimer = window.setTimeout(() => {
       contactGridLayer.classList.remove("is-grid-elevated");
-    }, 520);
+    }, 740);
   };
 
   contactSocials.addEventListener("mouseenter", activateGrid);
