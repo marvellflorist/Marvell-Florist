@@ -52,6 +52,32 @@ nav a {
   text-decoration: none;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
+.brand-pinned-title {
+  position: fixed;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px) scale(0.92);
+  z-index: 45;
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(16px, 1.8vw, 24px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: #f4eee4;
+  text-shadow: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+  display: block;
+}
+body.home-title-pinned .brand-pinned-title {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+  text-shadow: none;
+}
+#home .section-content h1 {
+  transition: transform 0.3s ease;
+}
 
 section {
   position: relative;
@@ -286,6 +312,19 @@ section {
   column-count: 2;
   column-gap: 34px;
 }
+.collection-placeholder {
+  break-inside: avoid;
+  column-span: all;
+  margin-bottom: 10px;
+  padding: 24px 22px;
+  border-radius: 14px;
+  border: 1px dashed rgba(72, 59, 45, 0.34);
+  background: rgba(245, 238, 227, 0.75);
+  color: #4d4438;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+}
 .masonry-item {
   break-inside: avoid;
   position: relative;
@@ -295,6 +334,11 @@ section {
   background: #1e1e1e;
   box-shadow: 0 16px 34px rgba(30, 24, 18, 0.2);
   transition: transform 0.16s cubic-bezier(0.2, 0.88, 0.28, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.category-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(62, 46, 34, 0.55), rgba(38, 30, 22, 0.6));
 }
 .masonry-item img {
   width: 100%;
@@ -428,12 +472,162 @@ section {
   transform: translateY(0);
 }
 
-#about .layer-bg { background-image: url("assets/scene2-bg.png"); }
-#about .layer-fg {
-  background-image: url("assets/scene2-fg.png");
-  width: 175%;
-  height: 300%;
-  background-position: center;
+#about {
+  isolation: isolate;
+}
+#about .scene2-strip-bg {
+  background-image: url("assets/scene2-bg.png");
+}
+#about .scene2-strip-bg,
+#about .scene2-strip-fg {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  transform-origin: center;
+  transform: none;
+}
+#about .scene2-strip-bg {
+  z-index: 1;
+  pointer-events: none;
+}
+#about .scene2-strip-fg {
+  pointer-events: none;
+}
+#about .section-content {
+  display: grid;
+  place-items: center;
+  z-index: 6;
+  top: 50vh;
+  transform: translateY(-50%);
+  transition: top 0.56s ease-in-out, transform 0.56s ease-in-out;
+  pointer-events: none;
+}
+#about.about-selected .section-content {
+  top: 50vh;
+  transform: translateY(-50%);
+}
+.about-content-inner {
+  width: min(900px, 90vw);
+  min-height: 38vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+  pointer-events: auto;
+}
+.about-heading {
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(102px, 12.2vw, 178px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 0.82;
+  color: #f4eee4;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  transform-origin: center top;
+  transition: transform 0.56s ease-in-out, text-shadow 0.56s ease-in-out;
+  margin-bottom: 10px;
+}
+#about.about-selected .about-heading {
+  transform: translateY(-6px) scale(0.64);
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.about-slogan {
+  margin: 0;
+  max-width: 700px;
+  font-family: "Fraunces", serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #efe7dc;
+  opacity: 0.9;
+  text-shadow: none;
+  text-align: right;
+  transition: opacity 0.42s ease-in-out, transform 0.42s ease-in-out;
+}
+.about-slogan-highlight {
+  background: transparent;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0;
+}
+#about.about-selected .about-slogan {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+.about-bio-panel {
+  margin-top: 18px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+#about.about-selected .about-bio-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-bio {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: rgba(25, 20, 16, 0.38);
+  border: 1px solid rgba(244, 238, 228, 0.2);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+}
+.about-bio.is-active {
+  display: block;
+}
+.about-bio h3 {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #f4eee4;
+}
+.about-bio p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(244, 238, 228, 0.94);
+}
+#about .scene2-strip-fg1 { z-index: 2; }
+#about .scene2-strip-fg2 { z-index: 3; }
+#about .scene2-strip-fg3 { z-index: 4; }
+
+#about .scene2-strip-fg-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: auto;
+  cursor: pointer;
+  transform: translateY(0);
+  filter: brightness(1);
+  opacity: 0.96;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.4s ease;
+}
+#about .scene2-strip-fg-image:focus-visible {
+  outline: 2px solid rgba(244, 238, 228, 0.75);
+  outline-offset: -2px;
+}
+#about .scene2-strip-fg-image.is-pixel-hover,
+#about .scene2-strip-fg-image:focus-visible {
+  transform: translateY(-6px);
+  filter: brightness(0.9);
+}
+#about.about-selected .scene2-strip-fg-image {
+  opacity: 0.45;
+}
+#about.about-selected .scene2-strip-fg-image.is-active {
+  opacity: 1;
 }
 
 #contact {
@@ -758,6 +952,10 @@ section {
   header { padding: 20px 24px; }
   .section-content h1 { font-size: 32px; }
   nav a { margin-left: 16px; }
+  .brand-pinned-title {
+    top: 20px;
+    font-size: clamp(13px, 4.6vw, 18px);
+  }
   #gallery .section-content { padding-top: 110px; }
   #gallery::before { background-attachment: scroll; }
   .gallery-list { gap: 18px; }
@@ -785,12 +983,41 @@ section {
   #contact .layer-fg1 {
     display: none;
   }
-  #about .layer-fg {
-    width: 168%;
-    height: 540%;
-    background-size: cover;
-    left: 50%;
-    background-position: center 58%;
+  .about-content-inner {
+    width: min(94vw, 620px);
+  }
+  #about .scene2-strip-bg,
+  #about .scene2-strip-fg {
+    left: 0;
+    width: 124%;
+    transform: none;
+  }
+  #about .scene2-strip-bg {
+    background-position: 57% center;
+  }
+  #about .scene2-strip-fg-image {
+    object-position: 57% center;
+  }
+  .about-heading {
+    font-size: clamp(74px, 18vw, 108px);
+  }
+  .about-slogan {
+    font-size: 15px;
+    max-width: 420px;
+  }
+  .about-bio {
+    padding: 14px 14px 16px;
+  }
+  .about-bio h3 {
+    font-size: 18px;
+  }
+  .about-bio p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  #about.about-selected .section-content {
+    top: 50vh;
+    transform: translateY(-50%);
   }
   #contact .section-content {
     padding: 106px 24px 58px;
@@ -861,6 +1088,7 @@ section {
     <a href="#contact">Contact</a>
   </nav>
 </header>
+<div class="brand-pinned-title" aria-hidden="true">Marvell Florist</div>
 
 <section id="home" data-parallax>
   <div class="layer-bg"></div>
@@ -879,158 +1107,147 @@ section {
       <article class="gallery-category">
         <button class="category-toggle" type="button">
           <div class="category-cover">
-            <img src="assets/bouquets.jpg" alt="Bouquet Collection">
+            <div class="category-cover-placeholder" aria-hidden="true"></div>
             <div class="category-overlay">
-              <p class="category-title">Bouquet</p>
-              <p class="category-subtitle">Hand-tied arrangements for gifting moments and personal celebrations.</p>
+              <p class="category-title">Artificial Flowers</p>
+              <p class="category-subtitle">Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.</p>
               <span class="category-expand-label">View Collection</span>
             </div>
           </div>
         </button>
         <div class="category-panel">
-          <h2 class="collection-heading">Bouquet Collection</h2>
-          <p class="collection-desc">Hand-tied arrangements for gifting moments and personal celebrations.</p>
+          <h2 class="collection-heading">Artificial Flowers Collection</h2>
+          <p class="collection-desc">Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.</p>
           <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/bouquets.jpg" alt="Design BQ-01"><div class="design-overlay"><p class="design-title">Design BQ-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png" alt="Design BQ-02"><div class="design-overlay"><p class="design-title">Design BQ-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design BQ-03"><div class="design-overlay"><p class="design-title">Design BQ-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="collection-placeholder">This collection will be updated soon.</div>
           </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Bouquet" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Artificial%20Flowers" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
         </div>
       </article>
 
       <article class="gallery-category">
         <button class="category-toggle" type="button">
           <div class="category-cover">
-            <img src="assets/scene4-bg.png" alt="Papan Bunga Collection">
+            <div class="category-cover-placeholder" aria-hidden="true"></div>
+            <div class="category-overlay">
+              <p class="category-title">Bouquets</p>
+              <p class="category-subtitle">Bouquet custom untuk hadiah, perayaan, dan momen spesial.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Bouquets Collection</h2>
+          <p class="collection-desc">Bouquet custom untuk hadiah, perayaan, dan momen spesial.</p>
+          <div class="masonry-grid">
+            <div class="collection-placeholder">This collection will be updated soon.</div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Bouquets" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <div class="category-cover-placeholder" aria-hidden="true"></div>
+            <div class="category-overlay">
+              <p class="category-title">Dekorasi Mobil</p>
+              <p class="category-subtitle">Dekorasi bunga mobil untuk pernikahan, event, dan kebutuhan seremonial.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Dekorasi Mobil Collection</h2>
+          <p class="collection-desc">Dekorasi bunga mobil untuk pernikahan, event, dan kebutuhan seremonial.</p>
+          <div class="masonry-grid">
+            <div class="collection-placeholder">This collection will be updated soon.</div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Dekorasi%20Mobil" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <div class="category-cover-placeholder" aria-hidden="true"></div>
             <div class="category-overlay">
               <p class="category-title">Papan Bunga</p>
-              <p class="category-subtitle">Custom congratulatory and ceremonial floral boards.</p>
+              <p class="category-subtitle">Papan bunga ucapan untuk peresmian, duka cita, dan momen formal lainnya.</p>
               <span class="category-expand-label">View Collection</span>
             </div>
           </div>
         </button>
         <div class="category-panel">
           <h2 class="collection-heading">Papan Bunga Collection</h2>
-          <p class="collection-desc">Custom congratulatory and ceremonial floral boards.</p>
+          <p class="collection-desc">Papan bunga ucapan untuk peresmian, duka cita, dan momen formal lainnya.</p>
           <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/scene4-bg.png" alt="Design PB-01"><div class="design-overlay"><p class="design-title">Design PB-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene2-bg.png" alt="Design PB-02"><div class="design-overlay"><p class="design-title">Design PB-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png" alt="Design PB-03"><div class="design-overlay"><p class="design-title">Design PB-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="collection-placeholder">This collection will be updated soon.</div>
           </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Papan%20Bunga" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Papan%20Bunga" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
         </div>
       </article>
 
       <article class="gallery-category">
         <button class="category-toggle" type="button">
           <div class="category-cover">
-            <img src="assets/scene2-fg.png" alt="Standing Flowers Collection">
+            <div class="category-cover-placeholder" aria-hidden="true"></div>
+            <div class="category-overlay">
+              <p class="category-title">Pita Peresmian</p>
+              <p class="category-subtitle">Pita peresmian untuk acara grand opening dan kegiatan seremonial.</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">Pita Peresmian Collection</h2>
+          <p class="collection-desc">Pita peresmian untuk acara grand opening dan kegiatan seremonial.</p>
+          <div class="masonry-grid">
+            <div class="collection-placeholder">This collection will be updated soon.</div>
+          </div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Pita%20Peresmian" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
+        </div>
+      </article>
+
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            <div class="category-cover-placeholder" aria-hidden="true"></div>
             <div class="category-overlay">
               <p class="category-title">Standing Flowers</p>
-              <p class="category-subtitle">Vertical statement pieces for formal and event spaces.</p>
+              <p class="category-subtitle">Standing flowers untuk dekorasi acara dan kebutuhan display formal.</p>
               <span class="category-expand-label">View Collection</span>
             </div>
           </div>
         </button>
         <div class="category-panel">
           <h2 class="collection-heading">Standing Flowers Collection</h2>
-          <p class="collection-desc">Vertical statement pieces for formal and event spaces.</p>
+          <p class="collection-desc">Standing flowers untuk dekorasi acara dan kebutuhan display formal.</p>
           <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/scene2-fg.png" alt="Design SF-01"><div class="design-overlay"><p class="design-title">Design SF-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene4-fg.png" alt="Design SF-02"><div class="design-overlay"><p class="design-title">Design SF-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene1-fg.png" alt="Design SF-03"><div class="design-overlay"><p class="design-title">Design SF-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="collection-placeholder">This collection will be updated soon.</div>
           </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Standing%20Flowers" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Standing%20Flowers" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
         </div>
       </article>
 
       <article class="gallery-category">
         <button class="category-toggle" type="button">
           <div class="category-cover">
-            <img src="dekorasi.jpg" alt="Sympathy and Funeral Collection">
-            <div class="category-overlay">
-              <p class="category-title">Sympathy &amp; Funeral</p>
-              <p class="category-subtitle">Respectful floral expressions designed for condolence moments.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Sympathy &amp; Funeral Collection</h2>
-          <p class="collection-desc">Respectful floral expressions designed for condolence moments.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="dekorasi.jpg" alt="Design SY-01"><div class="design-overlay"><p class="design-title">Design SY-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SY-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene4-bg.png" alt="Design SY-02"><div class="design-overlay"><p class="design-title">Design SY-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SY-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Sympathy%20%26%20Funeral" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/scene1-bg.png" alt="Celebration and Congratulatory Collection">
-            <div class="category-overlay">
-              <p class="category-title">Celebration &amp; Congratulatory</p>
-              <p class="category-subtitle">Festive floral styles for milestones, openings, and achievements.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Celebration &amp; Congratulatory Collection</h2>
-          <p class="collection-desc">Festive floral styles for milestones, openings, and achievements.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design CE-01"><div class="design-overlay"><p class="design-title">Design CE-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CE-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png" alt="Design CE-02"><div class="design-overlay"><p class="design-title">Design CE-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CE-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Celebration%20%26%20Congratulatory" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/artificial.JPG" alt="Supplies Collection">
+            <div class="category-cover-placeholder" aria-hidden="true"></div>
             <div class="category-overlay">
               <p class="category-title">Supplies</p>
-              <p class="category-subtitle">Selected florist materials and decorative support items.</p>
+              <p class="category-subtitle">Kebutuhan florist, bahan pendukung, dan perlengkapan dekorasi.</p>
               <span class="category-expand-label">View Collection</span>
             </div>
           </div>
         </button>
         <div class="category-panel">
           <h2 class="collection-heading">Supplies Collection</h2>
-          <p class="collection-desc">Selected florist materials and decorative support items.</p>
+          <p class="collection-desc">Kebutuhan florist, bahan pendukung, dan perlengkapan dekorasi.</p>
           <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/artificial.JPG" alt="Design SUP-01"><div class="design-overlay"><p class="design-title">Design SUP-01</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/x.png" alt="Design SUP-02"><div class="design-overlay"><p class="design-title">Design SUP-02</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png.jpeg" alt="Design SUP-03"><div class="design-overlay"><p class="design-title">Design SUP-03</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
+            <div class="collection-placeholder">This collection will be updated soon.</div>
           </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Supplies" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/scene1-fg.png" alt="Custom Request Collection">
-            <div class="category-overlay">
-              <p class="category-title">Custom Request</p>
-              <p class="category-subtitle">Bespoke concepts tailored from your brief and visual direction.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Custom Request Collection</h2>
-          <p class="collection-desc">Bespoke concepts tailored from your brief and visual direction.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="dekorasi.jpg" alt="Design CR-01"><div class="design-overlay"><p class="design-title">Design CR-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CR-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design CR-02"><div class="design-overlay"><p class="design-title">Design CR-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CR-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Custom%20Request" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
+          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/628116667920?text=Halo%2C%20saya%20ingin%20konsultasi%20koleksi%3A%20Supplies" target="_blank" rel="noopener noreferrer">Konsultasi Koleksi Ini</a></div>
         </div>
       </article>
     </div>
@@ -1038,19 +1255,35 @@ section {
 </section>
 
 <section id="about" data-parallax>
-  <div class="layer-bg"></div>
-  <div class="layer-fg"></div>
+  <div class="layer-bg scene2-strip-bg"></div>
+  <div class="scene2-strip-fg scene2-strip-fg1">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg1.png" data-bio-target="fg1" alt="Tim Kami" role="button" tabindex="0">
+  </div>
+  <div class="scene2-strip-fg scene2-strip-fg2">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg2.png" data-bio-target="fg2" alt="Karya dan Filosofi" role="button" tabindex="0">
+  </div>
+  <div class="scene2-strip-fg scene2-strip-fg3">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg3.png" data-bio-target="fg3" alt="Perjalanan dan Perkembangan" role="button" tabindex="0">
+  </div>
   <div class="section-content">
-    <h1>About</h1>
-    <p>
-      Berdiri sejak tahun 2006 di Batam, Marvell Florist merangkai bunga untuk berbagai momen; perayaan,
-      ucapan, hingga simpati dengan penuh ketelitian. Setiap rangkaian dibuat dengan mempertimbangkan
-      karakter, kebutuhan, serta konteks di baliknya.
-    </p>
-    <p>
-      Selain rangkaian bunga, kami juga menyediakan papan bunga dan berbagai kebutuhan florist. Setiap
-      pesanan dibuat secara khusus sesuai permintaan agar pesan yang disampaikan terasa tepat.
-    </p>
+    <div class="about-content-inner">
+      <h1 class="about-heading">About</h1>
+      <p class="about-slogan"><span class="about-slogan-highlight">Discover the people, craft, and journey behind Marvell Florist.</span><br><span class="about-slogan-highlight">Tap a figure to explore each part of our story.</span></p>
+      <div class="about-bio-panel" aria-live="polite">
+        <article class="about-bio" data-bio="fg2">
+          <h3>Karya &amp; Filosofi</h3>
+          <p>Sejak 2006, Marvell Florist merangkai bunga untuk berbagai momen tanpa membatasi diri pada satu gaya tertentu. Mulai dari bouquet wisuda, anniversary, papan bunga, hingga kebutuhan personal lainnya, setiap rangkaian dibuat dengan mempertimbangkan konteks, karakter, dan kepuasan pelanggan sebagai prioritas utama.</p>
+        </article>
+        <article class="about-bio" data-bio="fg3">
+          <h3>Perjalanan &amp; Perkembangan</h3>
+          <p>Seiring waktu, Marvell Florist terus berkembang dan memperluas jangkauan layanan. Perkembangan ini memungkinkan kami melayani kebutuhan yang lebih luas, baik untuk pelanggan individu maupun pelaku usaha, dengan standar kualitas yang terus dijaga.</p>
+        </article>
+        <article class="about-bio" data-bio="fg1">
+          <h3>Tim Kami</h3>
+          <p>Didukung oleh tim yang berpengalaman dan adaptif, kami melayani pemesanan baik secara langsung di toko maupun melalui WhatsApp. Beberapa pesanan dapat diselesaikan pada hari yang sama, tergantung ketersediaan dan kompleksitas desain. Setiap rangkaian dikerjakan dengan perhatian pada detail dan komunikasi yang jelas agar hasil akhir benar-benar sesuai dengan harapan pelanggan.</p>
+        </article>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1061,28 +1294,28 @@ section {
       <div class="contact-socials">
         <div class="contact-card-grid">
       <a class="contact-card" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">
-        <span class="contact-card-media"><img src="assets/bouquets.jpg" alt="WhatsApp Primary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+        <span class="contact-card-media"><img src="assets/whatsapp1.PNG" alt="WhatsApp Primary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
         <span class="contact-card-overlay">
           <span class="contact-card-title">WhatsApp (Primary) <span class="contact-card-arrow">&#8594;</span></span>
           <span class="contact-card-desc">Consult custom bouquet and arrangement requests with our primary team.</span>
         </span>
       </a>
       <a class="contact-card" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">
-        <span class="contact-card-media"><img src="assets/scene1-fg.png" alt="WhatsApp Secondary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+        <span class="contact-card-media"><img src="assets/whatsapp2.PNG" alt="WhatsApp Secondary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
         <span class="contact-card-overlay">
           <span class="contact-card-title">WhatsApp (Secondary) <span class="contact-card-arrow">&#8594;</span></span>
           <span class="contact-card-desc">Alternative line for floral inquiries, scheduling, and order follow-up.</span>
         </span>
       </a>
       <a class="contact-card" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">
-        <span class="contact-card-media"><img src="assets/artificial.JPG" alt="WhatsApp Supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Supplies</span></span>
+        <span class="contact-card-media"><img src="assets/whatsapp3.PNG" alt="WhatsApp Supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Supplies</span></span>
         <span class="contact-card-overlay">
           <span class="contact-card-title">WhatsApp Supplies <span class="contact-card-arrow">&#8594;</span></span>
           <span class="contact-card-desc">Reach our supplies desk for florist materials and stock support.</span>
         </span>
       </a>
       <a class="contact-card" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">
-        <span class="contact-card-media"><img src="assets/instagram.jpg" alt="Instagram"><span class="contact-image-hover"></span><span class="contact-card-label">Instagram</span></span>
+        <span class="contact-card-media"><img src="assets/instagram.PNG" alt="Instagram"><span class="contact-image-hover"></span><span class="contact-card-label">Instagram</span></span>
         <span class="contact-card-overlay">
           <span class="contact-card-title">@marvellflorist <span class="contact-card-arrow">&#8594;</span></span>
           <span class="contact-card-desc">View recent works, visual references, and latest floral styling updates.</span>
@@ -1125,6 +1358,9 @@ sections.forEach((section) => {
   state.set(section, {
     bg: 0,
     fg: 0,
+    aboutFg1: 0,
+    aboutFg2: 0,
+    aboutFg3: 0,
     fgCurtain: 0,
     fgCurtainX: 0,
     fgPeople: 0,
@@ -1153,8 +1389,21 @@ if (window.matchMedia("(pointer: fine)").matches) {
       const ny = clamp(((event.clientY - rect.top) / rect.height) * 2 - 1, -1, 1);
       const current = state.get(section);
       if (!current) return;
-      current.mouseTargetX = nx * 28;
-      current.mouseTargetY = ny * 20;
+      if (section.id === "home") {
+        const deadZone = 0.06;
+        const nxAbs = Math.abs(nx);
+        const nyAbs = Math.abs(ny);
+        const nxNorm = nxAbs <= deadZone ? 0 : (nxAbs - deadZone) / (1 - deadZone);
+        const nyNorm = nyAbs <= deadZone ? 0 : (nyAbs - deadZone) / (1 - deadZone);
+        const edgeCurveX = Math.pow(nxNorm, 1.85);
+        const edgeCurveY = Math.pow(nyNorm, 1.85);
+        // Invert direction so layers move opposite to cursor.
+        current.mouseTargetX = -Math.sign(nx) * edgeCurveX * 28;
+        current.mouseTargetY = -Math.sign(ny) * edgeCurveY * 19;
+      } else {
+        current.mouseTargetX = nx * 28;
+        current.mouseTargetY = ny * 20;
+      }
     });
 
     section.addEventListener("mouseleave", () => {
@@ -1334,8 +1583,142 @@ if (canHoverPreview) {
   });
 }
 
+const aboutSection = document.getElementById("about");
+const aboutFigures = aboutSection ? Array.from(aboutSection.querySelectorAll(".scene2-strip-fg-image[data-bio-target]")) : [];
+const aboutBios = aboutSection ? Array.from(aboutSection.querySelectorAll(".about-bio")) : [];
+const aboutBioPanel = aboutSection ? aboutSection.querySelector(".about-bio-panel") : null;
+const aboutPixelSamplers = new WeakMap();
+const aboutHoverOrder = ["fg3", "fg2", "fg1"];
+
+function setAboutActiveBio(targetKey, shouldScroll = false, forceState = false) {
+  if (!aboutSection) return;
+  const currentKey = aboutSection.dataset.activeBio || "";
+  const nextKey = forceState ? targetKey : (currentKey === targetKey ? "" : targetKey);
+  aboutSection.dataset.activeBio = nextKey;
+  aboutSection.classList.toggle("about-selected", Boolean(nextKey));
+
+  aboutFigures.forEach((figure) => {
+    const isActive = figure.dataset.bioTarget === nextKey;
+    figure.classList.toggle("is-active", isActive);
+    figure.classList.toggle("is-dim", Boolean(nextKey) && !isActive);
+    figure.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+
+  aboutBios.forEach((bio) => {
+    bio.classList.toggle("is-active", bio.dataset.bio === nextKey);
+  });
+
+  if (nextKey && shouldScroll && window.matchMedia("(max-width: 768px)").matches && aboutBioPanel) {
+    aboutBioPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+function preparePixelSampler(imgElement) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return;
+  const source = new Image();
+  let ready = false;
+
+  source.crossOrigin = "anonymous";
+  source.src = imgElement.currentSrc || imgElement.src;
+
+  source.onload = () => {
+    canvas.width = source.naturalWidth || source.width;
+    canvas.height = source.naturalHeight || source.height;
+    if (!canvas.width || !canvas.height) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(source, 0, 0);
+    ready = true;
+  };
+
+  const sampleAlpha = (clientX, clientY) => {
+    if (!ready || !canvas.width || !canvas.height) return 0;
+    const rect = imgElement.getBoundingClientRect();
+    if (!rect.width || !rect.height) return 0;
+    const rawX = (clientX - rect.left) * (canvas.width / rect.width);
+    const rawY = (clientY - rect.top) * (canvas.height / rect.height);
+    const x = Math.max(0, Math.min(canvas.width - 1, Math.floor(rawX)));
+    const y = Math.max(0, Math.min(canvas.height - 1, Math.floor(rawY)));
+    return ctx.getImageData(x, y, 1, 1).data[3];
+  };
+  aboutPixelSamplers.set(imgElement, sampleAlpha);
+}
+
+function enterAboutFigure(imgElement) {
+  imgElement.classList.add("is-pixel-hover");
+}
+
+function leaveAboutFigure(imgElement) {
+  imgElement.classList.remove("is-pixel-hover");
+}
+
+aboutFigures.forEach((figure) => {
+  preparePixelSampler(figure);
+
+  figure.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    const targetKey = figure.dataset.bioTarget;
+    if (!targetKey) return;
+    setAboutActiveBio(targetKey, true);
+  });
+});
+
+function getTopAboutFigureAt(clientX, clientY) {
+  const ordered = aboutHoverOrder
+    .map((target) => aboutFigures.find((figure) => figure.dataset.bioTarget === target))
+    .filter(Boolean);
+  for (const figure of ordered) {
+    const sample = aboutPixelSamplers.get(figure);
+    if (!sample) continue;
+    if (sample(clientX, clientY) > 10) return figure;
+  }
+  return null;
+}
+
+if (aboutSection) {
+  let currentHoveredFigure = null;
+  const isDesktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  aboutSection.addEventListener("mousemove", (event) => {
+    const activeFigure = getTopAboutFigureAt(event.clientX, event.clientY);
+    currentHoveredFigure = activeFigure;
+    aboutFigures.forEach((figure) => {
+      if (figure === activeFigure) enterAboutFigure(figure);
+      else leaveAboutFigure(figure);
+    });
+    if (isDesktopPointer) {
+      const targetKey = activeFigure ? activeFigure.dataset.bioTarget : "";
+      if (targetKey) setAboutActiveBio(targetKey, false, true);
+      else setAboutActiveBio("", false, true);
+    }
+  });
+
+  aboutSection.addEventListener("mouseleave", () => {
+    currentHoveredFigure = null;
+    aboutFigures.forEach((figure) => leaveAboutFigure(figure));
+    if (isDesktopPointer) setAboutActiveBio("", false, true);
+  });
+
+  aboutSection.addEventListener("click", (event) => {
+    if (isDesktopPointer) return;
+    // Use the same resolved hover target so click area matches hover area 1:1.
+    const activeFigure = currentHoveredFigure || getTopAboutFigureAt(event.clientX, event.clientY);
+    if (!activeFigure) {
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest(".section-content")) return;
+      return;
+    }
+    const targetKey = activeFigure.dataset.bioTarget;
+    if (!targetKey) return;
+    setAboutActiveBio(targetKey, true);
+  });
+}
+
 const contactGridLayer = document.querySelector("#contact .contact-grid-layer");
 const contactSocials = document.querySelector("#contact .contact-socials");
+let homePinnedState = false;
 let contactGridExitTimer = null;
 if (contactGridLayer && contactSocials) {
   const activateGrid = () => {
@@ -1367,6 +1750,7 @@ if (contactGridLayer && contactSocials) {
 
 function animate() {
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  let shouldPinHomeTitle = false;
 
   sections.forEach((section) => {
     const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
@@ -1379,14 +1763,14 @@ function animate() {
 
     const isContact = section.id === "contact";
     let bgTarget = progress * (isMobile ? -72 : -120);
-    let fgRange = section.id === "about" ? 240 : 360;
+    let fgRange = 360;
 
     if (section.id === "home" && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
-      fgRange = isMobile ? Math.max(0, Math.min(75, maxSafeTravel * 0.3)) : clamp(maxSafeTravel, 140, 320);
+      fgRange = isMobile ? Math.max(0, Math.min(78, maxSafeTravel * 0.34)) : clamp(maxSafeTravel, 300, 760);
     } else if (isMobile && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
-      const desiredRange = section.id === "about" ? 65 : 75;
+      const desiredRange = 75;
       fgRange = Math.min(desiredRange, maxSafeTravel * 0.3);
     }
 
@@ -1399,23 +1783,32 @@ function animate() {
     }
 
     current.bg = lerp(current.bg, bgTarget, isContact ? 0.032 : 0.08);
-    const fgLerp = isMobile ? 0.05 : (section.id === "home" ? 0.045 : 0.06);
+    const fgLerp = isMobile ? 0.042 : (section.id === "home" ? 0.11 : 0.06);
     current.fg = lerp(current.fg, fgTarget, fgLerp);
 
-    const allowMouseDepth = !isMobile && window.matchMedia("(pointer: fine)").matches;
+    const allowMouseDepth = !isMobile && window.matchMedia("(pointer: fine)").matches && section.id === "home";
     const targetMouseX = allowMouseDepth ? current.mouseTargetX : 0;
     const targetMouseY = allowMouseDepth ? current.mouseTargetY : 0;
-    current.mouseX = lerp(current.mouseX, targetMouseX, 0.12);
-    current.mouseY = lerp(current.mouseY, targetMouseY, 0.12);
+    const mouseLerp = section.id === "home" ? 0.08 : 0.12;
+    current.mouseX = lerp(current.mouseX, targetMouseX, mouseLerp);
+    current.mouseY = lerp(current.mouseY, targetMouseY, mouseLerp);
 
     if (bg) {
-      if (isContact) {
+      if (section.id === "about") {
+        bg.style.transform = "none";
+      } else if (isContact) {
         const bgScale = isMobile ? 1.035 : 1.045;
         bg.style.transform = `translateY(${current.bg}px) scale(${bgScale})`;
       } else {
         const bgX = allowMouseDepth ? current.mouseX : 0;
         const bgY = allowMouseDepth ? current.mouseY : 0;
-        bg.style.transform = `translate3d(${bgX}px, ${current.bg + bgY}px, 0)`;
+        if (section.id === "home") {
+          const rotateY = allowMouseDepth ? clamp(bgX / 24, -1.6, 1.6) : 0;
+          const rotateX = allowMouseDepth ? clamp(-bgY / 28, -1.3, 1.3) : 0;
+          bg.style.transform = `perspective(1200px) translate3d(${bgX}px, ${current.bg + bgY}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        } else {
+          bg.style.transform = `translate3d(${bgX}px, ${current.bg + bgY}px, 0)`;
+        }
       }
     }
 
@@ -1448,9 +1841,16 @@ function animate() {
       const baseFgOffset = isMobile
         ? (section.id === "home" ? -33 : (section.id === "about" ? -24 : -37))
         : (section.id === "home" ? -20 : -50);
-      const fgMouseX = allowMouseDepth ? current.mouseX * 0.78 : 0;
-      const fgMouseY = allowMouseDepth ? current.mouseY * 0.78 : 0;
-      fg.style.transform = `translate(calc(-50% + ${fgMouseX}px), calc(${baseFgOffset}% + ${current.fg + fgMouseY}px))`;
+      const fgMouseStrength = section.id === "home" ? 0.58 : 0.78;
+      const fgMouseX = allowMouseDepth ? current.mouseX * fgMouseStrength : 0;
+      const fgMouseY = allowMouseDepth ? current.mouseY * fgMouseStrength : 0;
+      if (section.id === "home") {
+        const fgRotateY = allowMouseDepth ? clamp(fgMouseX / 20, -1.35, 1.35) : 0;
+        const fgRotateX = allowMouseDepth ? clamp(-fgMouseY / 22, -1.15, 1.15) : 0;
+        fg.style.transform = `perspective(1200px) translate(calc(-50% + ${fgMouseX}px), calc(${baseFgOffset}% + ${current.fg + fgMouseY}px)) rotateX(${fgRotateX}deg) rotateY(${fgRotateY}deg)`;
+      } else {
+        fg.style.transform = `translate(calc(-50% + ${fgMouseX}px), calc(${baseFgOffset}% + ${current.fg + fgMouseY}px))`;
+      }
     }
 
     if (section.id === "contact") {
@@ -1458,7 +1858,19 @@ function animate() {
         && window.scrollY < section.offsetTop + section.offsetHeight;
       section.classList.toggle("is-visible", contactActive);
     }
+    if (section.id === "home") {
+      const homeTitle = section.querySelector(".section-content h1");
+      if (homeTitle) {
+        const titleTop = homeTitle.getBoundingClientRect().top;
+        if (!homePinnedState && titleTop <= 86) homePinnedState = true;
+        if (homePinnedState && titleTop >= 132) homePinnedState = false;
+        shouldPinHomeTitle = homePinnedState;
+      } else {
+        shouldPinHomeTitle = homePinnedState;
+      }
+    }
   });
+  document.body.classList.toggle("home-title-pinned", shouldPinHomeTitle);
 
   requestAnimationFrame(animate);
 }
