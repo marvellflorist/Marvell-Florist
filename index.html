@@ -1002,7 +1002,7 @@ section {
     height: 510%;
     background-size: contain;
     left: 50%;
-    background-position: center 30%;
+    background-position: center bottom;
   }
   #contact .layer-bg {
     inset: 0;
@@ -1024,6 +1024,22 @@ section {
   }
   #about .scene2-strip-fg-image {
     object-position: 57% center;
+  }
+  #about .scene2-strip-fg1 .scene2-strip-fg-image,
+  #about .scene2-strip-fg2 .scene2-strip-fg-image {
+    object-position: 72% center;
+  }
+  .about-content-inner {
+    align-items: center;
+    text-align: center;
+  }
+  .about-heading,
+  .about-slogan {
+    text-align: center;
+  }
+  .about-slogan {
+    margin-left: auto;
+    margin-right: auto;
   }
   .about-heading {
     font-size: clamp(74px, 18vw, 108px);
@@ -1049,6 +1065,16 @@ section {
   #contact .section-content {
     padding: 106px 24px 58px;
     min-height: 100vh;
+  }
+  #contact .contact-grid-layer {
+    z-index: 5;
+    transition: none;
+  }
+  #contact .contact-socials {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1);
+    transition: none;
   }
   #contact .contact-grid-layer {
     padding-top: 58vh;
@@ -1794,7 +1820,7 @@ function animate() {
 
     if (section.id === "home" && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
-      fgRange = isMobile ? Math.max(0, Math.min(78, maxSafeTravel * 0.34)) : clamp(maxSafeTravel, 300, 760);
+      fgRange = isMobile ? Math.max(0, Math.min(46, maxSafeTravel * 0.22)) : clamp(maxSafeTravel, 300, 760);
     } else if (isMobile && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
       const desiredRange = 75;
@@ -1866,7 +1892,7 @@ function animate() {
       fgPeople.style.transform = `translateY(${peopleBaseY + current.fgPeople}px) scale(${peopleScale})`;
     } else if (fg) {
       const baseFgOffset = isMobile
-        ? (section.id === "home" ? -33 : (section.id === "about" ? -24 : -37))
+        ? (section.id === "home" ? -24 : (section.id === "about" ? -24 : -37))
         : (section.id === "home" ? -20 : -50);
       const fgMouseStrength = section.id === "home" ? 0.58 : 0.78;
       const fgMouseX = allowMouseDepth ? current.mouseX * fgMouseStrength : 0;
