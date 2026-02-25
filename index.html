@@ -661,6 +661,8 @@ body.intro-scroll-lock {
 }
 #gallery h1 {
   font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: clamp(54px, 6.2vw, 96px);
+  line-height: 0.92;
 }
 .gallery-lead {
   max-width: 760px;
@@ -764,14 +766,29 @@ body.intro-scroll-lock {
 .category-overlay {
   position: absolute;
   inset: 0;
+  --category-overlay-pad: 26px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
   gap: 8px;
-  padding: 26px;
+  padding: var(--category-overlay-pad);
   background: linear-gradient(to top, rgba(21, 16, 12, 0.52) 0%, rgba(21, 16, 12, 0.14) 60%, rgba(21, 16, 12, 0.05) 100%);
   transition: background 0.3s ease;
+}
+.category-start-from {
+  position: absolute;
+  top: var(--category-overlay-pad);
+  left: var(--category-overlay-pad);
+  margin: 0;
+  z-index: 2;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #f4eee3;
+  text-shadow: 0 3px 9px rgba(53, 37, 23, 0.56), 0 1px 2px rgba(34, 24, 15, 0.46);
 }
 .gallery-category:hover .category-overlay,
 .gallery-category:focus-within .category-overlay {
@@ -779,25 +796,29 @@ body.intro-scroll-lock {
 }
 .category-title {
   font-family: "Relationship of Melodrame", "Louis George Cafe", "Inter Tight", sans-serif;
-  color: #f4efe4;
+  color: #f4eee3;
   font-size: clamp(64px, 8vw, 110px);
   font-weight: 400;
   letter-spacing: 0.3px;
   text-align: left;
-  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.72);
+  text-shadow: 0 3px 9px rgba(53, 37, 23, 0.56), 0 1px 2px rgba(34, 24, 15, 0.46);
 }
 .category-subtitle {
-  color: rgba(244, 239, 230, 0.96);
+  color: #f4eee3;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.5;
   max-width: 680px;
-  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.62);
+  text-shadow: 0 3px 9px rgba(53, 37, 23, 0.56), 0 1px 2px rgba(34, 24, 15, 0.46);
 }
 #gallery .category-title,
 #gallery .category-subtitle {
-  color: rgba(244, 239, 230, 0.96);
-  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.62);
+  color: #f4eee3;
+  text-shadow: 0 3px 9px rgba(53, 37, 23, 0.56), 0 1px 2px rgba(34, 24, 15, 0.46);
+}
+#gallery .category-start-from {
+  color: #f4eee3;
+  text-shadow: 0 3px 9px rgba(53, 37, 23, 0.56), 0 1px 2px rgba(34, 24, 15, 0.46);
 }
 .category-expand-label {
   display: inline-flex;
@@ -808,11 +829,11 @@ body.intro-scroll-lock {
   letter-spacing: 0.3px;
   text-transform: uppercase;
   background: rgba(30, 24, 19, 0.58);
-  color: #f4efe4;
+  color: #f4eee3;
   padding: 10px 18px;
   border-radius: 999px;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
-  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.62);
+  text-shadow: 0 3px 9px rgba(53, 37, 23, 0.56), 0 1px 2px rgba(34, 24, 15, 0.46);
   transition: transform 0.14s cubic-bezier(0.2, 0.88, 0.28, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .gallery-category:hover .category-expand-label,
@@ -1650,7 +1671,11 @@ body.intro-scroll-lock {
   .gallery-list { gap: 18px; }
   .gallery-category { border-radius: 14px; }
   .category-cover { height: clamp(230px, 52vw, 300px); }
-  .category-overlay { padding: 18px; }
+  .category-overlay { --category-overlay-pad: 18px; }
+  #gallery .category-start-from {
+    font-size: 10px;
+    text-shadow: 0 2px 7px rgba(56, 40, 25, 0.52), 0 1px 1px rgba(36, 26, 16, 0.42);
+  }
   #gallery .category-title {
     font-size: clamp(32px, 9.4vw, 46px) !important;
     font-weight: 400;
@@ -1695,7 +1720,7 @@ body.intro-scroll-lock {
     width: 148%;
     height: calc(280% - 48%);
     left: 50%;
-    bottom: -6%;
+    bottom: 0;
     transform: translateX(-50%) !important;
     background-size: contain;
     background-position: center bottom;
@@ -1833,14 +1858,15 @@ body.intro-scroll-lock {
     transition: opacity 520ms ease;
     transition-delay: 0ms;
   }
-  body.mobile-contact-cards-fade-pending #contact .contact-card {
-    opacity: 0;
+  .contact-card:nth-child(1) { --mobile-stack-x: 108%; --mobile-stack-y: 70%; --enter-delay: 0ms; }
+  .contact-card:nth-child(2) { --mobile-stack-x: 0%; --mobile-stack-y: 70%; --enter-delay: 140ms; }
+  .contact-card:nth-child(3) { --mobile-stack-x: -108%; --mobile-stack-y: 70%; --enter-delay: 280ms; }
+  .contact-card:nth-child(4) { --mobile-stack-x: 108%; --mobile-stack-y: -70%; --enter-delay: 420ms; }
+  .contact-card:nth-child(5) { --mobile-stack-x: 0%; --mobile-stack-y: -70%; --enter-delay: 560ms; }
+  .contact-card:nth-child(6) { --mobile-stack-x: -108%; --mobile-stack-y: -70%; --enter-delay: 700ms; }
+  .contact-card-media {
+    aspect-ratio:  3 / 3;
   }
-  body.mobile-contact-cards-faded #contact .contact-card {
-    opacity: 1;
-  }
-  .contact-card img { height: 100%; }
-  .contact-card-media { aspect-ratio: 3 / 3; }
   .contact-card-media .contact-card-label {
     top: calc(var(--photo-frame) + 3px);
     left: calc(var(--photo-frame) + 3px);
@@ -1925,7 +1951,7 @@ body.intro-scroll-lock {
   #gallery .collection-desc {
     display: none;
   }
-}
+  }
 </style>
 </head>
 <body class="edition-i text-reveal-anim text-reveal-pending intro-scroll-lock">
@@ -2830,37 +2856,44 @@ const galleryCategoryMeta = [
   {
     name: "Artificial Flowers",
     subtitle: "Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.",
-    phone: "6281275017456"
+    phone: "6281275017456",
+    startPrice: "200.000"
   },
   {
     name: "Bouquets",
     subtitle: "Bouquet custom untuk hadiah, perayaan, dan momen spesial.",
-    phone: "6281275017456"
+    phone: "6281275017456",
+    startPrice: "120.000"
   },
   {
     name: "Dekorasi Mobil",
     subtitle: "Dekorasi bunga mobil untuk pernikahan, event, dan kebutuhan seremonial.",
-    phone: "6281275017456"
+    phone: "6281275017456",
+    startPrice: "520.000"
   },
   {
     name: "Papan Bunga",
     subtitle: "Papan bunga ucapan untuk peresmian, duka cita, dan momen formal lainnya.",
-    phone: "6281275017456"
+    phone: "6281275017456",
+    startPrice: "150.000"
   },
   {
     name: "Pita Peresmian",
     subtitle: "Pita peresmian untuk acara grand opening dan kegiatan seremonial.",
-    phone: "6281275017456"
+    phone: "6281275017456",
+    startPrice: "470.000"
   },
   {
     name: "Standing Flowers",
     subtitle: "Standing flowers untuk dekorasi acara dan kebutuhan display formal.",
-    phone: "6281275017456"
+    phone: "6281275017456",
+    startPrice: "1.000.000"
   },
   {
     name: "Supplies",
     subtitle: "Kebutuhan florist, bahan pendukung, dan perlengkapan dekorasi.",
-    phone: "628116667920"
+    phone: "628116667920",
+    startPrice: "30.000"
   }
 ];
 
@@ -3020,6 +3053,7 @@ function renderGalleryFromData(data) {
           <div class="category-cover">
             ${cover ? `<img src="${escapeHTML(cover)}" alt="${escapeHTML(meta.name)} cover" loading="lazy">` : '<div class="category-cover-placeholder" aria-hidden="true"></div>'}
             <div class="category-overlay">
+              <p class="category-start-from">Start From Rp ${escapeHTML(meta.startPrice || "-")}</p>
               <p class="category-title">${escapeHTML(meta.name)}</p>
               <p class="category-subtitle">${escapeHTML(meta.subtitle)}</p>
               <span class="category-expand-label">View Collection</span>
