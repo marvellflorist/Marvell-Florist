@@ -1866,6 +1866,26 @@ body.intro-scroll-lock {
   }
   section { min-height: 130vh; }
 }
+@media (max-width: 768px) {
+
+  #home {
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
+
+  #home img {
+    max-width: 100%;
+  }
+
+  #home .foreground,
+  #home .scene1-fg,
+  #home .home-fg {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0;
+    width: 100%;
+  }
+  }
 </style>
 </head>
 <body class="edition-i text-reveal-anim text-reveal-pending intro-scroll-lock">
