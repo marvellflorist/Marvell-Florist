@@ -4,13 +4,13 @@
       "name": "Artificial Classic",
       "price": "200000",
       "category": "Artificial Flowers",
-      "image": "/assets/artificial.JPG"
+      "image": ""
     },
     {
       "name": "Bouquet Signature",
       "price": "350000",
       "category": "Bouquets",
-      "image": "/assets/bouquets.jpg"
+      "image": ""
     },
     {
       "name": "Dekorasi Mobil Elegant",
@@ -34,13 +34,13 @@
       "name": "Standing Floral Luxe",
       "price": "550000",
       "category": "Standing Flowers",
-      "image": "/assets/location1.jpg"
+      "image": ""
     },
     {
       "name": "Starter Supplies Kit",
       "price": "180000",
       "category": "Supplies",
-      "image": "/assets/location2.jpg"
+      "image": ""
     }
   ]
 }

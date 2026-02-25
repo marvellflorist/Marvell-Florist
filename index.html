@@ -2907,8 +2907,10 @@ function escapeHTML(value) {
 }
 
 function formatRupiah(value) {
-  const numeric = Number(String(value ?? "").replace(/[^\d.-]/g, ""));
-  if (!Number.isFinite(numeric)) return "Rp -";
+  const raw = String(value ?? "").trim();
+  if (!raw) return "";
+  const numeric = Number(raw.replace(/[^\d.-]/g, ""));
+  if (!Number.isFinite(numeric)) return "";
   return `Rp ${new Intl.NumberFormat("id-ID").format(Math.round(numeric))}`;
 }
 
@@ -3009,32 +3011,53 @@ function renderGalleryFromData(data) {
   if (!galleryList) return;
   const items = Array.isArray(data?.items) ? data.items : [];
   const grouped = new Map();
+  const normalizeCategoryKey = (value) => String(value || "").trim().toLowerCase();
   galleryCategoryMeta.forEach((meta) => grouped.set(meta.name, []));
 
   items.forEach((item) => {
     if (!item || typeof item !== "object") return;
-    const normalizedCategory = galleryCategoryMeta.find((meta) => meta.name === item.category)?.name;
+    const normalizedCategory = galleryCategoryMeta.find(
+      (meta) => normalizeCategoryKey(meta.name) === normalizeCategoryKey(item.category)
+    )?.name;
     if (!normalizedCategory) return;
     grouped.get(normalizedCategory).push(item);
   });
 
   const categoryMarkup = galleryCategoryMeta.map((meta) => {
     const categoryItems = grouped.get(meta.name) || [];
-    const cover = categoryItems.find((entry) => entry.image)?.image || "";
+    const coverCandidates = categoryItems
+      .map((entry) => String(entry?.image || "").trim())
+      .filter(Boolean);
+    const cover = coverCandidates.length
+      ? coverCandidates[Math.floor(Math.random() * coverCandidates.length)]
+      : "";
 
     const masonry = categoryItems.length
-      ? categoryItems.map((item) => {
-        const safeName = escapeHTML(item.name || "Produk");
+      ? categoryItems.map((item, itemIndex) => {
+        const productName = item.title || item.name || "Produk";
+        const isBouquetCategory = meta.name === "Bouquets";
+        const numberedBouquetName = `Bouquet ${String(itemIndex + 1).padStart(2, "0")}`;
+        const displayName = isBouquetCategory ? numberedBouquetName : productName;
+        const safeName = escapeHTML(displayName);
         const safePrice = formatRupiah(item.price);
         const safeImage = escapeHTML(item.image || "");
-        const consultText = `Halo, saya ingin konsultasi desain ${item.name || "produk"} dengan harga ${safePrice} pada kategori ${meta.name}.`;
+        const productImageLink = item.image
+          ? new URL(String(item.image), window.location.origin).href
+          : "";
+        const consultText = safePrice
+          ? `Halo, saya ingin konsultasi desain ${displayName} dengan harga ${safePrice} pada kategori ${meta.name}.${productImageLink ? ` Foto: ${productImageLink}` : ""}`
+          : `Halo, saya ingin konsultasi desain ${displayName} pada kategori ${meta.name}.${productImageLink ? ` Foto: ${productImageLink}` : ""}`;
         const consultHref = buildConsultHref(meta.phone, consultText);
         return `
             <div class="masonry-item">
-              <img src="${safeImage}" alt="${safeName}" loading="lazy">
+              ${
+                safeImage
+                  ? `<img src="${safeImage}" alt="${safeName}" loading="lazy">`
+                  : '<div class="category-cover-placeholder" aria-hidden="true"></div>'
+              }
               <div class="design-overlay">
                 <p class="design-title">${safeName}</p>
-                <p class="design-title">${safePrice}</p>
+                ${safePrice ? `<p class="design-title">${safePrice}</p>` : ""}
                 <a class="design-consult-btn" href="${consultHref}" target="_blank" rel="noopener noreferrer">Consult This Product</a>
               </div>
             </div>
@@ -3245,9 +3268,26 @@ function initializeGalleryInteractions() {
 
     if (frames.length < 2) return;
     let frameIndex = 0;
+    let randomQueue = [];
     let fadeTimer = null;
     let holdTimer = null;
     let holdTriggered = false;
+
+    const refillRandomQueue = () => {
+      randomQueue = Array.from({ length: frames.length }, (_, index) => index);
+      for (let i = randomQueue.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [randomQueue[i], randomQueue[j]] = [randomQueue[j], randomQueue[i]];
+      }
+      if (randomQueue[0] === frameIndex && randomQueue.length > 1) {
+        [randomQueue[0], randomQueue[1]] = [randomQueue[1], randomQueue[0]];
+      }
+    };
+
+    const nextRandomFrame = () => {
+      if (!randomQueue.length) refillRandomQueue();
+      return randomQueue.shift();
+    };
 
     const renderFrame = (index, immediate = false) => {
       if (fadeTimer) window.clearTimeout(fadeTimer);
@@ -3273,6 +3313,7 @@ function initializeGalleryInteractions() {
         window.clearTimeout(holdTimer);
         holdTimer = null;
       }
+      randomQueue = [];
       frameIndex = 0;
       renderFrame(0, false);
     };
@@ -3280,7 +3321,7 @@ function initializeGalleryInteractions() {
     const startPreview = () => {
       if (previewTimers.get(category)) return;
       const timer = window.setInterval(() => {
-        frameIndex = (frameIndex + 1) % frames.length;
+        frameIndex = nextRandomFrame();
         renderFrame(frameIndex, false);
       }, 1750);
       previewTimers.set(category, timer);
@@ -3333,7 +3374,7 @@ function initializeGalleryInteractions() {
 
 async function initializeGallery() {
   try {
-    const response = await fetch("/data/gallery.json", { cache: "no-store" });
+    const response = await fetch("/content/gallery.json", { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
     renderGalleryFromData(payload);
