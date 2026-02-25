@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -628,7 +629,7 @@ body.intro-scroll-lock {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("assets/scene3.jpg") center / cover no-repeat fixed;
+  background: url("assets/scene3.png") center / cover no-repeat fixed;
   filter: saturate(0.92) contrast(0.94) blur(0.6px);
   transform: scale(1.01);
   z-index: 0;
@@ -1637,16 +1638,16 @@ body.intro-scroll-lock {
     perspective: none;
   }
   #home .scene-3d-tilt,
-  #home .layer-depth-bg,
-  #home .layer-depth-fg {
+  #home .layer-depth-bg {
     transform-style: flat;
   }
   #home .layer-depth-fg {
+    transform-style: preserve-3d;
     z-index: 4;
   }
   #home .layer-fg {
     width: 148%;
-    height: 280%;
+    height: calc(280% - 48%);
     background-size: contain;
     left: 50%;
     top: 47%;
@@ -1659,7 +1660,7 @@ body.intro-scroll-lock {
   }
   #home .layer-bg {
     background-position: center 60%;
-    inset: -24% !important;
+    inset: -24%;
   }
   #contact {
     min-height: 100vh;
@@ -1676,12 +1677,14 @@ body.intro-scroll-lock {
   }
   .about-content-inner {
     width: min(94vw, 620px);
+    align-items: center;
+    text-align: center;
   }
   #about .scene2-strip-bg,
   #about .scene2-strip-fg {
     left: 0;
     width: 124%;
-    transform: none;
+    overflow: hidden;
   }
   #about .scene2-strip-bg {
     background-position: 57% center;
@@ -1692,10 +1695,6 @@ body.intro-scroll-lock {
   #about .scene2-strip-fg1 .scene2-strip-fg-image,
   #about .scene2-strip-fg2 .scene2-strip-fg-image {
     object-position: 28% center;
-  }
-  .about-content-inner {
-    align-items: center;
-    text-align: center;
   }
   .about-heading {
     align-self: center;
@@ -1865,27 +1864,15 @@ body.intro-scroll-lock {
     max-width: min(92vw, 460px);
   }
   section { min-height: 130vh; }
-}
-@media (max-width: 768px) {
 
+  @media (max-width: 768px) {
   #home {
+    min-height: 100vh !important;
     height: 100vh !important;
-    overflow: hidden !important;
+    overflow: hidden;
+}
   }
-
-  #home img {
-    max-width: 100%;
-  }
-
-  #home .foreground,
-  #home .scene1-fg,
-  #home .home-fg {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0;
-    width: 100%;
-  }
-  }
+}
 </style>
 </head>
 <body class="edition-i text-reveal-anim text-reveal-pending intro-scroll-lock">

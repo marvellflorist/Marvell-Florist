@@ -13,6 +13,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
+@font-face {
+  font-family: "Louis George Cafe";
+  src: url("assets/fonts/Louis George Cafe.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RelationshipDisplay";
+  src: url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Relationship of Melodrame";
+  src: url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Louis George Cafe";
+  src: url("assets/fonts/Louis George Cafe Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Louis George Cafe";
+  src: url("assets/fonts/Louis George Cafe Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
 :root {
   --theme-body-bg: linear-gradient(180deg, #f5efe6 0%, #f2eadf 100%);
   --theme-body-text: #ffffff;
@@ -53,35 +88,6 @@ body {
   color: var(--theme-body-text);
   overflow-x: hidden;
   overscroll-behavior-y: none;
-}
-body.edition-i {
-  --theme-body-bg: linear-gradient(180deg, #f5efe6 0%, #f2eadf 100%);
-  --theme-body-text: #ffffff;
-  --theme-header-bar-bg: #f5efe6;
-  --theme-header-bar-border: rgba(157, 133, 101, 0.24);
-  --theme-rail-text: rgba(245, 240, 232, 0.9);
-  --theme-rail-bg: rgba(18, 16, 23, 0.62);
-  --theme-rail-border: rgba(255, 255, 255, 0.14);
-  --theme-rail-shadow: 0 10px 16px rgba(10, 7, 14, 0.22);
-  --theme-rail-hover-text: #f8f3ea;
-  --theme-rail-hover-bg: rgba(27, 24, 34, 0.74);
-  --theme-rail-hover-border: rgba(255, 255, 255, 0.2);
-  --theme-rail-hover-shadow: 0 12px 18px rgba(10, 7, 14, 0.26);
-  --theme-rail-active-text: #1f1a15;
-  --theme-rail-active-bg: rgba(245, 238, 227, 0.95);
-  --theme-rail-active-border: rgba(196, 174, 143, 0.5);
-  --theme-rail-active-shadow: 0 10px 18px rgba(23, 18, 15, 0.2);
-  --theme-focus-outline: rgba(244, 238, 228, 0.92);
-  --theme-editions-text: #2a2118;
-  --theme-editions-hover: #1a130d;
-  --theme-editions-panel-bg: rgba(245, 240, 232, 0.96);
-  --theme-editions-panel-border: rgba(157, 133, 101, 0.34);
-  --theme-editions-panel-shadow: 0 14px 28px rgba(24, 18, 13, 0.18);
-  --theme-edition-option-text: #2a2118;
-  --theme-edition-option-hover-bg: rgba(231, 220, 204, 0.64);
-  --theme-edition-option-active-bg: rgba(218, 202, 179, 0.72);
-  --theme-edition-option-disabled: rgba(83, 67, 47, 0.5);
-  --theme-pinned-stroke: rgba(43, 34, 24, 0.62);
 }
 body.edition-ii {
   --theme-body-bg: linear-gradient(180deg, #e8edf3 0%, #dde5ee 100%);
@@ -623,14 +629,16 @@ body.intro-scroll-lock {
   color: #2f2a25;
   background: none;
   isolation: isolate;
+  --gallery-bg-shift: 0px;
 }
 #gallery::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("assets/scene3.jpg") center / cover no-repeat fixed;
-  filter: saturate(0.92) contrast(0.94) blur(0.6px);
-  transform: scale(1.01);
+  background: url("assets/scene3.png") center / cover no-repeat fixed;
+  filter: none;
+  transform: translate3d(0, var(--gallery-bg-shift), 0) scale(1.04);
+  will-change: transform;
   z-index: 0;
 }
 #gallery::after {
@@ -682,12 +690,10 @@ body.intro-scroll-lock {
   opacity: 1 !important;
 }
 .gallery-category.gallery-reveal-item,
-.category-toggle.gallery-reveal-item,
-.category-expand-label.gallery-reveal-item {
-  transform: none;
-}
 .gallery-category.gallery-reveal-item.is-revealed,
+.category-toggle.gallery-reveal-item,
 .category-toggle.gallery-reveal-item.is-revealed,
+.category-expand-label.gallery-reveal-item,
 .category-expand-label.gallery-reveal-item.is-revealed {
   transform: none;
 }
@@ -769,27 +775,26 @@ body.intro-scroll-lock {
   background: linear-gradient(to top, rgba(21, 16, 12, 0.58) 0%, rgba(21, 16, 12, 0.2) 64%, rgba(21, 16, 12, 0.08) 100%);
 }
 .category-title {
-  font-family: "Inter Tight", sans-serif;
-  color: #f5efe6;
-  font-size: 28px;
-  letter-spacing: 0.2px;
+  font-family: "Relationship of Melodrame", "Louis George Cafe", "Inter Tight", sans-serif;
+  color: #f4efe4;
+  font-size: clamp(64px, 8vw, 110px);
+  font-weight: 400;
+  letter-spacing: 0.3px;
   text-align: left;
-  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.62);
+  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.72);
 }
 .category-subtitle {
-  color: rgba(245, 239, 230, 0.95);
-  font-size: 14px;
+  color: rgba(244, 239, 230, 0.96);
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.5;
   max-width: 680px;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.48);
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.62);
 }
-#gallery .gallery-category .category-title {
-  color: #f5efe6;
-  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.62);
-}
-#gallery .gallery-category .category-subtitle {
-  color: rgba(245, 239, 230, 0.95);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.48);
+#gallery .category-title,
+#gallery .category-subtitle {
+  color: rgba(244, 239, 230, 0.96);
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.62);
 }
 .category-expand-label {
   display: inline-flex;
@@ -799,11 +804,12 @@ body.intro-scroll-lock {
   font-size: 12px;
   letter-spacing: 0.3px;
   text-transform: uppercase;
-  background: #fff;
-  color: #191816;
+  background: rgba(30, 24, 19, 0.58);
+  color: #f4efe4;
   padding: 10px 18px;
   border-radius: 999px;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.62);
   transition: transform 0.14s cubic-bezier(0.2, 0.88, 0.28, 1), box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .gallery-category:hover .category-expand-label,
@@ -836,6 +842,7 @@ body.intro-scroll-lock {
   max-width: 760px;
   font-size: 15px;
   color: #4d4438;
+  text-shadow: none;
   line-height: 1.55;
 }
 .masonry-grid {
@@ -856,6 +863,7 @@ body.intro-scroll-lock {
   font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   letter-spacing: 0.1px;
+  text-shadow: none;
 }
 .masonry-item {
   break-inside: avoid;
@@ -901,11 +909,11 @@ body.intro-scroll-lock {
 }
 .design-title {
   font-family: "Inter Tight", sans-serif;
-  color: #f5efe6;
+  color: #f4efe4;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.3px;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.72);
   position: relative;
   z-index: 1;
   text-align: center;
@@ -913,21 +921,22 @@ body.intro-scroll-lock {
   transform: translateY(6px);
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-#gallery .masonry-item .design-title {
-  color: #f5efe6;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.62);
+#gallery .design-title {
+  color: #f4efe4;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.72);
 }
 .design-consult-btn {
   font-family: "Inter Tight", sans-serif;
   font-size: 12px;
-  color: #1b1713;
+  color: #f4efe4;
   text-decoration: none;
-  background: rgba(255, 255, 255, 0.96);
+  background: rgba(22, 17, 13, 0.66);
   border-radius: 999px;
   padding: 12px 26px;
   letter-spacing: 0.18px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(244, 239, 230, 0.55);
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.64);
   position: relative;
   z-index: 1;
   opacity: 0;
@@ -944,7 +953,7 @@ body.intro-scroll-lock {
   transform: translateY(0);
 }
 .design-consult-btn:hover {
-  background: #fff;
+  background: rgba(28, 22, 17, 0.82);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
 }
 .masonry-item:hover {
@@ -1068,9 +1077,10 @@ body.intro-scroll-lock {
   pointer-events: auto;
 }
 .about-heading {
-  font-family: "Inter Tight", sans-serif;
+  font-family: "RelationshipDisplay", serif !important;
+  font-synthesis: none;
   font-size: clamp(102px, 12.2vw, 178px);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.01em;
   line-height: 0.82;
   color: #f4eee4;
@@ -1080,6 +1090,8 @@ body.intro-scroll-lock {
   margin-bottom: 10px;
 }
 #about.about-selected .about-heading {
+  font-family: "RelationshipDisplay", serif !important;
+  font-synthesis: none;
   transform: translateY(-6px) scale(0.64);
   text-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
@@ -1255,11 +1267,23 @@ body.intro-scroll-lock {
 }
 .contact-title-composed {
   margin: 0;
+  text-align: center;
+}
+.contact-title-desktop {
   display: grid;
   gap: clamp(4px, 0.8vw, 12px);
   justify-items: center;
-  text-align: center;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+.contact-title-mobile {
+  display: none;
+  font-family: "Relationship of Melodrame";
+  font-size: clamp(72px, 10vw, 132px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
 }
 .contact-title-row {
   display: flex;
@@ -1376,12 +1400,12 @@ body.intro-scroll-lock {
 .contact-card:first-child {
   margin-left: 0;
 }
-.contact-card:nth-child(1) { --mobile-stack-x: 108%; --mobile-stack-y: 70%; --enter-delay: 0ms; }
-.contact-card:nth-child(2) { --mobile-stack-x: 0%; --mobile-stack-y: 70%; --enter-delay: 140ms; }
-.contact-card:nth-child(3) { --mobile-stack-x: -108%; --mobile-stack-y: 70%; --enter-delay: 280ms; }
-.contact-card:nth-child(4) { --mobile-stack-x: 108%; --mobile-stack-y: -70%; --enter-delay: 420ms; }
-.contact-card:nth-child(5) { --mobile-stack-x: 0%; --mobile-stack-y: -70%; --enter-delay: 560ms; }
-.contact-card:nth-child(6) { --mobile-stack-x: -108%; --mobile-stack-y: -70%; --enter-delay: 700ms; }
+.contact-card:nth-child(1) { --tilt: -10deg; --lift: -6px; --stack: 2; --card-s: 0.97; }
+.contact-card:nth-child(2) { --tilt: -6deg; --lift: 10px; --stack: 3; --card-s: 1; }
+.contact-card:nth-child(3) { --tilt: -2deg; --lift: -16px; --stack: 5; --card-s: 1.04; }
+.contact-card:nth-child(4) { --tilt: 3deg; --lift: 8px; --stack: 4; --card-s: 0.99; }
+.contact-card:nth-child(5) { --tilt: 8deg; --lift: -4px; --stack: 3; --card-s: 1.02; }
+.contact-card:nth-child(6) { --tilt: 12deg; --lift: 12px; --stack: 2; --card-s: 0.96; }
 .contact-card-media {
   position: relative;
   display: block;
@@ -1624,8 +1648,13 @@ body.intro-scroll-lock {
   .gallery-category { border-radius: 14px; }
   .category-cover { height: clamp(230px, 52vw, 300px); }
   .category-overlay { padding: 18px; }
-  .category-title { font-size: 23px; }
-  .category-subtitle { font-size: 13px; }
+  #gallery .category-title {
+    font-size: clamp(32px, 9.4vw, 46px) !important;
+    font-weight: 400;
+    line-height: 0.92;
+  }
+  .category-subtitle { font-size: 15px; }
+  #gallery .category-subtitle { display: none; }
   .category-panel { padding: 0 16px; }
   .gallery-category.is-open .category-panel { padding: 18px 16px 22px; }
   .collection-heading { font-size: 28px; }
@@ -1637,29 +1666,56 @@ body.intro-scroll-lock {
     perspective: none;
   }
   #home .scene-3d-tilt,
-  #home .layer-depth-bg,
-  #home .layer-depth-fg {
+  #home .layer-depth-bg {
     transform-style: flat;
   }
   #home .layer-depth-fg {
+    transform-style: flat;
     z-index: 4;
+    transform: none !important;
+  }
+  #home .scene-3d-root,
+  #home .scene-3d-tilt,
+  #home .layer-depth-bg,
+  #home .layer-depth-fg {
+    position: absolute;
+    inset: 0;
+  }
+  #home {
+    position: relative;
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
   }
   #home .layer-fg {
+    inset: auto;
     width: 148%;
-    height: 280%;
-    background-size: contain;
+    height: calc(280% - 48%);
     left: 50%;
-    top: 47%;
-    background-position: center 34%;
+    bottom: 0;
+    transform: translateX(-50%) !important;
+    background-size: contain;
+    background-position: center bottom;
   }
   #home .layer-fg .background-image {
     object-fit: contain;
-    object-position: center 32%;
+    object-position: center bottom;
     opacity: 1;
   }
+  #home .layer-fg.is-smudge-ready .background-image {
+    opacity: 1;
+  }
+  #home .layer-fg .smudge-canvas {
+    display: none;
+  }
   #home .layer-bg {
+    inset: 0;
     background-position: center 60%;
-    inset: -24% -24% -60% -24% !important;
+  }
+  #home .home-sky-marquee,
+  #home .home-sky-track,
+  #home .home-sky-track img {
+    height: 100%;
   }
   #contact {
     min-height: 100vh;
@@ -1676,12 +1732,17 @@ body.intro-scroll-lock {
   }
   .about-content-inner {
     width: min(94vw, 620px);
+    align-items: center;
+    text-align: center;
   }
   #about .scene2-strip-bg,
   #about .scene2-strip-fg {
     left: 0;
     width: 124%;
-    transform: none;
+    overflow: hidden;
+  }
+  #about {
+    min-height: 108vh;
   }
   #about .scene2-strip-bg {
     background-position: 57% center;
@@ -1692,10 +1753,6 @@ body.intro-scroll-lock {
   #about .scene2-strip-fg1 .scene2-strip-fg-image,
   #about .scene2-strip-fg2 .scene2-strip-fg-image {
     object-position: 28% center;
-  }
-  .about-content-inner {
-    align-items: center;
-    text-align: center;
   }
   .about-heading {
     align-self: center;
@@ -1769,21 +1826,18 @@ body.intro-scroll-lock {
     --lift: 0px;
     --stack: 1;
     --card-s: 1;
-    --mobile-stack-x: 0px;
-    --mobile-stack-y: 0px;
     transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-    transition: transform 980ms cubic-bezier(0.22, 1, 0.36, 1), opacity 760ms ease, box-shadow 520ms cubic-bezier(0.22, 1, 0.36, 1);
-    transition-delay: var(--enter-delay, 0ms);
+    transition: opacity 520ms ease;
+    transition-delay: 0ms;
   }
-  .contact-card:nth-child(1) { --mobile-stack-x: 108%; --mobile-stack-y: 70%; --enter-delay: 0ms; }
-  .contact-card:nth-child(2) { --mobile-stack-x: 0%; --mobile-stack-y: 70%; --enter-delay: 140ms; }
-  .contact-card:nth-child(3) { --mobile-stack-x: -108%; --mobile-stack-y: 70%; --enter-delay: 280ms; }
-  .contact-card:nth-child(4) { --mobile-stack-x: 108%; --mobile-stack-y: -70%; --enter-delay: 420ms; }
-  .contact-card:nth-child(5) { --mobile-stack-x: 0%; --mobile-stack-y: -70%; --enter-delay: 560ms; }
-  .contact-card:nth-child(6) { --mobile-stack-x: -108%; --mobile-stack-y: -70%; --enter-delay: 700ms; }
-  .contact-card-media {
-    aspect-ratio:  3 / 3;
+  body.mobile-contact-cards-fade-pending #contact .contact-card {
+    opacity: 0;
   }
+  body.mobile-contact-cards-faded #contact .contact-card {
+    opacity: 1;
+  }
+  .contact-card img { height: 100%; }
+  .contact-card-media { aspect-ratio: 3 / 3; }
   .contact-card-media .contact-card-label {
     top: calc(var(--photo-frame) + 3px);
     left: calc(var(--photo-frame) + 3px);
@@ -1831,27 +1885,26 @@ body.intro-scroll-lock {
     transform: translateX(-6px);
   }
   #contact .section-content {
-    padding: calc(env(safe-area-inset-top, 0px) + 82px) 18px 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 156px) 18px 0;
   }
-  .contact-title-composed {
-    gap: 6px;
+  .contact-intro {
+    margin-top: 34px;
   }
-  .contact-title-row {
-    gap: 6px;
-    flex-wrap: nowrap;
+  .contact-title-desktop {
+    display: none;
   }
-  .contact-title-script {
-    font-size: clamp(24px, 6.6vw, 34px);
-    line-height: 0.92;
+  #contact .contact-title-mobile {
+    display: block;
+    font-family: "Relationship of Melodrame";
+    font-size: clamp(56px, 15vw, 90px) !important;
+    line-height: 0.9;
   }
-  .contact-title-strong {
-    font-size: clamp(30px, 7.8vw, 46px);
-    line-height: 0.92;
-  }
-  .contact-slogan {
+  #contact .contact-slogan {
     margin-top: 12px;
-    font-size: 4px;
-    line-height: 1.2;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 12px !important;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
     max-width: min(92vw, 480px);
   }
   .contact-response-note {
@@ -1860,25 +1913,14 @@ body.intro-scroll-lock {
     max-width: min(92vw, 460px);
   }
   section { min-height: 130vh; }
-}
-@media (max-width: 768px) {
-
-  #home {
-    height: 100vh !important;
-    overflow: hidden !important;
   }
-
-  #home img {
-    max-width: 100%;
+@media (min-width: 769px) {
+  #gallery .category-title {
+    font-size: clamp(40px, 4.8vw, 62px) !important;
+    line-height: 0.9;
   }
-
-  #home .foreground,
-  #home .scene1-fg,
-  #home .home-fg {
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0;
-    width: 100%;
+  #gallery .collection-desc {
+    display: none;
   }
 }
 </style>
@@ -2032,7 +2074,7 @@ body.intro-scroll-lock {
   </div>
   <div class="section-content">
     <div class="contact-intro">
-      <h1 class="contact-title-composed">
+      <h1 class="contact-title-composed contact-title-desktop">
         <span class="contact-title-row">
           <span class="contact-title-script">Let&#39;s</span>
           <span class="contact-title-strong">CONNECT</span>
@@ -2042,6 +2084,7 @@ body.intro-scroll-lock {
           <span class="contact-title-strong">MARVELL FLORIST</span>
         </span>
       </h1>
+      <h1 class="contact-title-composed contact-title-mobile">CONTACT US</h1>
       <p class="contact-slogan">Hubungi kami untuk konsultasi dan pemesanan rangkaian bunga.</p>
     </div>
   </div>
@@ -2115,6 +2158,7 @@ const contactSectionElement = document.getElementById("contact");
 const contactBgImageElement = contactSectionElement ? contactSectionElement.querySelector(".layer-bg .background-image") : null;
 const contactSocialsElement = contactSectionElement ? contactSectionElement.querySelector(".contact-socials") : null;
 const contactIntroElement = contactSectionElement ? contactSectionElement.querySelector(".contact-intro") : null;
+const gallerySectionElement = document.getElementById("gallery");
 let mobileContactCardsRevealed = false;
 
 function renderEditionsPanel() {
@@ -2336,14 +2380,20 @@ function initializeMobileContactCardEntrance() {
   if (!(contactSectionElement instanceof HTMLElement)) return;
   const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
   if (!isMobileViewport) {
-    document.body.classList.remove("mobile-contact-cards-stacked");
+    document.body.classList.remove("mobile-contact-cards-stacked", "mobile-contact-cards-fade-pending", "mobile-contact-cards-faded");
     return;
   }
-  if (mobileContactCardsRevealed) return;
-  document.body.classList.add("mobile-contact-cards-stacked");
+  if (mobileContactCardsRevealed) {
+    document.body.classList.remove("mobile-contact-cards-fade-pending", "mobile-contact-cards-stacked");
+    document.body.classList.add("mobile-contact-cards-faded");
+    return;
+  }
+  document.body.classList.add("mobile-contact-cards-fade-pending");
+  document.body.classList.remove("mobile-contact-cards-faded", "mobile-contact-cards-stacked");
 
   if (typeof IntersectionObserver !== "function") {
-    document.body.classList.remove("mobile-contact-cards-stacked");
+    document.body.classList.remove("mobile-contact-cards-fade-pending", "mobile-contact-cards-stacked");
+    document.body.classList.add("mobile-contact-cards-faded");
     mobileContactCardsRevealed = true;
     return;
   }
@@ -2352,7 +2402,8 @@ function initializeMobileContactCardEntrance() {
     const shouldReveal = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.24);
     if (!shouldReveal) return;
     mobileContactCardsRevealed = true;
-    document.body.classList.remove("mobile-contact-cards-stacked");
+    document.body.classList.remove("mobile-contact-cards-fade-pending", "mobile-contact-cards-stacked");
+    document.body.classList.add("mobile-contact-cards-faded");
     obs.disconnect();
   }, {
     threshold: [0, 0.24, 0.45],
@@ -2419,6 +2470,13 @@ function isPowerOfTwo(value) {
 
 function initializeSmudgeEngine(wrapperElement) {
   if (!hasFinePointer || !(wrapperElement instanceof HTMLElement)) return null;
+  if (
+    window.matchMedia("(max-width: 768px)").matches &&
+    wrapperElement.classList.contains("layer-fg") &&
+    wrapperElement.closest("#home")
+  ) {
+    return null;
+  }
   const canvas = wrapperElement.querySelector(".smudge-canvas");
   const image = wrapperElement.querySelector(".background-image");
   if (!(canvas instanceof HTMLCanvasElement) || !(image instanceof HTMLImageElement)) return null;
@@ -2941,7 +2999,7 @@ function renderGalleryFromData(data) {
               <div class="design-overlay">
                 <p class="design-title">${safeName}</p>
                 <p class="design-title">${safePrice}</p>
-                <a class="design-consult-btn" href="${consultHref}" target="_blank" rel="noopener noreferrer">Consult This Product on WhatsApp</a>
+                <a class="design-consult-btn" href="${consultHref}" target="_blank" rel="noopener noreferrer">Consult This Product</a>
               </div>
             </div>
         `;
@@ -2972,7 +3030,7 @@ function renderGalleryFromData(data) {
             ${masonry}
           </div>
           <div class="category-consult-wrap">
-            <a class="category-consult-btn" href="${collectionConsult}" target="_blank" rel="noopener noreferrer">Consult This Collection on WhatsApp</a>
+            <a class="category-consult-btn" href="${collectionConsult}" target="_blank" rel="noopener noreferrer">Consult This Collection</a>
           </div>
         </div>
       </article>
@@ -3448,10 +3506,13 @@ function animate() {
 
     if (section.id === "home" && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
-      bgTarget = progress * (isMobile ? -72 : -128);
-      fgRange = isMobile
-        ? Math.max(0, Math.min(56, maxSafeTravel * 0.24))
-        : clamp(maxSafeTravel, 280, 760);
+      if (isMobile) {
+        bgTarget = 0;
+        fgRange = 0;
+      } else {
+        bgTarget = progress * -128;
+        fgRange = clamp(maxSafeTravel, 280, 760);
+      }
     } else if (isMobile && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
       const desiredRange = 48;
@@ -3484,6 +3545,8 @@ function animate() {
       bg.style.removeProperty("filter");
       if (section.id === "about") {
         bg.style.transform = "none";
+      } else if (section.id === "home" && isMobile) {
+        bg.style.transform = "none";
       } else if (isContact) {
         const bgScale = isMobile ? 1.035 : 1.045;
         bg.style.transform = `translateY(${current.bg}px) scale(${bgScale})`;
@@ -3495,8 +3558,8 @@ function animate() {
     }
 
     if (fg) {
-      if (isContact) {
-        fg.style.transform = "none";
+      if (isContact || (section.id === "home" && isMobile)) {
+        fg.style.transform = section.id === "home" ? "translateX(-50%)" : "none";
       } else {
         const baseFgOffset = isMobile
           ? (section.id === "home" ? -33 : (section.id === "about" ? -24 : -37))
@@ -3512,14 +3575,18 @@ function animate() {
         homeSceneTiltElement.style.transform = `translateZ(0px) rotateX(${tiltRotateX.toFixed(3)}deg) rotateY(${tiltRotateY.toFixed(3)}deg)`;
       }
       if (homeDepthBgElement) {
-        const depthBgX = current.mouseX * 1.14;
-        const depthBgY = current.mouseY * 0.98;
-        const depthBgRotateY = clamp(current.mouseX * 0.052, -2.6, 2.6);
-        const depthBgRotateX = clamp(current.mouseY * -0.046, -2.1, 2.1);
-        homeDepthBgElement.style.transform = `translate3d(${depthBgX.toFixed(2)}px, ${depthBgY.toFixed(2)}px, -50px) rotateX(${depthBgRotateX.toFixed(3)}deg) rotateY(${depthBgRotateY.toFixed(3)}deg)`;
+        if (isMobile) {
+          homeDepthBgElement.style.transform = "none";
+        } else {
+          const depthBgX = current.mouseX * 1.14;
+          const depthBgY = current.mouseY * 0.98;
+          const depthBgRotateY = clamp(current.mouseX * 0.052, -2.6, 2.6);
+          const depthBgRotateX = clamp(current.mouseY * -0.046, -2.1, 2.1);
+          homeDepthBgElement.style.transform = `translate3d(${depthBgX.toFixed(2)}px, ${depthBgY.toFixed(2)}px, -50px) rotateX(${depthBgRotateX.toFixed(3)}deg) rotateY(${depthBgRotateY.toFixed(3)}deg)`;
+        }
       }
       if (homeDepthFgElement) {
-        homeDepthFgElement.style.transform = "translate3d(0px, 0px, 50px)";
+        homeDepthFgElement.style.transform = isMobile ? "none" : "translate3d(0px, 0px, 50px)";
       }
       if (homeParticlesElement) {
         const particleX = current.mouseX * 0.32;
@@ -3536,6 +3603,16 @@ function animate() {
       }
     }
   });
+
+  if (gallerySectionElement) {
+    const rect = gallerySectionElement.getBoundingClientRect();
+    const viewportHeight = Math.max(window.innerHeight || 0, 1);
+    const travel = rect.height + viewportHeight;
+    const progress = clamp((viewportHeight - rect.top) / Math.max(travel, 1), 0, 1);
+    const shiftRange = isMobile ? 26 : 54;
+    const bgShift = (progress - 0.5) * shiftRange;
+    gallerySectionElement.style.setProperty("--gallery-bg-shift", `${bgShift.toFixed(2)}px`);
+  }
 
   if (cursorHalo) {
     const haloIsIdle = Date.now() - lastCursorMoveAt > haloIdleDelayMs;

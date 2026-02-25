@@ -121,7 +121,7 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("assets/scene3.jpg") center / cover no-repeat fixed;
+  background: url("assets/scene3.png") center / cover no-repeat fixed;
   filter: saturate(0.92) contrast(0.94) blur(0.6px);
   transform: scale(1.01);
   z-index: 0;
