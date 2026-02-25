@@ -4,23 +4,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marvell Florist</title>
+<link rel="icon" href="assets/logoo.png?v=3" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/logoo.png?v=3" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/logoo.png?v=3">
+<link rel="shortcut icon" href="assets/logoo.png?v=3" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --theme-body-bg: linear-gradient(180deg, #f5efe6 0%, #f2eadf 100%);
+  --theme-body-text: #ffffff;
+  --theme-header-bar-bg: #f5efe6;
+  --theme-header-bar-border: rgba(157, 133, 101, 0.24);
+  --theme-rail-text: rgba(245, 240, 232, 0.9);
+  --theme-rail-bg: rgba(18, 16, 23, 0.62);
+  --theme-rail-border: rgba(255, 255, 255, 0.14);
+  --theme-rail-shadow: 0 10px 16px rgba(10, 7, 14, 0.22);
+  --theme-rail-hover-text: #f8f3ea;
+  --theme-rail-hover-bg: rgba(27, 24, 34, 0.74);
+  --theme-rail-hover-border: rgba(255, 255, 255, 0.2);
+  --theme-rail-hover-shadow: 0 12px 18px rgba(10, 7, 14, 0.26);
+  --theme-rail-active-text: #1f1a15;
+  --theme-rail-active-bg: rgba(245, 238, 227, 0.95);
+  --theme-rail-active-border: rgba(196, 174, 143, 0.5);
+  --theme-rail-active-shadow: 0 10px 18px rgba(23, 18, 15, 0.2);
+  --theme-focus-outline: rgba(244, 238, 228, 0.92);
+  --theme-editions-text: #2a2118;
+  --theme-editions-hover: #1a130d;
+  --theme-editions-panel-bg: rgba(245, 240, 232, 0.96);
+  --theme-editions-panel-border: rgba(157, 133, 101, 0.34);
+  --theme-editions-panel-shadow: 0 14px 28px rgba(24, 18, 13, 0.18);
+  --theme-edition-option-text: #2a2118;
+  --theme-edition-option-hover-bg: rgba(231, 220, 204, 0.64);
+  --theme-edition-option-active-bg: rgba(218, 202, 179, 0.72);
+  --theme-edition-option-disabled: rgba(83, 67, 47, 0.5);
+  --theme-pinned-stroke: rgba(43, 34, 24, 0.62);
+}
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
   background: #0b0908;
   overscroll-behavior-y: none;
 }
 body {
   font-family: "Fraunces", serif;
-  background: linear-gradient(180deg, #f5efe6 0%, #f2eadf 100%);
-  color: #fff;
+  background: var(--theme-body-bg);
+  color: var(--theme-body-text);
   overflow-x: hidden;
   overscroll-behavior-y: none;
+}
+body.edition-i {
+  --theme-body-bg: linear-gradient(180deg, #f5efe6 0%, #f2eadf 100%);
+  --theme-body-text: #ffffff;
+  --theme-header-bar-bg: #f5efe6;
+  --theme-header-bar-border: rgba(157, 133, 101, 0.24);
+  --theme-rail-text: rgba(245, 240, 232, 0.9);
+  --theme-rail-bg: rgba(18, 16, 23, 0.62);
+  --theme-rail-border: rgba(255, 255, 255, 0.14);
+  --theme-rail-shadow: 0 10px 16px rgba(10, 7, 14, 0.22);
+  --theme-rail-hover-text: #f8f3ea;
+  --theme-rail-hover-bg: rgba(27, 24, 34, 0.74);
+  --theme-rail-hover-border: rgba(255, 255, 255, 0.2);
+  --theme-rail-hover-shadow: 0 12px 18px rgba(10, 7, 14, 0.26);
+  --theme-rail-active-text: #1f1a15;
+  --theme-rail-active-bg: rgba(245, 238, 227, 0.95);
+  --theme-rail-active-border: rgba(196, 174, 143, 0.5);
+  --theme-rail-active-shadow: 0 10px 18px rgba(23, 18, 15, 0.2);
+  --theme-focus-outline: rgba(244, 238, 228, 0.92);
+  --theme-editions-text: #2a2118;
+  --theme-editions-hover: #1a130d;
+  --theme-editions-panel-bg: rgba(245, 240, 232, 0.96);
+  --theme-editions-panel-border: rgba(157, 133, 101, 0.34);
+  --theme-editions-panel-shadow: 0 14px 28px rgba(24, 18, 13, 0.18);
+  --theme-edition-option-text: #2a2118;
+  --theme-edition-option-hover-bg: rgba(231, 220, 204, 0.64);
+  --theme-edition-option-active-bg: rgba(218, 202, 179, 0.72);
+  --theme-edition-option-disabled: rgba(83, 67, 47, 0.5);
+  --theme-pinned-stroke: rgba(43, 34, 24, 0.62);
+}
+body.edition-ii {
+  --theme-body-bg: linear-gradient(180deg, #e8edf3 0%, #dde5ee 100%);
+  --theme-body-text: #ffffff;
+  --theme-header-bar-bg: #edf2f7;
+  --theme-header-bar-border: rgba(114, 130, 152, 0.3);
+  --theme-rail-text: rgba(238, 244, 252, 0.92);
+  --theme-rail-bg: rgba(24, 33, 48, 0.65);
+  --theme-rail-border: rgba(225, 234, 247, 0.2);
+  --theme-rail-shadow: 0 10px 16px rgba(10, 17, 28, 0.24);
+  --theme-rail-hover-text: #f5f9ff;
+  --theme-rail-hover-bg: rgba(33, 44, 62, 0.78);
+  --theme-rail-hover-border: rgba(225, 234, 247, 0.28);
+  --theme-rail-hover-shadow: 0 12px 18px rgba(10, 17, 28, 0.28);
+  --theme-rail-active-text: #1e2b3f;
+  --theme-rail-active-bg: rgba(242, 247, 255, 0.95);
+  --theme-rail-active-border: rgba(126, 143, 168, 0.52);
+  --theme-rail-active-shadow: 0 10px 18px rgba(24, 34, 48, 0.2);
+  --theme-focus-outline: rgba(222, 232, 247, 0.9);
+  --theme-editions-text: #1f2e43;
+  --theme-editions-hover: #0f1a2a;
+  --theme-editions-panel-bg: rgba(236, 243, 252, 0.96);
+  --theme-editions-panel-border: rgba(114, 130, 152, 0.42);
+  --theme-editions-panel-shadow: 0 14px 28px rgba(14, 22, 35, 0.2);
+  --theme-edition-option-text: #1f2e43;
+  --theme-edition-option-hover-bg: rgba(208, 222, 240, 0.66);
+  --theme-edition-option-active-bg: rgba(187, 206, 230, 0.74);
+  --theme-edition-option-disabled: rgba(52, 72, 98, 0.5);
+  --theme-pinned-stroke: rgba(31, 47, 69, 0.7);
 }
 body.gallery-open section:not(#gallery) {
   filter: saturate(0.9) brightness(0.95) blur(0.8px);
@@ -35,29 +125,275 @@ h1, h2, h3, h4, h5, h6 {
 header {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
-  padding: 24px 48px;
+  padding: 14px 24px;
+  height: 72px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0;
   z-index: 50;
 }
-header img { height: 36px; }
-nav a {
-  font-family: "Inter Tight", sans-serif;
-  margin-left: 28px;
-  font-size: 13px;
-  letter-spacing: 0.4px;
-  color: #fff;
-  text-decoration: none;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+header::before,
+header::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 72px;
+  border-radius: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.32s ease;
 }
-
+header::before {
+  z-index: 40;
+  background: var(--theme-header-bar-bg);
+  border: 0;
+  border-bottom: 1px solid var(--theme-header-bar-border);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+header::after {
+  display: none;
+}
+body.home-title-pinned header::before {
+  opacity: 1;
+}
+header img { height: 36px; }
+header > a[aria-label="Go to home page"] {
+  position: fixed;
+  left: 22px;
+  top: 18px;
+  z-index: 46;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.section-rail {
+  position: fixed;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  margin-left: 0;
+  z-index: 48;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.24s ease;
+}
+.section-rail a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: "Inter Tight", sans-serif;
+  margin-left: 0;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  text-transform: none;
+  color: var(--theme-rail-text);
+  text-decoration: none;
+  text-shadow: none;
+  border: 1px solid var(--theme-rail-border);
+  background: var(--theme-rail-bg);
+  box-shadow: var(--theme-rail-shadow);
+  transition: color 240ms ease, background 240ms ease, border-color 240ms ease, transform 240ms ease, box-shadow 240ms ease;
+}
+.nav-label {
+  position: relative;
+  z-index: 1;
+}
+.section-rail a:hover,
+.section-rail a:focus-visible {
+  color: var(--theme-rail-hover-text);
+  background: var(--theme-rail-hover-bg);
+  border-color: var(--theme-rail-hover-border);
+  transform: translateX(2px);
+  box-shadow: var(--theme-rail-hover-shadow);
+}
+.section-rail a:hover .nav-label,
+.section-rail a:focus-visible .nav-label {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.section-rail a.is-active {
+  color: var(--theme-rail-active-text);
+  letter-spacing: 0.08em;
+  font-weight: 620;
+  background: var(--theme-rail-active-bg);
+  border-color: var(--theme-rail-active-border);
+  box-shadow: var(--theme-rail-active-shadow);
+}
+.nav-indicator {
+  display: none;
+}
+header a:focus-visible,
+.section-rail a:focus-visible {
+  outline: 2px solid var(--theme-focus-outline);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+.editions-menu {
+  position: fixed;
+  right: 48px;
+  top: 28px;
+  z-index: 48;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+.editions-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0;
+  border-radius: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--theme-editions-text);
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  cursor: pointer;
+  transition: color 220ms ease, transform 220ms ease;
+}
+.editions-cta::after {
+  content: "";
+  width: 12px;
+  height: 8px;
+  display: inline-block;
+  background:
+    linear-gradient(45deg, transparent 45%, currentColor 46%, currentColor 54%, transparent 55%) left center / 50% 100% no-repeat,
+    linear-gradient(-45deg, transparent 45%, currentColor 46%, currentColor 54%, transparent 55%) right center / 50% 100% no-repeat;
+  transform: translateY(-1px);
+  transition: transform 200ms ease;
+}
+.editions-menu.is-open .editions-cta::after {
+  transform: translateY(-1px) rotate(180deg);
+}
+.editions-cta:hover,
+.editions-cta:focus-visible {
+  color: var(--theme-editions-hover);
+  transform: translateY(-1px);
+}
+.editions-cta:focus-visible {
+  outline: 2px solid var(--theme-focus-outline);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.editions-panel {
+  width: min(82vw, 340px);
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--theme-editions-panel-border);
+  background: var(--theme-editions-panel-bg);
+  box-shadow: var(--theme-editions-panel-shadow);
+  display: grid;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.985);
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+.editions-menu.is-open .editions-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.edition-option {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--theme-edition-option-text);
+  font: inherit;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  text-align: left;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 200ms ease, color 200ms ease;
+}
+.edition-option:hover,
+.edition-option:focus-visible {
+  background: var(--theme-edition-option-hover-bg);
+}
+.edition-option.is-active {
+  background: var(--theme-edition-option-active-bg);
+  font-weight: 620;
+}
+.edition-option[disabled] {
+  color: var(--theme-edition-option-disabled);
+  cursor: not-allowed;
+}
+.brand-pinned-title {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px) scale(0.96);
+  z-index: 52;
+  font-family: "Imperial Script", cursive;
+  font-size: clamp(24px, 2.8vw, 38px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.96;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.8px var(--theme-pinned-stroke);
+  text-shadow: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+  display: block;
+}
+body.home-title-pinned .brand-pinned-title {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+body.home-title-pinned header > a[aria-label="Go to home page"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+body.home-title-pinned .editions-menu {
+  opacity: 1;
+  pointer-events: auto;
+}
 section {
   position: relative;
   min-height: 160vh;
   overflow: hidden;
-  scroll-snap-align: start;
+  --section-reveal: 0;
+  z-index: 1;
+}
+#home::after {
+  content: none;
 }
 
 .section-content {
@@ -76,6 +412,32 @@ section {
   margin-bottom: 14px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
+#home .section-content h1 {
+  font-family: "Imperial Script", cursive;
+  font-size: clamp(88px, 13vw, 214px);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: 0;
+  margin-bottom: 6px;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+body.text-reveal-anim #home .section-content h1 {
+  transition: opacity 1s ease !important;
+}
+body.text-reveal-anim #home .section-content p {
+  transition: opacity 3s ease !important;
+}
+body.text-reveal-pending #home .section-content p {
+  opacity: 0 !important;
+}
+body.text-reveal-pending #home .section-content h1 {
+  opacity: 1 !important;
+}
+html.intro-scroll-lock,
+body.intro-scroll-lock {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 .section-content p {
   font-size: 18px;
   line-height: 1.65;
@@ -83,10 +445,54 @@ section {
 
 .layer-bg {
   position: absolute;
-  inset: -30%;
-  background-size: cover;
-  background-position: center;
+  inset: -36%;
+  overflow: hidden;
+  isolation: isolate;
   will-change: transform;
+}
+.layer-bg::after {
+  content: none;
+}
+.smudge-wrapper {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+.smudge-wrapper .smudge-canvas,
+.smudge-wrapper .background-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  object-fit: cover;
+  object-position: center;
+}
+.smudge-wrapper .smudge-canvas {
+  z-index: 1;
+}
+.smudge-wrapper .background-image {
+  z-index: 0;
+}
+.smudge-wrapper.is-smudge-ready .background-image {
+  opacity: 0;
+}
+#cursor-halo {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transform: translate3d(-999px, -999px, 0);
+  background: radial-gradient(circle, rgba(255, 251, 240, 0.42) 0%, rgba(255, 246, 224, 0.24) 38%, rgba(255, 246, 224, 0.08) 58%, rgba(255, 246, 224, 0) 76%);
+  border: 0;
+  box-shadow: none;
+  mix-blend-mode: normal;
+  transition: opacity 0.16s linear;
 }
 .layer-fg {
   position: absolute;
@@ -102,13 +508,114 @@ section {
   pointer-events: none;
 }
 
-#home .layer-bg { background-image: url("assets/scene1-bg.png"); }
 #home .layer-fg {
-  background-image: url("assets/scene1-fg.png");
-  top: 52%;
-  background-position: center top;
+  top: 42%;
   width: 160%;
   height: 300%;
+}
+#home .layer-depth-bg .layer-bg {
+  filter: none;
+}
+#home .scene-3d-root {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+#home .scene-3d-tilt {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+#home .layer-depth-bg,
+#home .layer-depth-fg {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+#home .layer-depth-bg { z-index: 1; }
+#home .layer-depth-fg { z-index: 2; }
+#home .ambient-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 3;
+  pointer-events: none;
+  transform: translateZ(120px);
+}
+#home .ambient-particles span {
+  position: absolute;
+  left: var(--x, 50%);
+  bottom: -14vh;
+  width: var(--size, 3px);
+  height: var(--size, 3px);
+  border-radius: 50%;
+  background: rgba(255, 248, 234, var(--alpha, 0.2));
+  filter: blur(0.35px);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: homeDustFloat var(--dur, 42s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+#home .home-sky-marquee {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: scale(1.12);
+  transform-origin: center center;
+  will-change: transform;
+}
+#home .home-sky-track {
+  display: flex;
+  width: 7680px;
+  height: 100%;
+  will-change: transform;
+  animation: homeSkyLoop 420s linear infinite;
+}
+#home .home-sky-track img {
+  width: auto;
+  height: 100%;
+  flex: 0 0 auto;
+  display: block;
+}
+#home .layer-fg .background-image {
+  object-fit: contain;
+  object-position: center top;
+}
+@keyframes homeSkyLoop {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-3840px, 0, 0);
+  }
+}
+@keyframes homeDustFloat {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--alpha, 0.2);
+  }
+  28% {
+    transform: translate3d(calc(var(--sway, 18px) * 0.45), -28vh, 0);
+  }
+  52% {
+    transform: translate3d(calc(var(--sway, 18px) * -0.55), -58vh, 0);
+  }
+  76% {
+    transform: translate3d(calc(var(--sway, 18px) * 0.5), -88vh, 0);
+  }
+  100% {
+    transform: translate3d(0, -122vh, 0);
+    opacity: 0;
+  }
 }
 
 #gallery {
@@ -127,11 +634,7 @@ section {
   z-index: 0;
 }
 #gallery::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(247, 241, 231, 0.18);
-  z-index: 1;
+  content: none;
 }
 #gallery .section-content {
   position: relative;
@@ -157,19 +660,59 @@ section {
   display: grid;
   gap: 24px;
 }
+.gallery-reveal-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.gallery-reveal-item.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+#about .about-bio h3.gallery-reveal-item,
+#about .about-bio p.gallery-reveal-item {
+  transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#gallery .gallery-reveal-item {
+  opacity: 0 !important;
+}
+#gallery .gallery-reveal-item.is-revealed {
+  opacity: 1 !important;
+}
+.gallery-category.gallery-reveal-item,
+.category-toggle.gallery-reveal-item,
+.category-expand-label.gallery-reveal-item {
+  transform: none;
+}
+.gallery-category.gallery-reveal-item.is-revealed,
+.category-toggle.gallery-reveal-item.is-revealed,
+.category-expand-label.gallery-reveal-item.is-revealed {
+  transform: none;
+}
+#home .section-content {
+  opacity: calc(0.22 + (var(--section-reveal, 0) * 0.78));
+  transition: opacity 0.2s linear;
+}
+#about .section-content {
+  opacity: calc(0.22 + (var(--section-reveal, 0) * 0.78));
+  filter: blur(calc((1 - var(--section-reveal, 0)) * 1.2px));
+  transition: opacity 0.2s linear, filter 0.2s linear;
+}
 .gallery-category {
   position: relative;
   border-radius: 18px;
   overflow: hidden;
   background: rgba(246, 238, 225, 0.54);
   border: 1px solid rgba(71, 60, 45, 0.12);
-  box-shadow: 0 16px 34px rgba(45, 34, 24, 0.12);
+  box-shadow: 0 16px 34px rgba(45, 34, 24, 0.12), 0 0 0 1px rgba(191, 163, 128, 0.24), 0 0 20px rgba(191, 163, 128, 0.14);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   transition: box-shadow 0.36s ease;
 }
 .gallery-category.is-open {
-  box-shadow: 0 18px 36px rgba(45, 34, 24, 0.14);
+  box-shadow: 0 18px 36px rgba(45, 34, 24, 0.14), 0 0 0 1px rgba(191, 163, 128, 0.3), 0 0 24px rgba(191, 163, 128, 0.18);
 }
 .category-toggle {
   width: 100%;
@@ -196,6 +739,11 @@ section {
   height: 100%;
   object-fit: cover;
   object-position: 50% 40%;
+  opacity: 1;
+  transition: opacity 0.28s ease;
+}
+.category-cover img.is-fading {
+  opacity: 0.42;
 }
 .category-cover::after {
   content: "";
@@ -222,17 +770,26 @@ section {
 }
 .category-title {
   font-family: "Inter Tight", sans-serif;
-  color: #fff;
+  color: #f5efe6;
   font-size: 28px;
   letter-spacing: 0.2px;
   text-align: left;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.62);
 }
 .category-subtitle {
-  color: rgba(255, 255, 255, 0.93);
+  color: rgba(245, 239, 230, 0.95);
   font-size: 14px;
   line-height: 1.5;
   max-width: 680px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.48);
+}
+#gallery .gallery-category .category-title {
+  color: #f5efe6;
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.62);
+}
+#gallery .gallery-category .category-subtitle {
+  color: rgba(245, 239, 230, 0.95);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.48);
 }
 .category-expand-label {
   display: inline-flex;
@@ -286,6 +843,20 @@ section {
   column-count: 2;
   column-gap: 34px;
 }
+.collection-placeholder {
+  break-inside: avoid;
+  column-span: all;
+  margin-bottom: 10px;
+  padding: 24px 22px;
+  border-radius: 14px;
+  border: 1px dashed rgba(72, 59, 45, 0.34);
+  background: rgba(245, 238, 227, 0.75);
+  box-shadow: 0 0 0 1px rgba(191, 163, 128, 0.2), 0 0 18px rgba(191, 163, 128, 0.12);
+  color: #4d4438;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.1px;
+}
 .masonry-item {
   break-inside: avoid;
   position: relative;
@@ -293,8 +864,13 @@ section {
   border-radius: 18px;
   overflow: hidden;
   background: #1e1e1e;
-  box-shadow: 0 16px 34px rgba(30, 24, 18, 0.2);
+  box-shadow: 0 16px 34px rgba(30, 24, 18, 0.2), 0 0 0 1px rgba(191, 163, 128, 0.22), 0 0 18px rgba(191, 163, 128, 0.12);
   transition: transform 0.16s cubic-bezier(0.2, 0.88, 0.28, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.category-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(62, 46, 34, 0.55), rgba(38, 30, 22, 0.6));
 }
 .masonry-item img {
   width: 100%;
@@ -325,7 +901,7 @@ section {
 }
 .design-title {
   font-family: "Inter Tight", sans-serif;
-  color: #fff;
+  color: #f5efe6;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.3px;
@@ -336,6 +912,10 @@ section {
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#gallery .masonry-item .design-title {
+  color: #f5efe6;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.62);
 }
 .design-consult-btn {
   font-family: "Inter Tight", sans-serif;
@@ -369,7 +949,7 @@ section {
 }
 .masonry-item:hover {
   transform: translateY(-1px) scale(1.008);
-  box-shadow: 0 18px 32px rgba(17, 12, 8, 0.2);
+  box-shadow: 0 18px 32px rgba(17, 12, 8, 0.2), 0 0 0 1px rgba(191, 163, 128, 0.28), 0 0 22px rgba(191, 163, 128, 0.16);
 }
 .category-consult-wrap {
   margin-top: 16px;
@@ -428,18 +1008,184 @@ section {
   transform: translateY(0);
 }
 
-#about .layer-bg { background-image: url("assets/scene2-bg.png"); }
-#about .layer-fg {
-  background-image: url("assets/scene2-fg.png");
-  width: 175%;
-  height: 300%;
-  background-position: center;
+#about {
+  isolation: isolate;
+}
+#about .scene2-strip-bg {
+  background-image: url("assets/scene2-bg.png");
+}
+#about .scene2-strip-bg,
+#about .scene2-strip-fg {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  transform-origin: center;
+  transform: none;
+}
+#about .scene2-strip-bg {
+  z-index: 1;
+  pointer-events: none;
+}
+#about .scene2-strip-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+#about .scene2-strip-fg {
+  pointer-events: none;
+  overflow: hidden;
+}
+#about .section-content {
+  display: grid;
+  place-items: center;
+  z-index: 6;
+  top: 50vh;
+  transform: translateY(-50%);
+  transition: top 0.56s ease-in-out, transform 0.56s ease-in-out;
+  pointer-events: none;
+}
+#about.about-selected .section-content {
+  top: 50vh;
+  transform: translateY(-50%);
+}
+.about-content-inner {
+  width: min(900px, 90vw);
+  min-height: 38vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+  pointer-events: auto;
+}
+.about-heading {
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(102px, 12.2vw, 178px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 0.82;
+  color: #f4eee4;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+  transform-origin: center top;
+  transition: transform 0.56s ease-in-out, text-shadow 0.56s ease-in-out;
+  margin-bottom: 10px;
+}
+#about.about-selected .about-heading {
+  transform: translateY(-6px) scale(0.64);
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.about-slogan {
+  margin: 0;
+  max-width: 700px;
+  font-family: "Fraunces", serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #efe7dc;
+  opacity: 0.9;
+  text-shadow: none;
+  text-align: right;
+  transition: opacity 0.42s ease-in-out, transform 0.42s ease-in-out;
+}
+.about-slogan-highlight {
+  background: transparent;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0;
+}
+#about.about-selected .about-slogan {
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+.about-bio-panel {
+  margin-top: 18px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+#about.about-selected .about-bio-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-bio {
+  display: none;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: rgba(25, 20, 16, 0.38);
+  border: 1px solid rgba(244, 238, 228, 0.2);
+  box-shadow: 0 0 0 1px rgba(191, 163, 128, 0.24), 0 0 18px rgba(191, 163, 128, 0.14);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+}
+.about-bio.is-active {
+  display: block;
+}
+.about-bio h3 {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #f4eee4;
+}
+.about-bio p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.75;
+  color: rgba(244, 238, 228, 0.94);
+}
+#about .scene2-strip-fg1 { z-index: 2; }
+#about .scene2-strip-fg2 { z-index: 3; }
+#about .scene2-strip-fg3 { z-index: 4; }
+#about .scene2-strip-fg-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  cursor: default;
+  transform: translateY(0) scale(1.02);
+  transform-origin: center;
+  filter: brightness(1) sepia(0) saturate(1.12);
+  opacity: 0.9;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.4s ease;
+}
+#about .scene2-strip-fg1 .scene2-strip-fg-image,
+#about .scene2-strip-fg2 .scene2-strip-fg-image {
+  object-position: 42% center;
+}
+#about .scene2-strip-fg3 .scene2-strip-fg-image {
+  object-position: center 58%;
+}
+#about .scene2-strip-fg-image:focus-visible {
+  outline: 2px solid rgba(244, 238, 228, 0.75);
+  outline-offset: -2px;
+}
+#about .scene2-strip-fg-image.is-pixel-hover,
+#about .scene2-strip-fg-image:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  filter: brightness(0.9);
+}
+#about.about-selected .scene2-strip-fg-image {
+  opacity: 0.45;
+}
+#about.about-selected .scene2-strip-fg-image.is-active {
+  opacity: 1;
 }
 
 #contact {
   position: relative;
-  height: 220vh;
-  min-height: 220vh;
+  isolation: isolate;
   background: transparent;
   color: #fff;
 }
@@ -447,46 +1193,20 @@ section {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  z-index: 0;
 }
-#contact .layer-bg {
-  background-image: url("assets/scene4-bg.PNG");
-  z-index: 1;
-}
-#contact .layer-fg-curtain,
-#contact .layer-fg1 {
-  background-image: url("assets/scene4-fg1.PNG");
-  z-index: 4;
-}
-#contact .layer-fg-people,
-#contact .layer-fg2 {
-  background-image: url("assets/scene4-fg2.PNG");
-  z-index: 3;
-}
-#contact .scene4FG2::after {
-  content: "";
+#contact .contact-grid-layer {
   position: absolute;
-  left: 50%;
-  bottom: 4%;
-  width: 52%;
-  height: 12%;
-  transform: translateX(-50%);
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0.72) 0%,
-    rgba(0, 0, 0, 0.38) 42%,
-    rgba(0, 0, 0, 0.12) 66%,
-    rgba(0, 0, 0, 0) 82%
-  );
-  filter: blur(14px);
-  opacity: 1;
-  z-index: 2;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0 5vw 31vh;
   pointer-events: none;
 }
-#contact .layer-bg,
-#contact .layer-fg-curtain,
-#contact .layer-fg-people,
-#contact .layer-fg1,
-#contact .layer-fg2 {
+#contact .layer-bg { z-index: 1; }
+#contact .layer-bg {
   inset: 0;
   width: auto;
   height: auto;
@@ -498,97 +1218,122 @@ section {
   background-position: center;
   background-repeat: no-repeat;
 }
-#contact .layer-fg1 {
-  background-position: left center;
+#contact .layer-bg .background-image {
+  inset: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: none;
+  object-position: top center;
 }
 #contact .section-content {
   position: absolute;
   inset: 0;
-  z-index: auto;
+  z-index: 9;
+  pointer-events: none;
   top: auto;
   transform: none;
   max-width: none;
   width: 100%;
   min-height: 100%;
   height: 100%;
-  padding: 124px 7vw 88px;
-  text-align: left;
-}
-.contact-layout {
-  position: relative;
-  width: min(1240px, 100%);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: minmax(280px, 430px) minmax(540px, 1fr);
-  gap: 44px;
-  align-items: start;
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.82s ease, transform 0.82s cubic-bezier(0.22, 1, 0.36, 1);
-}
-#contact.is-visible .contact-layout {
-  opacity: 1;
-  transform: translateY(0);
+  padding: 112px 7vw 84px;
+  text-align: center;
 }
 .contact-intro {
   position: relative;
-  z-index: 7;
-  align-self: start;
-  padding-top: 8px;
+  z-index: 9;
+  pointer-events: auto;
+  width: min(1180px, 96vw);
+  margin: 0 auto;
 }
 #contact h1,
 #contact p,
 #contact a {
   color: #f4eee4;
 }
-#contact h1 {
+.contact-title-composed {
+  margin: 0;
+  display: grid;
+  gap: clamp(4px, 0.8vw, 12px);
+  justify-items: center;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+.contact-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(6px, 1vw, 12px);
+  flex-wrap: wrap;
+}
+.contact-title-script {
+  font-family: "Imperial Script", cursive;
+  font-style: normal;
+  font-size: clamp(48px, 5.1vw, 88px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0;
+  color: rgba(244, 238, 228, 0.96);
+}
+.contact-title-strong {
   font-family: "Inter Tight", sans-serif;
-  font-size: clamp(102px, 12.2vw, 178px);
+  font-size: clamp(58px, 7vw, 112px);
   font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 0.82;
-  text-transform: none;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
-  margin-bottom: 16px;
-  text-align: left;
+  letter-spacing: 0.008em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: #f4eee4;
 }
 .contact-slogan {
-  margin: 0;
-  max-width: 360px;
+  margin: 14px auto 0;
+  max-width: min(760px, 92vw);
   font-family: "Fraunces", serif;
-  font-size: 18px;
-  line-height: 1.7;
+  font-size: 15px;
+  line-height: 1.58;
   color: #efe7dc;
-  opacity: 0.9;
+  opacity: 0.92;
   text-shadow: none;
-  text-align: left;
+  text-align: center;
 }
-.contact-slogan-highlight {
-  background: transparent;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-  padding: 0;
+.contact-response-note {
+  margin: 24px auto 0;
+  max-width: min(780px, 94vw);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: rgba(244, 238, 228, 0.86);
+  text-align: center;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.22);
 }
 .contact-socials {
   position: relative;
   z-index: 2;
-  width: clamp(560px, 64vw, 980px);
-  max-width: 74%;
-  justify-self: end;
-  margin-top: 84px;
-  padding-right: clamp(16px, 2.4vw, 36px);
+  width: min(1020px, 88vw);
+  max-width: 88vw;
+  margin: 0;
+  padding-right: 0;
+  pointer-events: auto;
+  opacity: 1;
+  transform: none;
 }
 .contact-card-grid {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  padding: 12px;
-  background: rgba(245, 245, 245, 0.06);
-  border: 3px solid rgba(245, 245, 245, 0.7);
-  max-height: 75vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(6px, 0.6vw, 10px);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  max-height: none;
+  overflow: visible;
+  overscroll-behavior: auto;
+  box-shadow: none;
+  transition: none;
+  perspective: 1400px;
 }
 .contact-card-grid::-webkit-scrollbar {
   width: 8px;
@@ -601,62 +1346,100 @@ section {
   background: rgba(245, 245, 245, 0.12);
 }
 .contact-card {
+  --tilt: 0deg;
+  --lift: 0px;
+  --stack: 1;
+  --card-s: 1;
+  --photo-frame: 22px;
+  --photo-frame-bottom: 8px;
   position: relative;
   display: block;
-  width: 100%;
+  width: clamp(160px, 14.6vw, 236px);
+  flex: 0 0 clamp(160px, 14.6vw, 236px);
+  margin-left: clamp(-10px, -0.7vw, -4px);
   text-decoration: none;
-  border-radius: 0;
+  border-radius: 18px;
   overflow: hidden;
-  background: #121317;
-  border: 0;
-  box-shadow: none;
-  transition: transform 0.24s ease;
+  background: rgba(248, 244, 236, 0.14);
+  border: 1px solid rgba(248, 244, 236, 0.34);
+  z-index: var(--stack);
+  box-shadow: 0 20px 34px rgba(10, 10, 14, 0.3), 0 0 0 1px rgba(248, 244, 236, 0.2), 0 0 22px rgba(248, 244, 236, 0.12);
+  backdrop-filter: blur(5px) saturate(1.02);
+  -webkit-backdrop-filter: blur(5px) saturate(1.02);
+  transform: translate3d(0, var(--lift), 0) rotate(var(--tilt)) scale(var(--card-s));
+  transform-origin: center 88%;
+  opacity: 1;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, box-shadow;
+  transform-style: preserve-3d;
 }
+.contact-card:first-child {
+  margin-left: 0;
+}
+.contact-card:nth-child(1) { --tilt: -10deg; --lift: -6px; --stack: 2; --card-s: 0.97; }
+.contact-card:nth-child(2) { --tilt: -6deg; --lift: 10px; --stack: 3; --card-s: 1; }
+.contact-card:nth-child(3) { --tilt: -2deg; --lift: -16px; --stack: 5; --card-s: 1.04; }
+.contact-card:nth-child(4) { --tilt: 3deg; --lift: 8px; --stack: 4; --card-s: 0.99; }
+.contact-card:nth-child(5) { --tilt: 8deg; --lift: -4px; --stack: 3; --card-s: 1.02; }
+.contact-card:nth-child(6) { --tilt: 12deg; --lift: 12px; --stack: 2; --card-s: 0.96; }
 .contact-card-media {
   position: relative;
   display: block;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
+  padding: var(--photo-frame) var(--photo-frame) var(--photo-frame-bottom);
+  background: transparent;
+  border-bottom: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 .contact-card-media .contact-card-label {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: calc(var(--photo-frame) + 4px);
+  left: calc(var(--photo-frame) + 4px);
   z-index: 2;
   padding: 4px 8px;
-  background: rgba(18, 19, 23, 0.66);
-  border: 1px solid rgba(245, 245, 245, 0.38);
+  background: rgba(22, 25, 32, 0.62);
+  border: 1px solid rgba(196, 168, 134, 0.32);
   border-radius: 999px;
   font-family: "Inter Tight", sans-serif;
   font-size: 10px;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: rgba(245, 245, 245, 0.9);
+  color: rgba(235, 222, 206, 0.95);
 }
 .contact-card img {
   display: block;
   width: 100%;
   height: 100%;
+  border-radius: 12px;
   object-fit: cover;
   object-position: center;
-  transition: transform 0.26s ease;
+  transform: scale(1.12);
+  box-shadow: 0 8px 18px rgba(10, 10, 12, 0.34);
+  transition: transform 210ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .contact-image-hover {
   position: absolute;
-  inset: 0;
+  inset: var(--photo-frame) var(--photo-frame) var(--photo-frame-bottom);
+  border-radius: 12px;
   background: rgba(0, 0, 0, 0);
   transition: background 0.24s ease;
 }
 .contact-card-overlay {
   position: relative;
   inset: auto;
+  margin-top: calc(var(--photo-frame-bottom) * -1);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 6px;
-  padding: 12px 12px 13px;
-  background: #f5f5f5;
+  padding: 12px 14px 14px;
+  background: transparent;
+  border-top: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transition: background 0.24s ease;
   text-align: left;
 }
@@ -666,7 +1449,7 @@ section {
   font-size: 11px;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: rgba(41, 30, 23, 0.78);
+  color: rgba(210, 190, 163, 0.92);
 }
 .contact-card-title {
   display: inline-flex;
@@ -676,7 +1459,7 @@ section {
   font-family: "Inter Tight", sans-serif;
   font-size: 19px;
   font-weight: 600;
-  color: #2a2119;
+  color: #efe2cf;
   line-height: 1.05;
 }
 .contact-card-desc {
@@ -684,28 +1467,51 @@ section {
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   line-height: 1.35;
-  color: rgba(44, 34, 26, 0.82);
+  color: rgba(223, 205, 182, 0.86);
+  opacity: 0;
+  visibility: hidden;
+  min-height: calc(1.35em * 2);
+  transform: translateY(4px);
+  transition: opacity 200ms ease, transform 200ms ease, visibility 200ms ease;
 }
 .contact-card-arrow {
   opacity: 0;
-  transform: translateX(-3px);
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transform: translateX(-6px);
+  transition: opacity 210ms cubic-bezier(0.22, 1, 0.36, 1), transform 210ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .contact-card:hover {
-  transform: translateY(-2px);
+  transform: translate3d(0, calc(var(--lift) - 10px), 0) rotate(calc(var(--tilt) * 0.22)) scale(calc(var(--card-s) + 0.025));
+  box-shadow: inset 0 0 0 999px rgba(12, 12, 18, 0.2), 0 24px 42px rgba(10, 10, 14, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.24), 0 0 24px rgba(255, 255, 255, 0.14);
+  z-index: 8;
 }
 .contact-card:hover .contact-card-overlay {
-  background: #f7f7f7;
+  background: transparent;
 }
 .contact-card:hover .contact-card-arrow {
   opacity: 1;
   transform: translateX(0);
 }
 .contact-card:hover .contact-image-hover {
-  background: rgba(0, 0, 0, 0.46);
+  background: rgba(0, 0, 0, 0);
 }
 .contact-card:hover img {
-  transform: scale(1.03);
+  transform: scale(1.16);
+}
+.contact-card:hover .contact-card-desc,
+.contact-card:focus-visible .contact-card-desc {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.contact-card:focus-visible {
+  outline: 3px solid rgba(42, 34, 27, 0.95);
+  outline-offset: 2px;
+  transform: translate3d(0, calc(var(--lift) - 10px), 0) rotate(calc(var(--tilt) * 0.22)) scale(calc(var(--card-s) + 0.02));
+  box-shadow: inset 0 0 0 999px rgba(12, 12, 18, 0.2), 0 24px 42px rgba(10, 10, 14, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.24), 0 0 24px rgba(255, 255, 255, 0.14);
+  z-index: 8;
+}
+.contact-card:focus-visible .contact-card-overlay {
+  background: transparent;
 }
 
 #intro {
@@ -723,9 +1529,95 @@ section {
 }
 
 @media (max-width: 768px) {
-  header { padding: 20px 24px; }
+  header {
+    padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px;
+    justify-content: space-between;
+    gap: 10px;
+    height: calc(62px + env(safe-area-inset-top, 0px));
+  }
+  header::before {
+    display: block;
+    height: calc(62px + env(safe-area-inset-top, 0px));
+  }
+  header::after {
+    display: none;
+  }
+  header > a[aria-label="Go to home page"] {
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    left: 16px;
+  }
   .section-content h1 { font-size: 32px; }
-  nav a { margin-left: 16px; }
+  #home .section-content h1 {
+    font-size: clamp(70px, 22vw, 112px);
+    line-height: 0.84;
+    margin-bottom: 4px;
+  }
+  .section-rail {
+    position: fixed;
+    left: 50%;
+    top: auto;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    transform: translateX(-50%);
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--theme-rail-border);
+    background: var(--theme-rail-bg);
+    backdrop-filter: blur(9px) saturate(1.15);
+    -webkit-backdrop-filter: blur(9px) saturate(1.15);
+    margin-left: 0;
+    border-radius: 999px;
+    z-index: 52;
+  }
+  .section-rail a {
+    margin-left: 0;
+    padding: 7px 10px;
+    color: var(--theme-rail-text);
+    border: 0;
+    background: none;
+    box-shadow: none;
+    transform: none;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+  .section-rail a:hover,
+  .section-rail a:focus-visible {
+    color: var(--theme-rail-hover-text);
+    background: none;
+    border-color: transparent;
+    transform: none;
+  }
+  .section-rail a.is-active {
+    color: var(--theme-rail-hover-text);
+    letter-spacing: 0.05em;
+    font-weight: 640;
+    background: none;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  .editions-menu {
+    display: flex;
+    right: 16px;
+    top: calc(env(safe-area-inset-top, 0px) + 24px);
+    gap: 6px;
+  }
+  .editions-cta {
+    font-size: 12px;
+  }
+  .editions-cta::after {
+    width: 11px;
+    height: 7px;
+  }
+  .editions-panel {
+    width: min(84vw, 300px);
+  }
+  .brand-pinned-title {
+    top: calc(env(safe-area-inset-top, 0px) + 20px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px) scale(0.96);
+    font-size: clamp(18px, 6vw, 26px);
+    line-height: 1;
+  }
   #gallery .section-content { padding-top: 110px; }
   #gallery::before { background-attachment: scroll; }
   .gallery-list { gap: 18px; }
@@ -740,93 +1632,286 @@ section {
   .collection-desc { font-size: 14px; }
   .masonry-grid { column-count: 1; }
   .masonry-item { border-radius: 14px; margin-bottom: 22px; }
+  #home .scene-3d-root {
+    z-index: 2;
+    perspective: none;
+  }
+  #home .scene-3d-tilt,
+  #home .layer-depth-bg,
+  #home .layer-depth-fg {
+    transform-style: flat;
+  }
+  #home .layer-depth-fg {
+    z-index: 4;
+  }
   #home .layer-fg {
-    width: 156%;
-    height: 510%;
+    width: 148%;
+    height: 280%;
     background-size: contain;
     left: 50%;
-    background-position: center 30%;
+    top: 47%;
+    background-position: center 34%;
+  }
+  #home .layer-fg .background-image {
+    object-fit: contain;
+    object-position: center 32%;
+    opacity: 1;
+  }
+  #home .layer-bg {
+    background-position: center 60%;
+    inset: -24% !important;
+  }
+  #contact {
+    min-height: 100vh;
   }
   #contact .layer-bg {
     inset: 0;
   }
-  #about .layer-fg {
-    width: 168%;
-    height: 540%;
-    background-size: cover;
-    left: 50%;
-    background-position: center 58%;
-  }
-  #contact .section-content {
-    padding: 106px 24px 58px;
-    min-height: 100vh;
-  }
-  .contact-layout {
-    width: min(620px, 100%);
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .contact-intro { padding-top: 0; }
-  .contact-socials {
+  #contact .layer-bg .background-image {
+    inset: 0;
     width: 100%;
-    max-width: 100%;
-    margin-top: 0;
-    padding-right: 0;
-    justify-self: start;
+    height: 100%;
+    object-fit: cover;
+    object-position: 56% 18%;
   }
-  #contact h1 {
+  .about-content-inner {
+    width: min(94vw, 620px);
+  }
+  #about .scene2-strip-bg,
+  #about .scene2-strip-fg {
+    left: 0;
+    width: 124%;
+    transform: none;
+  }
+  #about .scene2-strip-bg {
+    background-position: 57% center;
+  }
+  #about .scene2-strip-fg-image {
+    object-position: 57% center;
+  }
+  #about .scene2-strip-fg1 .scene2-strip-fg-image,
+  #about .scene2-strip-fg2 .scene2-strip-fg-image {
+    object-position: 28% center;
+  }
+  .about-content-inner {
+    align-items: center;
+    text-align: center;
+  }
+  .about-heading {
+    align-self: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .about-heading,
+  .about-slogan {
+    text-align: center;
+  }
+  .about-slogan {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .about-heading {
     font-size: clamp(74px, 18vw, 108px);
-    letter-spacing: -0.01em;
-    line-height: 0.86;
-    margin-bottom: 12px;
-    text-align: left;
   }
-  .contact-slogan {
-    max-width: 380px;
-    font-size: 16px;
-    line-height: 1.68;
-    margin-bottom: 18px;
+  .about-slogan {
+    font-size: 15px;
+    max-width: 420px;
+  }
+  .about-bio {
+    padding: 14px 14px 16px;
+  }
+  .about-bio h3 {
+    font-size: 18px;
+  }
+  .about-bio p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  #about.about-selected .section-content {
+    top: 50vh;
+    transform: translateY(-50%);
+  }
+  #contact .contact-grid-layer {
+    align-items: flex-start;
+    padding: calc(env(safe-area-inset-top, 0px) + 38vh) 10px 20px;
+  }
+  .contact-socials {
+    width: min(94vw, 530px);
+    max-width: 530px;
+    margin: 0;
+    padding-right: 0;
   }
   .contact-card-grid {
     width: 100%;
     margin-left: 0;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-items: stretch;
+    align-items: stretch;
+    column-gap: 2px;
+    row-gap: 12px;
+    padding: 0;
     max-height: none;
     overflow: visible;
+    -webkit-overflow-scrolling: auto;
+  }
+  .contact-card {
+    --photo-frame: 10px;
+    --photo-frame-bottom: 7px;
+    width: 97%;
+    flex: 1 1 0;
+    height: 100%;
+    margin-left: 0;
+    border-radius: 12px;
+    --tilt: 0deg;
+    --lift: 0px;
+    --stack: 1;
+    --card-s: 1;
+    --mobile-stack-x: 0px;
+    --mobile-stack-y: 0px;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    transition: transform 980ms cubic-bezier(0.22, 1, 0.36, 1), opacity 760ms ease, box-shadow 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--enter-delay, 0ms);
+  }
+  .contact-card:nth-child(1) { --mobile-stack-x: 108%; --mobile-stack-y: 70%; --enter-delay: 0ms; }
+  .contact-card:nth-child(2) { --mobile-stack-x: 0%; --mobile-stack-y: 70%; --enter-delay: 140ms; }
+  .contact-card:nth-child(3) { --mobile-stack-x: -108%; --mobile-stack-y: 70%; --enter-delay: 280ms; }
+  .contact-card:nth-child(4) { --mobile-stack-x: 108%; --mobile-stack-y: -70%; --enter-delay: 420ms; }
+  .contact-card:nth-child(5) { --mobile-stack-x: 0%; --mobile-stack-y: -70%; --enter-delay: 560ms; }
+  .contact-card:nth-child(6) { --mobile-stack-x: -108%; --mobile-stack-y: -70%; --enter-delay: 700ms; }
+  body.mobile-contact-cards-stacked #contact .contact-card {
+    transition-duration: 0ms;
+    transition-delay: 0ms;
+    transform: translate3d(var(--mobile-stack-x), var(--mobile-stack-y), 0) rotate(0deg) scale(0.92);
+    opacity: 0.72;
   }
   .contact-card img { height: 100%; }
-  .contact-card-title { font-size: clamp(22px, 8.5vw, 30px); }
-  .contact-card-desc { font-size: 14px; }
-  section { min-height: 130vh; }
-  #contact {
-    height: 220vh;
-    min-height: 220vh;
+  .contact-card-media { aspect-ratio: 3 / 3; }
+  .contact-card-media .contact-card-label {
+    top: calc(var(--photo-frame) + 3px);
+    left: calc(var(--photo-frame) + 3px);
+    padding: 2px 5px;
+    font-size: clamp(6px, 1.5vw, 8px);
+    letter-spacing: 0.06em;
   }
+  .contact-card-title {
+    font-size: clamp(10px, 2.4vw, 13px);
+    line-height: 1.15;
+    min-height: 1.8em;
+    align-items: flex-start;
+  }
+  .contact-card-label { font-size: clamp(7px, 1.6vw, 9px); }
+  .contact-card-desc {
+    font-size: clamp(8px, 1.9vw, 10px);
+    line-height: 1.3;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    min-height: 0;
+    display: block;
+    overflow: visible;
+  }
+  .contact-card-overlay {
+    gap: 2px;
+    padding: 8px 8px 10px;
+    min-height: 0;
+  }
+  .contact-card-arrow {
+    font-size: 10px;
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  .contact-card:hover,
+  .contact-card:focus-visible {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  .contact-card:hover img {
+    transform: scale(1.12);
+  }
+  .contact-card:hover .contact-card-arrow,
+  .contact-card:focus-visible .contact-card-arrow {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  #contact .section-content {
+    padding: calc(env(safe-area-inset-top, 0px) + 82px) 18px 0;
+  }
+  .contact-title-composed {
+    gap: 6px;
+  }
+  .contact-title-row {
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  .contact-title-script {
+    font-size: clamp(24px, 6.6vw, 34px);
+    line-height: 0.92;
+  }
+  .contact-title-strong {
+    font-size: clamp(30px, 7.8vw, 46px);
+    line-height: 0.92;
+  }
+  .contact-slogan {
+    margin-top: 12px;
+    font-size: 4px;
+    line-height: 1.2;
+    max-width: min(92vw, 480px);
+  }
+  .contact-response-note {
+    margin-top: 18px;
+    font-size: 12px;
+    max-width: min(92vw, 460px);
+  }
+  section { min-height: 130vh; }
 }
 </style>
 </head>
-<body>
+<body class="edition-i text-reveal-anim text-reveal-pending intro-scroll-lock">
 <div id="intro">
   <img src="assets/logo2.svg" alt="Marvell Florist Logo">
 </div>
 
 <header>
   <a href="index.html" aria-label="Go to home page">
-    <img src="assets/logo.png" alt="Marvell Florist">
+    <img src="assets/logo.Png" alt="Marvell Florist">
   </a>
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <div class="editions-menu">
+    <button class="editions-cta" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="editions-panel">Chapters</button>
+    <div class="editions-panel" id="editions-panel"></div>
+  </div>
 </header>
-
+<nav class="section-rail" aria-label="Section navigation">
+  <a href="#home"><span class="nav-label">Home</span></a>
+  <a href="#gallery"><span class="nav-label">Gallery</span></a>
+  <a href="#about"><span class="nav-label">About</span></a>
+  <a href="#contact"><span class="nav-label">Contact</span></a>
+  <span class="nav-indicator" aria-hidden="true"></span>
+</nav>
+<div class="brand-pinned-title" aria-hidden="true">Marvell Florist</div>
 <section id="home" data-parallax>
-  <div class="layer-bg"></div>
-  <div class="layer-fg"></div>
+  <div class="scene-3d-root">
+    <div class="scene-3d-tilt">
+      <div class="layer-depth-bg">
+        <div class="layer-bg">
+          <div class="home-sky-marquee">
+            <div class="home-sky-track">
+              <img src="assets/scene1-bg.png" alt="" decoding="async" fetchpriority="high">
+              <img src="assets/scene1-bg.png" alt="" decoding="async" fetchpriority="high" aria-hidden="true">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer-depth-fg">
+        <div class="layer-fg smudge-wrapper">
+          <canvas class="smudge-canvas" aria-hidden="true"></canvas>
+          <img class="background-image" src="assets/scene1-fg.png" alt="" decoding="async">
+        </div>
+      </div>
+      <div class="ambient-particles" aria-hidden="true"></div>
+    </div>
+  </div>
   <div class="section-content">
     <h1>Marvell Florist</h1>
     <p>Where every petal is a little more marvelous.</p>
@@ -837,263 +1922,334 @@ section {
   <div class="section-content">
     <h1>Gallery</h1>
     <p class="gallery-lead">Setiap rangkaian dibuat secara custom dan mengikuti ketersediaan bunga musiman. Tim kami akan mengonfirmasi seluruh detail sebelum pesanan difinalkan.</p>
-    <div class="gallery-list">
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/bouquets.jpg" alt="Bouquet Collection">
-            <div class="category-overlay">
-              <p class="category-title">Bouquet</p>
-              <p class="category-subtitle">Hand-tied arrangements for gifting moments and personal celebrations.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Bouquet Collection</h2>
-          <p class="collection-desc">Hand-tied arrangements for gifting moments and personal celebrations.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/bouquets.jpg" alt="Design BQ-01"><div class="design-overlay"><p class="design-title">Design BQ-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png" alt="Design BQ-02"><div class="design-overlay"><p class="design-title">Design BQ-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design BQ-03"><div class="design-overlay"><p class="design-title">Design BQ-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20BQ-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Bouquet" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/scene4-bg.png" alt="Papan Bunga Collection">
-            <div class="category-overlay">
-              <p class="category-title">Papan Bunga</p>
-              <p class="category-subtitle">Custom congratulatory and ceremonial floral boards.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Papan Bunga Collection</h2>
-          <p class="collection-desc">Custom congratulatory and ceremonial floral boards.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/scene4-bg.png" alt="Design PB-01"><div class="design-overlay"><p class="design-title">Design PB-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene2-bg.png" alt="Design PB-02"><div class="design-overlay"><p class="design-title">Design PB-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png" alt="Design PB-03"><div class="design-overlay"><p class="design-title">Design PB-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20PB-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Papan%20Bunga" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/scene2-fg.png" alt="Standing Flowers Collection">
-            <div class="category-overlay">
-              <p class="category-title">Standing Flowers</p>
-              <p class="category-subtitle">Vertical statement pieces for formal and event spaces.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Standing Flowers Collection</h2>
-          <p class="collection-desc">Vertical statement pieces for formal and event spaces.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/scene2-fg.png" alt="Design SF-01"><div class="design-overlay"><p class="design-title">Design SF-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene4-fg.png" alt="Design SF-02"><div class="design-overlay"><p class="design-title">Design SF-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene1-fg.png" alt="Design SF-03"><div class="design-overlay"><p class="design-title">Design SF-03</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SF-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Standing%20Flowers" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="dekorasi.jpg" alt="Sympathy and Funeral Collection">
-            <div class="category-overlay">
-              <p class="category-title">Sympathy &amp; Funeral</p>
-              <p class="category-subtitle">Respectful floral expressions designed for condolence moments.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Sympathy &amp; Funeral Collection</h2>
-          <p class="collection-desc">Respectful floral expressions designed for condolence moments.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="dekorasi.jpg" alt="Design SY-01"><div class="design-overlay"><p class="design-title">Design SY-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SY-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene4-bg.png" alt="Design SY-02"><div class="design-overlay"><p class="design-title">Design SY-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SY-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Sympathy%20%26%20Funeral" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/scene1-bg.png" alt="Celebration and Congratulatory Collection">
-            <div class="category-overlay">
-              <p class="category-title">Celebration &amp; Congratulatory</p>
-              <p class="category-subtitle">Festive floral styles for milestones, openings, and achievements.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Celebration &amp; Congratulatory Collection</h2>
-          <p class="collection-desc">Festive floral styles for milestones, openings, and achievements.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design CE-01"><div class="design-overlay"><p class="design-title">Design CE-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CE-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png" alt="Design CE-02"><div class="design-overlay"><p class="design-title">Design CE-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CE-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Celebration%20%26%20Congratulatory" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/artificial.JPG" alt="Supplies Collection">
-            <div class="category-overlay">
-              <p class="category-title">Supplies</p>
-              <p class="category-subtitle">Selected florist materials and decorative support items.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Supplies Collection</h2>
-          <p class="collection-desc">Selected florist materials and decorative support items.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="assets/artificial.JPG" alt="Design SUP-01"><div class="design-overlay"><p class="design-title">Design SUP-01</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/x.png" alt="Design SUP-02"><div class="design-overlay"><p class="design-title">Design SUP-02</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/background.png.jpeg" alt="Design SUP-03"><div class="design-overlay"><p class="design-title">Design SUP-03</p><a class="design-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20SUP-03" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/628116667920?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Supplies" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-
-      <article class="gallery-category">
-        <button class="category-toggle" type="button">
-          <div class="category-cover">
-            <img src="assets/scene1-fg.png" alt="Custom Request Collection">
-            <div class="category-overlay">
-              <p class="category-title">Custom Request</p>
-              <p class="category-subtitle">Bespoke concepts tailored from your brief and visual direction.</p>
-              <span class="category-expand-label">View Collection</span>
-            </div>
-          </div>
-        </button>
-        <div class="category-panel">
-          <h2 class="collection-heading">Custom Request Collection</h2>
-          <p class="collection-desc">Bespoke concepts tailored from your brief and visual direction.</p>
-          <div class="masonry-grid">
-            <div class="masonry-item"><img src="dekorasi.jpg" alt="Design CR-01"><div class="design-overlay"><p class="design-title">Design CR-01</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CR-01" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-            <div class="masonry-item"><img src="assets/scene1-bg.png" alt="Design CR-02"><div class="design-overlay"><p class="design-title">Design CR-02</p><a class="design-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20design%3A%20Design%20CR-02" target="_blank" rel="noopener noreferrer">Consult This Design</a></div></div>
-          </div>
-          <div class="category-consult-wrap"><a class="category-consult-btn" href="https://wa.me/6281275017456?text=Hello%2C%20I%20would%20like%20to%20consult%20this%20collection%3A%20Custom%20Request" target="_blank" rel="noopener noreferrer">Consult This Collection</a></div>
-        </div>
-      </article>
-    </div>
+    <div class="gallery-list" id="gallery-list"></div>
   </div>
 </section>
 
 <section id="about" data-parallax>
-  <div class="layer-bg"></div>
-  <div class="layer-fg"></div>
+  <div class="layer-bg scene2-strip-bg"></div>
+  <div class="scene2-strip-fg scene2-strip-fg1">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg1.png" data-bio-target="fg1" alt="Clickable figure of the man representing the team story" role="button" tabindex="0">
+  </div>
+  <div class="scene2-strip-fg scene2-strip-fg2">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg2.png" data-bio-target="fg2" alt="Clickable figure of the woman representing craft and philosophy" role="button" tabindex="0">
+  </div>
+  <div class="scene2-strip-fg scene2-strip-fg3">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg3.png" data-bio-target="fg3" alt="Clickable bush representing the journey and growth story" role="button" tabindex="0">
+  </div>
   <div class="section-content">
-    <h1>About</h1>
-    <p>
-      Berdiri sejak tahun 2006 di Batam, Marvell Florist merangkai bunga untuk berbagai momen; perayaan,
-      ucapan, hingga simpati dengan penuh ketelitian. Setiap rangkaian dibuat dengan mempertimbangkan
-      karakter, kebutuhan, serta konteks di baliknya.
-    </p>
-    <p>
-      Selain rangkaian bunga, kami juga menyediakan papan bunga dan berbagai kebutuhan florist. Setiap
-      pesanan dibuat secara khusus sesuai permintaan agar pesan yang disampaikan terasa tepat.
-    </p>
+    <div class="about-content-inner">
+      <h1 class="about-heading">About</h1>
+      <p class="about-slogan"><span class="about-slogan-highlight">Discover the people, craft, and journey behind Marvell Florist.</span><br><span class="about-slogan-highlight">Tap the man, the woman, or the bush to explore each part of our story.</span></p>
+      <div class="about-bio-panel" aria-live="polite">
+        <article class="about-bio" data-bio="fg2">
+          <h3>Karya &amp; Filosofi</h3>
+          <p>Sejak 2006, Marvell Florist merangkai bunga untuk berbagai momen tanpa membatasi diri pada satu gaya tertentu. Mulai dari bouquet wisuda, anniversary, papan bunga, hingga kebutuhan personal lainnya, setiap rangkaian dibuat dengan mempertimbangkan konteks, karakter, dan kepuasan pelanggan sebagai prioritas utama.</p>
+        </article>
+        <article class="about-bio" data-bio="fg3">
+          <h3>Perjalanan &amp; Perkembangan</h3>
+          <p>Seiring waktu, Marvell Florist terus berkembang dan memperluas jangkauan layanan. Perkembangan ini memungkinkan kami melayani kebutuhan yang lebih luas, baik untuk pelanggan individu maupun pelaku usaha, dengan standar kualitas yang terus dijaga.</p>
+        </article>
+        <article class="about-bio" data-bio="fg1">
+          <h3>Tim Kami</h3>
+          <p>Didukung oleh tim yang berpengalaman dan adaptif, kami melayani pemesanan baik secara langsung di toko maupun melalui WhatsApp. Beberapa pesanan dapat diselesaikan pada hari yang sama, tergantung ketersediaan dan kompleksitas desain. Setiap rangkaian dikerjakan dengan perhatian pada detail dan komunikasi yang jelas agar hasil akhir benar-benar sesuai dengan harapan pelanggan.</p>
+        </article>
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="contact" data-parallax>
   <div class="parallax-container">
-    <div class="layer-bg"></div>
-    <div class="layer-fg layer-fg-curtain layer-fg1 scene4FG1"></div>
-    <div class="layer-fg layer-fg-people layer-fg2 scene4FG2"></div>
-  </div>
-  <div class="section-content">
-    <div class="contact-layout">
-      <div class="contact-intro">
-        <h1>Contact</h1>
-        <p class="contact-slogan"><span class="contact-slogan-highlight">Reach us for floral consultations and tailored supplies support.</span><br><span class="contact-slogan-highlight">Every request is confirmed with our team before production.</span></p>
-      </div>
+    <div class="layer-bg smudge-wrapper">
+      <canvas class="smudge-canvas" aria-hidden="true"></canvas>
+      <img class="background-image" src="assets/scene4-bg.png" alt="" decoding="async">
+    </div>
+    <div class="contact-grid-layer">
       <div class="contact-socials">
         <div class="contact-card-grid">
-        <a class="contact-card" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">
-          <span class="contact-card-media"><img src="assets/bouquets.jpg" alt="WhatsApp Primary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
-          <span class="contact-card-overlay">
-            <span class="contact-card-title">WhatsApp (Primary) <span class="contact-card-arrow">&#8594;</span></span>
-            <span class="contact-card-desc">Consult custom bouquet and arrangement requests with our primary team.</span>
-          </span>
-        </a>
-        <a class="contact-card" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">
-          <span class="contact-card-media"><img src="assets/scene1-fg.png" alt="WhatsApp Secondary"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
-          <span class="contact-card-overlay">
-            <span class="contact-card-title">WhatsApp (Secondary) <span class="contact-card-arrow">&#8594;</span></span>
-            <span class="contact-card-desc">Alternative line for floral inquiries, scheduling, and order follow-up.</span>
-          </span>
-        </a>
-        <a class="contact-card" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">
-          <span class="contact-card-media"><img src="assets/artificial.JPG" alt="WhatsApp Supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Supplies</span></span>
-          <span class="contact-card-overlay">
-            <span class="contact-card-title">WhatsApp Supplies <span class="contact-card-arrow">&#8594;</span></span>
-            <span class="contact-card-desc">Reach our supplies desk for florist materials and stock support.</span>
-          </span>
-        </a>
-        <a class="contact-card" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">
-          <span class="contact-card-media"><img src="assets/instagram.jpg" alt="Instagram"><span class="contact-image-hover"></span><span class="contact-card-label">Instagram</span></span>
-          <span class="contact-card-overlay">
-            <span class="contact-card-title">@marvellflorist <span class="contact-card-arrow">&#8594;</span></span>
-            <span class="contact-card-desc">View recent works, visual references, and latest floral styling updates.</span>
-          </span>
-        </a>
-        <a class="contact-card" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">
-          <span class="contact-card-media"><img src="assets/location1.jpg" alt="Lokasi Rangkaian Bunga"><span class="contact-image-hover"></span><span class="contact-card-label">Locations</span></span>
-          <span class="contact-card-overlay">
-            <span class="contact-card-title">Lokasi (Rangkaian Bunga) <span class="contact-card-arrow">&#8594;</span></span>
-            <span class="contact-card-desc">Visit our floral arrangement location for consultations and pickups.</span>
-          </span>
-        </a>
-        <a class="contact-card" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">
-          <span class="contact-card-media"><img src="assets/location2.jpg" alt="Lokasi Supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Locations</span></span>
-          <span class="contact-card-overlay">
-            <span class="contact-card-title">Lokasi (Supplies) <span class="contact-card-arrow">&#8594;</span></span>
-            <span class="contact-card-desc">Store location for florist supplies, supporting materials, and essentials.</span>
-          </span>
-        </a>
+      <a class="contact-card" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">
+        <span class="contact-card-media"><img src="assets/whatsapp1.png" alt="Primary WhatsApp ordering line"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+        <span class="contact-card-overlay">
+          <span class="contact-card-title">Consult on WhatsApp <span class="contact-card-arrow">&#8594;</span></span>
+          <span class="contact-card-desc">Consult custom bouquet and arrangement requests with our primary team.</span>
+        </span>
+      </a>
+      <a class="contact-card" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">
+        <span class="contact-card-media"><img src="assets/whatsapp2.png" alt="Secondary WhatsApp ordering line"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+        <span class="contact-card-overlay">
+          <span class="contact-card-title">Consult on WhatsApp <span class="contact-card-arrow">&#8594;</span></span>
+          <span class="contact-card-desc">Alternative line for floral inquiries, scheduling, and order follow-up.</span>
+        </span>
+      </a>
+      <a class="contact-card" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">
+        <span class="contact-card-media"><img src="assets/whatsapp3.png" alt="WhatsApp ordering line for supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Supplies</span></span>
+        <span class="contact-card-overlay">
+          <span class="contact-card-title">Consult on WhatsApp <span class="contact-card-arrow">&#8594;</span></span>
+          <span class="contact-card-desc">Reach our supplies desk for florist materials and stock support.</span>
+        </span>
+      </a>
+      <a class="contact-card" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">
+        <span class="contact-card-media"><img src="assets/instagram.png" alt="Instagram"><span class="contact-image-hover"></span><span class="contact-card-label">Instagram</span></span>
+        <span class="contact-card-overlay">
+          <span class="contact-card-title">@marvellflorist <span class="contact-card-arrow">&#8594;</span></span>
+          <span class="contact-card-desc">View recent works, visual references, and latest floral styling updates.</span>
+        </span>
+      </a>
+      <a class="contact-card" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">
+        <span class="contact-card-media"><img src="assets/location1.jpg" alt="Lokasi Rangkaian Bunga"><span class="contact-image-hover"></span><span class="contact-card-label">Location</span></span>
+        <span class="contact-card-overlay">
+          <span class="contact-card-title">Lokasi (Rangkaian Bunga) <span class="contact-card-arrow">&#8594;</span></span>
+          <span class="contact-card-desc">Visit our floral arrangement location for consultations and pickups.</span>
+        </span>
+      </a>
+      <a class="contact-card" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">
+        <span class="contact-card-media"><img src="assets/location2.jpg" alt="Lokasi Supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Location</span></span>
+        <span class="contact-card-overlay">
+          <span class="contact-card-title">Lokasi (Supplies) <span class="contact-card-arrow">&#8594;</span></span>
+          <span class="contact-card-desc">Store location for florist supplies, supporting materials, and essentials.</span>
+        </span>
+      </a>
         </div>
+        <p class="contact-response-note">Jam respons WhatsApp: sekitar 10-30 menit pada jam operasional.</p>
       </div>
+    </div>
+  </div>
+  <div class="section-content">
+    <div class="contact-intro">
+      <h1 class="contact-title-composed">
+        <span class="contact-title-row">
+          <span class="contact-title-script">Let&#39;s</span>
+          <span class="contact-title-strong">CONNECT</span>
+        </span>
+        <span class="contact-title-row">
+          <span class="contact-title-script">With</span>
+          <span class="contact-title-strong">MARVELL FLORIST</span>
+        </span>
+      </h1>
+      <p class="contact-slogan">Hubungi kami untuk konsultasi dan pemesanan rangkaian bunga.</p>
     </div>
   </div>
 </section>
 
 <script>
 const sections = document.querySelectorAll("section[data-parallax]");
+const storySections = Array.from(document.querySelectorAll("section[id]"));
+const navElement = document.querySelector(".section-rail");
+const navLinks = Array.from(document.querySelectorAll(".section-rail a[href^='#']"));
+const navIndicator = navElement ? navElement.querySelector(".nav-indicator") : null;
+const editionsMenu = document.querySelector(".editions-menu");
+const editionsToggle = document.querySelector(".editions-cta");
+const editionsPanel = document.getElementById("editions-panel");
+const EDITIONS = [
+  {
+    id: "edition-i",
+    label: "Chapter I — Study In Light",
+    available: true
+  },
+  {
+    id: "edition-ii",
+    label: "Chapter II — Coming Soon",
+    available: false
+  }
+];
+const EDITION_CLASSES = EDITIONS.map((edition) => edition.id);
+const cursorHalo = document.getElementById("cursor-halo");
+const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+let activeNavSectionId = "";
+let navPreviewing = false;
+let haloX = window.innerWidth * 0.5;
+let haloY = window.innerHeight * 0.5;
+let haloTargetX = haloX;
+let haloTargetY = haloY;
+let haloOpacity = 0;
+let haloTargetOpacity = 0;
+let lastCursorMoveAt = Date.now();
+const haloIdleDelayMs = 900;
+const gyroState = {
+  enabled: false,
+  activated: false,
+  targetX: 0,
+  targetY: 0
+};
+const gyroConfig = {
+  maxTiltDeg: 20,
+  maxOffsetX: 16,
+  maxOffsetY: 12
+};
 const state = new Map();
 sections.forEach((section) => {
   state.set(section, {
     bg: 0,
     fg: 0,
-    fgCurtain: 0,
-    fgCurtainX: 0,
-    fgPeople: 0,
+    aboutFg1: 0,
+    aboutFg2: 0,
+    aboutFg3: 0,
     mouseX: 0,
     mouseY: 0,
     mouseTargetX: 0,
     mouseTargetY: 0
   });
 });
+const homeSectionElement = document.getElementById("home");
+const homeSceneTiltElement = homeSectionElement ? homeSectionElement.querySelector(".scene-3d-tilt") : null;
+const homeDepthBgElement = homeSectionElement ? homeSectionElement.querySelector(".layer-depth-bg") : null;
+const homeDepthFgElement = homeSectionElement ? homeSectionElement.querySelector(".layer-depth-fg") : null;
+const homeParticlesElement = homeSectionElement ? homeSectionElement.querySelector(".ambient-particles") : null;
+const contactSectionElement = document.getElementById("contact");
+const contactBgImageElement = contactSectionElement ? contactSectionElement.querySelector(".layer-bg .background-image") : null;
+const contactSocialsElement = contactSectionElement ? contactSectionElement.querySelector(".contact-socials") : null;
+const contactIntroElement = contactSectionElement ? contactSectionElement.querySelector(".contact-intro") : null;
+let mobileContactCardsRevealed = false;
+
+function renderEditionsPanel() {
+  if (!editionsPanel) return;
+  editionsPanel.innerHTML = "";
+  EDITIONS.forEach((edition) => {
+    const option = document.createElement("button");
+    option.type = "button";
+    option.className = "edition-option";
+    option.dataset.edition = edition.id;
+    option.textContent = edition.label;
+    if (!edition.available) {
+      option.disabled = true;
+      option.setAttribute("aria-disabled", "true");
+    }
+    option.addEventListener("click", () => {
+      if (!edition.available) return;
+      applyEditionClass(edition.id, true);
+      setEditionsPanelOpen(false);
+    });
+    editionsPanel.appendChild(option);
+  });
+}
+
+function setEditionsPanelOpen(isOpen) {
+  if (!editionsMenu || !editionsToggle || !editionsPanel) return;
+  editionsMenu.classList.toggle("is-open", Boolean(isOpen));
+  editionsToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+}
+
+function getCurrentEditionClass() {
+  return EDITION_CLASSES.find((editionClass) => document.body.classList.contains(editionClass)) || "edition-i";
+}
+
+function applyEditionClass(editionClass, persist = true) {
+  const targetEdition = EDITIONS.find((edition) => edition.id === editionClass);
+  if (!targetEdition || !targetEdition.available) return;
+  EDITION_CLASSES.forEach((candidate) => document.body.classList.remove(candidate));
+  document.body.classList.add(editionClass);
+  if (editionsToggle) editionsToggle.dataset.edition = editionClass;
+  if (editionsPanel) {
+    const options = Array.from(editionsPanel.querySelectorAll(".edition-option"));
+    options.forEach((option) => {
+      const isSelected = option.dataset.edition === editionClass;
+      option.classList.toggle("is-active", isSelected);
+      if (isSelected) option.setAttribute("aria-current", "true");
+      else option.removeAttribute("aria-current");
+    });
+  }
+  if (persist) {
+    try {
+      localStorage.setItem("marvell-edition", editionClass);
+    } catch (_error) {
+      // Skip persistence if storage is unavailable.
+    }
+  }
+}
+
+let preferredEditionClass = getCurrentEditionClass();
+try {
+  const storedEditionClass = localStorage.getItem("marvell-edition");
+  const storedEdition = EDITIONS.find((edition) => edition.id === storedEditionClass);
+  if (storedEdition && storedEdition.available) {
+    preferredEditionClass = storedEditionClass;
+  }
+} catch (_error) {
+  // Keep current class if storage is unavailable.
+}
+const currentEdition = EDITIONS.find((edition) => edition.id === preferredEditionClass);
+if (!currentEdition || !currentEdition.available) {
+  preferredEditionClass = "edition-i";
+}
+renderEditionsPanel();
+applyEditionClass(preferredEditionClass, false);
+if (editionsToggle) {
+  editionsToggle.addEventListener("click", (event) => {
+    event.preventDefault();
+    const shouldOpen = !(editionsMenu && editionsMenu.classList.contains("is-open"));
+    setEditionsPanelOpen(shouldOpen);
+  });
+}
+if (editionsMenu) {
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (editionsMenu.contains(target)) return;
+    setEditionsPanelOpen(false);
+  });
+}
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  setEditionsPanelOpen(false);
+});
+
+if (document.body.classList.contains("intro-scroll-lock")) {
+  document.documentElement.classList.add("intro-scroll-lock");
+}
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+function forceHomeWhileIntroLocked() {
+  if (!document.body.classList.contains("intro-scroll-lock")) return;
+  if (window.scrollY !== 0) {
+    window.scrollTo(0, 0);
+  }
+  if (window.location.hash && window.location.hash !== "#home") {
+    history.replaceState(null, "", `${window.location.pathname}${window.location.search}#home`);
+  }
+}
+forceHomeWhileIntroLocked();
+window.addEventListener("scroll", forceHomeWhileIntroLocked, { passive: true });
+window.addEventListener("hashchange", forceHomeWhileIntroLocked);
+
+function positionNavIndicator(link, opacity = 1) {
+  if (!navElement || !navIndicator || !link) return;
+  const navRect = navElement.getBoundingClientRect();
+  const label = link.querySelector(".nav-label");
+  const refRect = label ? label.getBoundingClientRect() : link.getBoundingClientRect();
+  const x = refRect.left - navRect.left;
+  const width = Math.max(20, refRect.width);
+  navElement.style.setProperty("--nav-indicator-x", `${x.toFixed(2)}px`);
+  navElement.style.setProperty("--nav-indicator-w", `${width.toFixed(2)}px`);
+  navElement.style.setProperty("--nav-indicator-o", `${clamp(opacity, 0, 1)}`);
+}
+
+function getActiveNavLink() {
+  return navLinks.find((link) => link.classList.contains("is-active")) || navLinks[0] || null;
+}
+
+function restoreNavIndicator() {
+  navPreviewing = false;
+  const activeLink = getActiveNavLink();
+  if (activeLink) positionNavIndicator(activeLink, 1);
+  else if (navElement) navElement.style.setProperty("--nav-indicator-o", "0");
+}
+
+function setActiveNav(sectionId) {
+  if (!sectionId) return;
+  activeNavSectionId = sectionId;
+  let activeLink = null;
+  navLinks.forEach((link) => {
+    const isActive = link.getAttribute("href") === `#${sectionId}`;
+    link.classList.toggle("is-active", isActive);
+    if (isActive) link.setAttribute("aria-current", "page");
+    else link.removeAttribute("aria-current");
+    if (isActive) activeLink = link;
+  });
+  if (!navPreviewing && activeLink) positionNavIndicator(activeLink, 1);
+}
 
 function lerp(a, b, t) {
   return a + (b - a) * t;
@@ -1103,9 +2259,733 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
-const galleryCategories = document.querySelectorAll(".gallery-category");
+const HALO_SIZE = 120;
+const HALO_HALF = HALO_SIZE * 0.5;
+const HALO_BLOCK_RADIUS = HALO_HALF * 0.9;
+const defaultNoSmudgeSelector = [
+  "header",
+  ".section-rail a",
+  ".brand-pinned-title",
+  ".section-content h1",
+  ".section-content h2",
+  ".section-content h3",
+  ".section-content p",
+  ".section-content a",
+  ".section-content button",
+  ".scene2-strip-fg-image",
+  ".contact-card",
+  ".category-toggle",
+  ".design-consult-btn",
+  ".category-consult-btn",
+  ".masonry-item"
+].join(", ");
+let haloPointerInside = false;
+let smudgeIntensity = 0;
+let smudgeMouseX = haloX;
+let smudgeMouseY = haloY;
+let smudgePrevMouseX = haloX;
+let smudgePrevMouseY = haloY;
+let smudgeVelocityX = 0;
+let smudgeVelocityY = 0;
+
+function shouldSuppressHalo() {
+  return false;
+}
+
+function markNoSmudgeTargets(root = document) {
+  if (!root || typeof root.querySelectorAll !== "function") return;
+  root.querySelectorAll(defaultNoSmudgeSelector).forEach((element) => {
+    element.classList.add("no-smudge");
+  });
+}
+
+function initializeHomeAmbientParticles() {
+  if (!(homeParticlesElement instanceof HTMLElement)) return;
+  if (homeParticlesElement.childElementCount > 0) return;
+  const particleCount = window.matchMedia("(max-width: 768px)").matches ? 12 : 20;
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < particleCount; i += 1) {
+    const particle = document.createElement("span");
+    particle.style.setProperty("--x", `${(Math.random() * 100).toFixed(2)}%`);
+    particle.style.setProperty("--size", `${(1.4 + (Math.random() * 2.8)).toFixed(2)}px`);
+    particle.style.setProperty("--alpha", `${(0.08 + (Math.random() * 0.16)).toFixed(3)}`);
+    particle.style.setProperty("--dur", `${(42 + (Math.random() * 38)).toFixed(2)}s`);
+    particle.style.setProperty("--delay", `${(-Math.random() * 80).toFixed(2)}s`);
+    particle.style.setProperty("--sway", `${(8 + (Math.random() * 20)).toFixed(2)}px`);
+    fragment.appendChild(particle);
+  }
+  homeParticlesElement.appendChild(fragment);
+}
+
+function initializeMobileContactCardEntrance() {
+  if (!(contactSectionElement instanceof HTMLElement)) return;
+  const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+  if (!isMobileViewport) {
+    document.body.classList.remove("mobile-contact-cards-stacked");
+    return;
+  }
+  if (mobileContactCardsRevealed) return;
+  document.body.classList.add("mobile-contact-cards-stacked");
+
+  if (typeof IntersectionObserver !== "function") {
+    document.body.classList.remove("mobile-contact-cards-stacked");
+    mobileContactCardsRevealed = true;
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    const shouldReveal = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.24);
+    if (!shouldReveal) return;
+    mobileContactCardsRevealed = true;
+    document.body.classList.remove("mobile-contact-cards-stacked");
+    obs.disconnect();
+  }, {
+    threshold: [0, 0.24, 0.45],
+    root: null,
+    rootMargin: "0px 0px -6% 0px"
+  });
+  observer.observe(contactSectionElement);
+}
+
+function syncContactSectionHeightToBackground() {
+  if (!(contactSectionElement instanceof HTMLElement)) return;
+  const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+  const viewportHeight = Math.max(window.innerHeight || 0, 1);
+
+  if (isMobileViewport) {
+    const introHeight = contactIntroElement instanceof HTMLElement ? contactIntroElement.offsetHeight : 0;
+    const socialsHeight = contactSocialsElement instanceof HTMLElement ? contactSocialsElement.scrollHeight : 0;
+    const contentHeightFloor = Math.round(introHeight + socialsHeight + 220);
+    const mobileHeight = Math.max(Math.round(viewportHeight * 1.15), contentHeightFloor);
+    contactSectionElement.style.height = `${mobileHeight}px`;
+    contactSectionElement.style.minHeight = `${mobileHeight}px`;
+    return;
+  }
+
+  if (!(contactBgImageElement instanceof HTMLImageElement)) return;
+  const naturalWidth = contactBgImageElement.naturalWidth;
+  const naturalHeight = contactBgImageElement.naturalHeight;
+  if (!naturalWidth || !naturalHeight) return;
+  const targetWidth = contactSectionElement.clientWidth || window.innerWidth;
+  if (!targetWidth) return;
+
+  const renderedHeight = Math.round(targetWidth * (naturalHeight / naturalWidth));
+  if (renderedHeight <= 0) return;
+
+  contactSectionElement.style.height = `${renderedHeight}px`;
+  contactSectionElement.style.minHeight = `${renderedHeight}px`;
+}
+
+function circleIntersectsRect(cx, cy, radius, rect) {
+  if (!rect || rect.width <= 0 || rect.height <= 0) return false;
+  const closestX = clamp(cx, rect.left, rect.right);
+  const closestY = clamp(cy, rect.top, rect.bottom);
+  const dx = cx - closestX;
+  const dy = cy - closestY;
+  return (dx * dx) + (dy * dy) <= radius * radius;
+}
+
+function brushIntersectsNoSmudge(clientX, clientY, radius) {
+  if (!Number.isFinite(clientX) || !Number.isFinite(clientY)) return false;
+  const candidates = document.querySelectorAll(".no-smudge");
+  for (const element of candidates) {
+    if (!(element instanceof HTMLElement)) continue;
+    const styles = window.getComputedStyle(element);
+    if (styles.display === "none" || styles.visibility === "hidden" || Number(styles.opacity) === 0) continue;
+    const rect = element.getBoundingClientRect();
+    if (circleIntersectsRect(clientX, clientY, radius, rect)) return true;
+  }
+  return false;
+}
+
+function isPowerOfTwo(value) {
+  return value > 0 && (value & (value - 1)) === 0;
+}
+
+function initializeSmudgeEngine(wrapperElement) {
+  if (!hasFinePointer || !(wrapperElement instanceof HTMLElement)) return null;
+  const canvas = wrapperElement.querySelector(".smudge-canvas");
+  const image = wrapperElement.querySelector(".background-image");
+  if (!(canvas instanceof HTMLCanvasElement) || !(image instanceof HTMLImageElement)) return null;
+
+  const gl = canvas.getContext("webgl", { alpha: true, premultipliedAlpha: true, antialias: true });
+  if (!gl) return null;
+
+  const vertexShaderSource = `
+    attribute vec2 aPosition;
+    attribute vec2 aUv;
+    varying vec2 vUv;
+    void main() {
+      vUv = aUv;
+      gl_Position = vec4(aPosition, 0.0, 1.0);
+    }
+  `;
+  const fragmentShaderSource = `
+    precision mediump float;
+    varying vec2 vUv;
+    uniform sampler2D uTexture;
+    uniform vec2 uResolution;
+    uniform vec2 uMousePx;
+    uniform vec2 uVelocityPx;
+    uniform float uBrushRadiusPx;
+    uniform float uStrength;
+    uniform float uImageAspect;
+    uniform float uRectAspect;
+
+    vec2 coverUv(vec2 uv) {
+      vec2 mapped = uv;
+      if (uRectAspect > uImageAspect) {
+        float scale = uImageAspect / max(uRectAspect, 0.0001);
+        mapped.y = (uv.y - 0.5) * scale + 0.5;
+      } else {
+        float scale = uRectAspect / max(uImageAspect, 0.0001);
+        mapped.x = (uv.x - 0.5) * scale + 0.5;
+      }
+      return clamp(mapped, 0.0, 1.0);
+    }
+
+    void main() {
+      float distPx = distance(vUv * uResolution, uMousePx);
+      float normalized = clamp(1.0 - (distPx / max(uBrushRadiusPx, 1.0)), 0.0, 1.0);
+      float falloff = normalized * normalized * (3.0 - 2.0 * normalized);
+      falloff *= falloff;
+      vec2 displacementUv = (uVelocityPx / max(uResolution, vec2(1.0))) * (falloff * uStrength * 2.2);
+      vec2 displacedUv = clamp(vUv - displacementUv, 0.0, 1.0);
+      vec2 sampleUv = coverUv(displacedUv);
+      vec4 color = texture2D(uTexture, sampleUv);
+      gl_FragColor = vec4(color.rgb, color.a);
+    }
+  `;
+
+  function compileShader(type, source) {
+    const shader = gl.createShader(type);
+    if (!shader) return null;
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      gl.deleteShader(shader);
+      return null;
+    }
+    return shader;
+  }
+
+  function createProgram(vertexSource, fragmentSource) {
+    const vertexShader = compileShader(gl.VERTEX_SHADER, vertexSource);
+    const fragmentShader = compileShader(gl.FRAGMENT_SHADER, fragmentSource);
+    if (!vertexShader || !fragmentShader) return null;
+    const program = gl.createProgram();
+    if (!program) return null;
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return null;
+    return program;
+  }
+
+  const program = createProgram(vertexShaderSource, fragmentShaderSource);
+  if (!program) return null;
+
+  const locations = {
+    attribPosition: gl.getAttribLocation(program, "aPosition"),
+    attribUv: gl.getAttribLocation(program, "aUv"),
+    uTexture: gl.getUniformLocation(program, "uTexture"),
+    uResolution: gl.getUniformLocation(program, "uResolution"),
+    uMousePx: gl.getUniformLocation(program, "uMousePx"),
+    uVelocityPx: gl.getUniformLocation(program, "uVelocityPx"),
+    uBrushRadiusPx: gl.getUniformLocation(program, "uBrushRadiusPx"),
+    uStrength: gl.getUniformLocation(program, "uStrength"),
+    uImageAspect: gl.getUniformLocation(program, "uImageAspect"),
+    uRectAspect: gl.getUniformLocation(program, "uRectAspect")
+  };
+
+  const quadBuffer = gl.createBuffer();
+  if (!quadBuffer) return null;
+
+  const fullscreenQuad = new Float32Array([
+    -1, -1, 0, 1,
+     1, -1, 1, 1,
+    -1,  1, 0, 0,
+    -1,  1, 0, 0,
+     1, -1, 1, 1,
+     1,  1, 1, 0
+  ]);
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, fullscreenQuad, gl.STATIC_DRAW);
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.clearColor(0, 0, 0, 0);
+
+  const texture = gl.createTexture();
+  if (!texture) return null;
+  const shouldFlipY = !wrapperElement.classList.contains("layer-fg");
+
+  let textureReady = false;
+  let imageAspect = 1;
+  let lastDpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resizeCanvas() {
+    const rect = wrapperElement.getBoundingClientRect();
+    const baseDpr = Math.min(window.devicePixelRatio || 1, 2);
+    let nextWidth = Math.max(Math.round(rect.width * baseDpr), 1);
+    let nextHeight = Math.max(Math.round(rect.height * baseDpr), 1);
+    const maxCanvasDimension = 1800;
+    const largestDimension = Math.max(nextWidth, nextHeight);
+    if (largestDimension > maxCanvasDimension) {
+      const scale = maxCanvasDimension / largestDimension;
+      nextWidth = Math.max(Math.round(nextWidth * scale), 1);
+      nextHeight = Math.max(Math.round(nextHeight * scale), 1);
+    }
+    if (canvas.width !== nextWidth || canvas.height !== nextHeight) {
+      canvas.width = nextWidth;
+      canvas.height = nextHeight;
+    }
+    lastDpr = canvas.width / Math.max(rect.width, 1);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+
+  function uploadTextureFromImage() {
+    if (!image.complete || !image.naturalWidth || !image.naturalHeight) return false;
+    const maxTextureDimension = 2048;
+    let source = image;
+    let sourceWidth = image.naturalWidth;
+    let sourceHeight = image.naturalHeight;
+
+    if (Math.max(sourceWidth, sourceHeight) > maxTextureDimension) {
+      const scale = maxTextureDimension / Math.max(sourceWidth, sourceHeight);
+      const downscaleCanvas = document.createElement("canvas");
+      downscaleCanvas.width = Math.max(1, Math.round(sourceWidth * scale));
+      downscaleCanvas.height = Math.max(1, Math.round(sourceHeight * scale));
+      const context = downscaleCanvas.getContext("2d");
+      if (context) {
+        context.drawImage(image, 0, 0, downscaleCanvas.width, downscaleCanvas.height);
+        source = downscaleCanvas;
+        sourceWidth = downscaleCanvas.width;
+        sourceHeight = downscaleCanvas.height;
+      }
+    }
+
+    imageAspect = sourceWidth / Math.max(sourceHeight, 1);
+
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, shouldFlipY);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+    const canUseMipmaps = isPowerOfTwo(sourceWidth) && isPowerOfTwo(sourceHeight);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, canUseMipmaps ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    if (canUseMipmaps) gl.generateMipmap(gl.TEXTURE_2D);
+
+    textureReady = true;
+    wrapperElement.classList.add("is-smudge-ready");
+    return true;
+  }
+
+  if (!uploadTextureFromImage()) {
+    image.addEventListener("load", () => {
+      uploadTextureFromImage();
+    }, { once: true });
+  }
+
+  function clear() {
+    resizeCanvas();
+    gl.clear(gl.COLOR_BUFFER_BIT);
+  }
+
+  function render(renderState) {
+    resizeCanvas();
+    if (!textureReady) {
+      clear();
+      return;
+    }
+
+    const rect = wrapperElement.getBoundingClientRect();
+    if (rect.width < 1 || rect.height < 1) {
+      clear();
+      return;
+    }
+
+    const pointerX = clamp(renderState.pointerX, rect.left, rect.right) - rect.left;
+    const pointerY = clamp(renderState.pointerY, rect.top, rect.bottom) - rect.top;
+    const pointerPxX = pointerX * lastDpr;
+    const pointerPxY = pointerY * lastDpr;
+    const velocityPxX = (renderState.velocityX || 0) * lastDpr;
+    const velocityPxY = (renderState.velocityY || 0) * lastDpr;
+
+    gl.useProgram(program);
+    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+    gl.enableVertexAttribArray(locations.attribPosition);
+    gl.vertexAttribPointer(locations.attribPosition, 2, gl.FLOAT, false, 16, 0);
+    gl.enableVertexAttribArray(locations.attribUv);
+    gl.vertexAttribPointer(locations.attribUv, 2, gl.FLOAT, false, 16, 8);
+
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.uniform1i(locations.uTexture, 0);
+    gl.uniform2f(locations.uResolution, canvas.width, canvas.height);
+    gl.uniform2f(locations.uMousePx, pointerPxX, pointerPxY);
+    gl.uniform2f(locations.uVelocityPx, velocityPxX, velocityPxY);
+    gl.uniform1f(locations.uBrushRadiusPx, Math.max(1, renderState.radiusPx * lastDpr));
+    gl.uniform1f(locations.uStrength, clamp(renderState.brushStrength, 0, 1));
+    gl.uniform1f(locations.uImageAspect, imageAspect);
+    gl.uniform1f(locations.uRectAspect, rect.width / Math.max(rect.height, 1));
+
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
+
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+  return { wrapper: wrapperElement, render, clear };
+}
+
+const smudgeEngines = [];
+
+function updateGyroTargets(beta, gamma) {
+  if (!Number.isFinite(beta) || !Number.isFinite(gamma)) return;
+  const normalizedX = clamp(gamma / gyroConfig.maxTiltDeg, -1, 1);
+  const normalizedY = clamp(beta / gyroConfig.maxTiltDeg, -1, 1);
+  gyroState.targetX = clamp(normalizedX * gyroConfig.maxOffsetX, -gyroConfig.maxOffsetX, gyroConfig.maxOffsetX);
+  gyroState.targetY = clamp(normalizedY * gyroConfig.maxOffsetY, -gyroConfig.maxOffsetY, gyroConfig.maxOffsetY);
+}
+
+function handleDeviceOrientation(event) {
+  updateGyroTargets(event.beta, event.gamma);
+}
+
+function enableGyroTracking() {
+  if (gyroState.activated || typeof window === "undefined") return;
+  window.addEventListener("deviceorientation", handleDeviceOrientation, true);
+  gyroState.activated = true;
+  gyroState.enabled = true;
+}
+
+async function requestGyroAccessFromGesture() {
+  if (typeof DeviceOrientationEvent === "undefined") return;
+  if (typeof DeviceOrientationEvent.requestPermission === "function") {
+    try {
+      const result = await DeviceOrientationEvent.requestPermission();
+      if (result !== "granted") return;
+      enableGyroTracking();
+    } catch (_error) {
+      // Keep mouse/touch fallback if sensor permission fails.
+    }
+    return;
+  }
+  enableGyroTracking();
+}
+
+const requestGyroOnFirstGesture = () => {
+  requestGyroAccessFromGesture();
+};
+window.addEventListener("click", requestGyroOnFirstGesture, { once: true });
+window.addEventListener("touchstart", requestGyroOnFirstGesture, { once: true, passive: true });
+window.addEventListener("keydown", requestGyroOnFirstGesture, { once: true });
+
+if (navElement && navIndicator) {
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const targetId = href.startsWith("#") ? href.slice(1) : "";
+
+    link.addEventListener("mouseenter", () => {
+      navPreviewing = true;
+      positionNavIndicator(link, 0.84);
+    });
+
+    link.addEventListener("focus", () => {
+      navPreviewing = true;
+      positionNavIndicator(link, 0.92);
+    });
+
+    link.addEventListener("click", () => {
+      if (!targetId) return;
+      navPreviewing = false;
+      setActiveNav(targetId);
+      positionNavIndicator(link, 1);
+    });
+  });
+
+  navElement.addEventListener("mouseleave", restoreNavIndicator);
+  navElement.addEventListener("focusout", () => {
+    requestAnimationFrame(() => {
+      const activeEl = document.activeElement;
+      if (!(activeEl instanceof HTMLElement) || !navElement.contains(activeEl)) {
+        restoreNavIndicator();
+      }
+    });
+  });
+
+  window.addEventListener("resize", () => {
+    if (navPreviewing) return;
+    restoreNavIndicator();
+  });
+
+  restoreNavIndicator();
+}
+
+const initialSectionFromHash = (window.location.hash || "").replace(/^#/, "");
+if (!document.body.classList.contains("intro-scroll-lock")
+  && initialSectionFromHash
+  && navLinks.some((link) => link.getAttribute("href") === `#${initialSectionFromHash}`)) {
+  setActiveNav(initialSectionFromHash);
+} else {
+  setActiveNav("home");
+}
+markNoSmudgeTargets();
+initializeHomeAmbientParticles();
+initializeMobileContactCardEntrance();
+if (contactBgImageElement) {
+  if (contactBgImageElement.complete && contactBgImageElement.naturalWidth > 0) {
+    syncContactSectionHeightToBackground();
+  } else {
+    contactBgImageElement.addEventListener("load", syncContactSectionHeightToBackground, { once: true });
+  }
+  window.addEventListener("resize", syncContactSectionHeightToBackground);
+}
+
 const gallerySection = document.getElementById("gallery");
-if (window.matchMedia("(pointer: fine)").matches) {
+const galleryList = document.getElementById("gallery-list");
+let galleryCategories = [];
+
+const galleryCategoryMeta = [
+  {
+    name: "Artificial Flowers",
+    subtitle: "Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Bouquets",
+    subtitle: "Bouquet custom untuk hadiah, perayaan, dan momen spesial.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Dekorasi Mobil",
+    subtitle: "Dekorasi bunga mobil untuk pernikahan, event, dan kebutuhan seremonial.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Papan Bunga",
+    subtitle: "Papan bunga ucapan untuk peresmian, duka cita, dan momen formal lainnya.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Pita Peresmian",
+    subtitle: "Pita peresmian untuk acara grand opening dan kegiatan seremonial.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Standing Flowers",
+    subtitle: "Standing flowers untuk dekorasi acara dan kebutuhan display formal.",
+    phone: "6281275017456"
+  },
+  {
+    name: "Supplies",
+    subtitle: "Kebutuhan florist, bahan pendukung, dan perlengkapan dekorasi.",
+    phone: "628116667920"
+  }
+];
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatRupiah(value) {
+  const numeric = Number(String(value ?? "").replace(/[^\d.-]/g, ""));
+  if (!Number.isFinite(numeric)) return "Rp -";
+  return `Rp ${new Intl.NumberFormat("id-ID").format(Math.round(numeric))}`;
+}
+
+function buildConsultHref(phone, text) {
+  return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+}
+
+let galleryRevealObserver = null;
+
+function ensureGalleryRevealObserver() {
+  if (galleryRevealObserver || typeof IntersectionObserver === "undefined") return galleryRevealObserver;
+  galleryRevealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      const target = entry.target;
+      if (!(target instanceof HTMLElement)) return;
+      const isVisibleEnough = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+      const revealOnce = target.dataset.revealOnce === "1";
+      if (revealOnce) {
+        if (!isVisibleEnough) return;
+        target.classList.add("is-revealed");
+        observer.unobserve(target);
+        return;
+      }
+      target.classList.toggle("is-revealed", isVisibleEnough);
+    });
+  }, {
+    threshold: [0, 0.2, 0.4, 0.8],
+    root: null,
+    rootMargin: "0px 0px -8% 0px"
+  });
+  return galleryRevealObserver;
+}
+
+function prepareGalleryRevealItem(element, delayMs, observer, revealOnce = false) {
+  if (!(element instanceof HTMLElement)) return;
+  if (element.dataset.revealPrepared === "1") return;
+  element.dataset.revealPrepared = "1";
+  if (revealOnce) element.dataset.revealOnce = "1";
+  element.style.setProperty("--reveal-delay", `${Math.max(delayMs, 0)}ms`);
+  element.classList.add("gallery-reveal-item");
+  if (observer) observer.observe(element);
+  else element.classList.add("is-revealed");
+}
+
+function initializeGalleryRevealAnimations() {
+  if (!gallerySection) return;
+  const observer = ensureGalleryRevealObserver();
+
+  const headingTargets = [
+    gallerySection.querySelector(".section-content > h1"),
+    gallerySection.querySelector(".gallery-lead")
+  ];
+  headingTargets.forEach((element, index) => {
+    prepareGalleryRevealItem(element, index * 120, observer);
+  });
+
+  const panelTargets = Array.from(
+    gallerySection.querySelectorAll(".collection-heading, .collection-desc, .category-consult-wrap, .masonry-item")
+  );
+  panelTargets.forEach((item, index) => {
+    prepareGalleryRevealItem(item, (index % 6) * 110, observer);
+  });
+}
+
+function initializeGlobalTextRevealAnimations() {
+  const observer = ensureGalleryRevealObserver();
+  const textTargets = Array.from(document.querySelectorAll([
+    "#home .section-content h1",
+    "#home .section-content p",
+    "#about .about-heading",
+    "#about .about-slogan",
+    "#contact .contact-intro h1",
+    "#contact .contact-slogan"
+  ].join(", ")));
+  textTargets.forEach((item, index) => {
+    prepareGalleryRevealItem(item, (index % 8) * 120, observer);
+  });
+
+  const contactCardTextTargets = Array.from(document.querySelectorAll([
+    "#contact .contact-card-title",
+    "#contact .contact-card-desc",
+    "#contact .contact-card-overlay .contact-card-label"
+  ].join(", ")));
+  contactCardTextTargets.forEach((item, index) => {
+    prepareGalleryRevealItem(item, (index % 6) * 110, observer, true);
+  });
+
+  const aboutBioTextTargets = Array.from(document.querySelectorAll([
+    "#about .about-bio h3",
+    "#about .about-bio p"
+  ].join(", ")));
+  aboutBioTextTargets.forEach((item, index) => {
+    prepareGalleryRevealItem(item, (index % 4) * 55, observer);
+  });
+}
+
+function renderGalleryFromData(data) {
+  if (!galleryList) return;
+  const items = Array.isArray(data?.items) ? data.items : [];
+  const grouped = new Map();
+  galleryCategoryMeta.forEach((meta) => grouped.set(meta.name, []));
+
+  items.forEach((item) => {
+    if (!item || typeof item !== "object") return;
+    const normalizedCategory = galleryCategoryMeta.find((meta) => meta.name === item.category)?.name;
+    if (!normalizedCategory) return;
+    grouped.get(normalizedCategory).push(item);
+  });
+
+  const categoryMarkup = galleryCategoryMeta.map((meta) => {
+    const categoryItems = grouped.get(meta.name) || [];
+    const cover = categoryItems.find((entry) => entry.image)?.image || "";
+
+    const masonry = categoryItems.length
+      ? categoryItems.map((item) => {
+        const safeName = escapeHTML(item.name || "Produk");
+        const safePrice = formatRupiah(item.price);
+        const safeImage = escapeHTML(item.image || "");
+        const consultText = `Halo, saya ingin konsultasi desain ${item.name || "produk"} dengan harga ${safePrice} pada kategori ${meta.name}.`;
+        const consultHref = buildConsultHref(meta.phone, consultText);
+        return `
+            <div class="masonry-item">
+              <img src="${safeImage}" alt="${safeName}" loading="lazy">
+              <div class="design-overlay">
+                <p class="design-title">${safeName}</p>
+                <p class="design-title">${safePrice}</p>
+                <a class="design-consult-btn" href="${consultHref}" target="_blank" rel="noopener noreferrer">Consult This Product on WhatsApp</a>
+              </div>
+            </div>
+        `;
+      }).join("")
+      : '<div class="collection-placeholder">This collection will be updated soon.</div>';
+
+    const collectionConsult = buildConsultHref(
+      meta.phone,
+      `Halo, saya ingin konsultasi koleksi: ${meta.name}`
+    );
+
+    return `
+      <article class="gallery-category">
+        <button class="category-toggle" type="button">
+          <div class="category-cover">
+            ${cover ? `<img src="${escapeHTML(cover)}" alt="${escapeHTML(meta.name)} cover" loading="lazy">` : '<div class="category-cover-placeholder" aria-hidden="true"></div>'}
+            <div class="category-overlay">
+              <p class="category-title">${escapeHTML(meta.name)}</p>
+              <p class="category-subtitle">${escapeHTML(meta.subtitle)}</p>
+              <span class="category-expand-label">View Collection</span>
+            </div>
+          </div>
+        </button>
+        <div class="category-panel">
+          <h2 class="collection-heading">${escapeHTML(meta.name)} Collection</h2>
+          <p class="collection-desc">${escapeHTML(meta.subtitle)}</p>
+          <div class="masonry-grid">
+            ${masonry}
+          </div>
+          <div class="category-consult-wrap">
+            <a class="category-consult-btn" href="${collectionConsult}" target="_blank" rel="noopener noreferrer">Consult This Collection on WhatsApp</a>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  galleryList.innerHTML = categoryMarkup;
+  galleryCategories = Array.from(galleryList.querySelectorAll(".gallery-category"));
+  markNoSmudgeTargets(galleryList);
+  initializeGalleryRevealAnimations();
+}
+
+if (hasFinePointer) {
+  if (cursorHalo) {
+    window.addEventListener("mousemove", (event) => {
+      haloPointerInside = true;
+      haloTargetX = event.clientX;
+      haloTargetY = event.clientY;
+      lastCursorMoveAt = Date.now();
+    });
+    window.addEventListener("mouseleave", () => {
+      haloPointerInside = false;
+    });
+    window.addEventListener("blur", () => {
+      haloPointerInside = false;
+    });
+  }
+
   sections.forEach((section) => {
     section.addEventListener("mousemove", (event) => {
       const rect = section.getBoundingClientRect();
@@ -1113,8 +2993,20 @@ if (window.matchMedia("(pointer: fine)").matches) {
       const ny = clamp(((event.clientY - rect.top) / rect.height) * 2 - 1, -1, 1);
       const current = state.get(section);
       if (!current) return;
-      current.mouseTargetX = nx * 28;
-      current.mouseTargetY = ny * 20;
+      if (section.id === "home") {
+        const deadZone = 0.06;
+        const nxAbs = Math.abs(nx);
+        const nyAbs = Math.abs(ny);
+        const nxNorm = nxAbs <= deadZone ? 0 : (nxAbs - deadZone) / (1 - deadZone);
+        const nyNorm = nyAbs <= deadZone ? 0 : (nyAbs - deadZone) / (1 - deadZone);
+        const edgeCurveX = Math.pow(nxNorm, 1.85);
+        const edgeCurveY = Math.pow(nyNorm, 1.85);
+        current.mouseTargetX = Math.sign(nx) * edgeCurveX * 48;
+        current.mouseTargetY = Math.sign(ny) * edgeCurveY * 56;
+      } else {
+        current.mouseTargetX = nx * 14;
+        current.mouseTargetY = ny * 10;
+      }
     });
 
     section.addEventListener("mouseleave", () => {
@@ -1143,94 +3035,92 @@ function updateGalleryOpenState() {
   document.body.classList.toggle("gallery-open", hasOpen && isGalleryInView);
 }
 
-galleryCategories.forEach((category, index) => {
-  const toggle = category.querySelector(".category-toggle");
-  const panel = category.querySelector(".category-panel");
-  if (!toggle || !panel) return;
+function initializeGalleryInteractions() {
+  galleryCategories.forEach((category, index) => {
+    const toggle = category.querySelector(".category-toggle");
+    const panel = category.querySelector(".category-panel");
+    if (!toggle || !panel) return;
 
-  const panelId = `gallery-panel-${index + 1}`;
-  panel.id = panelId;
-  toggle.setAttribute("aria-controls", panelId);
-  toggle.setAttribute("aria-expanded", "false");
-  panel.style.maxHeight = "0px";
+    const panelId = `gallery-panel-${index + 1}`;
+    panel.id = panelId;
+    toggle.setAttribute("aria-controls", panelId);
+    toggle.setAttribute("aria-expanded", "false");
+    panel.style.maxHeight = "0px";
 
-  toggle.addEventListener("click", () => {
-    const isOpen = category.classList.contains("is-open");
+    toggle.addEventListener("click", () => {
+      const isOpen = category.classList.contains("is-open");
 
-    galleryCategories.forEach((item) => {
-      const itemToggle = item.querySelector(".category-toggle");
-      const itemPanel = item.querySelector(".category-panel");
-      const activeItems = item.querySelectorAll(".masonry-item.is-active");
-      item.classList.remove("is-open");
-      if (itemToggle) itemToggle.setAttribute("aria-expanded", "false");
-      if (itemPanel) itemPanel.style.maxHeight = "0px";
-      activeItems.forEach((active) => active.classList.remove("is-active"));
+      galleryCategories.forEach((item) => {
+        const itemToggle = item.querySelector(".category-toggle");
+        const itemPanel = item.querySelector(".category-panel");
+        const activeItems = item.querySelectorAll(".masonry-item.is-active");
+        item.classList.remove("is-open");
+        if (itemToggle) itemToggle.setAttribute("aria-expanded", "false");
+        if (itemPanel) itemPanel.style.maxHeight = "0px";
+        activeItems.forEach((active) => active.classList.remove("is-active"));
+      });
+
+      if (!isOpen) {
+        category.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+        requestAnimationFrame(() => {
+          const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
+          panel.style.maxHeight = `${targetHeight}px`;
+        });
+      }
+
+      updateGalleryOpenState();
     });
+  });
 
-    if (!isOpen) {
-      category.classList.add("is-open");
-      toggle.setAttribute("aria-expanded", "true");
-      requestAnimationFrame(() => {
+  window.addEventListener("resize", () => {
+    galleryCategories.forEach((category) => {
+      const panel = category.querySelector(".category-panel");
+      if (!panel) return;
+      if (category.classList.contains("is-open")) {
         const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
         panel.style.maxHeight = `${targetHeight}px`;
-      });
-    }
-
+      }
+    });
     updateGalleryOpenState();
   });
-});
 
-window.addEventListener("resize", () => {
-  galleryCategories.forEach((category) => {
-    const panel = category.querySelector(".category-panel");
-    if (!panel) return;
-    if (category.classList.contains("is-open")) {
-      const targetHeight = Math.min(panel.scrollHeight, getOpenPanelHeight());
-      panel.style.maxHeight = `${targetHeight}px`;
-    }
-  });
-  updateGalleryOpenState();
-});
+  window.addEventListener("scroll", updateGalleryOpenState, { passive: true });
 
-window.addEventListener("scroll", updateGalleryOpenState, { passive: true });
+  if (gallerySection) {
+    const masonryItems = gallerySection.querySelectorAll(".masonry-item");
+    masonryItems.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        if (target.closest(".design-consult-btn")) return;
 
-if (gallerySection) {
-  const masonryItems = gallerySection.querySelectorAll(".masonry-item");
-  masonryItems.forEach((item) => {
-    item.addEventListener("click", (event) => {
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        if (!isMobile) return;
+
+        event.preventDefault();
+        const panel = item.closest(".category-panel");
+        if (!panel) return;
+
+        panel.querySelectorAll(".masonry-item.is-active").forEach((active) => {
+          if (active !== item) active.classList.remove("is-active");
+        });
+        item.classList.toggle("is-active");
+      });
+    });
+
+    document.addEventListener("click", (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
-      if (target.closest(".design-consult-btn")) return;
-
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-      if (!isMobile) return;
-
-      event.preventDefault();
-      const panel = item.closest(".category-panel");
-      if (!panel) return;
-
-      panel.querySelectorAll(".masonry-item.is-active").forEach((active) => {
-        if (active !== item) active.classList.remove("is-active");
+      if (target.closest(".masonry-item")) return;
+      gallerySection.querySelectorAll(".masonry-item.is-active").forEach((item) => {
+        item.classList.remove("is-active");
       });
-      item.classList.toggle("is-active");
     });
-  });
+  }
 
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
-    if (target.closest(".masonry-item")) return;
-    gallerySection.querySelectorAll(".masonry-item.is-active").forEach((item) => {
-      item.classList.remove("is-active");
-    });
-  });
-}
-
-updateGalleryOpenState();
-
-const canHoverPreview = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-const previewTimers = new WeakMap();
-if (canHoverPreview) {
+  const canHoverPreview = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const previewTimers = new WeakMap();
   galleryCategories.forEach((category) => {
     const coverImage = category.querySelector(".category-cover img");
     const panelImages = Array.from(category.querySelectorAll(".masonry-grid img"));
@@ -1246,6 +3136,8 @@ if (canHoverPreview) {
     if (frames.length < 2) return;
     let frameIndex = 0;
     let fadeTimer = null;
+    let holdTimer = null;
+    let holdTriggered = false;
 
     const renderFrame = (index, immediate = false) => {
       if (fadeTimer) window.clearTimeout(fadeTimer);
@@ -1267,6 +3159,10 @@ if (canHoverPreview) {
         window.clearInterval(timer);
         previewTimers.delete(category);
       }
+      if (holdTimer) {
+        window.clearTimeout(holdTimer);
+        holdTimer = null;
+      }
       frameIndex = 0;
       renderFrame(0, false);
     };
@@ -1280,114 +3176,387 @@ if (canHoverPreview) {
       previewTimers.set(category, timer);
     };
 
-    category.addEventListener("mouseenter", startPreview);
-    category.addEventListener("mouseleave", stopPreview);
-    category.addEventListener("focusin", startPreview);
-    category.addEventListener("focusout", () => {
-      requestAnimationFrame(() => {
-        const active = document.activeElement;
-        if (!(active instanceof HTMLElement) || !category.contains(active)) {
-          stopPreview();
-        }
+    if (canHoverPreview) {
+      category.addEventListener("mouseenter", startPreview);
+      category.addEventListener("mouseleave", stopPreview);
+      category.addEventListener("focusin", startPreview);
+      category.addEventListener("focusout", () => {
+        requestAnimationFrame(() => {
+          const active = document.activeElement;
+          if (!(active instanceof HTMLElement) || !category.contains(active)) {
+            stopPreview();
+          }
+        });
       });
-    });
+    }
+
+    const startMobileHoldPreview = () => {
+      holdTriggered = false;
+      if (holdTimer) window.clearTimeout(holdTimer);
+      holdTimer = window.setTimeout(() => {
+        holdTriggered = true;
+        startPreview();
+      }, 520);
+    };
+    const stopMobileHoldPreview = () => {
+      if (holdTimer) {
+        window.clearTimeout(holdTimer);
+        holdTimer = null;
+      }
+      stopPreview();
+    };
+
+    category.addEventListener("touchstart", startMobileHoldPreview, { passive: true });
+    category.addEventListener("touchend", stopMobileHoldPreview, { passive: true });
+    category.addEventListener("touchcancel", stopMobileHoldPreview, { passive: true });
+    category.addEventListener("touchmove", stopMobileHoldPreview, { passive: true });
+    category.addEventListener("click", (event) => {
+      if (!holdTriggered) return;
+      holdTriggered = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
   });
+
+  updateGalleryOpenState();
 }
+
+async function initializeGallery() {
+  try {
+    const response = await fetch("/data/gallery.json", { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    renderGalleryFromData(payload);
+  } catch (error) {
+    renderGalleryFromData({ items: [] });
+  }
+  initializeGalleryInteractions();
+}
+
+initializeGlobalTextRevealAnimations();
+initializeGalleryRevealAnimations();
+initializeGallery();
+
+const aboutSection = document.getElementById("about");
+const aboutFigures = aboutSection ? Array.from(aboutSection.querySelectorAll(".scene2-strip-fg-image[data-bio-target]")) : [];
+const aboutBios = aboutSection ? Array.from(aboutSection.querySelectorAll(".about-bio")) : [];
+const aboutBioPanel = aboutSection ? aboutSection.querySelector(".about-bio-panel") : null;
+const aboutPixelSamplers = new WeakMap();
+const aboutHoverOrder = ["fg3", "fg2", "fg1"];
+
+function setAboutActiveBio(targetKey, shouldScroll = false, forceState = false) {
+  if (!aboutSection) return;
+  const currentKey = aboutSection.dataset.activeBio || "";
+  const nextKey = forceState ? targetKey : (currentKey === targetKey ? "" : targetKey);
+  aboutSection.dataset.activeBio = nextKey;
+  aboutSection.classList.toggle("about-selected", Boolean(nextKey));
+
+  aboutFigures.forEach((figure) => {
+    const isActive = figure.dataset.bioTarget === nextKey;
+    figure.classList.toggle("is-active", isActive);
+    figure.classList.toggle("is-dim", Boolean(nextKey) && !isActive);
+    figure.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+
+  aboutBios.forEach((bio) => {
+    bio.classList.toggle("is-active", bio.dataset.bio === nextKey);
+  });
+
+  if (nextKey && shouldScroll && window.matchMedia("(max-width: 768px)").matches && aboutBioPanel) {
+    aboutBioPanel.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+function preparePixelSampler(imgElement) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return;
+  const source = new Image();
+  let ready = false;
+
+  source.crossOrigin = "anonymous";
+  source.src = imgElement.currentSrc || imgElement.src;
+
+  source.onload = () => {
+    canvas.width = source.naturalWidth || source.width;
+    canvas.height = source.naturalHeight || source.height;
+    if (!canvas.width || !canvas.height) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(source, 0, 0);
+    ready = true;
+  };
+
+  const sampleAlpha = (clientX, clientY) => {
+    if (!ready || !canvas.width || !canvas.height) return 0;
+    const rect = imgElement.getBoundingClientRect();
+    if (!rect.width || !rect.height) return 0;
+
+    // Map pointer to source image pixels using object-fit/object-position geometry.
+    const localX = clientX - rect.left;
+    const localY = clientY - rect.top;
+    const sourceW = canvas.width;
+    const sourceH = canvas.height;
+    const scale = Math.max(rect.width / sourceW, rect.height / sourceH);
+    const drawnW = sourceW * scale;
+    const drawnH = sourceH * scale;
+
+    const computed = window.getComputedStyle(imgElement);
+    const [rawPosX = "50%", rawPosY = "50%"] = computed.objectPosition.split(/\s+/);
+    const parsePos = (value, axis) => {
+      const token = String(value || "").toLowerCase();
+      if (token.endsWith("%")) {
+        const parsed = Number.parseFloat(token);
+        return Number.isFinite(parsed) ? parsed / 100 : 0.5;
+      }
+      if (token === "left" || token === "top") return 0;
+      if (token === "right" || token === "bottom") return 1;
+      if (token === "center") return 0.5;
+      const numeric = Number.parseFloat(token);
+      if (Number.isFinite(numeric)) {
+        const range = axis === "x" ? Math.abs(rect.width - drawnW) : Math.abs(rect.height - drawnH);
+        if (range > 0) return clamp(numeric / range, 0, 1);
+      }
+      return 0.5;
+    };
+
+    const posX = parsePos(rawPosX, "x");
+    const posY = parsePos(rawPosY, "y");
+    const offsetX = (rect.width - drawnW) * posX;
+    const offsetY = (rect.height - drawnH) * posY;
+    const srcX = (localX - offsetX) / scale;
+    const srcY = (localY - offsetY) / scale;
+
+    if (srcX < 0 || srcX >= sourceW || srcY < 0 || srcY >= sourceH) return 0;
+    const x = Math.max(0, Math.min(sourceW - 1, Math.floor(srcX)));
+    const y = Math.max(0, Math.min(sourceH - 1, Math.floor(srcY)));
+    return ctx.getImageData(x, y, 1, 1).data[3];
+  };
+  aboutPixelSamplers.set(imgElement, sampleAlpha);
+}
+
+function enterAboutFigure(imgElement) {
+  imgElement.classList.add("is-pixel-hover");
+}
+
+function leaveAboutFigure(imgElement) {
+  imgElement.classList.remove("is-pixel-hover");
+}
+
+aboutFigures.forEach((figure) => {
+  preparePixelSampler(figure);
+
+  figure.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    const targetKey = figure.dataset.bioTarget;
+    if (!targetKey) return;
+    setAboutActiveBio(targetKey, true);
+  });
+});
+
+function getTopAboutFigureAt(clientX, clientY) {
+  const ordered = aboutHoverOrder
+    .map((target) => aboutFigures.find((figure) => figure.dataset.bioTarget === target))
+    .filter(Boolean);
+  for (const figure of ordered) {
+    const sample = aboutPixelSamplers.get(figure);
+    if (!sample) continue;
+    if (sample(clientX, clientY) > 10) return figure;
+  }
+  return null;
+}
+
+if (aboutSection) {
+  let currentHoveredFigure = null;
+  const isDesktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const stopPulseOnMobileInteraction = () => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+    aboutSection.classList.add("about-pulse-stopped");
+  };
+
+  aboutSection.addEventListener("mousemove", (event) => {
+    const activeFigure = getTopAboutFigureAt(event.clientX, event.clientY);
+    aboutSection.style.cursor = activeFigure ? "pointer" : "default";
+    currentHoveredFigure = activeFigure;
+    aboutFigures.forEach((figure) => {
+      if (figure === activeFigure) enterAboutFigure(figure);
+      else leaveAboutFigure(figure);
+    });
+    if (isDesktopPointer) {
+      const targetKey = activeFigure ? activeFigure.dataset.bioTarget : "";
+      if (targetKey) setAboutActiveBio(targetKey, false, true);
+      else setAboutActiveBio("", false, true);
+    }
+  });
+
+  aboutSection.addEventListener("mouseleave", () => {
+    currentHoveredFigure = null;
+    aboutSection.style.cursor = "default";
+    aboutFigures.forEach((figure) => leaveAboutFigure(figure));
+    if (isDesktopPointer) setAboutActiveBio("", false, true);
+  });
+
+  aboutSection.addEventListener("click", (event) => {
+    // Use the same resolved hover target so click area matches hover area 1:1.
+    const activeFigure = currentHoveredFigure || getTopAboutFigureAt(event.clientX, event.clientY);
+    if (!activeFigure) {
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest(".section-content")) return;
+      return;
+    }
+    const targetKey = activeFigure.dataset.bioTarget;
+    if (!targetKey) return;
+    setAboutActiveBio(targetKey, true);
+  });
+
+  aboutSection.addEventListener("touchstart", stopPulseOnMobileInteraction, { passive: true, once: true });
+  aboutSection.addEventListener("click", stopPulseOnMobileInteraction, { passive: true, once: true });
+  aboutSection.addEventListener("keydown", stopPulseOnMobileInteraction, { once: true });
+}
+
+let homePinnedState = false;
 
 function animate() {
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  let shouldPinHomeTitle = false;
 
   sections.forEach((section) => {
     const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
     const progress = clamp((window.scrollY - section.offsetTop) / travel, 0, 1);
     const bg = section.querySelector(".layer-bg");
     const fg = section.querySelector(".layer-fg");
-    const fgCurtain = section.querySelector(".layer-fg-curtain");
-    const fgPeople = section.querySelector(".layer-fg-people");
     const current = state.get(section);
 
     const isContact = section.id === "contact";
-    let bgTarget = progress * (isMobile ? -72 : -120);
-    let fgRange = section.id === "about" ? 240 : 360;
+    let bgTarget = progress * (isMobile ? -44 : -78);
+    let fgRange = 360;
 
     if (section.id === "home" && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
-      fgRange = isMobile ? Math.max(0, Math.min(75, maxSafeTravel * 0.3)) : clamp(maxSafeTravel, 140, 320);
+      bgTarget = progress * (isMobile ? -72 : -128);
+      fgRange = isMobile
+        ? Math.max(0, Math.min(56, maxSafeTravel * 0.24))
+        : clamp(maxSafeTravel, 280, 760);
     } else if (isMobile && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
-      const desiredRange = section.id === "about" ? 65 : 75;
-      fgRange = Math.min(desiredRange, maxSafeTravel * 0.3);
+      const desiredRange = 48;
+      fgRange = Math.min(desiredRange, maxSafeTravel * 0.22);
     }
 
     const fgTarget = progress * -fgRange;
     if (isContact && bg) {
       const bgMaxScale = isMobile ? 1.035 : 1.045;
       const bgSafeTravel = Math.max((bg.offsetHeight * bgMaxScale - section.offsetHeight) / 2, 0);
-      const bgDesiredRange = isMobile ? 14 : 22;
+      const bgDesiredRange = isMobile ? 8 : 14;
       bgTarget = progress * -Math.min(bgDesiredRange, bgSafeTravel);
     }
 
-    current.bg = lerp(current.bg, bgTarget, isContact ? 0.032 : 0.08);
-    const fgLerp = isMobile ? 0.05 : (section.id === "home" ? 0.045 : 0.06);
+    current.bg = lerp(current.bg, bgTarget, isContact ? 0.022 : 0.05);
+    const fgLerp = isMobile ? 0.03 : (section.id === "home" ? 0.07 : 0.045);
     current.fg = lerp(current.fg, fgTarget, fgLerp);
 
-    const allowMouseDepth = !isMobile && window.matchMedia("(pointer: fine)").matches;
-    const targetMouseX = allowMouseDepth ? current.mouseTargetX : 0;
-    const targetMouseY = allowMouseDepth ? current.mouseTargetY : 0;
-    current.mouseX = lerp(current.mouseX, targetMouseX, 0.12);
-    current.mouseY = lerp(current.mouseY, targetMouseY, 0.12);
+    const allowDesktopMouseDepth = false;
+    const allowGyroDepth = false;
+    const allowMouseDepth = false;
+    const targetMouseX = 0;
+    const targetMouseY = 0;
+    const mouseLerp = section.id === "home" ? 0.085 : 0.08;
+    current.mouseX = lerp(current.mouseX, targetMouseX, mouseLerp);
+    current.mouseY = lerp(current.mouseY, targetMouseY, mouseLerp);
+    const allowLayerMouseDepth = allowMouseDepth && section.id !== "home";
 
     if (bg) {
-      if (isContact) {
+      bg.style.removeProperty("filter");
+      if (section.id === "about") {
+        bg.style.transform = "none";
+      } else if (isContact) {
         const bgScale = isMobile ? 1.035 : 1.045;
         bg.style.transform = `translateY(${current.bg}px) scale(${bgScale})`;
       } else {
-        const bgX = allowMouseDepth ? current.mouseX : 0;
-        const bgY = allowMouseDepth ? current.mouseY : 0;
+        const bgX = allowLayerMouseDepth ? current.mouseX : 0;
+        const bgY = allowLayerMouseDepth ? current.mouseY : 0;
         bg.style.transform = `translate3d(${bgX}px, ${current.bg + bgY}px, 0)`;
       }
     }
 
-    if (isContact && fgCurtain && fgPeople) {
-      const curtainScale = 1.01 + progress * (isMobile ? 0.012 : 0.016);
-      const fg2Progress = clamp(progress / 0.5, 0, 1);
-      const peopleStartScale = isMobile ? 1.18 : 1.24;
-      const peopleBaseY = isMobile ? 18 : 30;
-      const peopleScale = peopleStartScale;
-      const curtainSafeTravel = Math.max((fgCurtain.offsetHeight * curtainScale - section.offsetHeight) / 2, 0);
-      const peopleSafeTravel = Math.max((fgPeople.offsetHeight * peopleStartScale - section.offsetHeight) / 2, 0);
-      const curtainDesiredRange = isMobile ? 52 : 96;
-      const peopleDesiredRange = isMobile ? 56 : 102;
-      const curtainRange = Math.min(curtainDesiredRange, curtainSafeTravel);
-      const peopleRange = Math.min(peopleDesiredRange, peopleSafeTravel);
-      const curtainBaseY = isMobile ? 10 : 14;
-      const curtainBaseX = isMobile ? -34 : -58;
-      const curtainXRange = 0;
-
-      const curtainTarget = progress * curtainRange;
-      const curtainTargetX = progress * curtainXRange;
-      const peopleTarget = fg2Progress * -peopleRange;
-      current.fgCurtain = lerp(current.fgCurtain, curtainTarget, isMobile ? 0.038 : 0.048);
-      current.fgCurtainX = lerp(current.fgCurtainX, curtainTargetX, isMobile ? 0.044 : 0.056);
-      current.fgPeople = lerp(current.fgPeople, peopleTarget, isMobile ? 0.086 : 0.11);
-
-      fgCurtain.style.transform = `translate3d(${curtainBaseX + current.fgCurtainX}px, ${curtainBaseY + current.fgCurtain}px, 0) scale(${curtainScale})`;
-      fgPeople.style.transform = `translateY(${peopleBaseY + current.fgPeople}px) scale(${peopleScale})`;
-    } else if (fg) {
-      const baseFgOffset = isMobile
-        ? (section.id === "home" ? -33 : (section.id === "about" ? -24 : -37))
-        : (section.id === "home" ? -20 : -50);
-      const fgMouseX = allowMouseDepth ? current.mouseX * 0.78 : 0;
-      const fgMouseY = allowMouseDepth ? current.mouseY * 0.78 : 0;
-      fg.style.transform = `translate(calc(-50% + ${fgMouseX}px), calc(${baseFgOffset}% + ${current.fg + fgMouseY}px))`;
+    if (fg) {
+      if (isContact) {
+        fg.style.transform = "none";
+      } else {
+        const baseFgOffset = isMobile
+          ? (section.id === "home" ? -33 : (section.id === "about" ? -24 : -37))
+          : (section.id === "home" ? -20 : -50);
+        fg.style.transform = `translate(-50%, calc(${baseFgOffset}% + ${current.fg}px))`;
+      }
     }
 
-    if (section.id === "contact") {
-      const contactActive = window.scrollY + window.innerHeight * 0.7 > section.offsetTop
-        && window.scrollY < section.offsetTop + section.offsetHeight;
-      section.classList.toggle("is-visible", contactActive);
+    if (section.id === "home") {
+      const tiltRotateY = clamp(current.mouseX * 0.16, -7.4, 7.4);
+      const tiltRotateX = clamp(current.mouseY * -0.15, -6.4, 6.4);
+      if (homeSceneTiltElement) {
+        homeSceneTiltElement.style.transform = `translateZ(0px) rotateX(${tiltRotateX.toFixed(3)}deg) rotateY(${tiltRotateY.toFixed(3)}deg)`;
+      }
+      if (homeDepthBgElement) {
+        const depthBgX = current.mouseX * 1.14;
+        const depthBgY = current.mouseY * 0.98;
+        const depthBgRotateY = clamp(current.mouseX * 0.052, -2.6, 2.6);
+        const depthBgRotateX = clamp(current.mouseY * -0.046, -2.1, 2.1);
+        homeDepthBgElement.style.transform = `translate3d(${depthBgX.toFixed(2)}px, ${depthBgY.toFixed(2)}px, -50px) rotateX(${depthBgRotateX.toFixed(3)}deg) rotateY(${depthBgRotateY.toFixed(3)}deg)`;
+      }
+      if (homeDepthFgElement) {
+        homeDepthFgElement.style.transform = "translate3d(0px, 0px, 50px)";
+      }
+      if (homeParticlesElement) {
+        const particleX = current.mouseX * 0.32;
+        const particleY = current.mouseY * 0.24;
+        homeParticlesElement.style.transform = `translate3d(${particleX.toFixed(2)}px, ${particleY.toFixed(2)}px, 50px)`;
+      }
+      const homeTitle = section.querySelector(".section-content h1");
+      if (homeTitle) {
+        const titleTop = homeTitle.getBoundingClientRect().top;
+        if (!homePinnedState && titleTop <= 86) homePinnedState = true;
+        shouldPinHomeTitle = homePinnedState;
+      } else {
+        shouldPinHomeTitle = homePinnedState;
+      }
     }
   });
+
+  if (cursorHalo) {
+    const haloIsIdle = Date.now() - lastCursorMoveAt > haloIdleDelayMs;
+    const haloBlocked = brushIntersectsNoSmudge(haloTargetX, haloTargetY, HALO_BLOCK_RADIUS);
+    const shouldShowHalo = haloPointerInside && !haloIsIdle && !shouldSuppressHalo() && !haloBlocked;
+    haloTargetOpacity = shouldShowHalo ? 1 : 0;
+    haloX = lerp(haloX, haloTargetX, 0.22);
+    haloY = lerp(haloY, haloTargetY, 0.22);
+    haloOpacity = lerp(haloOpacity, haloTargetOpacity, shouldShowHalo ? 0.2 : 0.45);
+    cursorHalo.style.transform = `translate3d(${haloX - HALO_HALF}px, ${haloY - HALO_HALF}px, 0)`;
+    cursorHalo.style.opacity = haloOpacity.toFixed(3);
+  }
+
+  let targetSectionId = "home";
+  let strongestScore = -1;
+  storySections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    const sectionCenter = rect.top + rect.height / 2;
+    const centerDistance = Math.abs(sectionCenter - window.innerHeight * 0.52);
+    const revealRaw = clamp(1 - centerDistance / (window.innerHeight * 0.9), 0, 1);
+    const revealProgress = 1 - Math.pow(1 - revealRaw, 2.2);
+    section.style.setProperty("--section-reveal", revealProgress.toFixed(4));
+
+    const visiblePx = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+    const visibleRatio = visiblePx / Math.max(Math.min(rect.height, window.innerHeight), 1);
+    const centerScore = 1 - clamp(Math.abs((rect.top + rect.height / 2) - window.innerHeight * 0.5) / (window.innerHeight * 0.82), 0, 1);
+    const score = visibleRatio * 0.64 + centerScore * 0.36;
+    if (score > strongestScore) {
+      strongestScore = score;
+      targetSectionId = section.id;
+    }
+  });
+
+  setActiveNav(targetSectionId);
+  document.body.classList.toggle("home-title-pinned", shouldPinHomeTitle);
+  if (!shouldPinHomeTitle) setEditionsPanelOpen(false);
 
   requestAnimationFrame(animate);
 }
@@ -1395,13 +3564,31 @@ function animate() {
 animate();
 
 window.addEventListener("load", () => {
+  forceHomeWhileIntroLocked();
+  syncContactSectionHeightToBackground();
   const intro = document.getElementById("intro");
-  if (!intro) return;
-  setTimeout(() => {
-    intro.style.transition = "opacity 1s ease";
-    intro.style.opacity = "0";
-    setTimeout(() => intro.remove(), 1000);
-  }, 1800);
+  const textRevealDelayMs = 3000;
+  const textRevealDurationMs = 3000;
+  window.setTimeout(() => {
+    forceHomeWhileIntroLocked();
+    document.body.classList.remove("text-reveal-pending");
+    document.body.classList.remove("intro-scroll-lock");
+    document.documentElement.classList.remove("intro-scroll-lock");
+    window.scrollTo(0, 0);
+    window.setTimeout(() => {
+      document.body.classList.remove("text-reveal-anim");
+    }, textRevealDurationMs);
+  }, textRevealDelayMs);
+  if (intro) {
+    window.setTimeout(() => {
+      intro.style.transition = "opacity 1s ease";
+      intro.style.opacity = "0";
+      window.setTimeout(() => {
+        intro.remove();
+      }, 1000);
+    }, 1800);
+    return;
+  }
 });
 </script>
 </body>

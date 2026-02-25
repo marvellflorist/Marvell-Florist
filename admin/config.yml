@@ -21,6 +21,6 @@ collections:
             summary: "{{fields.title}} - Rp {{fields.price}}"
             fields:
               - { label: "Title", name: "title", widget: "string" }
-              - { label: "Price", name: "price", widget: "number", value_type: "int", min: 0 }
+              - { label: "Price", name: "price", widget: "number", value_type: "int", min: 0, required: false }
               - { label: "Category", name: "category", widget: "string" }
               - { label: "Image", name: "image", widget: "image" }

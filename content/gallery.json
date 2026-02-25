@@ -1,46 +1,46 @@
 {
   "items": [
     {
-      "title": "Artificial Rose Dome",
-      "price": 350000,
-      "category": "artificial flowers",
-      "image": "/assets/artificial.JPG"
-    },
-    {
       "title": "Classic Hand Bouquet",
       "price": 450000,
       "category": "bouquets",
-      "image": "/assets/bouquets.jpg"
+      "image": "/assets/uploads/bouquets.jpg"
     },
     {
-      "title": "Dekorasi Mobil Premium",
-      "price": 1200000,
+      "title": "Artificial Flowers",
+      "price": null,
+      "category": "artificial flowers",
+      "image": "/assets/uploads/artificial.jpg"
+    },
+    {
+      "title": "Dekorasi Mobil",
+      "price": null,
       "category": "dekorasi mobil",
-      "image": "/dekorasi.jpg"
+      "image": "/assets/uploads/dekorasi-mobil.jpg"
     },
     {
-      "title": "Papan Bunga Congratulatory",
-      "price": 950000,
+      "title": "Papan Bunga",
+      "price": null,
       "category": "papan bunga",
-      "image": "/assets/scene4-bg.PNG"
+      "image": "/assets/uploads/papan-bunga.jpg"
     },
     {
-      "title": "Pita Peresmian Ceremonial",
-      "price": 750000,
+      "title": "Pita Peresmian",
+      "price": null,
       "category": "pita peresmian",
-      "image": "/assets/scene1-bg.png"
+      "image": "/assets/uploads/pita-peresmian.jpg"
     },
     {
-      "title": "Standing Flowers Grand",
-      "price": 1100000,
+      "title": "Standing Flowers",
+      "price": null,
       "category": "standing flowers",
-      "image": "/assets/scene2-fg.png"
+      "image": "/assets/uploads/standing-flowers.jpg"
     },
     {
-      "title": "Florist Supply Starter Pack",
-      "price": 250000,
+      "title": "Supplies",
+      "price": null,
       "category": "supplies",
-      "image": "/assets/x.png"
+      "image": "/assets/uploads/supplies.jpg"
     }
   ]
 }
