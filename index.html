@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
   <!-- Google tag (gtag.js) -->
+=======
+<!-- Google tag (gtag.js) -->
+>>>>>>> 77c3268 (bismillah final)
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9PJ60V3CR"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -24,35 +28,40 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 @font-face {
   font-family: "Louis George Cafe";
-  src: url("assets/fonts/Louis George Cafe.ttf") format("truetype");
+  src: url("assets/fonts/Louis George Cafe.woff2") format("woff2"),
+       url("assets/fonts/Louis George Cafe.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: "Louis George Cafe";
-  src: url("assets/fonts/Louis George Cafe Bold.ttf") format("truetype");
+  src: url("assets/fonts/Louis George Cafe Bold.woff2") format("woff2"),
+       url("assets/fonts/Louis George Cafe Bold.ttf") format("truetype");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
   font-family: "Louis George Cafe";
-  src: url("assets/fonts/Louis George Cafe Light.ttf") format("truetype");
+  src: url("assets/fonts/Louis George Cafe Light.woff2") format("woff2"),
+       url("assets/fonts/Louis George Cafe Light.ttf") format("truetype");
   font-style: normal;
   font-weight: 300;
   font-display: swap;
@@ -530,6 +539,10 @@ body.intro-scroll-lock {
 }
 #home .layer-depth-bg .layer-bg {
   filter: none;
+  background-image: url("assets/scene1-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }
 #home .scene-3d-root {
   position: absolute;
@@ -581,16 +594,18 @@ body.intro-scroll-lock {
   inset: 0;
   overflow: hidden;
   pointer-events: none;
+  opacity: 1;
   transform: scale(1.12);
   transform-origin: center center;
   will-change: transform;
+  animation: homeSkySettle 420s linear 1 forwards;
 }
 #home .home-sky-track {
   display: flex;
   width: 7680px;
   height: 100%;
   will-change: transform;
-  animation: homeSkyLoop 420s linear infinite;
+  animation: homeSkyLoop 420s linear 1 forwards;
 }
 #home .home-sky-track img {
   width: auto;
@@ -608,6 +623,17 @@ body.intro-scroll-lock {
   }
   100% {
     transform: translate3d(-3840px, 0, 0);
+  }
+}
+@keyframes homeSkySettle {
+  0% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 @keyframes homeDustFloat {
@@ -855,14 +881,17 @@ body.intro-scroll-lock {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.54s ease-in-out, opacity 0.42s ease-in-out, padding 0.42s ease-in-out;
+  transition: max-height 0.54s ease-in-out, opacity 0.26s ease-in-out;
   padding: 0 30px;
 }
 .gallery-category.is-open .category-panel {
   opacity: 1;
   padding: 22px 30px 26px;
   overflow-y: auto;
+  overflow-x: hidden;
   overscroll-behavior: auto;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 34px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 28px, #000 calc(100% - 34px), transparent 100%);
 }
 .collection-heading {
   font-family: "Inter Tight", sans-serif;
@@ -1039,15 +1068,15 @@ body.intro-scroll-lock {
 .gallery-category .masonry-grid,
 .gallery-category .category-consult-wrap {
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.34s ease, transform 0.34s ease;
+  transform: none;
+  transition: opacity 0.26s ease;
 }
 .gallery-category.is-open .collection-heading,
 .gallery-category.is-open .collection-desc,
 .gallery-category.is-open .masonry-grid,
 .gallery-category.is-open .category-consult-wrap {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 #about {
@@ -3328,6 +3357,7 @@ function initializeGalleryInteractions() {
     };
 
     const startPreview = () => {
+      if (category.classList.contains("is-open")) return;
       if (previewTimers.get(category)) return;
       const timer = window.setInterval(() => {
         frameIndex = nextRandomFrame();
@@ -3370,6 +3400,11 @@ function initializeGalleryInteractions() {
     category.addEventListener("touchend", stopMobileHoldPreview, { passive: true });
     category.addEventListener("touchcancel", stopMobileHoldPreview, { passive: true });
     category.addEventListener("touchmove", stopMobileHoldPreview, { passive: true });
+    category.addEventListener("click", () => {
+      if (category.classList.contains("is-open")) {
+        stopPreview();
+      }
+    });
     category.addEventListener("click", (event) => {
       if (!holdTriggered) return;
       holdTriggered = false;
