@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
-  <!-- Google tag (gtag.js) -->
-=======
 <!-- Google tag (gtag.js) -->
->>>>>>> 77c3268 (bismillah final)
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9PJ60V3CR"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -16,7 +12,17 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marvell Florist</title>
+<title>Marvell Florist | Floral Arrangements & Supplies</title>
+<meta name="description" content="Sejak 2006, Marvell Florist menyediakan bouquet, artificial flowers, dan floral supplies untuk melengkapi berbagai momen yang ingin dibuat lebih berkesan.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Marvell Florist">
+<meta property="og:description" content="Where every petal is a little more marvelous.">
+<meta property="og:image" content="/assets/preview.png">
+<meta property="og:image:type" content="image/png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Marvell Florist">
+<meta name="twitter:description" content="Where every petal is a little more marvelous.">
+<meta name="twitter:image" content="/assets/preview.png">
 <link rel="icon" href="assets/logoo.png?v=3" type="image/png" sizes="32x32">
 <link rel="icon" href="assets/logoo.png?v=3" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/logoo.png?v=3">
@@ -711,7 +717,7 @@ body.intro-scroll-lock {
 .gallery-reveal-item {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1), transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
   will-change: opacity, transform;
 }
@@ -721,7 +727,7 @@ body.intro-scroll-lock {
 }
 #about .about-bio h3.gallery-reveal-item,
 #about .about-bio p.gallery-reveal-item {
-  transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.62s cubic-bezier(0.22, 1, 0.36, 1), transform 0.62s cubic-bezier(0.22, 1, 0.36, 1);
 }
 #gallery .gallery-reveal-item {
   opacity: 0 !important;
@@ -778,6 +784,7 @@ body.intro-scroll-lock {
 .category-cover {
   position: relative;
   height: clamp(280px, 33vw, 390px);
+  overflow: hidden;
 }
 .category-cover img {
   width: 100%;
@@ -786,21 +793,29 @@ body.intro-scroll-lock {
   object-fit: cover;
   object-position: 50% 40%;
   opacity: 1;
-  transition: opacity 0.28s ease;
+  transition: opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.category-cover img.is-fading {
-  opacity: 0.42;
+.category-cover.has-crossfade img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 0;
+}
+.category-cover.has-crossfade img.is-visible {
+  opacity: 1;
 }
 .category-cover::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 1;
   box-shadow: inset 0 0 36px rgba(0, 0, 0, 0.12);
 }
 .category-overlay {
   position: absolute;
   inset: 0;
+  z-index: 2;
   --category-overlay-pad: 26px;
   display: flex;
   flex-direction: column;
@@ -1069,7 +1084,7 @@ body.intro-scroll-lock {
 .gallery-category .category-consult-wrap {
   opacity: 0;
   transform: none;
-  transition: opacity 0.26s ease;
+  transition: opacity 0.62s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .gallery-category.is-open .collection-heading,
 .gallery-category.is-open .collection-desc,
@@ -1725,8 +1740,18 @@ body.intro-scroll-lock {
   .gallery-category.is-open .category-panel { padding: 18px 16px 22px; }
   .collection-heading { font-size: 28px; }
   .collection-desc { font-size: 14px; }
-  .masonry-grid { column-count: 1; }
+  .masonry-grid { column-count: 2; column-gap: 14px; }
   .masonry-item { border-radius: 14px; margin-bottom: 22px; }
+  .design-consult-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    letter-spacing: 0.12px;
+    text-align: center;
+  }
   #home .scene-3d-root {
     z-index: 2;
     perspective: none;
@@ -1749,8 +1774,8 @@ body.intro-scroll-lock {
   }
   #home {
     position: relative;
-    min-height: 100vh;
-    height: 100vh;
+    min-height: 104vh;
+    height: 104vh;
     overflow: hidden;
   }
   #home .layer-fg {
@@ -1791,10 +1816,20 @@ body.intro-scroll-lock {
   }
   #contact .layer-bg .background-image {
     inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 56% 18%;
+    object-position: 56% 78%;
+    transform: scale(1.06);
+    transform-origin: center center;
+  }
+  #contact .layer-bg .smudge-canvas {
+    display: none;
+  }
+  #contact .layer-bg.smudge-wrapper.is-smudge-ready .background-image {
+    opacity: 1;
   }
   .about-content-inner {
     width: min(94vw, 620px);
@@ -1835,8 +1870,8 @@ body.intro-scroll-lock {
     margin-left: auto;
     margin-right: auto;
   }
-  .about-heading {
-    font-size: clamp(74px, 18vw, 108px);
+  #about .about-heading {
+    font-size: clamp(68px, 16vw, 96px);
   }
   .about-slogan {
     font-size: 15px;
@@ -1858,7 +1893,7 @@ body.intro-scroll-lock {
   }
   #contact .contact-grid-layer {
     align-items: flex-start;
-    padding: calc(env(safe-area-inset-top, 0px) + 38vh) 10px 20px;
+    padding: calc(env(safe-area-inset-top, 0px) + 30vh) 10px 20px;
   }
   .contact-socials {
     width: min(94vw, 530px);
@@ -1952,22 +1987,23 @@ body.intro-scroll-lock {
     transform: translateX(-6px);
   }
   #contact .section-content {
-    padding: calc(env(safe-area-inset-top, 0px) + 156px) 18px 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 120px) 18px 0;
   }
   .contact-intro {
-    margin-top: 34px;
+    margin-top: 12px;
   }
   .contact-title-desktop {
     display: none;
   }
   #contact .contact-title-mobile {
     display: block;
-    font-family: "Relationship of Melodrame";
+    font-family: "RelationshipDisplay", serif;
     font-size: clamp(56px, 15vw, 90px) !important;
     line-height: 0.9;
+    text-transform: none;
   }
   #contact .contact-slogan {
-    margin-top: 12px;
+    margin-top: 6px;
     font-family: "Inter Tight", sans-serif;
     font-size: 12px !important;
     line-height: 1.45;
@@ -1979,8 +2015,201 @@ body.intro-scroll-lock {
     font-size: 12px;
     max-width: min(92vw, 460px);
   }
+  body.platform-android #contact .section-content {
+    padding: calc(env(safe-area-inset-top, 0px) + 116px) 16px 0;
+  }
+  body.platform-android #contact .contact-intro {
+    margin-top: 8px;
+  }
+  body.platform-android #contact .contact-grid-layer {
+    padding: calc(env(safe-area-inset-top, 0px) + 34vh) 10px 20px;
+  }
+  body.platform-android #contact .contact-title-mobile {
+    font-size: clamp(50px, 14.5vw, 78px) !important;
+  }
+  body.platform-android #contact .contact-slogan {
+    margin-top: 4px;
+    font-size: 11px !important;
+    line-height: 1.4;
+  }
+  @media (max-width: 400px) {
+    body.platform-android #contact .section-content {
+      padding: calc(env(safe-area-inset-top, 0px) + 104px) 14px 0;
+    }
+    body.platform-android #contact .contact-grid-layer {
+      padding: calc(env(safe-area-inset-top, 0px) + 31vh) 8px 18px;
+    }
+    body.platform-android #contact .contact-title-mobile {
+      font-size: clamp(44px, 13.2vw, 66px) !important;
+    }
+    body.platform-android #contact .contact-slogan {
+      font-size: 10px !important;
+      max-width: 92vw;
+    }
+  }
+  @media (max-width: 375px) and (max-height: 667px) {
+    #contact .section-content {
+      padding-top: calc(env(safe-area-inset-top, 0px) + 88px) !important;
+    }
+    #contact .contact-intro {
+      margin-top: 0 !important;
+    }
+    body.platform-android #contact .section-content {
+      padding: calc(env(safe-area-inset-top, 0px) + 88px) 14px 0;
+    }
+    body.platform-android #contact .contact-intro {
+      margin-top: 0;
+    }
+  }
   section { min-height: 130vh; }
   }
+@media
+  (width: 820px) and (height: 1180px),
+  (width: 1180px) and (height: 820px),
+  (width: 853px) and (height: 1280px),
+  (width: 1280px) and (height: 853px),
+  (width: 1024px) and (height: 1366px),
+  (width: 1366px) and (height: 1024px) {
+  body.device-ipad #home {
+    min-height: 105vh;
+    height: 105vh;
+    overflow: hidden;
+  }
+  body.device-ipad #home .layer-fg {
+    top: 6%;
+  }
+  body.device-ipad #gallery .section-content {
+    padding-top: 96px;
+  }
+  body.device-ipad #contact {
+    min-height: 100vh;
+  }
+  body.device-ipad #contact .layer-bg {
+    inset: 0;
+  }
+  body.device-ipad #contact .layer-bg .background-image {
+    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 56% 78%;
+    transform: scale(1.06);
+    transform-origin: center center;
+  }
+  body.device-ipad #contact .layer-bg .smudge-canvas {
+    display: none;
+  }
+  body.device-ipad #contact .layer-bg.smudge-wrapper.is-smudge-ready .background-image {
+    opacity: 1;
+  }
+  body.device-ipad #contact .contact-grid-layer {
+    align-items: flex-start;
+    padding: calc(env(safe-area-inset-top, 0px) + 30vh) 10px 20px;
+  }
+  body.device-ipad #contact .contact-socials {
+    width: min(94vw, 530px);
+    max-width: 530px;
+    margin: 0;
+    padding-right: 0;
+  }
+  body.device-ipad #contact .contact-card-grid {
+    width: 100%;
+    margin-left: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-items: stretch;
+    align-items: stretch;
+    column-gap: 2px;
+    row-gap: 12px;
+    padding: 0;
+    max-height: none;
+    overflow: visible;
+    -webkit-overflow-scrolling: auto;
+  }
+  body.device-ipad #contact .contact-card {
+    --photo-frame: 10px;
+    --photo-frame-bottom: 7px;
+    width: 97%;
+    flex: 1 1 0;
+    height: 100%;
+    margin-left: 0;
+    border-radius: 12px;
+    --tilt: 0deg;
+    --lift: 0px;
+    --stack: 1;
+    --card-s: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    transition: opacity 520ms ease;
+    transition-delay: 0ms;
+  }
+  body.device-ipad #contact .contact-card-title {
+    font-size: clamp(10px, 2.4vw, 13px);
+    line-height: 1.15;
+    min-height: 1.8em;
+    align-items: flex-start;
+  }
+  body.device-ipad #contact .contact-card-label {
+    font-size: clamp(7px, 1.6vw, 9px);
+  }
+  body.device-ipad #contact .contact-card-desc {
+    font-size: clamp(8px, 1.9vw, 10px);
+    line-height: 1.3;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    min-height: 0;
+    display: block;
+    overflow: visible;
+  }
+  body.device-ipad #contact .contact-card-overlay {
+    gap: 2px;
+    padding: 8px 8px 10px;
+    min-height: 0;
+  }
+  body.device-ipad #contact .contact-card-arrow {
+    font-size: 10px;
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  body.device-ipad #contact .contact-card:hover,
+  body.device-ipad #contact .contact-card:focus-visible {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+  body.device-ipad #contact .contact-card:hover img {
+    transform: scale(1.12);
+  }
+  body.device-ipad #contact .contact-card:hover .contact-card-arrow,
+  body.device-ipad #contact .contact-card:focus-visible .contact-card-arrow {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+  body.device-ipad #contact .section-content {
+    padding: calc(env(safe-area-inset-top, 0px) + 132px) 18px 0;
+  }
+  body.device-ipad #contact .contact-intro {
+    margin-top: 18px;
+  }
+  body.device-ipad #contact .contact-title-desktop {
+    display: none;
+  }
+  body.device-ipad #contact .contact-title-mobile {
+    display: block;
+    font-family: "RelationshipDisplay", serif;
+    font-size: clamp(56px, 15vw, 90px) !important;
+    line-height: 0.9;
+    text-transform: none;
+  }
+  body.device-ipad #contact .contact-slogan {
+    margin-top: 6px;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 12px !important;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    max-width: min(92vw, 480px);
+  }
+}
 @media (min-width: 769px) {
   #gallery .category-title {
     font-size: clamp(40px, 4.8vw, 62px) !important;
@@ -2087,7 +2316,10 @@ body.intro-scroll-lock {
   <div class="parallax-container">
     <div class="layer-bg smudge-wrapper">
       <canvas class="smudge-canvas" aria-hidden="true"></canvas>
-      <img class="background-image" src="assets/scene4-bg.png" alt="" decoding="async">
+      <picture>
+        <source media="(max-width: 768px), (width: 820px) and (height: 1180px), (width: 1180px) and (height: 820px), (width: 853px) and (height: 1280px), (width: 1280px) and (height: 853px), (width: 1024px) and (height: 1366px), (width: 1366px) and (height: 1024px)" srcset="assets/scene4m.png">
+        <img class="background-image" src="assets/scene4-bg.png" alt="" decoding="async">
+      </picture>
     </div>
     <div class="contact-grid-layer">
       <div class="contact-socials">
@@ -2151,7 +2383,7 @@ body.intro-scroll-lock {
           <span class="contact-title-strong">MARVELL FLORIST</span>
         </span>
       </h1>
-      <h1 class="contact-title-composed contact-title-mobile">CONTACT US</h1>
+      <h1 class="contact-title-composed contact-title-mobile">Contact Us</h1>
       <p class="contact-slogan">Hubungi kami untuk konsultasi dan pemesanan rangkaian bunga.</p>
     </div>
   </div>
@@ -2181,6 +2413,36 @@ const EDITIONS = [
 const EDITION_CLASSES = EDITIONS.map((edition) => edition.id);
 const cursorHalo = document.getElementById("cursor-halo");
 const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+const DEVICE_CLASSES = ["device-mobile", "device-ipad", "device-desktop", "platform-android"];
+const IPAD_HOME_VIEWPORT_QUERY = "(width: 820px) and (height: 1180px), (width: 1180px) and (height: 820px), (width: 853px) and (height: 1280px), (width: 1280px) and (height: 853px), (width: 1024px) and (height: 1366px), (width: 1366px) and (height: 1024px)";
+
+function isIpadHomeViewport() {
+  return window.matchMedia(IPAD_HOME_VIEWPORT_QUERY).matches;
+}
+
+function applyDeviceClasses() {
+  const ua = navigator.userAgent || "";
+  const platform = navigator.platform || "";
+  const maxTouchPoints = Number(navigator.maxTouchPoints || 0);
+  const isAndroid = /\bAndroid\b/i.test(ua);
+  const isIPadUA = /\biPad\b/i.test(ua);
+  const isMacTouch = /MacIntel/i.test(platform) && maxTouchPoints > 1;
+  const isIPad = isIPadUA || isMacTouch;
+  const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+  const isAndroidHandset = isAndroid && window.matchMedia("(max-width: 1024px)").matches;
+  const isMobile = !isIPad && (isMobileViewport || isAndroidHandset);
+  const isDesktop = !isMobile && !isIPad;
+
+  document.body.classList.remove(...DEVICE_CLASSES);
+  if (isMobile) document.body.classList.add("device-mobile");
+  if (isIPad) document.body.classList.add("device-ipad");
+  if (isDesktop) document.body.classList.add("device-desktop");
+  if (isAndroid) document.body.classList.add("platform-android");
+}
+
+applyDeviceClasses();
+window.addEventListener("resize", applyDeviceClasses, { passive: true });
+window.addEventListener("orientationchange", applyDeviceClasses, { passive: true });
 let activeNavSectionId = "";
 let navPreviewing = false;
 let haloX = window.innerWidth * 0.5;
@@ -2957,6 +3219,20 @@ function buildConsultHref(phone, text) {
 }
 
 let galleryRevealObserver = null;
+const GALLERY_REVEAL_ENTER_RATIO = 0.18;
+const GALLERY_REVEAL_EXIT_RATIO = 0.01;
+const GALLERY_REVEAL_EXIT_BUFFER = 0.22;
+
+function isRevealFarOutsideViewport(entry) {
+  if (!entry) return true;
+  const bounds = entry.rootBounds;
+  if (!bounds) return !entry.isIntersecting;
+  const buffer = bounds.height * GALLERY_REVEAL_EXIT_BUFFER;
+  return (
+    entry.boundingClientRect.bottom < bounds.top - buffer ||
+    entry.boundingClientRect.top > bounds.bottom + buffer
+  );
+}
 
 function ensureGalleryRevealObserver() {
   if (galleryRevealObserver || typeof IntersectionObserver === "undefined") return galleryRevealObserver;
@@ -2964,7 +3240,8 @@ function ensureGalleryRevealObserver() {
     entries.forEach((entry) => {
       const target = entry.target;
       if (!(target instanceof HTMLElement)) return;
-      const isVisibleEnough = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+      const isVisibleEnough = entry.isIntersecting && entry.intersectionRatio >= GALLERY_REVEAL_ENTER_RATIO;
+      const isRevealed = target.classList.contains("is-revealed");
       const revealOnce = target.dataset.revealOnce === "1";
       if (revealOnce) {
         if (!isVisibleEnough) return;
@@ -2972,12 +3249,20 @@ function ensureGalleryRevealObserver() {
         observer.unobserve(target);
         return;
       }
-      target.classList.toggle("is-revealed", isVisibleEnough);
+
+      if (!isRevealed) {
+        if (isVisibleEnough) target.classList.add("is-revealed");
+        return;
+      }
+
+      const shouldKeepVisible =
+        entry.isIntersecting || entry.intersectionRatio > GALLERY_REVEAL_EXIT_RATIO || !isRevealFarOutsideViewport(entry);
+      if (!shouldKeepVisible) target.classList.remove("is-revealed");
     });
   }, {
-    threshold: [0, 0.2, 0.4, 0.8],
+    threshold: [0, GALLERY_REVEAL_EXIT_RATIO, GALLERY_REVEAL_ENTER_RATIO, 0.35, 0.6],
     root: null,
-    rootMargin: "0px 0px -8% 0px"
+    rootMargin: "0px 0px -6% 0px"
   });
   return galleryRevealObserver;
 }
@@ -3207,6 +3492,9 @@ function updateGalleryOpenState() {
 }
 
 function initializeGalleryInteractions() {
+  let stopAllCategoryPreviews = () => {};
+  const hasAnyOpenCategory = () => galleryCategories.some((item) => item.classList.contains("is-open"));
+
   galleryCategories.forEach((category, index) => {
     const toggle = category.querySelector(".category-toggle");
     const panel = category.querySelector(".category-panel");
@@ -3241,6 +3529,7 @@ function initializeGalleryInteractions() {
       }
 
       updateGalleryOpenState();
+      if (hasAnyOpenCategory()) stopAllCategoryPreviews();
     });
   });
 
@@ -3292,10 +3581,15 @@ function initializeGalleryInteractions() {
 
   const canHoverPreview = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const previewTimers = new WeakMap();
+  const previewStopHandlers = [];
+  stopAllCategoryPreviews = () => {
+    previewStopHandlers.forEach((stop) => stop());
+  };
   galleryCategories.forEach((category) => {
-    const coverImage = category.querySelector(".category-cover img");
+    const coverElement = category.querySelector(".category-cover");
+    const coverImage = coverElement ? coverElement.querySelector("img") : null;
     const panelImages = Array.from(category.querySelectorAll(".masonry-grid img"));
-    if (!coverImage) return;
+    if (!coverElement || !coverImage) return;
 
     const frames = Array.from(
       new Set([
@@ -3305,11 +3599,31 @@ function initializeGalleryInteractions() {
     ).slice(0, 5);
 
     if (frames.length < 2) return;
+    coverElement.classList.add("has-crossfade");
+    coverImage.classList.add("is-visible");
+
+    let crossfadeImage = coverElement.querySelector("img[data-preview-layer='secondary']");
+    if (!(crossfadeImage instanceof HTMLImageElement)) {
+      crossfadeImage = document.createElement("img");
+      crossfadeImage.setAttribute("data-preview-layer", "secondary");
+      crossfadeImage.setAttribute("aria-hidden", "true");
+      crossfadeImage.setAttribute("alt", "");
+      crossfadeImage.setAttribute("decoding", "async");
+      crossfadeImage.setAttribute("loading", "lazy");
+      crossfadeImage.setAttribute("src", frames[0]);
+      coverElement.appendChild(crossfadeImage);
+    }
+
+    let activeImage = coverImage;
+    let idleImage = crossfadeImage;
     let frameIndex = 0;
     let randomQueue = [];
-    let fadeTimer = null;
+    let transitionTimer = null;
     let holdTimer = null;
     let holdTriggered = false;
+    let isTransitioning = false;
+    const CROSSFADE_MS = 360;
+    const PREVIEW_INTERVAL_MS = 1200;
 
     const refillRandomQueue = () => {
       randomQueue = Array.from({ length: frames.length }, (_, index) => index);
@@ -3327,42 +3641,66 @@ function initializeGalleryInteractions() {
       return randomQueue.shift();
     };
 
-    const renderFrame = (index, immediate = false) => {
-      if (fadeTimer) window.clearTimeout(fadeTimer);
-      if (immediate) {
-        coverImage.classList.remove("is-fading");
-        coverImage.setAttribute("src", frames[index]);
-        return;
-      }
-      coverImage.classList.add("is-fading");
-      fadeTimer = window.setTimeout(() => {
-        coverImage.setAttribute("src", frames[index]);
-        coverImage.classList.remove("is-fading");
-      }, 180);
-    };
-
-    const stopPreview = () => {
+    const clearPreviewInterval = () => {
       const timer = previewTimers.get(category);
       if (timer) {
         window.clearInterval(timer);
         previewTimers.delete(category);
       }
+    };
+
+    const renderFrame = (index, immediate = false) => {
+      const nextSrc = frames[index];
+      if (!nextSrc) return;
+      if (transitionTimer) {
+        window.clearTimeout(transitionTimer);
+        transitionTimer = null;
+      }
+      if (immediate) {
+        activeImage.setAttribute("src", nextSrc);
+        idleImage.setAttribute("src", nextSrc);
+        activeImage.classList.add("is-visible");
+        idleImage.classList.remove("is-visible");
+        isTransitioning = false;
+        return;
+      }
+      if (isTransitioning || nextSrc === activeImage.getAttribute("src")) return;
+      isTransitioning = true;
+      idleImage.setAttribute("src", nextSrc);
+      idleImage.classList.add("is-visible");
+      activeImage.classList.remove("is-visible");
+      transitionTimer = window.setTimeout(() => {
+        const previousActive = activeImage;
+        activeImage = idleImage;
+        idleImage = previousActive;
+        isTransitioning = false;
+      }, CROSSFADE_MS + 40);
+    };
+
+    const stopPreview = () => {
+      clearPreviewInterval();
       if (holdTimer) {
         window.clearTimeout(holdTimer);
         holdTimer = null;
       }
       randomQueue = [];
       frameIndex = 0;
-      renderFrame(0, false);
+      renderFrame(0, true);
     };
+    previewStopHandlers.push(stopPreview);
 
     const startPreview = () => {
-      if (category.classList.contains("is-open")) return;
-      if (previewTimers.get(category)) return;
+      if (category.classList.contains("is-open") || hasAnyOpenCategory()) return;
+      clearPreviewInterval();
       const timer = window.setInterval(() => {
+        if (category.classList.contains("is-open") || hasAnyOpenCategory()) {
+          stopPreview();
+          return;
+        }
+        if (isTransitioning) return;
         frameIndex = nextRandomFrame();
         renderFrame(frameIndex, false);
-      }, 1750);
+      }, PREVIEW_INTERVAL_MS);
       previewTimers.set(category, timer);
     };
 
@@ -3381,6 +3719,7 @@ function initializeGalleryInteractions() {
     }
 
     const startMobileHoldPreview = () => {
+      if (category.classList.contains("is-open") || hasAnyOpenCategory()) return;
       holdTriggered = false;
       if (holdTimer) window.clearTimeout(holdTimer);
       holdTimer = window.setTimeout(() => {
@@ -3401,8 +3740,8 @@ function initializeGalleryInteractions() {
     category.addEventListener("touchcancel", stopMobileHoldPreview, { passive: true });
     category.addEventListener("touchmove", stopMobileHoldPreview, { passive: true });
     category.addEventListener("click", () => {
-      if (category.classList.contains("is-open")) {
-        stopPreview();
+      if (category.classList.contains("is-open") || hasAnyOpenCategory()) {
+        stopAllCategoryPreviews();
       }
     });
     category.addEventListener("click", (event) => {
@@ -3592,6 +3931,17 @@ if (aboutSection) {
   });
 
   aboutSection.addEventListener("click", (event) => {
+    const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+    const activeBioKey = aboutSection.dataset.activeBio || "";
+    const eventTarget = event.target;
+    const tappedSubject = eventTarget instanceof HTMLElement
+      && Boolean(eventTarget.closest(".scene2-strip-fg-image[data-bio-target]"));
+
+    if (isMobileViewport && activeBioKey && !tappedSubject) {
+      setAboutActiveBio("", false, true);
+      return;
+    }
+
     // Use the same resolved hover target so click area matches hover area 1:1.
     const activeFigure = currentHoveredFigure || getTopAboutFigureAt(event.clientX, event.clientY);
     if (!activeFigure) {
@@ -3613,6 +3963,7 @@ let homePinnedState = false;
 
 function animate() {
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const disableHomeParallax = isMobile || isIpadHomeViewport();
   let shouldPinHomeTitle = false;
 
   sections.forEach((section) => {
@@ -3628,7 +3979,7 @@ function animate() {
 
     if (section.id === "home" && fg) {
       const maxSafeTravel = Math.max((fg.offsetHeight - section.offsetHeight) / 2, 0);
-      if (isMobile) {
+      if (disableHomeParallax) {
         bgTarget = 0;
         fgRange = 0;
       } else {
@@ -3667,7 +4018,7 @@ function animate() {
       bg.style.removeProperty("filter");
       if (section.id === "about") {
         bg.style.transform = "none";
-      } else if (section.id === "home" && isMobile) {
+      } else if (section.id === "home" && disableHomeParallax) {
         bg.style.transform = "none";
       } else if (isContact) {
         const bgScale = isMobile ? 1.035 : 1.045;
@@ -3680,7 +4031,7 @@ function animate() {
     }
 
     if (fg) {
-      if (isContact || (section.id === "home" && isMobile)) {
+      if (isContact || (section.id === "home" && disableHomeParallax)) {
         fg.style.transform = section.id === "home" ? "translateX(-50%)" : "none";
       } else {
         const baseFgOffset = isMobile
@@ -3697,7 +4048,7 @@ function animate() {
         homeSceneTiltElement.style.transform = `translateZ(0px) rotateX(${tiltRotateX.toFixed(3)}deg) rotateY(${tiltRotateY.toFixed(3)}deg)`;
       }
       if (homeDepthBgElement) {
-        if (isMobile) {
+        if (disableHomeParallax) {
           homeDepthBgElement.style.transform = "none";
         } else {
           const depthBgX = current.mouseX * 1.14;
@@ -3708,7 +4059,7 @@ function animate() {
         }
       }
       if (homeDepthFgElement) {
-        homeDepthFgElement.style.transform = isMobile ? "none" : "translate3d(0px, 0px, 50px)";
+        homeDepthFgElement.style.transform = disableHomeParallax ? "none" : "translate3d(0px, 0px, 50px)";
       }
       if (homeParticlesElement) {
         const particleX = current.mouseX * 0.32;
