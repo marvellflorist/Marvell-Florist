@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Detail • Marvell Florist</title>
-  <link rel="icon" href="/assets/logoo.webp?v=4" type="image/png" sizes="32x32">
+  <link rel="icon" href="/assets/logoo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
@@ -124,10 +124,10 @@ header::after {
 .contact-quick-backdrop.is-open { opacity:1; pointer-events:auto; }
 .contact-quick-panel,.menu-panel {
   position: fixed; top:0; right:0; width:min(92vw,460px); height:100vh; background:#f7f5f2; color:#151210;
-  transform:translateX(100%); transition:transform .5s ease-in-out; z-index:241; box-shadow:-20px 0 36px rgba(10,12,18,.22); display:grid; grid-template-rows:auto 1fr;
+  transform:translateX(100%); transition:transform .5s ease-in-out; z-index:241; box-shadow:none; display:grid; grid-template-rows:auto 1fr;
 }
 .menu-panel { width:min(92vw,600px); }
-.contact-quick-panel.is-open,.menu-panel.is-open { transform:translateX(0); }
+.contact-quick-panel.is-open,.menu-panel.is-open { transform:translateX(0); box-shadow:-20px 0 36px rgba(10,12,18,.22); }
 .contact-quick-head,.menu-head { display:flex; align-items:center; justify-content:space-between; padding:28px 30px 18px; }
 .menu-head { justify-content:flex-end; }
 .contact-quick-head h3 { margin:0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.18em; text-transform:uppercase; }
@@ -361,7 +361,7 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
 <header>
   <div class="header-bar">
     <a class="header-logo" href="index.html" aria-label="Go to home page">
-      <img src="assets/logoo.webp" alt="Marvell Florist">
+      <img src="assets/logo.webp" alt="Marvell Florist">
       <span class="header-logo-text">Marvell Florist</span>
     </a>
     <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Contact Us</button>

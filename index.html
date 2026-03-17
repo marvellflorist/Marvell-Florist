@@ -55,10 +55,10 @@
   ]
 }
 </script>
-<link rel="icon" href="/assets/logoo.webp?v=4" type="image/png" sizes="32x32">
-<link rel="icon" href="/assets/logoo.webp?v=4" type="image/png" sizes="192x192">
+<link rel="icon" href="/assets/logoo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logoo.webp?v=4" type="image/webp" sizes="192x192">
 <link rel="apple-touch-icon" href="/assets/logoo.webp?v=4">
-<link rel="shortcut icon" href="/assets/logoo.webp?v=4" type="image/png">
+<link rel="shortcut icon" href="/assets/logoo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
@@ -949,7 +949,7 @@ header > a[aria-label="Go to home page"] {
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
   z-index: 241;
-  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
+  box-shadow: none;
   display: grid;
   grid-template-rows: auto 1fr;
 }
@@ -964,15 +964,17 @@ header > a[aria-label="Go to home page"] {
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
   z-index: 241;
-  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
+  box-shadow: none;
   display: grid;
   grid-template-rows: auto 1fr;
 }
 .contact-quick-panel.is-open {
   transform: translateX(0);
+  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
 }
 .menu-panel.is-open {
   transform: translateX(0);
+  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
 }
 .contact-quick-backdrop.is-open {
   opacity: 1;
@@ -4005,7 +4007,10 @@ body.seasonal-popup-open {
     font-size: clamp(16px, 5.2vw, 22px);
     line-height: 0.92;
   }
-  #featured .section-content { padding: 0 6vw; }
+  #featured .section-content {
+    padding: 0;
+    background: #f3f0ea;
+  }
   .featured-frame {
     width: calc(100% - 16px);
   }
@@ -4066,8 +4071,10 @@ body.seasonal-popup-open {
     margin-bottom: 0;
   }
   .featured-campaign-inner {
-    width: calc(100% - 16px);
-    padding-top: clamp(24px, 6.4vw, 34px);
+    width: 100%;
+    padding: clamp(24px, 6.4vw, 34px) clamp(14px, 4.4vw, 20px) 0;
+    background: #f3f0ea;
+    box-sizing: border-box;
   }
   .featured-title-block {
     margin-bottom: clamp(30px, 8vw, 42px);
@@ -4084,6 +4091,15 @@ body.seasonal-popup-open {
   }
   .featured-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  #gallery .section-content {
+    padding-left: clamp(14px, 4.4vw, 20px);
+    padding-right: clamp(14px, 4.4vw, 20px);
+    box-sizing: border-box;
+  }
+  .portfolio-grid {
+    padding: 0 clamp(14px, 4.4vw, 20px) 4px;
+    background: #f3f0ea;
   }
   .services-grid {
     grid-template-columns: 1fr;
@@ -5310,8 +5326,8 @@ body.seasonal-popup-open {
     max-width: none !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: clamp(14px, 4.4vw, 20px) !important;
+    padding-right: clamp(14px, 4.4vw, 20px) !important;
     background: #f3f0ea !important;
   }
   .featured-title-block {
@@ -5330,8 +5346,8 @@ body.seasonal-popup-open {
     margin-top: 0;
     padding-top: 0;
     padding-bottom: 0;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: clamp(14px, 4.4vw, 20px) !important;
+    padding-right: clamp(14px, 4.4vw, 20px) !important;
     background: #f6f0e7 !important;
   }
   #seasonal-events,
@@ -5347,7 +5363,7 @@ body.seasonal-popup-open {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 0 !important;
     gap: 8px;
-    padding: 0 0 2px;
+    padding: 0 clamp(14px, 4.4vw, 20px) 2px;
     overflow: visible;
     scroll-snap-type: none;
     position: relative;
@@ -5405,7 +5421,7 @@ body.seasonal-popup-open {
 <header>
   <div class="header-bar">
     <a class="header-logo" href="index.html" aria-label="Go to home page">
-      <img src="assets/logoo.webp" alt="Marvell Florist">
+      <img src="assets/logo.webp" alt="Marvell Florist">
       <span class="header-logo-text">Marvell Florist</span>
     </a>
     <button class="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Contact Us</button>
