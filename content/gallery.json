@@ -2,51 +2,33 @@
   "items": [
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/Artificial-yellowbloombox.webp",
+      "image": "/assets/uploads/art-bloombal,whiteblackgold.webp",
       "price": null,
-      "title": "Artificial Flowers Bloombox"
+      "title": "Artificial Flowers Balloons"
     },
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/Artificial-yellowbloomboxlight.webp",
+      "image": "/assets/uploads/art-bloombalgoldblack.webp",
       "price": null,
-      "title": "Artificial Flowers Bloombox"
-    },
-    {
-      "category": "bouquets",
-      "image": "/assets/uploads/Bouquetspink.webp",
-      "price": null,
-      "title": "Bouquet"
+      "title": "Artificial Flowers Balloons"
     },
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/art-bloombox,whiteblackgold.webp",
+      "image": "/assets/uploads/art-bloombalpinkpurple.webp",
       "price": null,
-      "title": "Artificial Flowers Bloombox"
+      "title": "Artificial Flowers Balloons"
     },
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/art-bloomboxgoldblack.webp",
+      "image": "/assets/uploads/art-bloombalredyellowblueflowers.webp",
       "price": null,
-      "title": "Artificial Flowers Bloombox"
+      "title": "Artificial Flowers Balloons"
     },
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/art-bloomboxpinkpurple.webp",
+      "image": "/assets/uploads/art-bloombalyelloworange.webp",
       "price": null,
-      "title": "Artificial Flowers Bloombox"
-    },
-    {
-      "category": "artificial flowers",
-      "image": "/assets/uploads/art-bloomboxredyellowblueflowers.webp",
-      "price": null,
-      "title": "Artificial Flowers Bloombox"
-    },
-    {
-      "category": "artificial flowers",
-      "image": "/assets/uploads/art-bloomboxyelloworange.webp",
-      "price": null,
-      "title": "Artificial Flowers Bloombox"
+      "title": "Artificial Flowers Balloons"
     },
     {
       "category": "artificial flowers",
@@ -64,6 +46,12 @@
       "category": "artificial flowers",
       "image": "/assets/uploads/art-greenwhitecrea.webp",
       "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-mf5299.webp",
+      "price": 300000,
       "title": "Artificial Flowers Arrangement"
     },
     {
@@ -86,7 +74,7 @@
     },
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/art-smallpotredroseblackwhite.webp",
+      "image": "/assets/uploads/art-smallboxredroseblackwhite.webp",
       "price": null,
       "title": "Artificial Flowers Small Pot"
     },
@@ -116,7 +104,7 @@
     },
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/art-whitepot.webp",
+      "image": "/assets/uploads/art-whitebox.webp",
       "price": null,
       "title": "Artificial Flowers Pot"
     },
@@ -128,7 +116,19 @@
     },
     {
       "category": "artificial flowers",
-      "image": "/assets/uploads/artificialpotpink450000.webp",
+      "image": "/assets/uploads/Artificial-yellowbloombox.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/Artificial-yellowbloomboxlight.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/artificialboxpink450000.webp",
       "price": 450000,
       "title": "Artificial Flowers Pot"
     },
@@ -146,9 +146,15 @@
     },
     {
       "category": "bouquets",
-      "image": "/assets/uploads/bou-graduationblackgoldsimplered.webp",
+      "image": "/assets/uploads/bou-(graduation)blackgoldsimplered.webp",
       "price": null,
       "title": "Bouquet Graduation Simple"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinkhbltc.webp",
+      "price": 200000,
+      "title": "Bouquet"
     },
     {
       "category": "bouquets",
@@ -161,12 +167,6 @@
       "image": "/assets/uploads/bou-holoredgold.webp",
       "price": null,
       "title": "Bouquet Holo"
-    },
-    {
-      "category": "bouquets",
-      "image": "/assets/uploads/bou-moneyblue.webp",
-      "price": null,
-      "title": "Money Bouquet"
     },
     {
       "category": "bouquets",
@@ -283,163 +283,187 @@
       "title": "Bouquet"
     },
     {
-      "category": "dekorasi mobil",
+      "category": "bouquets",
+      "image": "/assets/uploads/Bouquetspink.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "car decorations",
       "image": "/assets/uploads/dek-cardoorflowers.webp",
       "price": null,
       "title": "Dekorasi Pintu Mobil"
     },
     {
-      "category": "dekorasi mobil",
+      "category": "flower boards",
+      "image": "/assets/uploads/dek-papan-wooden-wedding.webp",
+      "price": null,
+      "title": "Papan Bunga"
+    },
+    {
+      "category": "car decorations",
       "image": "/assets/uploads/dek-wedding.webp",
       "price": null,
       "title": "Dekorasi Mobil Wedding"
     },
     {
-      "category": "dekorasi mobil",
+      "category": "car decorations",
       "image": "/assets/uploads/dek-wedding2.webp",
       "price": null,
       "title": "Dekorasi Mobil Wedding 2"
     },
     {
-      "category": "papan bunga",
+      "category": "car decorations",
+      "image": "/assets/uploads/dekorasi.webp",
+      "price": null,
+      "title": "Car Decoration"
+    },
+    {
+      "category": "flower boards",
       "image": "/assets/uploads/pap-blackfuneral2,2papan.webp",
       "price": null,
       "title": "Papan Bunga Duka Cita - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-blackfuneral2papan.webp",
       "price": null,
       "title": "Papan Bunga Duka Cita - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-blackfuneral3,2papan.webp",
       "price": null,
       "title": "Papan Bunga Duka Cita - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-blackfuneral4,2papan.webp",
       "price": null,
       "title": "Papan Bunga Duka Cita - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-blackfuneral5,2papan.webp",
       "price": null,
       "title": "Papan Bunga Duka Cita - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-blackfuneral6,1papan.webp",
       "price": null,
       "title": "Papan Bunga Duka Cita - 1 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-blackfuneral7,papan2.webp",
       "price": null,
       "title": "Papan Bunga Duka Cita - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-businessopening1papan.webp",
       "price": null,
       "title": "Papan Bunga Business Opening - 1 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-grandopening1,2papan.webp",
       "price": null,
       "title": "Papan Bunga Grand Opening - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-grandopening2papan.webp",
       "price": null,
       "title": "Papan Bunga Grand Opening - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-nikah2papan.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-nikahpapan2.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-openingcafe1papan.webp",
       "price": null,
       "title": "Papan Bunga Opening Cafe - 1 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-pernikahan2papan.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-selamatsukses2papan.webp",
       "price": null,
       "title": "Papan Bunga Selamat & Sukses - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-selamatsuksespolda.webp",
       "price": null,
       "title": "Papan Bunga Selamat & Sukses"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-softopening2papan.webp",
       "price": null,
       "title": "Papan Bunga Soft Opening - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-wedding.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-wedding1papan.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan - 1 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-wedding2papan.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-wedding2papan2.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan - 2 Papan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-weddingroundwhite.webp",
       "price": null,
       "title": "Papan Bunga Pernikahan"
     },
     {
-      "category": "papan bunga",
+      "category": "flower boards",
       "image": "/assets/uploads/pap-woodgraduation.webp",
       "price": null,
       "title": "Papan Kayu Graduation"
     },
     {
-      "category": "pita peresmian",
+      "category": "opening ribbons",
+      "image": "/assets/uploads/pit-peresmian-1.webp",
+      "price": null,
+      "title": "Pita Peresmian"
+    },
+    {
+      "category": "opening ribbons",
       "image": "/assets/uploads/pit-ribbonsindoor.webp",
       "price": null,
       "title": "Pita Peresmian Indoor"
@@ -449,6 +473,12 @@
       "image": "/assets/uploads/sta-funeralwhiteyelloworangepastel.webp",
       "price": null,
       "title": "Standing Flowers Duka Cita"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-mf5226.webp",
+      "price": 1000000,
+      "title": "Standing Flowers"
     },
     {
       "category": "standing flowers",
@@ -487,46 +517,88 @@
       "title": "Standing Flowers White Rose"
     },
     {
-      "title": "Bouquet",
-      "price": 200000,
-      "category": "bouquets",
-      "image": "/assets/uploads/bou-hbltc008.webp"
-    },
-    {
-      "title": "Artificial Flowers Arrangement",
-      "price": 300000,
-      "category": "artificial flowers",
-      "image": "/assets/uploads/art-mf5299.webp"
-    },
-    {
-      "title": "Papan Kayu Pernikahan",
+      "category": "funerals",
+      "image": "/assets/uploads/dukacrosspurplewhite.webp",
       "price": null,
-      "category": "papan bunga",
-      "image": "/assets/uploads/dek-papan-1.jpeg.webp"
+      "title": "Funeral Cross"
     },
     {
-      "title": "Papan Bunga",
+      "category": "funerals",
+      "image": "/assets/uploads/dukacrosswhite.webp",
       "price": null,
-      "category": "papan bunga",
-      "image": "/assets/uploads/dek-papan-1.jpeg.webp"
+      "title": "Funeral Cross"
     },
     {
-      "title": "Pita Peresmian",
+      "category": "funerals",
+      "image": "/assets/uploads/dukacrosswhitepurple.webp",
       "price": null,
-      "category": "pita peresmian",
-      "image": "/assets/uploads/pit-peresmian-1.webp"
+      "title": "Funeral Cross"
     },
     {
-      "title": "Standing Flowers",
-      "price": 1000000,
-      "category": "standing flowers",
-      "image": "/assets/uploads/sta-mf5226.webp"
+      "category": "funerals",
+      "image": "/assets/uploads/dukaframeredwhitemix.webp",
+      "price": null,
+      "title": "Funeral Frame"
     },
     {
-      "title": "Bunga Suyok 100 pcs / pack",
-      "price": 30000,
-      "category": "supplies",
-      "image": "/assets/uploads/sup-bungasuyok-100pcs.webp"
+      "category": "funerals",
+      "image": "/assets/uploads/dukaframestandingwhitepurpleyellowmix.webp",
+      "price": null,
+      "title": "Funeral Frame Standing"
+    },
+    {
+      "category": "funerals",
+      "image": "/assets/uploads/dukaframewhiteyellowpeachmix.webp",
+      "price": null,
+      "title": "Funeral Frame"
+    },
+    {
+      "category": "funerals",
+      "image": "/assets/uploads/dukaframeyellowredpinkmix.webp",
+      "price": null,
+      "title": "Funeral Frame"
+    },
+    {
+      "category": "funerals",
+      "image": "/assets/uploads/dukastandingpurewhite.webp",
+      "price": null,
+      "title": "Funeral Standing Flowers"
+    },
+    {
+      "category": "funerals",
+      "image": "/assets/uploads/dukastandingwhite.webp",
+      "price": null,
+      "title": "Funeral Standing Flowers"
+    },
+    {
+      "category": "funerals",
+      "image": "/assets/uploads/dukawhitecross.webp",
+      "price": null,
+      "title": "Funeral Cross"
+    },
+    {
+      "category": "funerals",
+      "image": "/assets/uploads/dukastandingwhitemixpinkpurple.webp",
+      "price": null,
+      "title": "Funeral Standing Flowers"
+    },
+    {
+      "category": "funerals",
+      "image": "/assets/uploads/dukawhitepurplecross.webp",
+      "price": null,
+      "title": "Funeral Cross"
+    },
+    {
+      "category": "parcels",
+      "image": "/assets/uploads/parcelcny.webp",
+      "price": null,
+      "title": "Parcel"
+    },
+    {
+      "category": "parcels",
+      "image": "/assets/uploads/parchinesenewyear.webp",
+      "price": null,
+      "title": "Parcel"
     }
   ]
 }

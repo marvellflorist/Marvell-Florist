@@ -1,46 +1,538 @@
 {
   "items": [
     {
-      "name": "Artificial Classic",
-      "price": "200000",
-      "category": "Artificial Flowers",
-      "image": ""
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-bloombox,whiteblackgold.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
     },
     {
-      "name": "Bouquet Signature",
-      "price": "350000",
-      "category": "Bouquets",
-      "image": ""
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-bloomboxgoldblack.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
     },
     {
-      "name": "Dekorasi Mobil Elegant",
-      "price": "500000",
-      "category": "Dekorasi Mobil",
-      "image": "/dekorasi.jpg"
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-bloomboxpinkpurple.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
     },
     {
-      "name": "Papan Ucapan Premium",
-      "price": "650000",
-      "category": "Papan Bunga",
-      "image": ""
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-bloomboxredyellowblueflowers.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
     },
     {
-      "name": "Pita Peresmian Gold",
-      "price": "300000",
-      "category": "Pita Peresmian",
-      "image": ""
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-bloomboxyelloworange.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
     },
     {
-      "name": "Standing Floral Luxe",
-      "price": "550000",
-      "category": "Standing Flowers",
-      "image": ""
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-blueredgreenwhitepurple.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
     },
     {
-      "name": "Starter Supplies Kit",
-      "price": "180000",
-      "category": "Supplies",
-      "image": ""
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-bluerosewithsomeredroses.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-greenwhitecrea.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-mf5299.webp",
+      "price": 300000,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-potredrose.webp",
+      "price": null,
+      "title": "Artificial Flowers Pot"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-potyelloworange.webp",
+      "price": null,
+      "title": "Artificial Flowers Pot"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-redrose,somewhites.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-smallpotredroseblackwhite.webp",
+      "price": null,
+      "title": "Artificial Flowers Small Pot"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-sunflower,red,yellow,green.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-whitegold.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-whitelily,redrose,yellow.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-whitemaroonredpinkgreen.webp",
+      "price": null,
+      "title": "Artificial Flowers Arrangement"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-whitepot.webp",
+      "price": null,
+      "title": "Artificial Flowers Pot"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/art-yellowpinkredbasketpot.webp",
+      "price": null,
+      "title": "Artificial Flowers Basket"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/Artificial-yellowbloombox.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/Artificial-yellowbloomboxlight.webp",
+      "price": null,
+      "title": "Artificial Flowers Balloons"
+    },
+    {
+      "category": "artificial flowers",
+      "image": "/assets/uploads/artificialpotpink450000.webp",
+      "price": 450000,
+      "title": "Artificial Flowers Pot"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-bigpink.webp",
+      "price": null,
+      "title": "Bouquet Big"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-goldblackredpink.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-graduationblackgoldsimplered.webp",
+      "price": null,
+      "title": "Bouquet Graduation Simple"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-hbltc008.webp",
+      "price": 200000,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-holoprettypink.webp",
+      "price": null,
+      "title": "Bouquet Holo"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-holoredgold.webp",
+      "price": null,
+      "title": "Bouquet Holo"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-moneyblue.webp",
+      "price": null,
+      "title": "Money Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-moneyblueround.webp",
+      "price": null,
+      "title": "Money Bouquet Round"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-moneypinkred.webp",
+      "price": null,
+      "title": "Money Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pink.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinklight.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinkpastel.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinkpurplesimple.webp",
+      "price": null,
+      "title": "Bouquet Simple"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinkredbigroses.webp",
+      "price": null,
+      "title": "Bouquet Big"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinkredroundbig.webp",
+      "price": null,
+      "title": "Bouquet Big Round"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinkwithredroses.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-pinkywithgreen.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-purp.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-redpink.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-redpinkblank.webp",
+      "price": null,
+      "title": "Bouquet Blank Card"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-smallpinkred.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-yellowblackwhitewithredrosesandbabysbreath.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-yellowredblack.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bou-yellowwhite.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/boupinkred.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/bouquetpurplewithroses.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "bouquets",
+      "image": "/assets/uploads/Bouquetspink.webp",
+      "price": null,
+      "title": "Bouquet"
+    },
+    {
+      "category": "car decorations",
+      "image": "/assets/uploads/dek-cardoorflowers.webp",
+      "price": null,
+      "title": "Dekorasi Pintu Mobil"
+    },
+    {
+      "category": "car decorations",
+      "image": "/assets/uploads/dek-papan-1.jpeg.webp",
+      "price": null,
+      "title": "Papan Bunga"
+    },
+    {
+      "category": "car decorations",
+      "image": "/assets/uploads/dek-wedding.webp",
+      "price": null,
+      "title": "Dekorasi Mobil Wedding"
+    },
+    {
+      "category": "car decorations",
+      "image": "/assets/uploads/dek-wedding2.webp",
+      "price": null,
+      "title": "Dekorasi Mobil Wedding 2"
+    },
+    {
+      "category": "car decorations",
+      "image": "/assets/uploads/dekorasi.webp",
+      "price": null,
+      "title": "Car Decoration"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-blackfuneral2,2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Duka Cita - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-blackfuneral2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Duka Cita - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-blackfuneral3,2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Duka Cita - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-blackfuneral4,2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Duka Cita - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-blackfuneral5,2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Duka Cita - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-blackfuneral6,1papan.webp",
+      "price": null,
+      "title": "Papan Bunga Duka Cita - 1 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-blackfuneral7,papan2.webp",
+      "price": null,
+      "title": "Papan Bunga Duka Cita - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-businessopening1papan.webp",
+      "price": null,
+      "title": "Papan Bunga Business Opening - 1 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-grandopening1,2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Grand Opening - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-grandopening2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Grand Opening - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-nikah2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-nikahpapan2.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-openingcafe1papan.webp",
+      "price": null,
+      "title": "Papan Bunga Opening Cafe - 1 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-pernikahan2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-selamatsukses2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Selamat & Sukses - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-selamatsuksespolda.webp",
+      "price": null,
+      "title": "Papan Bunga Selamat & Sukses"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-softopening2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Soft Opening - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-wedding.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-wedding1papan.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan - 1 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-wedding2papan.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-wedding2papan2.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan - 2 Papan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-weddingroundwhite.webp",
+      "price": null,
+      "title": "Papan Bunga Pernikahan"
+    },
+    {
+      "category": "flower boards",
+      "image": "/assets/uploads/pap-woodgraduation.webp",
+      "price": null,
+      "title": "Papan Kayu Graduation"
+    },
+    {
+      "category": "opening ribbons",
+      "image": "/assets/uploads/pit-peresmian-1.webp",
+      "price": null,
+      "title": "Pita Peresmian"
+    },
+    {
+      "category": "opening ribbons",
+      "image": "/assets/uploads/pit-ribbonsindoor.webp",
+      "price": null,
+      "title": "Pita Peresmian Indoor"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-funeralwhiteyelloworangepastel.webp",
+      "price": null,
+      "title": "Standing Flowers Duka Cita"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-mf5226.webp",
+      "price": 1000000,
+      "title": "Standing Flowers"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-pink.webp",
+      "price": null,
+      "title": "Standing Flowers"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-pinkredgreen.webp",
+      "price": null,
+      "title": "Standing Flowers"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-roundpinkwhitepurple.webp",
+      "price": null,
+      "title": "Standing Flowers Round"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-white.webp",
+      "price": null,
+      "title": "Standing Flowers"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-whitefuneralpinkpastel.webp",
+      "price": null,
+      "title": "Standing Flowers Duka Cita"
+    },
+    {
+      "category": "standing flowers",
+      "image": "/assets/uploads/sta-whiterose.webp",
+      "price": 1500000,
+      "title": "Standing Flowers White Rose"
+    },
+    {
+      "category": "parcels",
+      "image": "/assets/uploads/parcelcny.webp",
+      "price": null,
+      "title": "Parcel"
+    },
+    {
+      "category": "parcels",
+      "image": "/assets/uploads/parchinesenewyear.webp",
+      "price": null,
+      "title": "Parcel"
     }
   ]
 }

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marvell Florist | Featured Collection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: "Inter Tight", sans-serif;
+      background: #ffffff;
+      color: #3f3a33;
+    }
+    
+    main {
+      padding: 60px 0 80px;
+    }
+    
+    #featured {
+      min-height: auto;
+      height: auto;
+      padding: 40px 0;
+      color: #3f3a33;
+      background: transparent;
+    }
+    
+    #featured .section-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      text-align: center;
+      padding: 0 40px;
+      margin: 0 auto;
+    }
+    
+    #featured h1 {
+      font-family: "Inter Tight", sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      line-height: 1.4;
+      color: #3f3a33;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 50px;
+    }
+    
+    .featured-lead {
+      max-width: 680px;
+      margin: 10px auto 0;
+      color: rgba(63, 58, 51, 0.78);
+      display: none;
+    }
+    
+    /* Grid Layout - No Carousel */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .featured-product-card {
+      border-radius: 0;
+      overflow: visible;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      text-align: left;
+    }
+    
+    .featured-product-image,
+    .featured-product-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      display: block;
+      background: #e8e8e8;
+      margin-bottom: 20px;
+    }
+    
+    .featured-product-body {
+      padding: 0;
+    }
+    
+    .product-name {
+      font-family: "Inter Tight", sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #3f3a33;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    
+    .product-price {
+      font-family: "Inter Tight", sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888888;
+      line-height: 1.4;
+    }
+    
+    .featured-consult-btn {
+      display: none;
+    }
+    
+    .featured-carousel {
+      display: block;
+      margin: 0;
+    }
+    
+    .featured-viewport {
+      overflow: visible;
+    }
+    
+    .featured-track {
+      display: block;
+      transition: none;
+      will-change: auto;
+      touch-action: auto;
+    }
+    
+    .featured-slide {
+      min-width: auto;
+    }
+    
+    .featured-nav-btn {
+      display: none;
+    }
+    
+    .featured-warning {
+      display: none;
+    }
+    
+    .featured-consult-row {
+      display: none;
+    }
+    
+    /* View All Button */
+    .view-all-container {
+      margin-top: 60px;
+      text-align: center;
+    }
+    
+    .featured-collection-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0;
+      border: none;
+      background: #b8a88a;
+      color: #ffffff;
+      text-decoration: none;
+      font-family: "Inter Tight", sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .featured-collection-btn:hover,
+    .featured-collection-btn:focus-visible {
+      background: #a8987a;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    /* WhatsApp Float */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      text-decoration: none;
+    }
+    
+    .whatsapp-float svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+    }
+    
+    @media (max-width: 1024px) {
+      .featured-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      main { padding: 40px 0 60px; }
+      
+      #featured .section-content {
+        padding: 0 20px;
+      }
+      
+      #featured h1 {
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        margin-bottom: 35px;
+      }
+      
+      .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .featured-product-image,
+      .featured-product-placeholder {
+        margin-bottom: 15px;
+      }
+      
+      .view-all-container {
+        margin-top: 40px;
+      }
+      
+      .featured-collection-btn {
+        font-size: 9px;
+        padding: 14px 32px;
+      }
+      
+      .whatsapp-float {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+      }
+      
+      .whatsapp-float svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section id="featured">
+      <div class="section-content">
+        <h1 id="featured-title">Featured Collection</h1>
+        <p class="featured-lead" id="featured-lead">Active campaign collections are shown below.</p>
+        
+        <!-- Product Grid -->
+        <div class="featured-carousel">
+          <div class="featured-viewport">
+            <div class="featured-track">
+              <div class="featured-slide">
+                <div class="featured-grid">
+                  
+                  <!-- Product 1 -->
+                  <div class="featured-product-card">
+                    <div class="featured-product-placeholder" style="background: url('https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=600&h=750&fit=crop') center/cover;"></div>
+                    <div class="featured-product-body">
+                      <div class="product-name">Imperial Fitri Bloom</div>
+                      <div class="product-price">Rp 1.500.000</div>
+                    </div>
+                    <a href="#" class="featured-consult-btn">Consult</a>
+                  </div>
+                  
+                  <!-- Product 2 -->
+                  <div class="featured-product-card">
+                    <div class="featured-product-placeholder" style="background: url('https://images.unsplash.com/photo-1582794543139-8ac92a900275?w=600&h=750&fit=crop') center/cover;"></div>
+                    <div class="featured-product-body">
+                      <div class="product-name">Seruni Raya</div>
+                      <div class="product-price">Rp 2.200.000</div>
+                    </div>
+                    <a href="#" class="featured-consult-btn">Consult</a>
+                  </div>
+                  
+                  <!-- Product 3 -->
+                  <div class="featured-product-card">
+                    <div class="featured-product-placeholder" style="background: url('https://images.unsplash.com/photo-1494336934272-f0efcedfc8d7?w=600&h=750&fit=crop') center/cover;"></div>
+                    <div class="featured-product-body">
+                      <div class="product-name">Sakinah Bloom</div>
+                      <div class="product-price">Rp 2.200.000</div>
+                    </div>
+                    <a href="#" class="featured-consult-btn">Consult</a>
+                  </div>
+                  
+                  <!-- Product 4 -->
+                  <div class="featured-product-card">
+                    <div class="featured-product-placeholder" style="background: url('https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=600&h=750&fit=crop') center/cover;"></div>
+                    <div class="featured-product-body">
+                      <div class="product-name">Barakah Royale</div>
+                      <div class="product-price">Rp 2.800.000</div>
+                    </div>
+                    <a href="#" class="featured-consult-btn">Consult</a>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation arrows (hidden but preserved) -->
+        <button class="featured-nav-btn" aria-label="Previous" disabled>‹</button>
+        <button class="featured-nav-btn" aria-label="Next" disabled>›</button>
+        
+        <p class="featured-warning">Prices and availability may vary based on seasonal flowers.</p>
+        
+        <div class="featured-consult-row">
+          <a href="#" class="featured-consult-btn">Consult</a>
+        </div>
+        
+        <div class="view-all-container">
+          <a href="#" class="featured-collection-btn">View All Products</a>
+        </div>
+        
+        <div id="seasonal-events" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- WhatsApp Float Button -->
+  <a href="https://wa.me/" class="whatsapp-float" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+  
+  <script type="module" src="/seasonal/seasonal-page.js"></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ public_folder: "/assets/uploads"
 
 collections:
   - name: "gallery"
-    label: "Gallery Products"
+    label: "Portfolio Products"
     files:
       - label: "Products"
         name: "products"
@@ -24,3 +24,30 @@ collections:
               - { label: "Price", name: "price", widget: "number", value_type: "int", min: 0, required: false }
               - { label: "Category", name: "category", widget: "string" }
               - { label: "Image", name: "image", widget: "image" }
+
+  - name: "featured"
+    label: "Featured Products"
+    files:
+      - label: "Seasonal Featured Catalog"
+        name: "featured_catalog"
+        file: "content/featured.json"
+        format: "json"
+        fields:
+          - { label: "Default Kicker", name: "defaultKicker", widget: "string", required: false }
+          - label: "Events"
+            name: "events"
+            widget: "list"
+            summary: "{{fields.id}} — {{fields.title}}"
+            fields:
+              - { label: "Event ID", name: "id", widget: "string", hint: "Must match seasonal-data.js event ids (eid, valentine, graduation, etc.)" }
+              - { label: "Kicker", name: "kicker", widget: "string", required: false }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
+              - label: "Products"
+                name: "products"
+                widget: "list"
+                summary: "{{fields.name}} — {{fields.price}}"
+                fields:
+                  - { label: "Name", name: "name", widget: "string" }
+                  - { label: "Price", name: "price", widget: "string", required: false }
+                  - { label: "Image", name: "src", widget: "image" }

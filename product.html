@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail • Marvell Florist</title>
+  <link rel="icon" href="/assets/logoo.webp?v=4" type="image/png" sizes="32x32">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+@font-face {
+  font-family: "Louis George Cafe";
+  src: url("assets/fonts/behance-6926b1d086524/TT Turns Trial 1-000/TTF/TT_Turns_Trial_Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RelationshipDisplay";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Relationship of Melodrame";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+:root {
+  --canvas: #ffffff;
+  --page-bg: #f5f5f2;
+  --ink: #2a2118;
+  --muted: rgba(42, 33, 24, 0.68);
+  --line: rgba(157, 133, 101, 0.24);
+}
+* { box-sizing:border-box; }
+html,body { margin:0; padding:0; }
+body { font-family:"Fraunces",serif; color:var(--ink); background:var(--page-bg); }
+header {
+  position: fixed; left: 0; width: 100%; top: 0; padding: 0 24px; height: 72px; display: flex; align-items: center; z-index: 50; pointer-events: none;
+}
+.header-bar { position: relative; width: 100%; height: 72px; display: flex; align-items: center; justify-content: flex-start; gap: 14px; z-index: 2; pointer-events: auto; }
+header::before,
+header::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 72px;
+  border-radius: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: none;
+}
+header::before {
+  z-index: 1;
+  background: #f6f0e7;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+header::after {
+  display: none;
+}
+.header-logo { display:inline-flex; align-items:center; text-decoration:none; }
+.header-logo img { height:36px; width:auto; }
+.header-logo-text {
+  display:none; font-family:"Imperial Script",cursive; font-size:32px; line-height:.9; letter-spacing:.01em;
+  color:transparent; -webkit-text-fill-color:transparent; -webkit-text-stroke:.8px rgba(42,33,24,.82);
+}
+.contact-quick-trigger {
+  display:inline-flex; align-items:center; padding:0; line-height:1.1; color:rgba(42,33,24,.82)!important; font-family:"Inter Tight",sans-serif;
+  font-size:12px!important; font-weight:400!important; letter-spacing:.06em!important; text-transform:none!important; background:none; border:0; cursor:pointer; text-decoration:none!important;
+}
+.contact-quick-trigger::before { content:"+"; margin-right:8px; font-size:14px; line-height:1; transform:translateY(-.5px); }
+.menu-toggle {
+  margin-left:auto; display:inline-flex; align-items:center; gap:10px; border:0; background:transparent; font-family:"Inter Tight",sans-serif;
+  font-size:12px; letter-spacing:.06em; color:rgba(42,33,24,.82); cursor:pointer;
+}
+.menu-toggle .menu-icon { display:inline-flex; flex-direction:column; gap:4px; }
+.menu-toggle .menu-icon span { display:block; width:18px; height:2px; background:rgba(42,33,24,.72); }
+.brand-pinned-title {
+  position: fixed; top: 26px; left: 50%; transform: translateX(-50%) translateY(-6px) scale(.96); z-index: 52;
+  font-family: "Imperial Script",cursive; font-size: clamp(20px,2.3vw,30px); line-height: .9; color: transparent;
+  -webkit-text-fill-color: transparent; -webkit-text-stroke: .8px rgba(42,33,24,.82); pointer-events:none;
+}
+.product-breadcrumb {
+  margin: 0 0 12px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: .05em;
+  font-weight: 400;
+  color: rgba(42, 33, 24, 0.58);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+.product-breadcrumb a {
+  color: rgba(42, 33, 24, 0.7);
+  text-decoration: none;
+}
+.product-breadcrumb a:hover,
+.product-breadcrumb a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: .08em;
+}
+.product-breadcrumb .crumb-current {
+  color: rgba(42, 33, 24, 0.8);
+}
+.contact-quick-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  opacity:0; pointer-events:none; transition:opacity .5s ease-in-out; z-index:240;
+}
+.contact-quick-backdrop.is-open { opacity:1; pointer-events:auto; }
+.contact-quick-panel,.menu-panel {
+  position: fixed; top:0; right:0; width:min(92vw,460px); height:100vh; background:#f7f5f2; color:#151210;
+  transform:translateX(100%); transition:transform .5s ease-in-out; z-index:241; box-shadow:-20px 0 36px rgba(10,12,18,.22); display:grid; grid-template-rows:auto 1fr;
+}
+.menu-panel { width:min(92vw,600px); }
+.contact-quick-panel.is-open,.menu-panel.is-open { transform:translateX(0); }
+.contact-quick-head,.menu-head { display:flex; align-items:center; justify-content:space-between; padding:28px 30px 18px; }
+.menu-head { justify-content:flex-end; }
+.contact-quick-head h3 { margin:0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.18em; text-transform:uppercase; }
+.contact-quick-close,.menu-close {
+  width:38px; height:38px; border-radius:50%; border:1px solid rgba(32,26,22,.18); background:rgba(21,18,16,.06); color:#1d1a18; cursor:pointer;
+}
+.contact-quick-body { padding:8px 30px 30px; display:grid; gap:18px; }
+.contact-quick-block { display:grid; gap:6px; }
+.contact-quick-label { margin:0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:rgba(21,18,16,.52); }
+.contact-quick-link,.contact-quick-text { font-size:13px; line-height:1.45; color:#1d1a18; text-decoration:none; margin:0; }
+.menu-body { position:relative; padding:0; overflow:hidden; min-height:460px; }
+.menu-view { position:absolute; inset:18px 40px 34px 88px; display:grid; align-content:start; gap:16px; opacity:0; transform:translateX(18px); pointer-events:none; transition:opacity .28s ease, transform .32s cubic-bezier(.22,1,.36,1); }
+.menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"], .menu-panel[data-menu-current="portfolio"] .menu-view[data-menu-view="portfolio"] { opacity:1; transform:translateX(0); pointer-events:auto; }
+.menu-panel[data-menu-current="portfolio"] .menu-view[data-menu-view="main"] { transform:translateX(-18px); }
+.menu-link { display:inline-flex; align-items:center; gap:10px; color:#1d1a18; text-decoration:none; font-family:"Inter Tight",sans-serif; font-size:clamp(20px,1.9vw,28px); font-weight:500; line-height:1.16; width:fit-content; }
+.menu-link-button { border:0; background:transparent; padding:0; cursor:pointer; text-align:left; font-family:"Inter Tight",sans-serif; font-size:clamp(20px,1.9vw,28px); font-weight:500; line-height:1.16; }
+.menu-back { font-size:14px; letter-spacing:.03em; color:rgba(21,18,16,.72); }
+
+main { padding: 72px 0 56px; max-width: none; margin: 0; }
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(420px, 1.04fr);
+  gap: 0;
+  align-items: start;
+}
+.product-detail-image-wrap { position: relative; background:var(--page-bg); order:1; justify-self:stretch; align-self:stretch; min-height:calc(100vh - 72px); }
+.product-detail-image { width:100%; height:100%; display:block; object-fit:contain; object-position:left top; max-height:none; margin:0; }
+.product-detail-content {
+  order:2;
+  position: sticky;
+  top: calc(72px + clamp(12px, 2vw, 24px));
+  padding: clamp(24px, 3.2vw, 48px) clamp(34px, 4vw, 72px) clamp(14px, 2.2vw, 28px);
+  max-width: 760px;
+  width: 100%;
+}
+.product-detail-title {
+  margin:0 0 24px; font-family:"Louis George Cafe","Inter Tight",sans-serif; font-size: clamp(22px, 2.5vw, 34px); line-height: 1.06; color:#2a2118;
+}
+.product-detail-price {
+  margin: -8px 0 18px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  letter-spacing: .03em;
+  color: rgba(42, 33, 24, 0.72);
+}
+.product-whatsapp-btn {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 999px;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background: #1c1713;
+  color: #f6f0e7;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  letter-spacing: .06em;
+}
+.product-faq-label {
+  margin: 46px 0 16px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: rgba(42,33,24,.48);
+}
+.product-faq {
+  margin-top: 10px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item:last-child { border-bottom: 0; }
+.faq-toggle {
+  width: 100%; border: 0; background: none; padding: 19px 2px; display: flex; align-items: center; justify-content: space-between;
+  text-align: left; cursor: pointer; font-family: "Inter Tight", sans-serif; font-size: 14px; letter-spacing: .04em; color: rgba(42,33,24,.92);
+}
+.faq-icon { font-size: 18px; line-height: 1; transition: transform .24s ease; }
+.faq-panel { max-height: 0; overflow: hidden; opacity: 0; transition: max-height .32s ease, opacity .22s ease; }
+.faq-item.is-open .faq-panel { opacity: 1; }
+.faq-item.is-open .faq-icon { transform: rotate(45deg); }
+.faq-content { padding: 0 2px 24px; font-family: "Inter Tight", sans-serif; font-size: 14px; line-height: 1.68; color: rgba(42,33,24,.82); }
+.faq-content p { margin: 0; }
+.faq-content p + p { margin-top: 1em; }
+.related-products {
+  margin-top: 42px;
+  padding: 0 clamp(20px, 3.4vw, 56px);
+}
+.related-products h2 {
+  margin: 0 0 14px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  letter-spacing: .04em;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.related-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 220px;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+.related-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  scroll-snap-align: start;
+  width: 220px;
+}
+.related-card-image {
+  position: relative;
+  width: 220px;
+  aspect-ratio: 1 / 1;
+  background: #f1f1f1;
+  overflow: hidden;
+}
+.related-card-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: opacity .8s ease, transform .8s ease;
+}
+.related-image-cover {
+  object-fit: cover;
+  opacity: 1;
+  transform: scale(1);
+}
+.related-image-full {
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(.98);
+}
+.related-card:hover .related-image-cover,
+.related-card:focus-visible .related-image-cover {
+  opacity: 0;
+}
+.related-card:hover .related-image-full,
+.related-card:focus-visible .related-image-full {
+  opacity: 1;
+  transform: scale(1);
+}
+.related-card-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: .03em;
+  line-height: 1.35;
+}
+
+#site-footer {
+  position: relative;
+  background: linear-gradient(180deg, #f6f0e7 0%, #f3ece2 100%);
+  color: #2a2118;
+  padding: 48px 0 calc(env(safe-area-inset-bottom, 0px) + 96px);
+  border-top: 1px solid var(--line);
+}
+#site-footer .footer-inner { width:min(1160px,92vw); margin:0 auto; display:grid; gap:18px; }
+#site-footer .footer-closing { text-align:center; margin:0 auto 6px; }
+#site-footer .footer-closing-quote { margin:0; font-family:"Relationship of Melodrame","RelationshipDisplay",serif; font-size:clamp(34px,4.4vw,72px); line-height:1.25; color:#2a2118; }
+#site-footer .footer-closing-author { margin:8px 0 0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:rgba(42,33,24,.6); }
+#site-footer .footer-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px; border-top:1px solid var(--line); padding-top:18px; align-items:start; }
+#site-footer .footer-col { display:grid; gap:0; }
+#site-footer .footer-col-title { margin:0 0 12px; font-family:"Inter Tight",sans-serif; font-size:13px; font-weight:600; letter-spacing:.04em; color:rgba(42,33,24,.72); display:flex; justify-content:space-between; align-items:center; width:100%; background:none; border:0; padding:0; text-transform:none; }
+#site-footer .footer-accordion-toggle { width:100%; border:0; background:none; padding:0; text-align:left; display:flex; align-items:center; justify-content:space-between; cursor:default; }
+#site-footer .footer-accordion-icon { display:none; }
+#site-footer .footer-accordion-panel { max-height:none; overflow:visible; }
+#site-footer .footer-links,#site-footer .footer-list { display:grid; gap:10px; list-style:none; margin:0; padding:0; }
+#site-footer .footer-link { color:#2a2118; text-decoration:none; font-family:"Fraunces",serif; font-size:13px; line-height:1.3; }
+#site-footer .footer-link:hover,
+#site-footer .footer-link:focus-visible { text-decoration:underline; text-underline-offset:.08em; }
+#site-footer .footer-bottom { border-top:1px solid var(--line); padding-top:12px; text-align:center; }
+#site-footer .footer-copyright { margin:0; font-family:"Inter Tight",sans-serif; font-size:13px; color:#2a2118; }
+#site-footer .footer-legal-link { color: inherit; text-decoration: none; }
+#site-footer .footer-legal-link:hover,
+#site-footer .footer-legal-link:focus-visible { text-decoration: underline; text-underline-offset: .08em; }
+#site-footer .footer-brand {
+  text-align: center;
+  font-family: "Imperial Script", cursive;
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 0.92;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.7px rgba(42, 33, 24, 0.66);
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .header-logo img { display:none; }
+  .header-logo-text { display:inline-block; font-size:30px; }
+  .contact-quick-trigger, .brand-pinned-title, .menu-toggle .menu-label { display:none; }
+  .menu-toggle { gap:0; padding:0; }
+  .menu-view { inset:14px 24px 24px 42px; gap:20px; }
+  .menu-link { width:100%; justify-content:space-between; font-size:clamp(18px,6vw,24px); }
+  main { padding: 94px 16px 36px; }
+  .product-detail-layout { grid-template-columns: 1fr; gap: 16px; }
+  .product-detail-image-wrap { order:1; justify-self:stretch; min-height:0; }
+  .product-detail-content { order:2; position: static; top: auto; padding: 4px 0 0; max-width: none; }
+  .product-detail-image { max-height: none; width: 100%; height: auto; object-fit: contain; }
+  .product-detail-title { font-size: clamp(26px, 8vw, 36px); margin-bottom: 14px; }
+  .product-whatsapp-btn { min-height: 46px; }
+  .product-faq-label { margin: 58px 0 18px; }
+  .product-faq { margin-top: 14px; }
+  .related-products {
+    margin-top: 48px;
+    padding: 0;
+  }
+  .related-grid { grid-auto-columns: minmax(150px, 1fr); }
+  .related-card { width: 150px; }
+  .related-card-image { width: 150px; }
+
+  #site-footer .footer-grid { grid-template-columns:1fr; gap:16px; }
+  #site-footer .footer-col-title { margin:0; cursor:pointer; padding:2px 0; }
+  #site-footer .footer-accordion-icon { display:inline-block; font-size:14px; line-height:1; transition:transform .24s linear; }
+  #site-footer .footer-accordion-panel { max-height:0; overflow:hidden; opacity:0; transition:max-height .28s linear, opacity .22s linear; }
+  #site-footer .footer-col.is-open .footer-accordion-panel { max-height:360px; opacity:1; margin-top:8px; }
+  #site-footer .footer-col.is-open .footer-accordion-icon { transform:rotate(45deg); }
+}
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-bar">
+    <a class="header-logo" href="index.html" aria-label="Go to home page">
+      <img src="assets/logoo.webp" alt="Marvell Florist">
+      <span class="header-logo-text">Marvell Florist</span>
+    </a>
+    <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Contact Us</button>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+<div class="brand-pinned-title" aria-hidden="true">Marvell Florist</div>
+
+<div class="contact-quick-backdrop" id="contact-quick-backdrop" aria-hidden="true"></div>
+<aside class="contact-quick-panel" id="contact-quick-panel" aria-hidden="true" tabindex="-1">
+  <div class="contact-quick-head">
+    <h3>Contact Us</h3>
+    <button class="contact-quick-close" id="contact-quick-close" type="button" aria-label="Close contact panel">&#10005;</button>
+  </div>
+  <div class="contact-quick-body">
+    <div class="contact-quick-block">
+      <p class="contact-quick-label">Message Us</p>
+      <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Floral Arrangements</a>
+      <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Custom Orders</a>
+      <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Supplies</a>
+      <p class="contact-quick-text">Available Monday – Saturday</p>
+      <p class="contact-quick-text">8:00 – 18:00 (WIB)</p>
+    </div>
+    <div class="contact-quick-block">
+      <p class="contact-quick-label">Our Location</p>
+      <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Arrangements</a>
+      <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Supplies</a>
+    </div>
+    <div class="contact-quick-block">
+      <p class="contact-quick-label">Keep In Touch</p>
+      <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
+    </div>
+    <div class="contact-quick-block">
+      <p class="contact-quick-label">Shop Us Online</p>
+      <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
+      <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
+    </div>
+  </div>
+</aside>
+
+<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1">
+  <div class="menu-head"><button class="menu-close" id="menu-close" type="button" aria-label="Close menu">&#10005;</button></div>
+  <div class="menu-body">
+    <div class="menu-view" data-menu-view="main">
+      <a class="menu-link" href="index.html">Home</a>
+      <a class="menu-link" href="index.html#featured">Featured</a>
+      <button class="menu-link menu-link-button" type="button" data-menu-open="portfolio">Portfolio</button>
+      <a class="menu-link" href="about.html">About</a>
+      <a class="menu-link" href="index.html#services">Services</a>
+      <a class="menu-link" href="index.html#reviews">Reviews</a>
+    </div>
+    <div class="menu-view" data-menu-view="portfolio">
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&larr; Back</button>
+      <a class="menu-link" href="gallery.html?category=Standing%20Flowers">Standing Flowers</a>
+      <a class="menu-link" href="gallery.html?category=Artificial%20Flowers">Artificial Flowers</a>
+      <a class="menu-link" href="gallery.html?category=Bouquets">Bouquets</a>
+      <a class="menu-link" href="gallery.html?category=Papan%20Bunga">Papan Bunga</a>
+      <a class="menu-link" href="gallery.html?category=Funerals">Funerals</a>
+      <a class="menu-link" href="gallery.html?category=Parcels">Parcels</a>
+      <a class="menu-link" href="gallery.html?category=By%20Request">By Request</a>
+    </div>
+  </div>
+</aside>
+
+<main>
+  <section class="product-detail-layout">
+    <div class="product-detail-image-wrap">
+      <img id="product-image" class="product-detail-image" src="" alt="Product image">
+    </div>
+    <div class="product-detail-content">
+      <nav class="product-breadcrumb" id="product-breadcrumb" aria-label="Breadcrumb"></nav>
+      <h1 id="product-title" class="product-detail-title">Product</h1>
+      <p id="product-price" class="product-detail-price" hidden></p>
+      <a id="product-whatsapp" class="product-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Consult On WhatsApp</a>
+      <p class="product-faq-label">Frequently Asked Questions</p>
+      <section class="product-faq" id="product-faq"></section>
+    </div>
+  </section>
+  <section class="related-products" aria-label="Related products">
+    <h2>You May Also Like</h2>
+    <div class="related-grid" id="related-grid"></div>
+  </section>
+</main>
+
+<footer id="site-footer">
+  <div class="footer-inner">
+    <div class="footer-closing">
+      <p class="footer-closing-quote">&ldquo;I must have flowers, always and always.&rdquo;</p>
+      <p class="footer-closing-author">Claude Monet</p>
+    </div>
+    <div class="footer-grid">
+      <section class="footer-col" aria-label="Contact links">
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Connect <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <div class="footer-accordion-panel" id="footer-panel-contact">
+          <div class="footer-links">
+            <a class="footer-link" href="index.html#services">Contact Us</a>
+            <a class="footer-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a class="footer-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a class="footer-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
+          </div>
+        </div>
+      </section>
+      <section class="footer-col" aria-label="About links">
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">About <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <div class="footer-accordion-panel" id="footer-panel-about">
+          <ul class="footer-list">
+            <li><a class="footer-link" href="about.html#journey">Our Journey</a></li>
+            <li><a class="footer-link" href="about.html#craft">Our Craft</a></li>
+            <li><a class="footer-link" href="about.html#team">Our Team</a></li>
+          </ul>
+        </div>
+      </section>
+      <section class="footer-col" aria-label="Category links">
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories">Categories <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <div class="footer-accordion-panel" id="footer-panel-categories">
+          <div class="footer-links">
+            <a class="footer-link" href="gallery.html?category=Standing%20Flowers">Standing Flowers</a>
+            <a class="footer-link" href="gallery.html?category=Artificial%20Flowers">Artificial Flowers</a>
+            <a class="footer-link" href="gallery.html?category=Bouquets">Bouquets</a>
+            <a class="footer-link" href="gallery.html?category=Papan%20Bunga">Papan Bunga</a>
+            <a class="footer-link" href="gallery.html?category=Funerals">Funerals</a>
+            <a class="footer-link" href="gallery.html?category=Parcels">Parcels</a>
+            <a class="footer-link" href="gallery.html?category=By%20Request">By Request</a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="footer-bottom"><p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privacy</a> · <a class="footer-legal-link" href="terms-conditions.html">Terms</a> · © 2006–2026 Marvell Florist</p></div>
+    <div class="footer-brand" aria-hidden="true">Marvell Florist</div>
+  </div>
+</footer>
+
+<script>
+const FAQ_BY_GROUP = {
+  bouquets: [
+    { title: "Pricing", content: "Bouquets typically begin from around Rp120.000 for artificial arrangements and approximately Rp170.000 for fresh flower bouquets. The final price may vary depending on the flower selection, arrangement size, and the style requested.\n\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Each bouquet is arranged individually for the order. Color palettes, wrapping styles, and flower varieties may be adjusted depending on the occasion and flower availability. If a particular flower is not available, a similar variety may be used while maintaining the overall character of the arrangement." },
+    { title: "Delivery & Preparation", content: "Delivery is available across Batam. Same-day delivery may be possible depending on the preparation time required. Most bouquets can be prepared within approximately 30 minutes, though more detailed arrangements may require additional time." },
+    { title: "Ordering Process", content: "Orders are arranged through WhatsApp consultation. After confirming the design and details of the arrangement, payment can be completed via transfer. The bouquet will then be prepared and scheduled for delivery." }
+  ],
+  artificialArrangement: [
+    { title: "Pricing", content: "Artificial flower arrangements typically begin from around Rp200.000, depending on the container, arrangement size, and materials used.\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Artificial arrangements can be adjusted in color palette, style, and container depending on the intended setting. These arrangements are often prepared for home decoration, gifts, or interior displays." },
+    { title: "Delivery & Preparation", content: "Delivery is available across Batam. Preparation usually begins shortly after order confirmation, with timing depending on the complexity of the arrangement." },
+    { title: "Ordering Process", content: "Orders are confirmed through WhatsApp consultation, where our team will assist in determining the arrangement style and final pricing before preparation begins." }
+  ],
+  bloomBox: [
+    { title: "Pricing", content: "Bloom box arrangements generally begin from around Rp200.000, depending on the flower selection and the scale of the arrangement.\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Bloom boxes may be arranged in different color themes and flower combinations depending on the occasion. If a particular flower variety is unavailable, a similar substitute may be used while maintaining the overall design." },
+    { title: "Delivery & Preparation", content: "Delivery is available across Batam. Preparation time depends on the arrangement style and flower availability." },
+    { title: "Ordering Process", content: "Orders are handled through WhatsApp consultation. Once the design and details are confirmed, payment is completed and the arrangement will be prepared accordingly." }
+  ],
+  balloonBloomBox: [
+    { title: "Pricing", content: "Balloon bloom box arrangements typically begin from around Rp350.000, depending on balloon style, flower selection, and arrangement size.\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Balloon colors, messages, and flower combinations can be adjusted depending on the occasion, including birthdays, graduations, and celebrations." },
+    { title: "Delivery & Preparation", content: "Delivery is available across Batam. Preparation time may vary depending on the complexity of the arrangement." },
+    { title: "Ordering Process", content: "Orders are arranged through WhatsApp consultation where details and pricing are confirmed before preparation begins." }
+  ],
+  papanSingle: [
+    { title: "Pricing", content: "Flower boards typically begin from around Rp150.000 for a single board, depending on the design and floral style.\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Message text, color combinations, and floral styles can be adjusted depending on the occasion and the intended tone of the arrangement." },
+    { title: "Delivery & Installation", content: "Delivery and installation are available throughout Batam. In many cases, installation can be arranged within the same day depending on availability." },
+    { title: "Ordering Process", content: "Orders are arranged through WhatsApp consultation where the message text, installation location, and design are confirmed before preparation begins." }
+  ],
+  papanDouble: [
+    { title: "Pricing", content: "Flower boards typically begin from around Rp280.000 for a double board, depending on the design and floral style.\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Message text, color combinations, and floral styles can be adjusted depending on the occasion and the intended tone of the arrangement." },
+    { title: "Delivery & Installation", content: "Delivery and installation are available throughout Batam. In many cases, installation can be arranged within the same day depending on availability." },
+    { title: "Ordering Process", content: "Orders are arranged through WhatsApp consultation where the message text, installation location, and design are confirmed before preparation begins." }
+  ],
+  funeralsSingle: [
+    { title: "Pricing", content: "Condolence flower boards follow the same general pricing structure, beginning from around Rp150.000 for single boards, depending on the arrangement and floral design.\nFinal pricing will be confirmed during consultation." },
+    { title: "Duration", content: "Flower boards are typically installed for around three days for most occasions. For condolence arrangements, installation may remain until the completion of the final tribute ceremonies, depending on the family’s wishes." },
+    { title: "Delivery & Installation", content: "Delivery and installation are available across Batam, and arrangements can often be prepared within the same day." },
+    { title: "Ordering Process", content: "Orders are handled through WhatsApp consultation where the message text, installation location, and design are confirmed before preparation." }
+  ],
+  funeralsDouble: [
+    { title: "Pricing", content: "Condolence flower boards follow the same general pricing structure, beginning from around Rp280.000 for double boards, depending on the arrangement and floral design.\nFinal pricing will be confirmed during consultation." },
+    { title: "Duration", content: "Flower boards are typically installed for around three days for most occasions. For condolence arrangements, installation may remain until the completion of the final tribute ceremonies, depending on the family’s wishes." },
+    { title: "Delivery & Installation", content: "Delivery and installation are available across Batam, and arrangements can often be prepared within the same day." },
+    { title: "Ordering Process", content: "Orders are handled through WhatsApp consultation where the message text, installation location, and design are confirmed before preparation." }
+  ],
+  standing: [
+    { title: "Pricing", content: "Standing flower arrangements typically begin from around Rp1.000.000 for artificial arrangements and approximately Rp1.100.000 for fresh flower designs, depending on size and floral composition.\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Standing arrangements can be adjusted in color palette and floral style depending on the event, whether for grand openings, celebrations, or formal occasions." },
+    { title: "Delivery & Installation", content: "Delivery and installation are available throughout Batam." },
+    { title: "Ordering Process", content: "Orders are confirmed through WhatsApp consultation where arrangement details and final pricing are discussed before preparation." }
+  ],
+  parcels: [
+    { title: "Pricing", content: "Parcel arrangements typically begin from around Rp450.000, depending on the contents and presentation.\nFinal pricing will be confirmed during consultation." },
+    { title: "Customization", content: "Parcel contents may be adjusted depending on the occasion, with options suitable for festive, celebratory, or seasonal arrangements." },
+    { title: "Delivery & Preparation", content: "Delivery is available across Batam, with preparation depending on the parcel contents and presentation." },
+    { title: "Ordering Process", content: "Orders are arranged through WhatsApp consultation where parcel contents and final pricing are confirmed before preparation." }
+  ],
+  customRequest: [
+    { title: "Pricing", content: "Custom arrangements are priced based on request details, materials, and arrangement scale.\nFinal pricing will be confirmed after consultation." },
+    { title: "Customization", content: "Each custom arrangement is developed by request. Style, palette, and structure are discussed first to match the intended concept before confirmation." },
+    { title: "Delivery & Preparation", content: "Delivery is available across Batam. Preparation time depends on design complexity and material availability, and will be confirmed during consultation." },
+    { title: "Ordering Process", content: "Orders are handled through WhatsApp consultation. After concept and details are confirmed, final pricing and timeline will be shared before preparation begins." }
+  ],
+  featuredConsult: [
+    { title: "Customization", content: "Featured arrangements can be adjusted to your preferred palette, flower selection, and occasion concept after discussion with our team." },
+    { title: "Delivery & Preparation", content: "Delivery and preparation timing are confirmed during consultation, depending on arrangement complexity and schedule." },
+    { title: "Ordering Process", content: "Orders are arranged through WhatsApp consultation. Design direction, pricing, and timeline are confirmed first before preparation begins." }
+  ]
+};
+
+function isFeaturedCategory(value) {
+  const text = normalize(value);
+  if (!text) return false;
+  return text.includes("featured")
+    || text.includes("collection")
+    || text.includes("ramadan")
+    || text.includes("eid")
+    || text.includes("valentine")
+    || text.includes("graduation")
+    || text.includes("mother")
+    || text.includes("chinese new year")
+    || text.includes("christmas");
+}
+
+function resolveFeaturedPriceByTitle(title) {
+  const key = normalize(title);
+  if (!key) return "";
+  if (key.includes("garden abundance")) return "Rp1.050.000";
+  if (key.includes("golden gathering")) return "Rp1.200.000";
+  if (key.includes("sunlit harmony")) return "Rp700.000";
+  if (key.includes("crescent bloom")) return "Rp650.000";
+  return "";
+}
+
+function normalize(value) { return String(value || "").trim().toLowerCase(); }
+function decodeParam(value) { try { return decodeURIComponent(value || ""); } catch { return String(value || ""); } }
+function getFileStem(path) {
+  const raw = String(path || "").split("/").pop() || "";
+  return raw.replace(/\.[a-z0-9]+$/i, "");
+}
+function toTitleCase(text) {
+  return String(text || "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+function withDisplayNumber(name, index) {
+  const raw = String(name || "").trim() || "Arrangement";
+  const label = raw.replace(/\s*No\.\s*\d{1,3}\b/gi, "").trim() || "Arrangement";
+  const number = Math.max(1, Number(index) || 1);
+  return `${label} No. ${String(number).padStart(2, "0")}`;
+}
+function normalizeCategoryKey(value) {
+  const raw = normalize(value).replace(/\s+/g, " ");
+  if (!raw) return raw;
+  if (["papan bunga", "flower boards", "papan"].includes(raw)) return "flower boards";
+  if (["artificial flowers", "artificial flower arrangements", "artificial"].includes(raw)) return "artificial flowers";
+  if (["standing flowers", "standing flower"].includes(raw)) return "standing flowers";
+  if (["parcels", "hampers", "parcel"].includes(raw)) return "parcels";
+  if (["by request", "custom", "car decorations", "opening ribbons"].includes(raw)) return "by request";
+  return raw;
+}
+function getCategoryItems(items, category) {
+  const key = normalizeCategoryKey(category);
+  const matches = items.filter((item) => normalizeCategoryKey(item?.category) === key);
+  if (key !== "by request") return matches;
+  return items.filter((item) => {
+    const itemKey = normalizeCategoryKey(item?.category);
+    return itemKey === "by request" || itemKey === "car decorations" || itemKey === "opening ribbons";
+  });
+}
+function getItemNumberInCategory(items, category, image) {
+  const categoryItems = getCategoryItems(items, category);
+  const target = normalize(image);
+  const idx = categoryItems.findIndex((item) => normalize(item?.image) === target);
+  if (idx >= 0) return idx + 1;
+  const globalIdx = items.findIndex((item) => normalize(item?.image) === target);
+  return globalIdx >= 0 ? globalIdx + 1 : 0;
+}
+async function loadGalleryItems() {
+  try {
+    const response = await fetch("/content/gallery.json", { cache: "no-store" });
+    if (!response.ok) return [];
+    const payload = await response.json();
+    return Array.isArray(payload?.items) ? payload.items : [];
+  } catch (_error) {
+    return [];
+  }
+}
+function normalizeProductTitle(category, rawTitle, imagePath) {
+  const base = rawTitle && rawTitle !== "Product" ? rawTitle : getFileStem(imagePath);
+  const cleaned = normalize(base)
+    .replace(/[_(),.-]+/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/\s+/g, " ")
+    .trim();
+  const tokenMap = {
+    perp: "purple",
+    purp: "purple",
+    bloombal: "balloon",
+    balon: "balloon",
+    bloombox: "bloom box"
+  };
+  const skipTokens = new Set(["img", "image", "final", "copy", "edited", "new", "photo", "hasil", "mf", "webp", "jpeg", "jpg", "png", "art", "bou", "pap", "sta", "par"]);
+  const tokens = cleaned
+    .split(" ")
+    .map((token) => tokenMap[token] || token)
+    .flatMap((token) => token.split(" "))
+    .filter((token) => token && !skipTokens.has(token));
+
+  const cat = normalize(category);
+  if (isFeaturedCategory(cat) && rawTitle && rawTitle !== "Product") return rawTitle.trim();
+  if (cat.includes("by request") || cat.includes("custom")) return "Custom Arrangement";
+  const colorWords = ["pink", "white", "red", "purple", "blue", "yellow", "orange", "black", "gold", "green", "pastel", "mixed"];
+  const colors = colorWords.filter((word) => tokens.includes(word));
+  const leadColor = colors[0] ? `${toTitleCase(colors[0])} ` : "";
+  const hasMoney = tokens.includes("money");
+  const hasGrad = tokens.includes("graduation") || tokens.includes("grad");
+  const hasBalloon = tokens.includes("balloon");
+  const hasBloomBox = tokens.includes("bloom") && tokens.includes("box");
+  const hasCross = tokens.includes("cross") || tokens.includes("salib");
+  const hasFrame = tokens.includes("frame") || tokens.includes("framed");
+  const hasStanding = tokens.includes("standing");
+  const hasPapan = cat.includes("papan") || tokens.includes("papan");
+  const hasTwo = tokens.includes("2papan") || tokens.includes("2") || tokens.includes("papan2");
+  const isRustic = tokens.includes("wood") || tokens.includes("wooden") || tokens.includes("round");
+
+  if (cat.includes("bouquet")) {
+    if (hasMoney) return `${leadColor}Money Bouquet`.trim();
+    if (hasGrad) return `${leadColor}Graduation Bouquet`.trim();
+    return `${leadColor}Bouquet Arrangement`.trim();
+  }
+  if (cat.includes("artificial")) {
+    if (hasBalloon) return `${leadColor}Balloon Bloom Box`.trim();
+    if (hasBloomBox) return `${leadColor}Bloom Box`.trim();
+    if (tokens.includes("pot") || tokens.includes("potted") || tokens.includes("basket")) return `${leadColor}Potted Arrangement`.trim();
+    return `${leadColor}Artificial Arrangement`.trim();
+  }
+  if (hasPapan) {
+    const papanType = isRustic ? "Rustic" : "Suyuk";
+    const sizeLabel = hasTwo ? "Double" : "Single";
+    if (cat.includes("funeral") || tokens.includes("duka") || tokens.includes("funeral")) {
+      return `Papan Bunga Duka ${sizeLabel} ${papanType}`;
+    }
+    return `Papan Bunga ${sizeLabel} ${papanType}`;
+  }
+  if (cat.includes("funeral")) {
+    if (hasCross) return `${leadColor}Condolence Cross`.trim();
+    if (hasFrame) return `${leadColor}Condolence Frame`.trim();
+    if (hasStanding) return `${leadColor}Standing Tribute`.trim();
+    return `${leadColor}Condolence Arrangement`.trim();
+  }
+  if (cat.includes("standing")) return `${leadColor}Standing Flower`.trim();
+  if (cat.includes("parcel")) return `${leadColor}Gift Parcel`.trim();
+  return `${leadColor}Floral Arrangement`.trim();
+}
+function adjustTitleByCategoryNumber(category, baseTitle, number) {
+  const cat = normalize(category);
+  const safeNumber = Number(number) || 0;
+  if (cat.includes("papan") && safeNumber === 1) {
+    return baseTitle.replace(/\bSuyuk\b/i, "Rustic");
+  }
+  if (cat.includes("artificial") && safeNumber === 15) {
+    return "Bloom Box";
+  }
+  if (cat.includes("artificial") && (safeNumber === 13 || safeNumber === 18)) {
+    return "Bloom Box";
+  }
+  if (cat.includes("artificial") && safeNumber === 22) {
+    return "Bloom Box";
+  }
+  if (cat.includes("artificial") && (safeNumber === 20 || safeNumber === 21)) {
+    return "Balloon Bloom Box";
+  }
+  if (cat.includes("artificial") && safeNumber >= 2 && safeNumber <= 4) {
+    return "Balloon Bloom Box";
+  }
+  return baseTitle;
+}
+function resolveSpecialRetailPrice(category, number) {
+  const cat = normalize(category);
+  const safeNumber = Number(number) || 0;
+  if (cat.includes("artificial") && safeNumber === 22) return "Retail price: Rp450.000";
+  return "";
+}
+function inferFaqGroup(category, title, image, number = 0) {
+  const text = `${normalize(category)} ${normalize(title)} ${normalize(image)}`;
+  const isDoublePapan = text.includes("2papan") || text.includes("2 papan") || text.includes("papan2") || text.includes("double");
+  if (isFeaturedCategory(category)) return "featuredConsult";
+  if (text.includes("by request") || text.includes("custom")) return "customRequest";
+  if (text.includes("parcel") || text.includes("hamper")) return "parcels";
+  if (text.includes("standing")) return "standing";
+  if (text.includes("funeral") || text.includes("duka")) return isDoublePapan ? "funeralsDouble" : "funeralsSingle";
+  if (text.includes("papan")) return isDoublePapan ? "papanDouble" : "papanSingle";
+  if (text.includes("balloon") || text.includes("bloombal")) return "balloonBloomBox";
+  if (text.includes("artificial") || text.includes("bloom box") || text.includes("bloombox")) {
+    const no = Number(number) || 0;
+    if (no === 15 || no === 22) return "bloomBox";
+    if ((no >= 2 && no <= 4) || no === 20 || no === 21) return "balloonBloomBox";
+    if (text.includes("bloom box") || text.includes("bloombox")) return "bloomBox";
+    return "artificialArrangement";
+  }
+  if (text.includes("bouquet")) return "bouquets";
+  return "bouquets";
+}
+function resolvePhone(category, title, image) {
+  const text = `${normalize(category)} ${normalize(title)} ${normalize(image)}`;
+  if (text.includes("parcel") || text.includes("hamper")) return "628116667920";
+  if (text.includes("by request") || text.includes("custom")) return "628116667457";
+  return "6281275017456";
+}
+function buildWaLink(phone, title) {
+  const link = window.location.href;
+  const text = [
+    "Halo Marvell Florist, saya ingin konsultasi produk ini.",
+    "",
+    `Produk: ${title}`,
+    `Link: ${link}`
+  ].join("\n");
+  return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+}
+function renderFaq(group, title, image) {
+  const wrap = document.getElementById("product-faq");
+  if (!(wrap instanceof HTMLElement)) return;
+  const faqs = FAQ_BY_GROUP[group] || FAQ_BY_GROUP.bouquets;
+  const toFaqParagraphs = (content) => String(content || "")
+    .split(/\n+/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => `<p>${part}</p>`)
+    .join("");
+  wrap.innerHTML = faqs.map((item, index) => `
+    <article class="faq-item">
+      <button class="faq-toggle" type="button" aria-expanded="false">
+        <span>${item.title}</span>
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="faq-panel">
+        <div class="faq-content">${toFaqParagraphs(item.content)}</div>
+      </div>
+    </article>
+  `).join("");
+
+  const items = Array.from(wrap.querySelectorAll(".faq-item"));
+  items.forEach((item) => {
+    const toggle = item.querySelector(".faq-toggle");
+    const panel = item.querySelector(".faq-panel");
+    if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
+    toggle.addEventListener("click", () => {
+      const willOpen = !item.classList.contains("is-open");
+      items.forEach((other) => {
+        const t = other.querySelector(".faq-toggle");
+        const p = other.querySelector(".faq-panel");
+        if (!(t instanceof HTMLButtonElement) || !(p instanceof HTMLElement)) return;
+        other.classList.remove("is-open");
+        t.setAttribute("aria-expanded", "false");
+        p.style.maxHeight = "0px";
+        p.style.opacity = "0";
+      });
+      if (willOpen) {
+        item.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+        panel.style.maxHeight = `${panel.scrollHeight + 8}px`;
+        panel.style.opacity = "1";
+      }
+    });
+  });
+}
+async function initDetail() {
+  const params = new URLSearchParams(window.location.search);
+  const category = decodeParam(params.get("category"));
+  const titleParam = decodeParam(params.get("title")) || "Product";
+  const image = decodeParam(params.get("image"));
+  const priceParam = decodeParam(params.get("price"));
+  const galleryItems = await loadGalleryItems();
+  const rawBaseTitle = normalizeProductTitle(category, titleParam, image);
+  const productNumber = getItemNumberInCategory(galleryItems, category, image);
+  const baseTitle = adjustTitleByCategoryNumber(category, rawBaseTitle, productNumber);
+  const title = isFeaturedCategory(category) ? baseTitle : withDisplayNumber(baseTitle, productNumber || 1);
+  const imageEl = document.getElementById("product-image");
+  const titleEl = document.getElementById("product-title");
+  const priceEl = document.getElementById("product-price");
+  const waBtn = document.getElementById("product-whatsapp");
+  const breadcrumbEl = document.getElementById("product-breadcrumb");
+  if (imageEl instanceof HTMLImageElement) {
+    imageEl.src = image || "/assets/quotes.webp";
+    imageEl.alt = title;
+  }
+  if (titleEl instanceof HTMLElement) titleEl.textContent = title;
+  if (priceEl instanceof HTMLElement) {
+    const priceText =
+      String(priceParam || "").trim()
+      || (isFeaturedCategory(category) ? resolveFeaturedPriceByTitle(title) : "")
+      || resolveSpecialRetailPrice(category, productNumber || 1);
+    priceEl.textContent = priceText;
+    priceEl.hidden = !priceText;
+  }
+  if (waBtn instanceof HTMLAnchorElement) {
+    waBtn.href = buildWaLink(resolvePhone(category, title, image), title);
+  }
+  if (breadcrumbEl instanceof HTMLElement) {
+    const categoryName = String(category || "Portfolio").trim() || "Portfolio";
+    if (isFeaturedCategory(categoryName)) {
+      breadcrumbEl.innerHTML = `
+        <a href="index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="index.html#featured">Featured</a>
+        <span aria-hidden="true">/</span>
+        <span class="crumb-current">${title}</span>
+      `;
+    } else {
+      breadcrumbEl.innerHTML = `
+        <a href="index.html">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="gallery.html">Portfolio</a>
+        <span aria-hidden="true">/</span>
+        <a href="gallery.html?category=${encodeURIComponent(categoryName)}">${categoryName}</a>
+        <span aria-hidden="true">/</span>
+        <span class="crumb-current">${title}</span>
+      `;
+    }
+  }
+  renderFaq(inferFaqGroup(category, title, image, productNumber || 0), title, image);
+  renderRelatedProducts(category, image, galleryItems);
+}
+
+function renderRelatedProducts(category, currentImage, galleryItems = []) {
+  const grid = document.getElementById("related-grid");
+  if (!(grid instanceof HTMLElement)) return;
+  const current = normalize(currentImage);
+  const categoryItems = getCategoryItems(galleryItems, category);
+  const related = categoryItems
+    .map((item, index) => ({ item, categoryIndex: index + 1 }))
+    .filter((entry) => normalize(entry.item?.image) !== current)
+    .slice(0, 6);
+  if (!related.length) {
+    grid.innerHTML = '<p class="related-card-title">No additional items in this category yet.</p>';
+    return;
+  }
+  grid.innerHTML = related.map(({ item, categoryIndex }) => {
+    const image = String(item?.image || "").trim();
+    const rawBaseTitle = normalizeProductTitle(category, String(item?.title || item?.name || ""), image);
+    const baseTitle = adjustTitleByCategoryNumber(category, rawBaseTitle, categoryIndex);
+    const title = withDisplayNumber(baseTitle, categoryIndex);
+    const href = `product.html?category=${encodeURIComponent(category)}&title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}`;
+    return `
+      <a class="related-card" href="${href}">
+        <div class="related-card-image">${
+          image
+            ? `<img class="related-image-cover" src="${image}" alt="${title}" loading="lazy" decoding="async"><img class="related-image-full" src="${image}" alt="" aria-hidden="true" loading="lazy" decoding="async">`
+            : ""
+        }</div>
+      </a>
+    `;
+  }).join("");
+}
+
+const contactTrigger = document.getElementById("contact-quick-trigger");
+const contactBackdrop = document.getElementById("contact-quick-backdrop");
+const contactPanel = document.getElementById("contact-quick-panel");
+const contactClose = document.getElementById("contact-quick-close");
+const menuToggle = document.getElementById("menu-toggle");
+const menuPanel = document.getElementById("menu-panel");
+const menuClose = document.getElementById("menu-close");
+const menuViews = menuPanel ? Array.from(menuPanel.querySelectorAll("[data-menu-view]")) : [];
+const footerCols = Array.from(document.querySelectorAll("#site-footer .footer-col"));
+const footerToggles = Array.from(document.querySelectorAll("#site-footer .footer-accordion-toggle"));
+
+const setMenuView = (view = "main") => {
+  if (!menuPanel) return;
+  menuPanel.setAttribute("data-menu-current", view);
+  menuViews.forEach((v) => v.setAttribute("aria-hidden", v.getAttribute("data-menu-view") === view ? "false" : "true"));
+};
+const setContactOpen = (open) => {
+  if (!contactPanel || !contactBackdrop || !contactTrigger) return;
+  contactPanel.classList.toggle("is-open", open);
+  contactBackdrop.classList.toggle("is-open", open);
+  contactPanel.setAttribute("aria-hidden", open ? "false" : "true");
+  contactTrigger.setAttribute("aria-expanded", open ? "true" : "false");
+};
+const setMenuOpen = (open) => {
+  if (!menuPanel || !contactBackdrop || !menuToggle) return;
+  menuPanel.classList.toggle("is-open", open);
+  contactBackdrop.classList.toggle("is-open", open);
+  menuPanel.setAttribute("aria-hidden", open ? "false" : "true");
+  menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  if (!open) setMenuView("main");
+};
+if (menuPanel) setMenuView("main");
+if (contactTrigger) contactTrigger.addEventListener("click", () => setContactOpen(!(contactPanel && contactPanel.classList.contains("is-open"))));
+if (contactClose) contactClose.addEventListener("click", () => setContactOpen(false));
+if (menuToggle && menuPanel) menuToggle.addEventListener("click", () => { const o = menuPanel.classList.contains("is-open"); if (!o) setContactOpen(false); setMenuOpen(!o); });
+if (menuClose) menuClose.addEventListener("click", () => setMenuOpen(false));
+if (contactBackdrop) contactBackdrop.addEventListener("click", () => { setContactOpen(false); setMenuOpen(false); });
+if (menuPanel) {
+  menuPanel.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const openBtn = target.closest("[data-menu-open]");
+    if (openBtn instanceof HTMLElement) { const v = openBtn.getAttribute("data-menu-open"); if (v) setMenuView(v); return; }
+    const backBtn = target.closest("[data-menu-back]");
+    if (backBtn instanceof HTMLElement) { const v = backBtn.getAttribute("data-menu-back") || "main"; setMenuView(v); return; }
+    if (target instanceof HTMLAnchorElement) setMenuOpen(false);
+  });
+}
+document.addEventListener("keydown", (event) => { if (event.key === "Escape") { setContactOpen(false); setMenuOpen(false); } });
+
+function syncFooterAccordion() {
+  const mobile = window.matchMedia("(max-width: 768px)").matches;
+  footerCols.forEach((col) => {
+    const toggle = col.querySelector(".footer-accordion-toggle");
+    const panel = col.querySelector(".footer-accordion-panel");
+    if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
+    if (!mobile) {
+      col.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "true");
+      panel.style.maxHeight = "none";
+      panel.style.opacity = "1";
+      return;
+    }
+    const open = col.classList.contains("is-open");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    panel.style.maxHeight = open ? `${panel.scrollHeight}px` : "0px";
+    panel.style.opacity = open ? "1" : "0";
+  });
+}
+footerToggles.forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const mobile = window.matchMedia("(max-width: 768px)").matches;
+    if (!mobile) return;
+    const col = toggle.closest(".footer-col");
+    if (!(col instanceof HTMLElement)) return;
+    const willOpen = !col.classList.contains("is-open");
+    footerCols.forEach((other) => other.classList.remove("is-open"));
+    if (willOpen) col.classList.add("is-open");
+    syncFooterAccordion();
+  });
+});
+window.addEventListener("resize", syncFooterAccordion);
+
+initDetail();
+syncFooterAccordion();
+</script>
+</body>
+</html>

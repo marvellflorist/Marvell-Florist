@@ -5,10 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marvell Florist</title>
-<link rel="icon" href="assets/logoo.png?v=3" type="image/png" sizes="32x32">
-<link rel="icon" href="assets/logoo.png?v=3" type="image/png" sizes="192x192">
-<link rel="apple-touch-icon" href="assets/logoo.png?v=3">
-<link rel="shortcut icon" href="assets/logoo.png?v=3" type="image/png">
+<link rel="icon" href="assets/logoo.webp?v=3" type="image/png" sizes="32x32">
+<link rel="icon" href="assets/logoo.webp?v=3" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/logoo.webp?v=3">
+<link rel="shortcut icon" href="assets/logoo.webp?v=3" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
@@ -392,6 +392,14 @@ section {
   overflow: hidden;
   --section-reveal: 0;
   z-index: 1;
+  outline: 10px solid #f3ece2;
+  outline-offset: -10px;
+}
+@media (max-width: 768px) {
+  section {
+    outline-width: 7px;
+    outline-offset: -7px;
+  }
 }
 #home::after {
   content: none;
@@ -629,7 +637,7 @@ body.intro-scroll-lock {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("assets/scene3.png") center / cover no-repeat fixed;
+  background: url("assets/scene3.webp") center / cover no-repeat fixed;
   filter: saturate(0.92) contrast(0.94) blur(0.6px);
   transform: scale(1.01);
   z-index: 0;
@@ -1013,7 +1021,7 @@ body.intro-scroll-lock {
   isolation: isolate;
 }
 #about .scene2-strip-bg {
-  background-image: url("assets/scene2-bg.png");
+  background-image: url("assets/scene2-bg.webp");
 }
 #about .scene2-strip-bg,
 #about .scene2-strip-fg {
@@ -1882,7 +1890,7 @@ body.intro-scroll-lock {
 
 <header>
   <a href="index.html" aria-label="Go to home page">
-    <img src="assets/logo.Png" alt="Marvell Florist">
+    <img src="assets/logoo.webp" alt="Marvell Florist">
   </a>
   <div class="editions-menu">
     <button class="editions-cta" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="editions-panel">Chapters</button>
@@ -1904,8 +1912,8 @@ body.intro-scroll-lock {
         <div class="layer-bg">
           <div class="home-sky-marquee">
             <div class="home-sky-track">
-              <img src="assets/scene1-bg.png" alt="" decoding="async" fetchpriority="high">
-              <img src="assets/scene1-bg.png" alt="" decoding="async" fetchpriority="high" aria-hidden="true">
+              <img src="assets/scene1-bg.webp" alt="" decoding="async" fetchpriority="high">
+              <img src="assets/scene1-bg.webp" alt="" decoding="async" fetchpriority="high" aria-hidden="true">
             </div>
           </div>
         </div>
@@ -1913,7 +1921,7 @@ body.intro-scroll-lock {
       <div class="layer-depth-fg">
         <div class="layer-fg smudge-wrapper">
           <canvas class="smudge-canvas" aria-hidden="true"></canvas>
-          <img class="background-image" src="assets/scene1-fg.png" alt="" decoding="async">
+          <img class="background-image" src="assets/scene1-fg.webp" alt="" decoding="async">
         </div>
       </div>
       <div class="ambient-particles" aria-hidden="true"></div>
@@ -1936,13 +1944,13 @@ body.intro-scroll-lock {
 <section id="about" data-parallax>
   <div class="layer-bg scene2-strip-bg"></div>
   <div class="scene2-strip-fg scene2-strip-fg1">
-    <img class="scene2-strip-fg-image" src="assets/scene2-fg1.png" data-bio-target="fg1" alt="Clickable figure of the man representing the team story" role="button" tabindex="0">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg1.webp" data-bio-target="fg1" alt="Clickable figure of the man representing the team story" role="button" tabindex="0">
   </div>
   <div class="scene2-strip-fg scene2-strip-fg2">
-    <img class="scene2-strip-fg-image" src="assets/scene2-fg2.png" data-bio-target="fg2" alt="Clickable figure of the woman representing craft and philosophy" role="button" tabindex="0">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg2.webp" data-bio-target="fg2" alt="Clickable figure of the woman representing craft and philosophy" role="button" tabindex="0">
   </div>
   <div class="scene2-strip-fg scene2-strip-fg3">
-    <img class="scene2-strip-fg-image" src="assets/scene2-fg3.png" data-bio-target="fg3" alt="Clickable bush representing the journey and growth story" role="button" tabindex="0">
+    <img class="scene2-strip-fg-image" src="assets/scene2-fg3.webp" data-bio-target="fg3" alt="Clickable bush representing the journey and growth story" role="button" tabindex="0">
   </div>
   <div class="section-content">
     <div class="about-content-inner">
@@ -1970,27 +1978,27 @@ body.intro-scroll-lock {
   <div class="parallax-container">
     <div class="layer-bg smudge-wrapper">
       <canvas class="smudge-canvas" aria-hidden="true"></canvas>
-      <img class="background-image" src="assets/scene4-bg.png" alt="" decoding="async">
+      <img class="background-image" src="assets/scene4-bg.webp" alt="" decoding="async">
     </div>
     <div class="contact-grid-layer">
       <div class="contact-socials">
         <div class="contact-card-grid">
       <a class="contact-card" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">
-        <span class="contact-card-media"><img src="assets/whatsapp1.png" alt="Primary WhatsApp ordering line"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+        <span class="contact-card-media"><img src="assets/whatsapp1.webp" alt="Primary WhatsApp ordering line"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
         <span class="contact-card-overlay">
           <span class="contact-card-title">Consult on WhatsApp <span class="contact-card-arrow">&#8594;</span></span>
           <span class="contact-card-desc">Consult custom bouquet and arrangement requests with our primary team.</span>
         </span>
       </a>
       <a class="contact-card" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">
-        <span class="contact-card-media"><img src="assets/whatsapp2.png" alt="Secondary WhatsApp ordering line"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
+        <span class="contact-card-media"><img src="assets/whatsapp1.webp" alt="Secondary WhatsApp ordering line"><span class="contact-image-hover"></span><span class="contact-card-label">Floral Arrangements</span></span>
         <span class="contact-card-overlay">
           <span class="contact-card-title">Consult on WhatsApp <span class="contact-card-arrow">&#8594;</span></span>
           <span class="contact-card-desc">Alternative line for floral inquiries, scheduling, and order follow-up.</span>
         </span>
       </a>
       <a class="contact-card" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">
-        <span class="contact-card-media"><img src="assets/whatsapp3.png" alt="WhatsApp ordering line for supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Supplies</span></span>
+        <span class="contact-card-media"><img src="assets/whatsapp1.webp" alt="WhatsApp ordering line for supplies"><span class="contact-image-hover"></span><span class="contact-card-label">Supplies</span></span>
         <span class="contact-card-overlay">
           <span class="contact-card-title">Consult on WhatsApp <span class="contact-card-arrow">&#8594;</span></span>
           <span class="contact-card-desc">Reach our supplies desk for florist materials and stock support.</span>

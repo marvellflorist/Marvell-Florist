@@ -1,0 +1,82 @@
+{
+  "defaultKicker": "SEASONAL COLLECTION",
+  "events": [
+    {
+      "id": "eid",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Ramadan & Eid Collection",
+      "heroImage": "/assets/ramadhan.webp",
+      "products": [
+        {
+          "name": "Garden Abundance",
+          "price": "Rp1.050.000",
+          "src": "/assets/seasonal/eid/eidparcel.webp"
+        },
+        {
+          "name": "Golden Gathering",
+          "price": "Rp1.200.000",
+          "src": "/assets/seasonal/eid/eidparcel2.png.webp"
+        },
+        {
+          "name": "Sunlit Harmony",
+          "price": "Rp700.000",
+          "src": "/assets/seasonal/eid/eidfloralarrange.webp"
+        },
+        {
+          "name": "Crescent Bloom",
+          "price": "Rp650.000",
+          "src": "/assets/seasonal/eid/floralarrangement.webp"
+        }
+      ]
+    },
+    {
+      "id": "valentine",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Valentine’s Collection",
+      "heroImage": "/assets/valentines.jpeg",
+      "products": []
+    },
+    {
+      "id": "graduation",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Graduation Collection",
+      "heroImage": "/assets/graduation.webp",
+      "products": []
+    },
+    {
+      "id": "graduation_late",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Graduation Collection",
+      "heroImage": "/assets/graduation.webp",
+      "products": []
+    },
+    {
+      "id": "mothers_day",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Mother’s Day Collection",
+      "heroImage": "/assets/mothersday.jpeg",
+      "products": []
+    },
+    {
+      "id": "cny",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Chinese New Year Collection",
+      "heroImage": "/assets/chinesenewyear.webp",
+      "products": []
+    },
+    {
+      "id": "cny_mid",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Chinese New Year Collection",
+      "heroImage": "/assets/chinesenewyear.webp",
+      "products": []
+    },
+    {
+      "id": "christmas",
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Christmas Collection",
+      "heroImage": "/assets/christmas.jpeg",
+      "products": []
+    }
+  ]
+}
