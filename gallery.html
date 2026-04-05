@@ -5,7 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gallery | Marvell Florist</title>
 <meta name="description" content="Browse Marvell Florist collections by category.">
-<link rel="icon" href="/assets/logoo.webp?v=4" type="image/webp" sizes="32x32">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#f8f6f1">
+<link rel="canonical" href="https://marvellflorist.com/gallery.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/gallery.html">
+<meta property="og:title" content="Gallery | Marvell Florist">
+<meta property="og:description" content="Browse Marvell Florist collections by category.">
+<meta property="og:image" content="https://marvellflorist.com/assets/preview.png">
+<meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Marvell Florist website preview">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Gallery | Marvell Florist">
+<meta name="twitter:description" content="Browse Marvell Florist collections by category.">
+<meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png">
+<script src="assets/site-language.js"></script>
+<script src="gallery-fallback-data.js"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
@@ -28,15 +52,26 @@
   font-display: swap;
 }
 :root {
-  --canvas: #ffffff;
-  --ink: #2a2118;
-  --muted: rgba(42, 33, 24, 0.68);
-  --line: rgba(157, 133, 101, 0.24);
+  --canvas: #f8f6f1;
+  --ink: #2f2923;
+  --muted: rgba(47, 41, 35, 0.68);
+  --line: rgba(63, 54, 45, 0.16);
 }
 html {
   scroll-behavior: smooth;
   background: var(--canvas);
   overscroll-behavior-y: none;
+}
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 body {
   font-family: "Fraunces", serif;
@@ -68,24 +103,7 @@ header {
   pointer-events: auto;
 }
 .brand-pinned-title {
-  position: fixed;
-  top: 26px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-6px) scale(0.96);
-  z-index: 52;
-  font-family: "Imperial Script", cursive;
-  font-size: clamp(20px, 2.3vw, 30px);
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 0.9;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0.8px rgba(42, 33, 24, 0.82);
-  text-shadow: none;
-  opacity: 1;
-  pointer-events: none;
-  transition: none;
-  display: block;
+  display: none;
 }
 header::before,
 header::after {
@@ -102,7 +120,7 @@ header::after {
 }
 header::before {
   z-index: 1;
-  background: #f6f0e7;
+  background: #f8f6f1;
   border: 0;
   border-bottom: 0;
   backdrop-filter: none;
@@ -120,24 +138,58 @@ header::after {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .header-logo-text {
-  display: none;
+  display: inline-block;
   font-family: "Imperial Script", cursive;
   font-size: 32px;
   line-height: 0.9;
   letter-spacing: 0.01em;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0.8px rgba(42, 33, 24, 0.82);
+  color: rgba(42, 33, 24, 0.82);
+  -webkit-text-fill-color: currentColor;
+  -webkit-text-stroke: 0;
   text-shadow: none;
 }
 .header-logo img {
-  height: 36px;
-  width: auto;
+  display: none;
+}
+.search-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(42, 33, 24, 0.82);
+  cursor: pointer;
+  text-decoration: none;
+}
+.search-toggle svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.search-toggle:hover,
+.search-toggle:focus-visible,
+.menu-toggle:hover,
+.menu-toggle:focus-visible,
+.contact-quick-trigger:hover,
+.contact-quick-trigger:focus-visible {
+  opacity: 0.84;
+  outline: none;
 }
 .menu-toggle {
-  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -203,7 +255,8 @@ header::after {
   left: 0;
   right: 0;
   z-index: 49;
-  background: #f6f0e7;
+  background: #f8f6f1;
+  border-top: 0;
   border-bottom: 0;
   overflow-x: auto;
   white-space: nowrap;
@@ -224,6 +277,10 @@ header::after {
 .category-nav-list a.is-active {
   color: #111;
   text-transform: uppercase;
+}
+body.portfolio-gateway-active .category-nav,
+body.portfolio-gateway-active .mobile-category-toolbar {
+  display: none !important;
 }
 .mobile-category-toolbar {
   display: none;
@@ -259,19 +316,29 @@ header::after {
   text-transform: none;
 }
 .mobile-category-trigger .mobile-category-chevron {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  border-right: 1.6px solid currentColor;
-  border-bottom: 1.6px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
-  transition: transform 0.24s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  transform: translateY(1px);
 }
 .mobile-category-trigger .mobile-category-chevron svg {
-  display: none;
+  display: block;
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.24s ease;
 }
 .mobile-category-trigger[aria-expanded="true"] .mobile-category-chevron {
-  transform: translateY(1px) rotate(-135deg);
+  transform: translateY(1px);
+}
+.mobile-category-trigger[aria-expanded="true"] .mobile-category-chevron svg {
+  transform: rotate(180deg);
 }
 .mobile-category-panel {
   display: none;
@@ -279,9 +346,9 @@ header::after {
   left: 0;
   right: 0;
   top: calc(env(safe-area-inset-top, 0px) + 128px);
-  background: #f6f0e7;
-  border-top: 1px solid rgba(42, 33, 24, 0.1);
-  border-bottom: 1px solid rgba(42, 33, 24, 0.1);
+  background: #f8f6f1;
+  border-top: 0;
+  border-bottom: 0;
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
@@ -378,7 +445,7 @@ header::after {
   right: 0;
   width: min(92vw, 460px);
   height: 100vh;
-  background: #f7f5f2;
+  background: #f8f6f1;
   color: #151210;
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
@@ -393,7 +460,7 @@ header::after {
   right: 0;
   width: min(92vw, 600px);
   height: 100vh;
-  background: #f7f5f2;
+  background: #f8f6f1;
   color: #151210;
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
@@ -528,7 +595,7 @@ header::after {
 .contact-quick-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 28px 30px 18px;
 }
 .contact-quick-head h3 {
@@ -567,25 +634,27 @@ header::after {
 .contact-quick-label {
   margin: 0;
   font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-size: 14px;
+  line-height: 1.08;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(21, 18, 16, 0.52);
+  color: rgba(21, 18, 16, 0.65);
 }
 .contact-quick-link {
+  font-family: "Inter Tight", sans-serif;
   width: fit-content;
   position: relative;
   display: inline-block;
   text-decoration: none;
   color: #1d1a18;
   font-size: 13px;
-  line-height: 1.45;
+  line-height: 1.04;
 }
 .contact-quick-block .contact-quick-link + .contact-quick-link {
-  margin-top: 0;
+  margin-top: 1px;
 }
 .contact-quick-block .contact-quick-text + .contact-quick-text {
-  margin-top: 0;
+  margin-top: -4px;
 }
 .contact-quick-link:hover,
 .contact-quick-link:focus-visible {
@@ -610,11 +679,63 @@ header::after {
 }
 .contact-quick-text {
   margin: 0;
-  font-size: 12px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
   line-height: 1.45;
+  color: rgba(21, 18, 16, 0.82);
 }
 .contact-quick-text.is-muted {
   color: rgba(21, 18, 16, 0.56);
+}
+#contact-quick-panel {
+  width: min(92vw, 600px);
+}
+#contact-quick-panel .contact-quick-head {
+  padding: 24px 34px 8px;
+}
+#contact-quick-panel .contact-quick-body {
+  padding: 18px 40px 34px 88px;
+  gap: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+#contact-quick-panel .contact-quick-block {
+  gap: 10px;
+}
+#contact-quick-panel .contact-quick-label {
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+#contact-quick-panel .contact-quick-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 500;
+  line-height: 1.22;
+}
+#contact-quick-panel .contact-quick-link::after {
+  content: "\203A";
+  position: static;
+  width: auto;
+  height: auto;
+  background: none;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+#contact-quick-panel .contact-quick-link:hover::after,
+#contact-quick-panel .contact-quick-link:focus-visible::after {
+  opacity: 0.65;
+  transform: translateX(0);
+}
+#contact-quick-panel .contact-quick-text {
+  font-size: 14px;
+  line-height: 1.45;
+}
+#contact-quick-panel .contact-quick-text.is-muted {
+  color: rgba(21, 18, 16, 0.62);
 }
 .contact-quick-panel.is-open {
   transform: translateX(0);
@@ -632,7 +753,247 @@ main {
   width: 100%;
   margin: 0;
   padding: 104px 0 56px;
-  background: #ffffff;
+  background: #f8f6f1;
+}
+body.portfolio-gateway-active main {
+  padding-top: 72px;
+  position: relative;
+  z-index: 2;
+  background: #f8f6f1;
+}
+body.portfolio-gateway-active main::after {
+  display: none;
+}
+.portfolio-gateway {
+  --gateway-card-radius: 0px;
+  --gateway-stack-overlap: clamp(280px, 34vh, 420px);
+  min-height: 0;
+  display: grid;
+  align-content: start;
+  gap: 0;
+  padding: 0;
+}
+.portfolio-gateway[hidden] {
+  display: none !important;
+}
+.portfolio-gateway-intro {
+  width: min(900px, 92vw);
+  margin: 0 auto;
+  text-align: center;
+  display: grid;
+  gap: 12px;
+}
+.portfolio-gateway-kicker {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.56);
+}
+.portfolio-gateway-title {
+  margin: 0;
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: clamp(40px, 6.2vw, 78px);
+  line-height: 0.92;
+  font-weight: 400;
+  color: #2f2923;
+}
+.portfolio-gateway-lead {
+  margin: 0 auto;
+  max-width: 44rem;
+  font-family: "Fraunces", serif;
+  font-size: clamp(16px, 1.8vw, 20px);
+  line-height: 1.62;
+  color: rgba(47, 41, 35, 0.74);
+}
+.portfolio-gateway-grid {
+  width: 100%;
+  margin: 0;
+  display: grid;
+  gap: 0;
+  background: #f8f6f1;
+  overflow: hidden;
+}
+.portfolio-gateway-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: clamp(700px, 96vh, 1040px);
+  padding: 0;
+  text-decoration: none;
+  color: inherit;
+  isolation: isolate;
+  z-index: calc(10 + var(--gateway-layer, 0));
+  background: #f8f6f1;
+  clip-path: inset(var(--gateway-mask, 0px) 0 0 0 round 0);
+  transition: none;
+  --gateway-copy-bottom: 22%;
+  --gateway-overlay-bottom: 0px;
+  --gateway-overlay-height: clamp(180px, 30vh, 320px);
+}
+.portfolio-gateway-card--intro {
+  min-height: clamp(780px, 108vh, 1180px);
+  --gateway-mask: 0px;
+}
+.portfolio-gateway-card + .portfolio-gateway-card {
+  margin-top: calc(var(--gateway-stack-overlap) * -1);
+}
+.portfolio-gateway-card--intro + .portfolio-gateway-card {
+  margin-top: calc((var(--gateway-stack-overlap) * -1) - clamp(44px, 5vh, 76px));
+}
+.portfolio-gateway-card-media {
+  position: absolute;
+  inset: -6px 0 -6px 0;
+  overflow: hidden;
+  border-radius: var(--gateway-card-radius);
+  background:
+    radial-gradient(120% 120% at 50% 8%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 52%),
+    #f8f6f1;
+  clip-path: inset(0 round 0);
+  transform: none;
+  transition: none;
+}
+.portfolio-gateway-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 8, 6, 0.16) 0%, rgba(10, 8, 6, 0.08) 28%, rgba(10, 8, 6, 0.18) 100%),
+    linear-gradient(0deg, rgba(10, 8, 6, 0.42) 0%, rgba(10, 8, 6, 0.12) 34%, rgba(10, 8, 6, 0.04) 60%);
+  pointer-events: none;
+  transition: none;
+}
+.portfolio-gateway-card:not(.portfolio-gateway-card--intro) .portfolio-gateway-card-media::after {
+  inset: auto 0 var(--gateway-overlay-bottom) 0;
+  height: var(--gateway-overlay-height);
+  background:
+    linear-gradient(180deg, rgba(10, 8, 6, 0) 0%, rgba(10, 8, 6, 0.05) 22%, rgba(10, 8, 6, 0.18) 48%, rgba(10, 8, 6, 0.42) 76%, rgba(10, 8, 6, 0.7) 100%);
+  opacity: 0.96;
+}
+.portfolio-gateway-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: grayscale(1) saturate(0.18) contrast(1.04) brightness(0.8);
+  transform: scale(calc(1.11 - (var(--gateway-reveal, 1) * 0.06))) translate3d(0, calc((1 - var(--gateway-reveal, 1)) * 24px), 0);
+  transition: filter 240ms ease;
+}
+.portfolio-gateway-card:hover img,
+.portfolio-gateway-card:focus-visible img {
+  filter: grayscale(1) saturate(0.26) contrast(1.05) brightness(0.82);
+}
+.portfolio-gateway-card.is-current img {
+  filter: grayscale(0) saturate(1.02) contrast(1.04) brightness(0.94);
+}
+.portfolio-gateway-card.is-current .portfolio-gateway-card-media::after {
+  opacity: 0.78;
+}
+.portfolio-gateway-card-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  padding: clamp(28px, 6vw, 64px);
+  opacity: calc(0.66 + (var(--gateway-reveal, 1) * 0.34));
+  transform: translateY(calc((1 - var(--gateway-reveal, 1)) * 30px));
+  text-align: center;
+  transition: none;
+}
+.portfolio-gateway-card--intro .portfolio-gateway-card-copy {
+  inset: auto 0;
+  top: 50svh;
+  transform: translateY(calc(-50% + ((1 - var(--gateway-reveal, 1)) * 30px)));
+  transition: opacity 220ms linear, transform 220ms linear;
+}
+.portfolio-gateway-card:not(.portfolio-gateway-card--intro) .portfolio-gateway-card-copy {
+  inset: auto 0;
+  bottom: var(--gateway-copy-bottom);
+  place-content: start center;
+  justify-items: center;
+  gap: 12px;
+  padding: 0 clamp(28px, 6vw, 72px);
+  opacity: 1;
+  transform: none;
+  text-align: center;
+  transition: none;
+}
+.portfolio-gateway-card:nth-child(even) .portfolio-gateway-card-copy {
+  justify-self: stretch;
+}
+.portfolio-gateway-card-kicker {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(248, 242, 235, 0.74);
+  text-shadow: 0 10px 24px rgba(8, 6, 5, 0.34);
+}
+.portfolio-gateway-card-title {
+  margin: 0;
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  max-width: min(12ch, 88vw);
+  font-size: clamp(40px, 6.3vw, 82px);
+  line-height: 0.9;
+  font-weight: 400;
+  color: #f8f2eb;
+  text-shadow: 0 18px 34px rgba(8, 6, 5, 0.38), 0 4px 12px rgba(8, 6, 5, 0.28);
+  text-wrap: balance;
+}
+.portfolio-gateway-card:not(.portfolio-gateway-card--intro) .portfolio-gateway-card-title {
+  max-width: none;
+  white-space: nowrap;
+  text-wrap: nowrap;
+}
+.portfolio-gateway-card-cta {
+  margin: 4px 0 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(248, 242, 235, 0.94);
+  text-decoration: none;
+  cursor: pointer;
+  text-shadow: 0 8px 20px rgba(8, 6, 5, 0.32);
+}
+.portfolio-gateway-card:not(.portfolio-gateway-card--intro) .portfolio-gateway-card-cta {
+  margin-top: 8px;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.96);
+  color: #111111;
+  text-shadow: none;
+  box-shadow: 0 14px 34px rgba(8, 6, 5, 0.18);
+}
+.portfolio-gateway-card:hover .portfolio-gateway-card-cta,
+.portfolio-gateway-card:focus-visible .portfolio-gateway-card-cta {
+  opacity: 0.88;
+}
+body.portfolio-gateway-active .hero,
+body.portfolio-gateway-active .portfolio-note,
+body.portfolio-gateway-active .filters-toolbar,
+body.portfolio-gateway-active .filters-count,
+body.portfolio-gateway-active .products-grid,
+body.portfolio-gateway-active .collection-hook,
+body.portfolio-gateway-active .cta-wrap,
+body.portfolio-gateway-active .collection-meta {
+  display: none !important;
 }
 .hero {
   position: relative;
@@ -642,14 +1003,18 @@ main {
   overflow: hidden;
   background: #dcd4c8;
 }
-.hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  .hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   display: block;
-  filter: grayscale(1);
+  image-rendering: auto;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  filter: grayscale(1) contrast(1.04);
   opacity: 1;
-  transition: opacity 0.36s ease;
+  transition: opacity 0.36s ease, transform 360ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease;
 }
 .hero img.is-switching {
   opacity: 0;
@@ -660,11 +1025,19 @@ main {
   inset: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.08) 62%, rgba(0, 0, 0, 0.03) 100%);
 }
+.hero-gateway-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
 .hero-text {
   position: absolute;
   left: 28px;
   bottom: 24px;
-  z-index: 1;
+  z-index: 3;
   color: #f5eee2;
   text-align: left;
 }
@@ -713,7 +1086,7 @@ main {
   gap: 7px;
   border: 1px solid rgba(42, 33, 24, 0.28);
   border-radius: 999px;
-  background: rgba(232, 224, 213, 0.72);
+  background: transparent;
   padding: 8px 14px;
   color: rgba(42, 33, 24, 0.86);
   font-family: "Inter Tight", sans-serif;
@@ -722,9 +1095,12 @@ main {
   cursor: pointer;
 }
 .filters-trigger .filters-trigger-icon {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 14px;
   height: 14px;
+  flex: 0 0 auto;
 }
 .filters-trigger .filters-trigger-icon svg {
   width: 14px;
@@ -816,6 +1192,94 @@ main {
   display: grid;
   gap: 8px;
 }
+.filter-range {
+  display: grid;
+  gap: 12px;
+  padding: 6px 2px 2px;
+}
+.filter-range-values {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: rgba(42, 33, 24, 0.82);
+}
+.filter-range-sliders {
+  position: relative;
+  height: 34px;
+}
+.filter-range-track,
+.filter-range-fill {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border-radius: 999px;
+}
+.filter-range-track {
+  left: 0;
+  right: 0;
+  background: rgba(42, 33, 24, 0.12);
+}
+.filter-range-fill {
+  left: 0;
+  right: 0;
+  background: #2c231b;
+}
+.filter-range-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 34px;
+  margin: 0;
+  background: none;
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: none;
+}
+.filter-range-input::-webkit-slider-runnable-track {
+  height: 4px;
+  background: transparent;
+}
+.filter-range-input::-moz-range-track {
+  height: 4px;
+  background: transparent;
+  border: 0;
+}
+.filter-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(42, 33, 24, 0.22);
+  background: #f8f6f1;
+  box-shadow: 0 2px 8px rgba(22, 17, 12, 0.18);
+  pointer-events: auto;
+  cursor: pointer;
+  margin-top: -7px;
+}
+.filter-range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(42, 33, 24, 0.22);
+  background: #f8f6f1;
+  box-shadow: 0 2px 8px rgba(22, 17, 12, 0.18);
+  pointer-events: auto;
+  cursor: pointer;
+}
+.filter-range-note {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(42, 33, 24, 0.56);
+}
 .filter-option {
   position: relative;
   display: block;
@@ -836,7 +1300,7 @@ main {
   border-radius: 999px;
   padding: 10px 48px 10px 14px;
   border: 1px solid rgba(42, 33, 24, 0.24);
-  background: rgba(232, 224, 213, 0.7);
+  background: transparent;
   color: rgba(42, 33, 24, 0.86);
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
@@ -865,16 +1329,16 @@ main {
   transition: right 0.22s ease, background 0.22s ease;
 }
 .filter-option input:checked + span {
-  background: #2c231b;
-  color: #f6f1e8;
+  background: rgba(42, 33, 24, 0.08);
+  color: #2c231b;
   border-color: #2c231b;
 }
 .filter-option input:checked + span::before {
-  background: rgba(255, 255, 255, 0.36);
+  background: rgba(42, 33, 24, 0.48);
 }
 .filter-option input:checked + span::after {
   right: 14px;
-  background: #fff;
+  background: #2c231b;
 }
 .filter-actions {
   display: flex;
@@ -902,7 +1366,7 @@ main {
   right: 0;
   width: min(92vw, 460px);
   height: 100vh;
-  background: #f7f5f2;
+  background: #f8f6f1;
   color: #151210;
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
@@ -978,7 +1442,7 @@ main {
   overflow: hidden;
   background: #f1f1f1;
   opacity: 0;
-  transform: translateY(10px);
+  transform: none;
   animation: productCardFadeIn 0.52s ease forwards;
   animation-delay: calc(var(--item-index, 0) * 42ms);
 }
@@ -1031,11 +1495,11 @@ main {
 @keyframes productCardFadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: none;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 }
 .cta-wrap {
@@ -1068,6 +1532,11 @@ main {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 12px 20px;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.collection-cta:hover,
+.collection-cta:focus-visible {
+  transform: scale(0.97);
 }
 .collection-meta {
   margin-top: 34px;
@@ -1090,10 +1559,16 @@ main {
 }
 #site-footer {
   position: relative;
-  background: linear-gradient(180deg, #f6f0e7 0%, #f3ece2 100%);
-  color: #2a2118;
+  background: linear-gradient(180deg, #f8f6f1 0%, #eee7dd 100%);
+  color: #2f2923;
   padding: 48px 0 calc(env(safe-area-inset-bottom, 0px) + 96px);
   border-top: 1px solid var(--line);
+}
+body.portfolio-gateway-active #site-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  border-top: 0;
 }
 #site-footer .footer-inner {
   width: min(1160px, 92vw);
@@ -1168,8 +1643,10 @@ main {
   color: #2a2118;
   text-decoration: none;
   font-family: "Fraunces", serif;
-  font-size: 13px;
-  line-height: 1.3;
+  font-size: 14px;
+  line-height: 1.04;
+  letter-spacing: 0;
+  text-transform: none;
 }
 #site-footer .footer-link:hover,
 #site-footer .footer-link:focus-visible {
@@ -1221,6 +1698,71 @@ main {
   }
 }
 @media (max-width: 768px) {
+  .portfolio-gateway {
+    --gateway-card-radius: 0px;
+    --gateway-stack-overlap: 188px;
+    gap: 0;
+    padding: 0;
+    min-height: 0;
+  }
+  .portfolio-gateway-intro {
+    width: min(94vw, 620px);
+    gap: 10px;
+  }
+  .portfolio-gateway-title {
+    font-size: clamp(34px, 13vw, 54px);
+  }
+  .portfolio-gateway-lead {
+    font-size: 15px;
+    line-height: 1.54;
+  }
+  .portfolio-gateway-grid {
+    width: 100%;
+  }
+  .portfolio-gateway-card {
+    min-height: min(86svh, 760px);
+    padding: 0;
+  }
+  .portfolio-gateway-card--intro {
+    min-height: min(98svh, 860px);
+  }
+  .portfolio-gateway-card--intro + .portfolio-gateway-card {
+    margin-top: calc(var(--gateway-stack-overlap) * -1);
+  }
+  .portfolio-gateway-card-copy {
+    width: auto;
+    gap: 8px;
+    padding: 20px 18px 28px;
+  }
+  .portfolio-gateway-card:not(.portfolio-gateway-card--intro) .portfolio-gateway-card-copy {
+    gap: 10px;
+    padding: 0 18px;
+    opacity: 1;
+  }
+  .portfolio-gateway-card:nth-child(even) .portfolio-gateway-card-copy {
+    justify-self: center;
+  }
+  .portfolio-gateway-card-kicker {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+  .portfolio-gateway-card-title {
+    max-width: 11ch;
+    font-size: clamp(34px, 11vw, 52px);
+  }
+  .portfolio-gateway-card:not(.portfolio-gateway-card--intro) .portfolio-gateway-card-title {
+    max-width: 11ch;
+    white-space: normal;
+    text-wrap: balance;
+  }
+  .portfolio-gateway-card-cta {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .portfolio-gateway-card:not(.portfolio-gateway-card--intro) .portfolio-gateway-card-cta {
+    min-height: 40px;
+    padding: 0 16px;
+  }
   .header-bar {
     height: 72px;
   }
@@ -1237,6 +1779,13 @@ main {
     text-decoration: none !important;
   }
   .contact-quick-trigger {
+    display: none;
+  }
+  .search-toggle {
+    margin-left: auto;
+    gap: 0;
+  }
+  .search-toggle .search-label {
     display: none;
   }
   .menu-toggle {
@@ -1263,9 +1812,9 @@ main {
     justify-content: space-between;
     gap: 12px;
     padding: 10px 16px;
-    background: #f6f0e7;
-    border-top: 1px solid rgba(42, 33, 24, 0.08);
-    border-bottom: 1px solid rgba(42, 33, 24, 0.14);
+    background: #f8f6f1;
+    border-top: 1px solid rgba(63, 54, 45, 0.14);
+    border-bottom: 0;
   }
   .mobile-category-panel {
     display: block;
@@ -1282,6 +1831,8 @@ main {
     background: transparent;
     border-radius: 999px;
     padding: 8px 14px;
+    display: inline-flex;
+    align-items: center;
     min-height: 38px;
     color: rgba(42, 33, 24, 0.9);
     letter-spacing: 0.02em;
@@ -1295,10 +1846,18 @@ main {
     content: none;
   }
   .mobile-category-toolbar .filters-mobile-icon {
-    display: inline-block;
-    font-size: 13px;
-    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
     transform: translateY(-0.5px);
+  }
+  .mobile-category-toolbar .filters-mobile-icon svg {
+    width: 14px;
+    height: 14px;
+    display: block;
   }
   .menu-view {
     inset: 14px 24px 24px 42px;
@@ -1341,11 +1900,36 @@ main {
     line-height: 1.35;
   }
   main {
+    position: relative;
     width: 100%;
     padding: 128px 0 50px;
   }
+  main::after {
+    content: "";
+    position: absolute;
+    top: calc(100vh - 128px);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-left: 1px solid rgba(42, 33, 24, 0.12);
+    border-right: 1px solid rgba(42, 33, 24, 0.12);
+    pointer-events: none;
+  }
+  body.portfolio-gateway-active main > :not(.hero) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  main > :not(.hero) {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
   .hero {
-    height: calc(100vh - 128px);
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+  }
+  .hero img[data-category-key="by-request"] {
+    object-position: 38% center;
   }
   .hero-text {
     left: 16px;
@@ -1363,6 +1947,34 @@ main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-flow: row;
     grid-auto-columns: auto;
+  }
+  .product-card img {
+    transition: none;
+    transform: none !important;
+  }
+  .product-image-cover {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .product-image-full {
+    display: none !important;
+    opacity: 0 !important;
+    transform: none !important;
+  }
+  .product-card:hover .product-image-cover,
+  .product-card:focus-within .product-image-cover,
+  .product-card:active .product-image-cover,
+  .product-card.is-active .product-image-cover {
+    opacity: 1 !important;
+  }
+  .product-card:hover .product-image-full,
+  .product-card:focus-within .product-image-full,
+  .product-card:active .product-image-full,
+  .product-card.is-active .product-image-full {
+    opacity: 0 !important;
+  }
+  .product-card.is-active {
+    outline: 0;
   }
   #site-footer .footer-grid {
     grid-template-columns: 1fr;
@@ -1400,15 +2012,22 @@ main {
   }
 }
 </style>
+<style>
+.search-toggle { display: none !important; }
+.menu-toggle { margin-left: auto !important; }
+</style>
 </head>
 <body>
 <header>
   <div class="header-bar">
+    <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Hubungi Kami</button>
     <a class="header-logo" href="index.html" aria-label="Go to home page">
-      <img src="assets/logo.webp" alt="Marvell Florist">
       <span class="header-logo-text">Marvell Florist</span>
     </a>
-    <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Contact Us</button>
+    <a class="search-toggle" href="index.html?search" aria-label="Open search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
+      <span class="search-label">Cari</span>
+    </a>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
       <span class="menu-icon" aria-hidden="true">
         <span></span>
@@ -1425,10 +2044,10 @@ main {
 </nav>
 <div class="mobile-category-toolbar" aria-label="Mobile category and filters controls">
   <button class="mobile-category-trigger" id="mobile-category-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobile-category-panel">
-    <span class="mobile-category-label" id="mobile-category-label">Category</span>
+    <span class="mobile-category-label" id="mobile-category-label">Kategori</span>
     <span class="mobile-category-chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7l9 10 9-10"/></svg></span>
   </button>
-  <button class="filters-trigger" id="filters-trigger-mobile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel">Filters <span class="filters-mobile-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2"/></svg></span></button>
+  <button class="filters-trigger" id="filters-trigger-mobile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel"><span class="filters-trigger-label">Filter</span><span class="filters-mobile-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2"/></svg></span></button>
 </div>
 <div class="mobile-category-backdrop" id="mobile-category-backdrop" aria-hidden="true"></div>
 <aside class="mobile-category-panel" id="mobile-category-panel" aria-hidden="true">
@@ -1438,30 +2057,29 @@ main {
 <div class="contact-quick-backdrop" id="contact-quick-backdrop" aria-hidden="true"></div>
 <aside class="contact-quick-panel" id="contact-quick-panel" aria-hidden="true" tabindex="-1">
   <div class="contact-quick-head">
-    <h3>Contact Us</h3>
     <button class="contact-quick-close" id="contact-quick-close" type="button" aria-label="Close contact panel">&#10005;</button>
   </div>
   <div class="contact-quick-body">
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Message Us</p>
-      <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Floral Arrangements</a>
-      <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Custom Orders</a>
-      <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Supplies</a>
-      <p class="contact-quick-text is-muted">Available Monday – Saturday</p>
+      <p class="contact-quick-label">Hubungi Kami</p>
+      <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Rangkaian Bunga</a>
+      <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Pesanan Kustom</a>
+      <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
+      <p class="contact-quick-text is-muted">Tersedia Senin – Sabtu</p>
       <p class="contact-quick-text is-muted">8:00 – 18:00 (WIB)</p>
     </div>
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Our Location</p>
-      <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Arrangements</a>
-      <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Supplies</a>
+      <p class="contact-quick-label">Lokasi Kami</p>
+      <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Rangkaian</a>
+      <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
     </div>
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Keep In Touch</p>
+      <p class="contact-quick-label">Tetap Terhubung</p>
       <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
       <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
     </div>
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Shop Us Online</p>
+      <p class="contact-quick-label">Belanja Online</p>
       <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
       <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
     </div>
@@ -1475,7 +2093,6 @@ main {
   <div class="menu-body">
     <div class="menu-view" data-menu-view="main">
       <a class="menu-link" href="index.html">Home</a>
-      <a class="menu-link" href="index.html#featured">Featured</a>
       <button class="menu-link menu-link-button" type="button" data-menu-open="portfolio">Portfolio</button>
       <a class="menu-link" href="about.html">About</a>
       <a class="menu-link" href="index.html#services">Services</a>
@@ -1484,37 +2101,37 @@ main {
     </div>
     <div class="menu-view" data-menu-view="portfolio">
       <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&larr; Back</button>
-      <a class="menu-link" href="gallery.html?category=Standing%20Flowers">Standing Flowers</a>
-      <a class="menu-link" href="gallery.html?category=Artificial%20Flowers">Artificial Flowers</a>
-      <a class="menu-link" href="gallery.html?category=Bouquets">Bouquets</a>
-      <a class="menu-link" href="gallery.html?category=Papan%20Bunga">Papan Bunga</a>
-      <a class="menu-link" href="gallery.html?category=Funerals">Funerals</a>
-      <a class="menu-link" href="gallery.html?category=Parcels">Parcels</a>
-      <a class="menu-link" href="gallery.html?category=By%20Request">By Request</a>
+      <a class="menu-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
+      <a class="menu-link" href="gallery.html?category=artificial-flowers">Artificial Flowers</a>
+      <a class="menu-link" href="gallery.html?category=bouquets">Bouquets</a>
+      <a class="menu-link" href="gallery.html?category=papan-bunga">Papan Bunga</a>
+      <a class="menu-link" href="gallery.html?category=funerals">Funerals</a>
+      <a class="menu-link" href="gallery.html?category=parcels">Parcels</a>
+      <a class="menu-link" href="gallery.html?category=by-request">By Request</a>
     </div>
     <div class="menu-view" data-menu-view="contact">
       <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&larr; Back</button>
       <div class="contact-quick-body">
         <div class="contact-quick-block">
-          <p class="contact-quick-label">Message Us</p>
-          <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Floral Arrangements</a>
-          <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Custom Orders</a>
-          <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Supplies</a>
-          <p class="contact-quick-text is-muted">Available Monday – Saturday</p>
+          <p class="contact-quick-label">Hubungi Kami</p>
+          <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Rangkaian Bunga</a>
+          <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Pesanan Kustom</a>
+          <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
+          <p class="contact-quick-text is-muted">Tersedia Senin – Sabtu</p>
           <p class="contact-quick-text is-muted">8:00 – 18:00 (WIB)</p>
         </div>
         <div class="contact-quick-block">
-          <p class="contact-quick-label">Our Location</p>
-          <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Arrangements</a>
-          <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Supplies</a>
+          <p class="contact-quick-label">Lokasi Kami</p>
+          <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Rangkaian</a>
+          <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
         </div>
         <div class="contact-quick-block">
-          <p class="contact-quick-label">Keep In Touch</p>
+          <p class="contact-quick-label">Tetap Terhubung</p>
           <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
           <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
         </div>
         <div class="contact-quick-block">
-          <p class="contact-quick-label">Shop Us Online</p>
+          <p class="contact-quick-label">Belanja Online</p>
           <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
           <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
         </div>
@@ -1525,7 +2142,7 @@ main {
 
 <aside class="filters-panel-modal" id="filters-panel" aria-hidden="true" tabindex="-1">
   <div class="filters-head">
-    <h3>Filters</h3>
+    <h3>Filter</h3>
     <button class="filters-close" id="filters-close" type="button" aria-label="Close filters panel">&#10005;</button>
   </div>
   <div class="filters-body">
@@ -1534,18 +2151,35 @@ main {
 </aside>
 
 <main>
+  <section class="portfolio-gateway" id="portfolio-gateway" hidden aria-label="Portfolio category gateway">
+    <div class="portfolio-gateway-grid" id="portfolio-gateway-grid"></div>
+  </section>
   <section class="hero">
-    <img id="hero-image" src="" alt="Category hero image" loading="eager" decoding="async">
+    <button class="hero-gateway-hit" id="hero-gateway-hit" type="button" aria-label="Return to portfolio category gateway"></button>
+    <img id="hero-image" src="" alt="Category hero image" loading="eager" decoding="async" fetchpriority="high">
     <div class="hero-text">
       <h1 class="hero-title" id="hero-title"></h1>
       <p class="hero-subtitle" id="hero-subtitle"></p>
     </div>
   </section>
 
-  <p class="portfolio-note">Most pieces are custom made, so availability and flower selection must be confirmed first.</p>
+  <section class="sr-only" aria-label="Portfolio category summaries">
+    <h2>Portfolio Categories</h2>
+    <ul>
+      <li><a href="gallery.html?category=standing-flowers">Standing Flowers</a>: Standing flower arrangements in Batam for openings, events, and formal floral displays.</li>
+      <li><a href="gallery.html?category=artificial-flowers">Artificial Flowers</a>: Artificial flower arrangements for decorative display and long-lasting floral styling.</li>
+      <li><a href="gallery.html?category=bouquets">Bouquets</a>: Custom flower bouquets in Batam for gifts, celebrations, graduations, and everyday moments.</li>
+      <li><a href="gallery.html?category=papan-bunga">Papan Bunga</a>: Flower boards in Batam for congratulations, condolences, and formal occasions.</li>
+      <li><a href="gallery.html?category=funerals">Funerals</a>: Sympathy flowers and funeral flower arrangements in Batam for respectful condolences.</li>
+      <li><a href="gallery.html?category=parcels">Parcels</a>: Gift parcels and floral hampers for celebrations, festive gifting, and personal occasions.</li>
+      <li><a href="gallery.html?category=by-request">By Request</a>: Custom floral arrangements for personalized concepts, car decorations, and special requests.</li>
+    </ul>
+  </section>
+
+  <p class="portfolio-note" id="gallery-portfolio-note">Sebagian besar karya dibuat khusus, jadi ketersediaan dan pilihan bunga perlu dikonfirmasi terlebih dahulu.</p>
 
   <div class="filters-toolbar">
-    <button class="filters-trigger" id="filters-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel">Filters <span class="filters-trigger-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2"/></svg></span></button>
+    <button class="filters-trigger" id="filters-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel"><span class="filters-trigger-label">Filter</span><span class="filters-trigger-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2"/></svg></span></button>
   </div>
   <p class="filters-count" id="filters-count" aria-live="polite"></p>
 
@@ -1554,7 +2188,7 @@ main {
   <p class="collection-hook" id="collection-hook" hidden>Not every arrangement begins in a catalog. Some start with a conversation.</p>
 
   <div class="cta-wrap">
-    <a id="consult-collection" class="collection-cta" href="#" target="_blank" rel="noopener noreferrer">Consult This Collection</a>
+    <a id="consult-collection" class="collection-cta" href="#" target="_blank" rel="noopener noreferrer">Konsultasikan Koleksi Ini</a>
   </div>
 
   <section class="collection-meta" aria-label="Collection details">
@@ -1571,10 +2205,10 @@ main {
     </div>
     <div class="footer-grid">
       <section class="footer-col" aria-label="Contact links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Connect <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-contact">
           <div class="footer-links">
-            <a class="footer-link" href="index.html#services">Contact Us</a>
+            <a class="footer-link" href="index.html#services">Hubungi Kami</a>
             <a class="footer-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>
             <a class="footer-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a class="footer-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
@@ -1582,30 +2216,42 @@ main {
         </div>
       </section>
       <section class="footer-col" aria-label="About links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">About <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">Tentang <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-about">
           <ul class="footer-list">
-            <li><a class="footer-link" href="about.html#journey">Our Journey</a></li>
-            <li><a class="footer-link" href="about.html#craft">Our Craft</a></li>
-            <li><a class="footer-link" href="about.html#team">Our Team</a></li>
+            <li><a class="footer-link" href="about.html#journey">Perjalanan Kami</a></li>
+            <li><a class="footer-link" href="about.html#craft">Karya Kami</a></li>
+            <li><a class="footer-link" href="about.html#team">Tim Kami</a></li>
           </ul>
         </div>
       </section>
       <section class="footer-col" aria-label="Category links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories">Categories <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories">Kategori <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-categories">
           <div class="footer-links" id="footer-categories"></div>
         </div>
       </section>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privacy</a> · <a class="footer-legal-link" href="terms-conditions.html">Terms</a> · © 2006–2026 Marvell Florist</p>
+      <p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privasi</a> · <a class="footer-legal-link" href="terms-conditions.html">Ketentuan</a> · © 2006–2026 Marvell Florist</p>
     </div>
     <div class="footer-brand" aria-hidden="true">Marvell Florist</div>
   </div>
 </footer>
 
 <script>
+const PORTFOLIO_CATEGORIES_ENDPOINTS = ["/content/portfolio-categories.json", "content/portfolio-categories.json"];
+const GALLERY_CONTENT_ENDPOINTS = ["/content/gallery.json", "content/gallery.json"];
+const GALLERY_LEGACY_ENDPOINTS = ["/data/gallery.json", "data/gallery.json"];
+const SITE_SECTIONS_ENDPOINTS = ["/content/site-sections.json", "content/site-sections.json"];
+const EMBEDDED_GALLERY_FALLBACK = window.__GALLERY_FALLBACK__ && typeof window.__GALLERY_FALLBACK__ === "object"
+  ? window.__GALLERY_FALLBACK__
+  : {};
+const GALLERY_PAGE_DEFAULT_COPY = {
+  note: "Most pieces are custom made, so availability and flower selection must be confirmed first.",
+  byRequestHook: "Not every arrangement begins in a catalog. Some start with a conversation.",
+  consultButtonLabel: "Consult This Collection"
+};
 const CATEGORY_META = [
   {
     name: "Artificial Flowers",
@@ -1667,14 +2313,171 @@ const CATEGORY_META = [
   }
 ];
 
+function normalizeTextList(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => {
+      if (item && typeof item === "object") {
+        return String(item.alias || item.keyword || item.value || "").trim();
+      }
+      return String(item || "").trim();
+    })
+    .filter(Boolean);
+}
+
+function normalizeAssetPath(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (/^https?:\/\//i.test(raw)) return raw;
+  return raw.startsWith("/") ? raw : `/${raw.replace(/^\.?\//, "")}`;
+}
+
+function normalizeFilterOptionRecord(entry, index) {
+  if (!entry || typeof entry !== "object") return null;
+  const fallbackId = `option-${index + 1}`;
+  const id = toSlug(entry.id || entry.value || entry.label || fallbackId) || fallbackId;
+  const label = String(entry.label || entry.name || entry.id || fallbackId).trim() || fallbackId;
+  return { id, label };
+}
+
+function normalizeFilterGroupRecord(entry, index) {
+  if (!entry || typeof entry !== "object") return null;
+  const fallbackId = `group-${index + 1}`;
+  const id = toSlug(entry.id || entry.label || fallbackId) || fallbackId;
+  const label = String(entry.label || entry.name || entry.id || fallbackId).trim() || fallbackId;
+  const options = Array.isArray(entry.options)
+    ? entry.options
+      .map((option, optionIndex) => normalizeFilterOptionRecord(option, optionIndex))
+      .filter(Boolean)
+    : [];
+  if (!options.length) return null;
+  return { id, label, options };
+}
+
+function normalizeCategoryMetaRecord(entry, index) {
+  if (!entry || typeof entry !== "object") return null;
+  const fallbackKey = `category-${index + 1}`;
+  const key = toSlug(entry.key || entry.name || fallbackKey) || fallbackKey;
+  const name = String(entry.name || entry.key || fallbackKey).trim() || fallbackKey;
+  const aliases = Array.from(new Set([
+    ...normalizeTextList(entry.aliases),
+    name,
+    key.replace(/-/g, " ")
+  ]));
+  const matchCategories = normalizeTextList(entry.matchCategories);
+  const filterGroups = Array.isArray(entry.filterGroups)
+    ? entry.filterGroups
+      .map((group, groupIndex) => normalizeFilterGroupRecord(group, groupIndex))
+      .filter(Boolean)
+    : [];
+
+  return {
+    name,
+    key,
+    aliases,
+    matchCategories,
+    filterGroups,
+    subtitle: String(entry.subtitle || "").trim(),
+    phone: String(entry.phone || "").trim(),
+    coverImage: normalizeAssetPath(entry.coverImage || ""),
+    enablePriceFilter: entry.enablePriceFilter !== false && key !== "by-request",
+    priceMin: Number.isFinite(Number(entry.priceMin)) && Number(entry.priceMin) > 0 ? Number(entry.priceMin) : null,
+    priceMax: Number.isFinite(Number(entry.priceMax)) && Number(entry.priceMax) > 0 ? Number(entry.priceMax) : null,
+    showOnHome: entry.showOnHome !== false,
+    showInGallery: entry.showInGallery !== false,
+    order: Number.isFinite(Number(entry.order)) ? Number(entry.order) : (index + 1)
+  };
+}
+
+async function hydrateCategoryMetaFromContent() {
+  try {
+    let payload = null;
+    for (const endpoint of PORTFOLIO_CATEGORIES_ENDPOINTS) {
+      try {
+        const response = await fetch(endpoint, { cache: "no-store" });
+        if (!response.ok) continue;
+        payload = await response.json();
+        break;
+      } catch (_error) {
+        // Try next endpoint variant.
+      }
+    }
+    if (!payload) return;
+    const records = Array.isArray(payload?.categories) ? payload.categories : [];
+    const normalized = records
+      .map((entry, index) => normalizeCategoryMetaRecord(entry, index))
+      .filter((entry) => Boolean(entry) && entry.showInGallery !== false)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+    if (!normalized.length) return;
+    CATEGORY_META.splice(0, CATEGORY_META.length, ...normalized);
+  } catch (_error) {
+    const payload = EMBEDDED_GALLERY_FALLBACK.categories;
+    const records = Array.isArray(payload?.categories) ? payload.categories : [];
+    const normalized = records
+      .map((entry, index) => normalizeCategoryMetaRecord(entry, index))
+      .filter((entry) => Boolean(entry) && entry.showInGallery !== false)
+      .sort((a, b) => (a.order || 0) - (b.order || 0));
+    if (normalized.length) {
+      CATEGORY_META.splice(0, CATEGORY_META.length, ...normalized);
+    }
+  }
+}
+
+function extractGalleryItems(payload) {
+  const normalizeGalleryItemRecord = (item, fallbackCategory = "") => {
+    if (!item || typeof item !== "object") return null;
+    const normalizedTitle = String(item.title || item.name || "").trim();
+    const normalizedPriceRaw = item.price;
+    const normalizedPrice = normalizedPriceRaw === null || normalizedPriceRaw === undefined || normalizedPriceRaw === ""
+      ? null
+      : (Number.isFinite(Number(normalizedPriceRaw)) && Number(normalizedPriceRaw) > 0
+        ? Number(normalizedPriceRaw)
+        : null);
+    return {
+      ...item,
+      title: normalizedTitle ? titleCaseWords(normalizedTitle) : "",
+      category: String(item.category || fallbackCategory).trim(),
+      price: normalizedPrice
+    };
+  };
+
+  const directItems = Array.isArray(payload?.items) ? payload.items : null;
+  if (directItems) {
+    return directItems
+      .map((item) => normalizeGalleryItemRecord(item))
+      .filter(Boolean);
+  }
+
+  const categories = Array.isArray(payload?.categories) ? payload.categories : [];
+  if (!categories.length) return [];
+
+  const flattened = [];
+  categories.forEach((categoryEntry) => {
+    const fallbackCategory = String(categoryEntry?.name || categoryEntry?.key || "").trim();
+    const categoryItems = Array.isArray(categoryEntry?.items) ? categoryEntry.items : [];
+    categoryItems.forEach((item) => {
+      const normalized = normalizeGalleryItemRecord(item, fallbackCategory);
+      if (!normalized) return;
+      flattened.push(normalized);
+    });
+  });
+
+  return flattened;
+}
+
 function normalizeValue(value) {
   return String(value || "").trim().toLowerCase();
 }
 
 function formatRupiah(value) {
   const amount = Number(value);
-  if (!Number.isFinite(amount)) return "";
-  return `Rp ${new Intl.NumberFormat("id-ID").format(Math.round(amount))}`;
+  if (!Number.isFinite(amount) || amount <= 0) return "";
+  return `Rp${new Intl.NumberFormat("id-ID").format(Math.round(amount))}`;
+}
+
+function formatFilterCount(value) {
+  const safeValue = Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0;
+  return String(Math.round(safeValue));
 }
 
 function escapeHTML(value) {
@@ -1735,6 +2538,24 @@ function sourceHasAny(context, candidates) {
   });
 }
 
+const ARTIFICIAL_BLOOM_BOX_INDEXES = new Set([5, 13, 18, 22]);
+
+function getArtificialItemNumber(item, fallbackIndex = -1) {
+  const explicit = Number(item?.artificialIndex);
+  if (Number.isFinite(explicit) && explicit > 0) return explicit;
+  const normalizedFallback = Number(fallbackIndex);
+  if (Number.isFinite(normalizedFallback) && normalizedFallback >= 0) return normalizedFallback + 1;
+  return 0;
+}
+
+function detectArtificialType(item, context, fallbackIndex = -1) {
+  const itemNumber = getArtificialItemNumber(item, fallbackIndex);
+  if (ARTIFICIAL_BLOOM_BOX_INDEXES.has(itemNumber)) return "bloom-box";
+  if (sourceHasAny(context, ["balloon", "bloombal", "balon", "bloombox", "bloom box"])) return "bloom-box";
+  if (sourceHasAny(context, ["pot", "potted", "basket"])) return "potted";
+  return "potted";
+}
+
 function countColorHits(context) {
   const groups = [
     ["pink"],
@@ -1752,6 +2573,7 @@ function countColorHits(context) {
 
 function titleCaseWords(value) {
   return String(value || "")
+    .toLowerCase()
     .split(/\s+/)
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -1763,10 +2585,12 @@ function buildCategoryLabel(activeCategory, item, context) {
   const categoryKey = String(activeCategory?.key || "").trim();
 
   if (categoryKey === "artificial-flowers") {
-    if (sourceHasAny(context, ["balloon", "bloombal", "balon"])) return "Artificial Flowers Balloons";
-    if (sourceHasAny(context, ["bloombox", "bloom box"])) return "Artificial Flowers Bloom Box";
-    if (sourceHasAny(context, ["pot", "potted", "basket"])) return "Artificial Flowers Pot";
-    return "Artificial Flowers Arrangement";
+    const artificialType = detectArtificialType(item, context, Number(item?.artificialIndex || 0) - 1);
+    if (artificialType === "bloom-box") {
+      if (sourceHasAny(context, ["balloon", "bloombal", "balon"])) return "Artificial Flowers Balloons";
+      return "Artificial Flowers Bloom Box";
+    }
+    return "Artificial Flowers Pot";
   }
 
   if (categoryKey === "bouquets") {
@@ -1790,13 +2614,13 @@ function buildCategoryLabel(activeCategory, item, context) {
 
   if (categoryKey === "standing-flowers") return "Standing Flowers";
   if (categoryKey === "parcels") return "Parcels";
-  if (categoryKey === "by-request") return "By Request";
+  if (categoryKey === "by-request") return "Sesuai Permintaan";
   return categoryName || "Product";
 }
 
 function buildDisplayName(item, activeCategory) {
   const titleRaw = String(item?.title || item?.name || "").trim();
-  const title = titleRaw;
+  if (titleRaw) return titleCaseWords(titleRaw);
   const imagePath = String(item?.image || "").trim();
   const filename = imagePath.split("/").pop() || "";
   const decoded = (() => {
@@ -1818,15 +2642,8 @@ function buildDisplayName(item, activeCategory) {
   if (String(activeCategory?.key || "") === "by-request") {
     return "Custom Arrangement";
   }
-  const generic = /^(product|bouquet|money bouquet|bouquet holo|bouquet big|bouquet simple|bouquet graduation simple|bouquet blank card|artificial flowers|artificial flowers arrangement|artificial flowers balloons|artificial flowers bloom box|artificial flowers pot|artificial flowers basket)$/i.test(title);
-  const titleHasCategory = toCompactText(title).includes(toCompactText(categoryLabel));
-
-  if (!title || generic) {
-    if (!cleaned) return categoryLabel;
-    return `${categoryLabel} - ${titleCaseWords(cleaned)}`;
-  }
-  if (titleHasCategory) return title;
-  return `${categoryLabel} - ${title}`;
+  if (!cleaned) return categoryLabel;
+  return `${categoryLabel} - ${titleCaseWords(cleaned)}`;
 }
 
 function withDisplayNumber(name, index) {
@@ -1834,6 +2651,69 @@ function withDisplayNumber(name, index) {
   const label = raw.replace(/\s*No\.\s*\d{1,3}\b/gi, "").trim() || "Arrangement";
   const number = Math.max(1, Number(index) || 1);
   return `${label} No. ${String(number).padStart(2, "0")}`;
+}
+
+function normalizeFilterToken(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[_\s]+/g, "-");
+}
+
+function readStructuredFilterField(item, groupId) {
+  const filters = item?.filters && typeof item.filters === "object" ? item.filters : {};
+  if (groupId === "color") {
+    if (Object.prototype.hasOwnProperty.call(filters, "colors")) return filters.colors;
+    if (Object.prototype.hasOwnProperty.call(item || {}, "filterColors")) return item.filterColors;
+    return undefined;
+  }
+  if (groupId === "type") {
+    if (Object.prototype.hasOwnProperty.call(filters, "type")) return filters.type;
+    if (Object.prototype.hasOwnProperty.call(item || {}, "filterType")) return item.filterType;
+    return undefined;
+  }
+  if (groupId === "flower-condition") {
+    if (Object.prototype.hasOwnProperty.call(filters, "flowerCondition")) return filters.flowerCondition;
+    if (Object.prototype.hasOwnProperty.call(item || {}, "filterFlowerCondition")) return item.filterFlowerCondition;
+    return undefined;
+  }
+  if (groupId === "flower-type") {
+    if (Object.prototype.hasOwnProperty.call(filters, "flowerTypes")) return filters.flowerTypes;
+    if (Object.prototype.hasOwnProperty.call(item || {}, "filterFlowerTypes")) return item.filterFlowerTypes;
+    return undefined;
+  }
+  if (groupId === "occasion") {
+    if (Object.prototype.hasOwnProperty.call(filters, "occasion")) return filters.occasion;
+    if (Object.prototype.hasOwnProperty.call(item || {}, "filterOccasion")) return item.filterOccasion;
+    return undefined;
+  }
+  if (groupId === "material") {
+    if (Object.prototype.hasOwnProperty.call(filters, "material")) return filters.material;
+    if (Object.prototype.hasOwnProperty.call(item || {}, "filterMaterial")) return item.filterMaterial;
+    return undefined;
+  }
+  if (groupId === "size") {
+    if (Object.prototype.hasOwnProperty.call(filters, "size")) return filters.size;
+    if (Object.prototype.hasOwnProperty.call(item || {}, "filterSize")) return item.filterSize;
+    return undefined;
+  }
+  return undefined;
+}
+
+function getStructuredFilterTokens(item, groupId) {
+  const raw = readStructuredFilterField(item, groupId);
+  if (raw === undefined || raw === null || raw === "") return null;
+  if (Array.isArray(raw)) {
+    return raw.map((entry) => normalizeFilterToken(entry)).filter(Boolean);
+  }
+  return [normalizeFilterToken(raw)].filter(Boolean);
+}
+
+function matchStructuredFilterOption(item, groupId, optionId) {
+  const tokens = getStructuredFilterTokens(item, groupId);
+  if (tokens === null) return null;
+  const normalizedOption = normalizeFilterToken(optionId);
+  return tokens.includes(normalizedOption);
 }
 
 function buildColorFilterGroup() {
@@ -1848,6 +2728,7 @@ function buildColorFilterGroup() {
       { id: "blue", label: "Blue", match: (_item, context) => sourceHasAny(context, ["blue"]) },
       { id: "yellow", label: "Yellow", match: (_item, context) => sourceHasAny(context, ["yellow"]) },
       { id: "orange", label: "Orange", match: (_item, context) => sourceHasAny(context, ["orange"]) },
+      { id: "green", label: "Green", match: (_item, context) => sourceHasAny(context, ["green"]) },
       { id: "black", label: "Black", match: (_item, context) => sourceHasAny(context, ["black"]) },
       { id: "gold", label: "Gold", match: (_item, context) => sourceHasAny(context, ["gold"]) },
       { id: "mixed", label: "Mixed", match: (_item, context) => sourceHasAny(context, ["mixed"]) || countColorHits(context) > 1 }
@@ -1855,39 +2736,191 @@ function buildColorFilterGroup() {
   };
 }
 
-function buildCategoryFilters(activeCategory) {
+const FLOWER_TYPE_DEFINITIONS = [
+  { id: "mawar", label: "Mawar", keywords: ["mawar", "rose", "roses"] },
+  { id: "tulip", label: "Tulip", keywords: ["tulip"] },
+  { id: "anggrek", label: "Anggrek", keywords: ["anggrek", "orchid", "orchids"] },
+  { id: "lily", label: "Lily", keywords: ["lily", "lilies"] },
+  { id: "babys-breath", label: "Baby's Breath", keywords: ["baby's breath", "babys breath", "babysbreath", "gypsophila"] },
+  { id: "aster", label: "Aster", keywords: ["aster"] },
+  { id: "sunflower", label: "Sunflower", keywords: ["sunflower", "sun flower"] },
+  { id: "carnation", label: "Carnation", keywords: ["carnation", "carnations"] },
+  { id: "hydrangea", label: "Hydrangea", keywords: ["hydrangea", "hortensia"] },
+  { id: "peony", label: "Peony", keywords: ["peony", "peonies"] },
+  { id: "gerbera", label: "Gerbera", keywords: ["gerbera"] },
+  { id: "chrysanthemum", label: "Krisan", keywords: ["chrysanthemum", "krisan"] }
+];
+
+function buildFlowerTypeFilterGroup(allowedIds = []) {
+  const allowedSet = new Set((Array.isArray(allowedIds) ? allowedIds : []).map((entry) => normalizeFilterToken(entry)));
+  const definitions = FLOWER_TYPE_DEFINITIONS.filter((entry) => !allowedSet.size || allowedSet.has(entry.id));
+  if (!definitions.length) return null;
+  return {
+    id: "flower-type",
+    label: "Flower Type",
+    options: definitions.map((entry) => ({
+      id: entry.id,
+      label: entry.label,
+      match: (_item, context) => sourceHasAny(context, entry.keywords)
+    }))
+  };
+}
+
+function matchFlowerCondition(context, conditionId, categoryKey) {
+  const normalizedCondition = normalizeFilterToken(conditionId);
+
+  if (normalizedCondition === "artificial") {
+    if (categoryKey === "artificial-flowers") return true;
+    return false;
+  }
+
+  if (normalizedCondition === "preserved") {
+    if (categoryKey === "artificial-flowers") return false;
+    return false;
+  }
+
+  if (normalizedCondition === "fresh") {
+    if (categoryKey === "artificial-flowers") return false;
+    return false;
+  }
+
+  return false;
+}
+
+function buildFlowerConditionFilterGroup(categoryKey) {
+  return {
+    id: "flower-condition",
+    label: "Flower Condition",
+    options: [
+      {
+        id: "artificial",
+        label: "Artificial",
+        match: (_item, context) => matchFlowerCondition(context, "artificial", categoryKey)
+      },
+      {
+        id: "fresh",
+        label: "Fresh",
+        match: (_item, context) => matchFlowerCondition(context, "fresh", categoryKey)
+      },
+      {
+        id: "preserved",
+        label: "Preserved",
+        match: (_item, context) => matchFlowerCondition(context, "preserved", categoryKey)
+      }
+    ]
+  };
+}
+
+function buildSizeFilterGroup() {
+  return {
+    id: "size",
+    label: "Size",
+    options: [
+      {
+        id: "small",
+        label: "Small",
+        match: (_item, context) => sourceHasAny(context, ["small", "mini", "petite", "compact", "kecil"])
+      },
+      {
+        id: "medium",
+        label: "Medium",
+        match: (_item, context) => sourceHasAny(context, ["medium", "regular", "standard", "sedang"])
+      },
+      {
+        id: "large",
+        label: "Large",
+        match: (_item, context) => sourceHasAny(context, ["large", "big", "besar"])
+      },
+      {
+        id: "grand",
+        label: "Grand",
+        match: (_item, context) => sourceHasAny(context, ["grand", "jumbo", "premium"])
+      }
+    ]
+  };
+}
+
+function getPriceFilterStep(min, max) {
+  const span = Math.max(0, Number(max) - Number(min));
+  if (span <= 100000) return 5000;
+  if (span <= 500000) return 10000;
+  return 25000;
+}
+
+function getNumericPrice(item) {
+  const amount = Number(item?.price);
+  return Number.isFinite(amount) && amount > 0 ? amount : null;
+}
+
+function buildPriceFilterGroup(activeCategory, allItems) {
+  const prices = allItems
+    .map((item) => getNumericPrice(item))
+    .filter((value) => Number.isFinite(value));
+  const explicitMin = Number.isFinite(Number(activeCategory?.priceMin)) && Number(activeCategory.priceMin) > 0
+    ? Number(activeCategory.priceMin)
+    : null;
+  const explicitMax = Number.isFinite(Number(activeCategory?.priceMax)) && Number(activeCategory.priceMax) > 0
+    ? Number(activeCategory.priceMax)
+    : null;
+  const min = explicitMin ?? (prices.length ? Math.min(...prices) : null);
+  const max = explicitMax ?? (prices.length ? Math.max(...prices) : null);
+  if (!Number.isFinite(min) || !Number.isFinite(max) || min === max) return null;
+  return {
+    id: "price-range",
+    label: "Price Range",
+    kind: "range",
+    min,
+    max,
+    step: getPriceFilterStep(min, max)
+  };
+}
+
+function buildLegacyCategoryFilters(activeCategory) {
   const colorGroup = buildColorFilterGroup();
+  const sizeGroup = buildSizeFilterGroup();
+
   if (activeCategory.key === "artificial-flowers") {
     return [
       {
         id: "type",
         label: "Type",
         options: [
-          { id: "potted", label: "Potted", match: (_item, context) => sourceHasAny(context, ["potted", "pot"]) },
-          { id: "bloom-box", label: "Bloom Box", match: (_item, context) => sourceHasAny(context, ["bloombox", "bloom box", "bloombal", "box"]) }
+          { id: "potted", label: "Pot", match: (item, context, index) => detectArtificialType(item, context, index) === "potted" },
+          { id: "bloom-box", label: "Bloom Box", match: (item, context, index) => detectArtificialType(item, context, index) === "bloom-box" }
         ]
       },
       colorGroup
-    ];
+    ].filter(Boolean);
   }
 
   if (activeCategory.key === "bouquets") {
     return [
-      {
-        id: "occasion",
-        label: "Occasion",
-        options: [
-          { id: "graduation", label: "Graduation", match: (_item, context) => sourceHasAny(context, ["graduation", "grad"]) },
-          { id: "money", label: "Money Bouquet", match: (_item, context) => sourceHasAny(context, ["money"]) },
-          {
-            id: "everyday",
-            label: "Everyday",
-            match: (_item, context) => !sourceHasAny(context, ["graduation", "grad"]) && !sourceHasAny(context, ["money"])
-          }
-        ]
-      },
-      colorGroup
-    ];
+      colorGroup,
+      sizeGroup,
+      buildFlowerConditionFilterGroup(activeCategory.key),
+      buildFlowerTypeFilterGroup([
+        "mawar",
+        "tulip",
+        "anggrek",
+        "lily",
+        "babys-breath",
+        "aster",
+        "sunflower",
+        "carnation",
+        "hydrangea",
+        "peony",
+        "gerbera",
+        "chrysanthemum"
+      ])
+    ].filter(Boolean);
+  }
+
+  if (activeCategory.key === "standing-flowers") {
+    return [
+      colorGroup,
+      buildFlowerConditionFilterGroup(activeCategory.key),
+      buildFlowerTypeFilterGroup(["mawar", "lily", "anggrek", "sunflower", "aster", "chrysanthemum"])
+    ].filter(Boolean);
   }
 
   if (activeCategory.key === "funerals") {
@@ -1902,8 +2935,9 @@ function buildCategoryFilters(activeCategory) {
           { id: "papan", label: "Papan Bunga", match: (_item, context) => sourceHasAny(context, ["papan", "pap-"]) }
         ]
       },
-      buildColorFilterGroup()
-    ];
+      colorGroup,
+      buildFlowerTypeFilterGroup(["mawar", "lily", "anggrek", "aster", "chrysanthemum"])
+    ].filter(Boolean);
   }
 
   if (activeCategory.key === "papan-bunga") {
@@ -1912,31 +2946,24 @@ function buildCategoryFilters(activeCategory) {
         id: "occasion",
         label: "Occasion",
         options: [
-          { id: "funeral", label: "Funeral", match: (_item, context) => sourceHasAny(context, ["funeral", "duka"]) },
-          { id: "wedding", label: "Wedding", match: (_item, context) => sourceHasAny(context, ["nikah", "wedding"]) },
-          { id: "papan-sukses", label: "Papan Sukses", match: (_item, context) => sourceHasAny(context, ["selamat sukses", "sukses"]) },
-          { id: "papan-opening", label: "Papan Opening", match: (_item, context) => sourceHasAny(context, ["grand opening", "opening"]) }
+          { id: "pernikahan", label: "Pernikahan", match: (_item, context) => sourceHasAny(context, ["nikah", "wedding", "pernikahan"]) },
+          { id: "wisuda", label: "Wisuda", match: (_item, context) => sourceHasAny(context, ["wisuda", "graduation", "grad"]) },
+          { id: "belasungkawa", label: "Belasungkawa", match: (_item, context) => sourceHasAny(context, ["duka", "funeral", "belasungkawa"]) },
+          { id: "sukses", label: "Sukses", match: (_item, context) => sourceHasAny(context, ["sukses", "success", "selamat", "opening", "grand opening"]) }
         ]
       },
       {
-        id: "category",
-        label: "Category",
+        id: "size",
+        label: "Boards",
         options: [
-          {
-            id: "1-papan",
-            label: "1 Papan",
-            match: (_item, context) => sourceHasAny(context, ["1papan", "papan1", " 1 papan", "- 1 papan"])
-          },
-          {
-            id: "2-papan",
-            label: "2 Papan",
-            match: (_item, context) => sourceHasAny(context, ["2papan", "papan2", " 2 papan", "- 2 papan"])
-          }
+          { id: "1-papan", label: "1 Board", match: (_item, context) => sourceHasAny(context, ["1papan", "1 papan", "papan1"]) },
+          { id: "2-papan", label: "2 Boards", match: (_item, context) => sourceHasAny(context, ["2papan", "2 papan", "papan2"]) },
+          { id: "3-papan", label: "3 Boards", match: (_item, context) => sourceHasAny(context, ["3papan", "3 papan", "papan3"]) }
         ]
       },
       {
         id: "material",
-        label: "Material",
+        label: "Style",
         options: [
           { id: "rustic", label: "Rustic", match: (_item, context) => sourceHasAny(context, ["wood", "wooden", "round"]) },
           { id: "standard", label: "Standard", match: (_item, context) => !sourceHasAny(context, ["wood", "wooden", "round"]) }
@@ -1951,30 +2978,75 @@ function buildCategoryFilters(activeCategory) {
         id: "occasion",
         label: "Occasion",
         options: [
-          { id: "ramadan-eid", label: "Ramadan & Eid", match: (_item, context) => sourceHasAny(context, ["ramadan", "ramadhan", "eid", "lebaran", "idul fitri"]) },
-          { id: "valentines", label: "Valentine's", match: (_item, context) => sourceHasAny(context, ["valentine", "valentines", "vday"]) },
-          { id: "graduation", label: "Graduation", match: (_item, context) => sourceHasAny(context, ["graduation", "grad", "wisuda"]) },
-          { id: "mothers-day", label: "Mother's Day", match: (_item, context) => sourceHasAny(context, ["mother", "mothers day", "mother's day", "mom"]) },
-          { id: "chinese-new-year", label: "Chinese New Year", match: (_item, context) => sourceHasAny(context, ["chinese new year", "cny", "imlek", "gong xi"]) },
-          { id: "christmas", label: "Christmas", match: (_item, context) => sourceHasAny(context, ["christmas", "xmas", "natal"]) },
+          { id: "idul-fitri", label: "Idul Fitri", match: (_item, context) => sourceHasAny(context, ["ramadan", "ramadhan", "eid", "lebaran", "idul fitri"]) },
+          { id: "imlek", label: "Imlek", match: (_item, context) => sourceHasAny(context, ["chinese new year", "cny", "imlek", "gong xi"]) },
+          { id: "natal", label: "Natal", match: (_item, context) => sourceHasAny(context, ["christmas", "xmas", "natal"]) },
           {
-            id: "everyday",
-            label: "Everyday",
-            match: (_item, context) => !sourceHasAny(context, [
-              "ramadan", "ramadhan", "eid", "lebaran", "idul fitri",
-              "valentine", "valentines", "vday",
-              "graduation", "grad", "wisuda",
-              "mother", "mothers day", "mother's day", "mom",
-              "chinese new year", "cny", "imlek", "gong xi",
-              "christmas", "xmas", "natal"
-            ])
+            id: "hadiah",
+            label: "Hadiah",
+            match: (_item, context) => sourceHasAny(context, ["gift", "hadiah", "parcel"]) && !sourceHasAny(context, ["chinese new year", "cny", "imlek", "gong xi", "christmas", "xmas", "natal", "ramadan", "ramadhan", "eid", "lebaran", "idul fitri"])
           }
         ]
+      },
+      {
+        id: "color",
+        label: "Color",
+        options: colorGroup.options.filter((option) => ["red", "gold", "green", "mixed"].includes(option.id))
       }
     ];
   }
 
+  if (activeCategory.key === "by-request") {
+    return [];
+  }
+
   return [colorGroup];
+}
+
+function findLegacyMatcher(legacyGroups, groupId, optionId) {
+  const group = legacyGroups.find((entry) => normalizeFilterToken(entry?.id) === normalizeFilterToken(groupId));
+  if (!group) return null;
+  const option = (Array.isArray(group.options) ? group.options : [])
+    .find((entry) => normalizeFilterToken(entry?.id) === normalizeFilterToken(optionId));
+  if (!option || typeof option.match !== "function") return null;
+  return option.match;
+}
+
+function buildCategoryFilters(activeCategory, allItems) {
+  const categoryFilterGroups = Array.isArray(activeCategory?.filterGroups) ? activeCategory.filterGroups : [];
+  const legacyGroups = buildLegacyCategoryFilters(activeCategory);
+  const cmsDrivenGroups = categoryFilterGroups.length ? categoryFilterGroups
+    .map((group, groupIndex) => {
+      const options = Array.isArray(group?.options) ? group.options : [];
+      if (!options.length) return null;
+      return {
+        id: String(group.id || "").trim() || `group-${groupIndex + 1}`,
+        label: String(group.label || group.id || "Filter").trim() || "Filter",
+        options: options.map((option) => {
+          const optionId = String(option.id || "").trim() || toSlug(option.label || "option");
+          const optionLabel = String(option.label || optionId).trim() || optionId;
+          const legacyMatch = findLegacyMatcher(legacyGroups, group.id, optionId);
+          return {
+            id: optionId,
+            label: optionLabel,
+            match: (item, context, index) => {
+              const explicitMatch = matchStructuredFilterOption(item, group.id, optionId);
+              if (explicitMatch !== null) return explicitMatch;
+              if (typeof legacyMatch === "function") return legacyMatch(item, context, index);
+              return false;
+            }
+          };
+        })
+      };
+    })
+    .filter(Boolean) : [];
+
+  const filters = cmsDrivenGroups.length ? cmsDrivenGroups : legacyGroups;
+  if (activeCategory?.enablePriceFilter !== false && activeCategory?.key !== "by-request") {
+    const priceFilterGroup = buildPriceFilterGroup(activeCategory, allItems);
+    if (priceFilterGroup) filters.push(priceFilterGroup);
+  }
+  return filters;
 }
 
 function renderProductGrid(activeCategory, items) {
@@ -1990,10 +3062,12 @@ function renderProductGrid(activeCategory, items) {
   grid.innerHTML = items.map((item, itemIndex) => {
     const baseName = buildDisplayName(item, activeCategory);
     const name = withDisplayNumber(baseName, itemIndex + 1);
+    const canonicalTitle = titleCaseWords(String(item?.title || item?.name || "").trim()) || baseName;
     const image = String(item.image || "").trim();
+    const price = formatRupiah(item.price);
     const productSlug = toSlug(`${name}-${itemIndex + 1}`);
     const productId = `product-${productSlug || `item-${itemIndex + 1}`}`;
-    const detailHref = `product.html?category=${encodeURIComponent(activeCategory.name)}&title=${encodeURIComponent(name)}&image=${encodeURIComponent(image)}`;
+    const detailHref = `product.html?category=${encodeURIComponent(activeCategory.name)}&title=${encodeURIComponent(canonicalTitle)}&image=${encodeURIComponent(image)}${price ? `&price=${encodeURIComponent(price)}` : ""}`;
     return `
       <article class="product-card" id="${escapeHTML(productId)}" style="--item-index:${itemIndex};">
         ${image ? `<a class="product-detail-link" href="${escapeHTML(detailHref)}"><img class="product-image-cover" src="${escapeHTML(image)}" alt="${escapeHTML(name)}" loading="lazy" decoding="async"><img class="product-image-full" src="${escapeHTML(image)}" alt="" aria-hidden="true" loading="lazy" decoding="async"></a>` : ""}
@@ -2007,14 +3081,14 @@ function updateFiltersCount(count) {
   const countElement = document.getElementById("filters-count");
   if (!(countElement instanceof HTMLElement)) return;
   const safeCount = Number.isFinite(Number(count)) ? Math.max(0, Number(count)) : 0;
-  countElement.textContent = `${safeCount} item${safeCount === 1 ? "" : "s"}`;
+  countElement.textContent = `${safeCount} produk`;
 }
 
 function setupFilters(activeCategory, allItems) {
   const filtersWrap = document.getElementById("filters-wrap");
   if (!(filtersWrap instanceof HTMLElement)) return;
-  const filters = buildCategoryFilters(activeCategory);
-  if (!filters.length) {
+  const allFilters = buildCategoryFilters(activeCategory, allItems);
+  if (!allFilters.length) {
     filtersWrap.innerHTML = "";
     updateFiltersCount(allItems.length);
     renderProductGrid(activeCategory, allItems);
@@ -2023,52 +3097,148 @@ function setupFilters(activeCategory, allItems) {
 
   const itemContexts = allItems.map((item) => buildSourceContext(item));
   const optionCountMap = new Map();
-  filters.forEach((group) => {
+  allFilters.forEach((group) => {
+    if (group.kind === "range" || !Array.isArray(group.options)) return;
     group.options.forEach((option) => {
-      const count = allItems.reduce((total, item, index) => total + (option.match(item, itemContexts[index]) ? 1 : 0), 0);
+      const count = allItems.reduce((total, item, index) => total + (option.match(item, itemContexts[index], index) ? 1 : 0), 0);
       optionCountMap.set(`${group.id}:${option.id}`, count);
     });
   });
+  const filters = allFilters
+    .map((group) => {
+      if (group.kind === "range") return group;
+      const visibleOptions = Array.isArray(group.options)
+        ? group.options.filter((option) => (optionCountMap.get(`${group.id}:${option.id}`) ?? 0) > 0)
+        : [];
+      if (!visibleOptions.length) return null;
+      return {
+        ...group,
+        options: visibleOptions
+      };
+    })
+    .filter(Boolean);
+  if (!filters.length) {
+    filtersWrap.innerHTML = "";
+    updateFiltersCount(allItems.length);
+    renderProductGrid(activeCategory, allItems);
+    return;
+  }
 
-  filtersWrap.innerHTML = `
-    <div class="filters-panel">
-      ${filters.map((group) => `
-        <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}">
+  const renderFilterGroup = (group) => {
+    if (group.kind === "range") {
+      return `
+        <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}" data-filter-kind="range">
           <button class="filter-group-toggle" type="button" aria-expanded="false" aria-controls="filter-panel-${escapeHTML(group.id)}">
             <span class="filter-group-title">${escapeHTML(group.label)}</span>
             <span class="filter-group-icon" aria-hidden="true">+</span>
           </button>
           <div class="filter-group-panel" id="filter-panel-${escapeHTML(group.id)}">
-            <div class="filter-options">
-              ${group.options.map((option) => `
-                <label class="filter-option">
-                  <input type="checkbox" data-filter-group="${escapeHTML(group.id)}" value="${escapeHTML(option.id)}">
-                  <span>${escapeHTML(option.label)} (${optionCountMap.get(`${group.id}:${option.id}`) ?? 0})</span>
-                </label>
-              `).join("")}
+            <div class="filter-range" data-filter-range="${escapeHTML(group.id)}">
+              <div class="filter-range-values">
+                <span data-range-value="min">${escapeHTML(formatRupiah(group.min))}</span>
+                <span data-range-value="max">${escapeHTML(formatRupiah(group.max))}</span>
+              </div>
+              <div class="filter-range-sliders">
+                <div class="filter-range-track"></div>
+                <div class="filter-range-fill" data-range-fill></div>
+                <input class="filter-range-input filter-range-input-min" type="range" min="${escapeHTML(group.min)}" max="${escapeHTML(group.max)}" step="${escapeHTML(group.step)}" value="${escapeHTML(group.min)}" data-range-bound="min" data-filter-group="${escapeHTML(group.id)}" aria-label="${escapeHTML(group.label)} minimum">
+                <input class="filter-range-input filter-range-input-max" type="range" min="${escapeHTML(group.min)}" max="${escapeHTML(group.max)}" step="${escapeHTML(group.step)}" value="${escapeHTML(group.max)}" data-range-bound="max" data-filter-group="${escapeHTML(group.id)}" aria-label="${escapeHTML(group.label)} maksimum">
+              </div>
+              <p class="filter-range-note">Geser untuk memilih batas harga minimum dan maksimum.</p>
             </div>
           </div>
         </fieldset>
-      `).join("")}
+      `;
+    }
+
+    return `
+      <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}">
+        <button class="filter-group-toggle" type="button" aria-expanded="false" aria-controls="filter-panel-${escapeHTML(group.id)}">
+          <span class="filter-group-title">${escapeHTML(group.label)}</span>
+          <span class="filter-group-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="filter-group-panel" id="filter-panel-${escapeHTML(group.id)}">
+          <div class="filter-options">
+            ${group.options.map((option) => `
+              <label class="filter-option">
+                <input type="checkbox" data-filter-group="${escapeHTML(group.id)}" value="${escapeHTML(option.id)}">
+                <span>${escapeHTML(option.label)} (${formatFilterCount(optionCountMap.get(`${group.id}:${option.id}`) ?? 0)})</span>
+              </label>
+            `).join("")}
+          </div>
+        </div>
+      </fieldset>
+    `;
+  };
+
+  filtersWrap.innerHTML = `
+    <div class="filters-panel">
+      ${filters.map((group) => renderFilterGroup(group)).join("")}
       <div class="filter-actions">
-        <button type="button" class="filter-clear" id="filter-clear">Clear filters</button>
+        <button type="button" class="filter-clear" id="filter-clear">Reset filter</button>
       </div>
     </div>
   `;
 
-  const selectedByGroup = new Map(filters.map((group) => [group.id, new Set()]));
+  const selectedByGroup = new Map(
+    filters
+      .filter((group) => group.kind !== "range")
+      .map((group) => [group.id, new Set()])
+  );
+  const rangeStateByGroup = new Map(
+    filters
+      .filter((group) => group.kind === "range")
+      .map((group) => [group.id, { min: group.min, max: group.max, initialMin: group.min, initialMax: group.max }])
+  );
   const checks = Array.from(filtersWrap.querySelectorAll("input[type='checkbox'][data-filter-group]"));
+  const rangeInputs = Array.from(filtersWrap.querySelectorAll("input[type='range'][data-filter-group]"));
   const groupToggles = Array.from(filtersWrap.querySelectorAll(".filter-group-toggle"));
   const clearButton = filtersWrap.querySelector("#filter-clear");
+
+  const isRangeFilterActive = (groupId) => {
+    const state = rangeStateByGroup.get(groupId);
+    if (!state) return false;
+    return state.min !== state.initialMin || state.max !== state.initialMax;
+  };
+
+  const doesRangeFilterMatch = (group, item) => {
+    const state = rangeStateByGroup.get(group.id);
+    if (!state || !isRangeFilterActive(group.id)) return true;
+    const price = getNumericPrice(item);
+    if (!Number.isFinite(price)) return false;
+    return price >= state.min && price <= state.max;
+  };
+
+  const updateRangeUI = (groupId) => {
+    const group = filters.find((entry) => entry.id === groupId && entry.kind === "range");
+    const state = rangeStateByGroup.get(groupId);
+    const rangeWrap = filtersWrap.querySelector(`[data-filter-range="${groupId}"]`);
+    if (!group || !state || !(rangeWrap instanceof HTMLElement)) return;
+    const minValue = rangeWrap.querySelector('[data-range-value="min"]');
+    const maxValue = rangeWrap.querySelector('[data-range-value="max"]');
+    const fill = rangeWrap.querySelector("[data-range-fill]");
+    if (minValue instanceof HTMLElement) minValue.textContent = formatRupiah(state.min);
+    if (maxValue instanceof HTMLElement) maxValue.textContent = formatRupiah(state.max);
+    if (fill instanceof HTMLElement) {
+      const span = Math.max(1, group.max - group.min);
+      const start = ((state.min - group.min) / span) * 100;
+      const end = ((state.max - group.min) / span) * 100;
+      fill.style.left = `${Math.max(0, Math.min(100, start))}%`;
+      fill.style.right = `${Math.max(0, 100 - Math.max(0, Math.min(100, end)))}%`;
+    }
+  };
 
   const applyFilters = () => {
     const filtered = allItems.filter((item, index) => {
       const source = itemContexts[index];
       return filters.every((group) => {
+        if (group.kind === "range") {
+          return doesRangeFilterMatch(group, item);
+        }
         const selected = selectedByGroup.get(group.id);
         if (!selected || selected.size === 0) return true;
         const selectedOptions = group.options.filter((option) => selected.has(option.id));
-        return selectedOptions.every((option) => option.match(item, source));
+        return selectedOptions.some((option) => option.match(item, source, index));
       });
     });
 
@@ -2078,7 +3248,8 @@ function setupFilters(activeCategory, allItems) {
       return;
     }
 
-    const hasSelection = Array.from(selectedByGroup.values()).some((set) => set.size > 0);
+    const hasSelection = Array.from(selectedByGroup.values()).some((set) => set.size > 0)
+      || Array.from(rangeStateByGroup.keys()).some((groupId) => isRangeFilterActive(groupId));
     if (!hasSelection) {
       updateFiltersCount(0);
       renderProductGrid(activeCategory, filtered);
@@ -2088,18 +3259,27 @@ function setupFilters(activeCategory, allItems) {
     const relaxedMatches = allItems.filter((item, index) => {
       const source = itemContexts[index];
       return filters.some((group) => {
+        if (group.kind === "range") {
+          return isRangeFilterActive(group.id) && doesRangeFilterMatch(group, item);
+        }
         const selected = selectedByGroup.get(group.id);
         if (!selected || selected.size === 0) return false;
-        return group.options.some((option) => selected.has(option.id) && option.match(item, source));
+        return group.options.some((option) => selected.has(option.id) && option.match(item, source, index));
       });
     });
     const partiallyMatchedLabels = [];
     filters.forEach((group) => {
+      if (group.kind === "range") {
+        if (!isRangeFilterActive(group.id)) return;
+        const hasAny = allItems.some((item) => doesRangeFilterMatch(group, item));
+        if (hasAny) partiallyMatchedLabels.push(group.label);
+        return;
+      }
       const selected = selectedByGroup.get(group.id);
       if (!selected || selected.size === 0) return;
       group.options.forEach((option) => {
         if (!selected.has(option.id)) return;
-        const hasAny = allItems.some((item, index) => option.match(item, itemContexts[index]));
+        const hasAny = allItems.some((item, index) => option.match(item, itemContexts[index], index));
         if (hasAny) partiallyMatchedLabels.push(option.label);
       });
     });
@@ -2109,9 +3289,9 @@ function setupFilters(activeCategory, allItems) {
     updateFiltersCount(0);
     grid.innerHTML = `
       <p style="grid-column:1/-1;font-family:Inter Tight,sans-serif;color:rgba(42,33,24,.72);padding:18px 0;">
-        No products match all selected filters.
-        ${relaxedMatches.length ? ` ${relaxedMatches.length} product(s) match at least one selected filter.` : ""}
-        ${partiallyMatchedLabels.length ? ` Matching single filters: ${partiallyMatchedLabels.join(", ")}.` : ""}
+        Tidak ada produk yang cocok dengan semua filter yang dipilih.
+        ${relaxedMatches.length ? ` ${relaxedMatches.length} produk masih cocok dengan sebagian filter.` : ""}
+        ${partiallyMatchedLabels.length ? ` Filter yang masih punya hasil: ${partiallyMatchedLabels.join(", ")}.` : ""}
       </p>
     `;
   };
@@ -2144,11 +3324,41 @@ function setupFilters(activeCategory, allItems) {
     });
   });
 
+  rangeInputs.forEach((input) => {
+    if (!(input instanceof HTMLInputElement)) return;
+    const groupId = input.dataset.filterGroup || "";
+    const group = filters.find((entry) => entry.id === groupId && entry.kind === "range");
+    const state = rangeStateByGroup.get(groupId);
+    if (!group || !state) return;
+    updateRangeUI(groupId);
+    input.addEventListener("input", () => {
+      const nextValue = Number(input.value);
+      if (input.dataset.rangeBound === "min") {
+        state.min = Math.min(nextValue, state.max);
+        input.value = String(state.min);
+      } else {
+        state.max = Math.max(nextValue, state.min);
+        input.value = String(state.max);
+      }
+      updateRangeUI(groupId);
+      applyFilters();
+    });
+  });
+
   if (clearButton instanceof HTMLButtonElement) {
     clearButton.addEventListener("click", () => {
       selectedByGroup.forEach((set) => set.clear());
       checks.forEach((input) => {
         if (input instanceof HTMLInputElement) input.checked = false;
+      });
+      rangeStateByGroup.forEach((state, groupId) => {
+        state.min = state.initialMin;
+        state.max = state.initialMax;
+        const minInput = filtersWrap.querySelector(`input[data-filter-group="${groupId}"][data-range-bound="min"]`);
+        const maxInput = filtersWrap.querySelector(`input[data-filter-group="${groupId}"][data-range-bound="max"]`);
+        if (minInput instanceof HTMLInputElement) minInput.value = String(state.min);
+        if (maxInput instanceof HTMLInputElement) maxInput.value = String(state.max);
+        updateRangeUI(groupId);
       });
       applyFilters();
     });
@@ -2162,6 +3372,18 @@ function resolveCategoryFromQuery() {
   const params = new URLSearchParams(window.location.search);
   const raw = normalizeValue(params.get("category") || "");
   return resolveCategoryFromRaw(raw);
+}
+
+function resolvePortfolioGatewayEntrySource() {
+  const params = new URLSearchParams(window.location.search);
+  const raw = normalizeValue(params.get("entry") || params.get("source") || "");
+  return ["home-hero", "home-cta", "portfolio-hero"].includes(raw) ? raw : "";
+}
+
+function shouldShowPortfolioGateway() {
+  const params = new URLSearchParams(window.location.search);
+  if (normalizeValue(params.get("category") || "")) return false;
+  return Boolean(resolvePortfolioGatewayEntrySource());
 }
 
 function resolveCategoryFromRaw(rawValue) {
@@ -2191,27 +3413,188 @@ function renderCategoryNav(activeCategory) {
       ...CATEGORY_META.filter((item) => item.key !== activeCategory.key)
     ];
     mobileCategoryList.innerHTML = `
-      <p class="mobile-category-title">Categories</p>
+      <p class="mobile-category-title">Kategori</p>
       ${activeFirst.map((item) => {
         const isActive = item.key === activeCategory.key;
-        return `<a class="${isActive ? "is-active" : ""}" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(item.name)}${isActive ? '<span class="mobile-category-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6"/></svg></span>' : ""}</a>`;
+        const displayName = item.key === "by-request" ? "Sesuai Permintaan" : item.name;
+        return `<a class="${isActive ? "is-active" : ""}" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(displayName)}${isActive ? '<span class="mobile-category-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6"/></svg></span>' : ""}</a>`;
       }).join("")}
     `;
   }
   if (mobileCategoryLabel instanceof HTMLElement) {
-    mobileCategoryLabel.textContent = activeCategory.name;
+    mobileCategoryLabel.textContent = activeCategory.key === "by-request" ? "Sesuai Permintaan" : activeCategory.name;
   }
   footerCategories.innerHTML = CATEGORY_META.map((item) => (
-    `<a class="footer-link" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(item.name)}</a>`
+    `<a class="footer-link" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(item.key === "by-request" ? "Sesuai Permintaan" : item.name)}</a>`
   )).join("");
   syncFooterAccordion();
 }
 
 let galleryItemsCache = [];
 let activeCategoryState = CATEGORY_META[0];
+let portfolioGatewayActive = false;
+let portfolioGatewayRevealFrame = 0;
+
+function clampNumber(value, min = 0, max = 1) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function renderPortfolioGateway() {
+  const gatewaySection = document.getElementById("portfolio-gateway");
+  const gatewayGrid = document.getElementById("portfolio-gateway-grid");
+  if (!(gatewaySection instanceof HTMLElement) || !(gatewayGrid instanceof HTMLElement)) return;
+  const gatewayEntries = [
+    {
+      type: "intro",
+      key: "gateway-intro",
+      kicker: "Marvell Florist",
+      title: "For Moments That Matter",
+      cta: "The Collection",
+      coverImage: "/assets/portfolio.webp"
+    },
+    ...CATEGORY_META.map((item) => ({
+      type: "category",
+      ...item,
+      kicker: "Collection",
+      cta: "Discover More"
+    }))
+  ];
+
+  gatewayGrid.innerHTML = gatewayEntries.map((item, index) => {
+    const sharedStyle = `--gateway-layer:${index + 1}; --gateway-reveal:${index === 0 ? "1" : "0.08"}`;
+    if (item.type === "intro") {
+      return `
+        <article class="portfolio-gateway-card portfolio-gateway-card--intro is-current" aria-label="${escapeHTML(item.title)}" style="${sharedStyle}">
+          <div class="portfolio-gateway-card-media">
+            ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.title)} cover" loading="eager" decoding="async">` : ""}
+          </div>
+          <div class="portfolio-gateway-card-copy">
+            <p class="portfolio-gateway-card-kicker">${escapeHTML(item.kicker)}</p>
+            <h2 class="portfolio-gateway-card-title">${escapeHTML(item.title)}</h2>
+            <button class="portfolio-gateway-card-cta portfolio-gateway-intro-cta" type="button">${escapeHTML(item.cta)}</button>
+          </div>
+        </article>
+      `;
+    }
+    return `
+      <a class="portfolio-gateway-card" href="gallery.html?category=${encodeURIComponent(item.key)}" data-category-key="${escapeHTML(item.key)}" aria-label="Enter ${escapeHTML(item.name)} collection" style="${sharedStyle}">
+        <div class="portfolio-gateway-card-media">
+          ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.name)} cover" loading="eager" decoding="async">` : ""}
+        </div>
+        <div class="portfolio-gateway-card-copy">
+          <p class="portfolio-gateway-card-kicker">${escapeHTML(item.kicker)}</p>
+          <h2 class="portfolio-gateway-card-title">${escapeHTML(item.name)}</h2>
+          <span class="portfolio-gateway-card-cta">${escapeHTML(item.cta)}</span>
+        </div>
+      </a>
+    `;
+  }).join("");
+
+  const introCta = gatewayGrid.querySelector(".portfolio-gateway-intro-cta");
+  const firstCategoryCard = gatewayGrid.querySelector(".portfolio-gateway-card[data-category-key]");
+  if (introCta instanceof HTMLButtonElement && firstCategoryCard instanceof HTMLElement) {
+    introCta.addEventListener("click", () => {
+      firstCategoryCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  gatewaySection.hidden = false;
+  gatewaySection.setAttribute("aria-hidden", "false");
+  document.body.classList.add("portfolio-gateway-active");
+  portfolioGatewayActive = true;
+  requestPortfolioGatewayRevealUpdate();
+}
+
+function updatePortfolioGatewayReveal() {
+  if (!portfolioGatewayActive) return;
+  const gatewaySection = document.getElementById("portfolio-gateway");
+  if (!(gatewaySection instanceof HTMLElement) || gatewaySection.hidden) return;
+  const cards = Array.from(gatewaySection.querySelectorAll(".portfolio-gateway-card"));
+  if (!cards.length) return;
+
+  const viewportHeight = Math.max(window.innerHeight || 0, 1);
+  const viewportWidth = Math.max(window.innerWidth || 0, 1);
+  const isMobileViewport = viewportWidth <= 768;
+  const revealStart = viewportHeight * 1.08;
+  const revealEnd = viewportHeight * 0.08;
+  const viewportCenter = viewportHeight * 0.5;
+  const maxMaskHeight = Math.min(viewportHeight * 0.26, 240);
+  const copyGap = isMobileViewport ? 52 : 104;
+  let activeCard = cards[0];
+  let activeScore = -Infinity;
+
+  const measurements = cards.map((card) => {
+    const rect = card.getBoundingClientRect();
+    const progress = clampNumber((revealStart - rect.top) / Math.max(revealStart - revealEnd, 1), 0, 1);
+    const isIntro = card.classList.contains("portfolio-gateway-card--intro");
+    const maskHeight = isIntro ? 0 : (1 - progress) * maxMaskHeight;
+    return { card, rect, progress, isIntro, maskHeight };
+  });
+
+  measurements.forEach(({ card, rect, progress, isIntro, maskHeight }, index) => {
+    card.style.setProperty("--gateway-reveal", progress.toFixed(4));
+    card.style.setProperty("--gateway-mask", isIntro ? "0px" : `${maskHeight.toFixed(2)}px`);
+
+    if (!isIntro) {
+      const nextMeasurement = measurements[index + 1];
+      let nextVisibleTop = viewportHeight + rect.height;
+      let overlapInset = 0;
+
+      if (nextMeasurement) {
+        nextVisibleTop = nextMeasurement.rect.top + nextMeasurement.maskHeight;
+        overlapInset = Math.max(0, rect.bottom - nextVisibleTop);
+      }
+
+      let copyBottom;
+      let overlayBottom;
+      let overlayHeight;
+
+      if (isMobileViewport) {
+        const fallbackBottom = rect.height * 0.12;
+        const maxCopyBottom = rect.height * 0.34;
+        const stickyLift = Math.max(0, (viewportHeight * 1.08) - nextVisibleTop);
+        copyBottom = Math.min(maxCopyBottom, fallbackBottom + (stickyLift * 0.28));
+        overlayBottom = Math.max(0, overlapInset);
+        overlayHeight = Math.min(rect.height * 0.3, 220);
+      } else {
+        const fallbackBottom = rect.height * 0.22;
+        const maxCopyBottom = rect.height * 0.58;
+        copyBottom = Math.min(maxCopyBottom, Math.max(fallbackBottom, overlapInset + copyGap));
+        overlayBottom = Math.max(0, overlapInset);
+        overlayHeight = Math.min(rect.height * 0.34, 320);
+      }
+
+      card.style.setProperty("--gateway-copy-bottom", `${copyBottom.toFixed(2)}px`);
+      card.style.setProperty("--gateway-overlay-bottom", `${overlayBottom.toFixed(2)}px`);
+      card.style.setProperty("--gateway-overlay-height", `${overlayHeight.toFixed(2)}px`);
+    }
+
+    const visibleHeight = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0));
+    const visibleRatio = clampNumber(visibleHeight / Math.max(Math.min(rect.height, viewportHeight), 1), 0, 1);
+    const centerDistance = Math.abs((rect.top + (rect.height * 0.5)) - viewportCenter);
+    const centerRatio = 1 - clampNumber(centerDistance / Math.max(viewportHeight * 0.7, 1), 0, 1);
+    const score = (visibleRatio * 0.68) + (centerRatio * 0.32);
+    if (score > activeScore) {
+      activeScore = score;
+      activeCard = card;
+    }
+  });
+
+  cards.forEach((card) => {
+    card.classList.toggle("is-current", card === activeCard);
+  });
+}
+
+function requestPortfolioGatewayRevealUpdate() {
+  if (portfolioGatewayRevealFrame) return;
+  portfolioGatewayRevealFrame = window.requestAnimationFrame(() => {
+    portfolioGatewayRevealFrame = 0;
+    updatePortfolioGatewayReveal();
+  });
+}
 
 function getItemsForCategory(activeCategory, items) {
-  return items.filter((item) => {
+  const matched = items.filter((item) => {
     const category = normalizeValue(item?.category);
     const isBaseMatch = normalizeValue(activeCategory.name) === category
       || (activeCategory.aliases || []).some((alias) => normalizeValue(alias) === category)
@@ -2221,10 +3604,19 @@ function getItemsForCategory(activeCategory, items) {
     const sourceContext = buildSourceContext(item);
     return sourceHasAny(sourceContext, ["funeral", "duka", "duka cita"]);
   });
+  if (activeCategory.key !== "artificial-flowers") return matched;
+  return matched.map((item, index) => ({ ...item, artificialIndex: index + 1 }));
 }
 
 function applyActiveCategory(nextCategory, options = {}) {
-  const { updateUrl = false } = options;
+  const { updateUrl = false, replaceUrl = false } = options;
+  const gatewaySection = document.getElementById("portfolio-gateway");
+  if (gatewaySection instanceof HTMLElement) {
+    gatewaySection.hidden = true;
+    gatewaySection.setAttribute("aria-hidden", "true");
+  }
+  document.body.classList.remove("portfolio-gateway-active");
+  portfolioGatewayActive = false;
   activeCategoryState = nextCategory;
   renderCategoryNav(nextCategory);
   const categoryItems = getItemsForCategory(nextCategory, galleryItemsCache);
@@ -2233,15 +3625,18 @@ function applyActiveCategory(nextCategory, options = {}) {
   if (updateUrl) {
     const params = new URLSearchParams(window.location.search);
     params.set("category", nextCategory.key);
+    params.delete("entry");
+    params.delete("source");
     const nextSearch = params.toString();
     const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ""}${window.location.hash || ""}`;
-    window.history.pushState({ category: nextCategory.key }, "", nextUrl);
+    window.history[replaceUrl ? "replaceState" : "pushState"]({ category: nextCategory.key }, "", nextUrl);
   }
 }
 
 function setupCategoryNavigation() {
   const nav = document.getElementById("category-nav-list");
   const mobileCategoryList = document.getElementById("mobile-category-list");
+  const gatewayGrid = document.getElementById("portfolio-gateway-grid");
   const handleCategoryLinkClick = (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
@@ -2261,19 +3656,49 @@ function setupCategoryNavigation() {
   };
   if (nav instanceof HTMLElement) nav.addEventListener("click", handleCategoryLinkClick);
   if (mobileCategoryList instanceof HTMLElement) mobileCategoryList.addEventListener("click", handleCategoryLinkClick);
+  if (gatewayGrid instanceof HTMLElement) {
+    gatewayGrid.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const link = target.closest(".portfolio-gateway-card");
+      if (!(link instanceof HTMLAnchorElement)) return;
+      event.preventDefault();
+      window.location.replace(link.href);
+    });
+  }
 }
 
 let heroCoverSwapToken = 0;
+function preloadPriorityHeroAsset(src) {
+  const normalizedSrc = normalizeAssetPath(src);
+  if (!normalizedSrc) return;
+  let preload = document.head.querySelector('link[data-priority-hero="gallery"]');
+  if (!(preload instanceof HTMLLinkElement)) {
+    preload = document.createElement("link");
+    preload.rel = "preload";
+    preload.as = "image";
+    preload.setAttribute("fetchpriority", "high");
+    preload.dataset.priorityHero = "gallery";
+    document.head.appendChild(preload);
+  }
+  if (preload.href !== new URL(normalizedSrc, window.location.href).href) preload.href = normalizedSrc;
+}
 function swapHeroCover(heroImage, nextSrc, nextAlt) {
   if (!(heroImage instanceof HTMLImageElement)) return;
+  const resolvedSrc = normalizeAssetPath(nextSrc);
+  if (!resolvedSrc) return;
+  heroImage.loading = "eager";
+  heroImage.decoding = "async";
+  heroImage.fetchPriority = "high";
+  preloadPriorityHeroAsset(resolvedSrc);
   if (heroImage.dataset.coverInitialized !== "1") {
-    heroImage.src = nextSrc;
+    heroImage.src = resolvedSrc;
     heroImage.alt = nextAlt;
     heroImage.dataset.coverInitialized = "1";
     return;
   }
   const currentSrc = heroImage.getAttribute("src") || "";
-  if (currentSrc === nextSrc) {
+  if (currentSrc === resolvedSrc) {
     heroImage.alt = nextAlt;
     return;
   }
@@ -2283,7 +3708,7 @@ function swapHeroCover(heroImage, nextSrc, nextAlt) {
   const preload = new Image();
   const finalizeSwap = () => {
     if (swapToken !== heroCoverSwapToken) return;
-    heroImage.src = nextSrc;
+    heroImage.src = resolvedSrc;
     heroImage.alt = nextAlt;
     window.requestAnimationFrame(() => {
       if (swapToken !== heroCoverSwapToken) return;
@@ -2292,7 +3717,174 @@ function swapHeroCover(heroImage, nextSrc, nextAlt) {
   };
   preload.onload = finalizeSwap;
   preload.onerror = finalizeSwap;
-  preload.src = nextSrc;
+  preload.src = resolvedSrc;
+}
+
+function ensureHeadMetaTag(selector, createAttribute, createValue) {
+  let element = document.head.querySelector(selector);
+  if (element instanceof HTMLMetaElement) return element;
+  element = document.createElement("meta");
+  element.setAttribute(createAttribute, createValue);
+  document.head.appendChild(element);
+  return element;
+}
+
+function ensureHeadLinkTag(selector, relValue) {
+  let element = document.head.querySelector(selector);
+  if (element instanceof HTMLLinkElement) return element;
+  element = document.createElement("link");
+  element.rel = relValue;
+  document.head.appendChild(element);
+  return element;
+}
+
+function ensureStructuredDataScript(id) {
+  let element = document.getElementById(id);
+  if (element instanceof HTMLScriptElement) return element;
+  element = document.createElement("script");
+  element.type = "application/ld+json";
+  element.id = id;
+  document.head.appendChild(element);
+  return element;
+}
+
+function getGalleryCategorySeoContext(category = activeCategoryState) {
+  const languageApi = window.MarvellLanguage || null;
+  const language = typeof languageApi?.getLanguage === "function" ? languageApi.getLanguage() : (document.documentElement.lang === "id" ? "id" : "en");
+  const localizedName = typeof languageApi?.localizeCategory === "function"
+    ? languageApi.localizeCategory(category?.name || "")
+    : String(category?.name || "Gallery").trim();
+  const localizedSubtitle = typeof languageApi?.localizeCategorySubtitle === "function"
+    ? languageApi.localizeCategorySubtitle(category?.name || category?.subtitle || "")
+    : String(category?.subtitle || "").trim();
+  return {
+    language,
+    localizedName,
+    localizedSubtitle
+  };
+}
+
+function syncGallerySeoMeta(category = activeCategoryState, items = null) {
+  const baseUrl = "https://marvellflorist.com";
+  const languageApi = window.MarvellLanguage || null;
+  const language = typeof languageApi?.getLanguage === "function"
+    ? languageApi.getLanguage()
+    : (document.documentElement.lang === "id" ? "id" : "en");
+  const canonicalLink = ensureHeadLinkTag('link[rel="canonical"]', "canonical");
+  const ogUrl = ensureHeadMetaTag('meta[property="og:url"]', "property", "og:url");
+  const ogTitle = ensureHeadMetaTag('meta[property="og:title"]', "property", "og:title");
+  const ogDescription = ensureHeadMetaTag('meta[property="og:description"]', "property", "og:description");
+  const ogImage = ensureHeadMetaTag('meta[property="og:image"]', "property", "og:image");
+  const ogImageSecure = ensureHeadMetaTag('meta[property="og:image:secure_url"]', "property", "og:image:secure_url");
+  const ogImageAlt = ensureHeadMetaTag('meta[property="og:image:alt"]', "property", "og:image:alt");
+  const twitterTitle = ensureHeadMetaTag('meta[name="twitter:title"]', "name", "twitter:title");
+  const twitterDescription = ensureHeadMetaTag('meta[name="twitter:description"]', "name", "twitter:description");
+  const twitterImage = ensureHeadMetaTag('meta[name="twitter:image"]', "name", "twitter:image");
+  const descriptionMeta = ensureHeadMetaTag('meta[name="description"]', "name", "description");
+  const collectionScript = ensureStructuredDataScript("gallery-category-structured-data");
+  const breadcrumbScript = ensureStructuredDataScript("gallery-breadcrumb-structured-data");
+
+  if (!category || !category.key) {
+    const genericUrl = `${baseUrl}/gallery.html`;
+    const genericTitle = language === "id" ? "Galeri | Marvell Florist" : "Gallery | Marvell Florist";
+    const genericDescription = language === "id"
+      ? "Jelajahi koleksi Marvell Florist berdasarkan kategori."
+      : "Browse Marvell Florist collections by category.";
+    document.title = genericTitle;
+    canonicalLink.href = genericUrl;
+    descriptionMeta.content = genericDescription;
+    ogUrl.content = genericUrl;
+    ogTitle.content = genericTitle;
+    ogDescription.content = genericDescription;
+    ogImage.content = `${baseUrl}/assets/preview.png`;
+    ogImageSecure.content = `${baseUrl}/assets/preview.png`;
+    ogImageAlt.content = "Marvell Florist website preview";
+    twitterTitle.content = genericTitle;
+    twitterDescription.content = genericDescription;
+    twitterImage.content = `${baseUrl}/assets/preview.png`;
+    collectionScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": genericTitle,
+      "url": genericUrl,
+      "description": genericDescription
+    });
+    breadcrumbScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": `${baseUrl}/` },
+        { "@type": "ListItem", "position": 2, "name": language === "id" ? "Galeri" : "Gallery", "item": genericUrl }
+      ]
+    });
+    return;
+  }
+
+  const { localizedName, localizedSubtitle } = getGalleryCategorySeoContext(category);
+  const categoryUrl = `${baseUrl}/gallery.html?category=${encodeURIComponent(category.key)}`;
+  const categoryImage = category.coverImage ? `${baseUrl}${normalizeAssetPath(category.coverImage)}` : `${baseUrl}/assets/preview.png`;
+  const seoTitle = language === "id"
+    ? `Portofolio ${localizedName} | Marvell Florist`
+    : `${localizedName} Portfolio | Marvell Florist`;
+  const seoDescription = language === "id"
+    ? `${localizedSubtitle} Jelajahi koleksi ${localizedName} dari Marvell Florist di Batam.`
+    : `${localizedSubtitle} Explore the ${localizedName} collection from Marvell Florist in Batam.`;
+  const safeItems = Array.isArray(items) ? items : getItemsForCategory(category, galleryItemsCache);
+  const itemListElements = safeItems.slice(0, 12).map((item, index) => {
+    const baseName = buildDisplayName(item, category);
+    const canonicalTitle = titleCaseWords(String(item?.title || item?.name || "").trim()) || baseName;
+    const image = String(item?.image || "").trim();
+    const detailHref = `product.html?category=${encodeURIComponent(category.name)}&title=${encodeURIComponent(canonicalTitle)}&image=${encodeURIComponent(image)}${item?.price ? `&price=${encodeURIComponent(formatRupiah(item.price))}` : ""}`;
+    return {
+      "@type": "ListItem",
+      "position": index + 1,
+      "url": `${baseUrl}/${detailHref}`
+    };
+  });
+
+  document.title = seoTitle;
+  canonicalLink.href = categoryUrl;
+  descriptionMeta.content = seoDescription;
+  ogUrl.content = categoryUrl;
+  ogTitle.content = seoTitle;
+  ogDescription.content = seoDescription;
+  ogImage.content = categoryImage;
+  ogImageSecure.content = categoryImage;
+  ogImageAlt.content = `${localizedName} collection cover`;
+  twitterTitle.content = seoTitle;
+  twitterDescription.content = seoDescription;
+  twitterImage.content = categoryImage;
+
+  collectionScript.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": seoTitle,
+    "url": categoryUrl,
+    "description": seoDescription,
+    "inLanguage": language,
+    "primaryImageOfPage": categoryImage,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Marvell Florist",
+      "url": `${baseUrl}/`
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": localizedName,
+      "numberOfItems": safeItems.length,
+      "itemListElement": itemListElements
+    }
+  });
+
+  breadcrumbScript.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": `${baseUrl}/` },
+      { "@type": "ListItem", "position": 2, "name": language === "id" ? "Galeri" : "Gallery", "item": `${baseUrl}/gallery.html` },
+      { "@type": "ListItem", "position": 3, "name": localizedName, "item": categoryUrl }
+    ]
+  });
 }
 
 function renderCategoryPage(activeCategory, items) {
@@ -2311,6 +3903,7 @@ function renderCategoryPage(activeCategory, items) {
     || !(consultBtn instanceof HTMLAnchorElement)) return;
 
   swapHeroCover(heroImage, activeCategory.coverImage, `${activeCategory.name} cover`);
+  heroImage.dataset.categoryKey = activeCategory.key;
   heroTitle.textContent = activeCategory.name;
   heroSubtitle.textContent = activeCategory.subtitle;
   metaTitle.textContent = activeCategory.name;
@@ -2327,6 +3920,25 @@ function renderCategoryPage(activeCategory, items) {
     productsGrid.classList.toggle("by-request-row", isByRequest);
   }
   setupFilters(activeCategory, items);
+  syncGallerySeoMeta(activeCategory, items);
+}
+
+function applyGalleryPageCopy(payload = {}) {
+  const noteElement = document.getElementById("gallery-portfolio-note");
+  const collectionHook = document.getElementById("collection-hook");
+  const consultButton = document.getElementById("consult-collection");
+  const galleryPage = payload?.galleryPage && typeof payload.galleryPage === "object"
+    ? payload.galleryPage
+    : {};
+  const resolved = {
+    note: String(galleryPage.note || GALLERY_PAGE_DEFAULT_COPY.note).trim(),
+    byRequestHook: String(galleryPage.byRequestHook || GALLERY_PAGE_DEFAULT_COPY.byRequestHook).trim(),
+    consultButtonLabel: String(galleryPage.consultButtonLabel || GALLERY_PAGE_DEFAULT_COPY.consultButtonLabel).trim()
+  };
+
+  if (noteElement instanceof HTMLElement) noteElement.textContent = resolved.note;
+  if (collectionHook instanceof HTMLElement) collectionHook.textContent = resolved.byRequestHook;
+  if (consultButton instanceof HTMLAnchorElement) consultButton.textContent = resolved.consultButtonLabel;
 }
 
 function activateProductFromHash() {
@@ -2394,6 +4006,7 @@ const filtersTrigger = document.getElementById("filters-trigger");
 const filtersTriggerMobile = document.getElementById("filters-trigger-mobile");
 const filtersPanel = document.getElementById("filters-panel");
 const filtersClose = document.getElementById("filters-close");
+const heroGatewayHit = document.getElementById("hero-gateway-hit");
 const mobileCategoryTrigger = document.getElementById("mobile-category-trigger");
 const mobileCategoryPanel = document.getElementById("mobile-category-panel");
 const mobileCategoryBackdrop = document.getElementById("mobile-category-backdrop");
@@ -2552,6 +4165,11 @@ if (filtersClose instanceof HTMLButtonElement) {
     filtersClose.addEventListener("click", () => setFiltersOpen(false));
   }
 }
+if (heroGatewayHit instanceof HTMLButtonElement) {
+  heroGatewayHit.addEventListener("click", () => {
+    window.location.href = "gallery.html?entry=portfolio-hero";
+  });
+}
 if (menuClose instanceof HTMLButtonElement) {
   if (POPUPS_ENABLED) {
     menuClose.addEventListener("click", () => setMenuOpen(false));
@@ -2590,31 +4208,153 @@ window.addEventListener("touchmove", (event) => {
 }, { passive: false });
 
 async function initialize() {
-  activeCategoryState = resolveCategoryFromQuery();
+  await hydrateCategoryMetaFromContent();
   setupCategoryNavigation();
   bindFooterAccordion();
   syncFooterAccordion();
 
+  const gatewaySection = document.getElementById("portfolio-gateway");
+  const resolvedCategory = resolveCategoryFromQuery();
+  const hasExplicitCategory = Boolean(normalizeValue(new URLSearchParams(window.location.search).get("category") || ""));
+  if (hasExplicitCategory) {
+    if (gatewaySection instanceof HTMLElement) {
+      gatewaySection.hidden = true;
+      gatewaySection.setAttribute("aria-hidden", "true");
+    }
+    document.body.classList.remove("portfolio-gateway-active");
+    portfolioGatewayActive = false;
+  }
+
+  if (shouldShowPortfolioGateway()) {
+    renderPortfolioGateway();
+    activeCategoryState = resolveCategoryFromRaw("");
+    return;
+  }
+
+  activeCategoryState = resolvedCategory;
+
+  try {
+    let siteSectionsPayload = null;
+    for (const endpoint of SITE_SECTIONS_ENDPOINTS) {
+      try {
+        const response = await fetch(endpoint, { cache: "no-store" });
+        if (!response.ok) continue;
+        siteSectionsPayload = await response.json();
+        break;
+      } catch (_fetchError) {
+        // Try next endpoint variant.
+      }
+    }
+    applyGalleryPageCopy(siteSectionsPayload || EMBEDDED_GALLERY_FALLBACK.siteSections || {});
+  } catch (_error) {
+    applyGalleryPageCopy(EMBEDDED_GALLERY_FALLBACK.siteSections || {});
+  }
+
   galleryItemsCache = [];
   try {
-    const response = await fetch("/content/gallery.json", { cache: "no-store" });
-    if (response.ok) {
-      const payload = await response.json();
-      galleryItemsCache = Array.isArray(payload?.items) ? payload.items : [];
+    let payload = null;
+
+    for (const endpoint of GALLERY_CONTENT_ENDPOINTS) {
+      try {
+        const response = await fetch(endpoint, { cache: "no-store" });
+        if (!response.ok) continue;
+        payload = await response.json();
+        break;
+      } catch (_error) {
+        // Try next endpoint variant.
+      }
+    }
+
+    if (!payload) {
+      for (const endpoint of GALLERY_LEGACY_ENDPOINTS) {
+        try {
+          const response = await fetch(endpoint, { cache: "no-store" });
+          if (!response.ok) continue;
+          payload = await response.json();
+          break;
+        } catch (_error) {
+          // Try next endpoint variant.
+        }
+      }
+    }
+
+    if (payload) {
+      galleryItemsCache = extractGalleryItems(payload);
     }
   } catch (_error) {
-    galleryItemsCache = [];
+    galleryItemsCache = extractGalleryItems(EMBEDDED_GALLERY_FALLBACK.gallery || {});
+  }
+
+  if (!galleryItemsCache.length) {
+    galleryItemsCache = extractGalleryItems(EMBEDDED_GALLERY_FALLBACK.gallery || {});
   }
 
   applyActiveCategory(activeCategoryState, { updateUrl: false });
 }
 
+function setupEarlyLazyImageWarmup() {
+  const bindLazyImage = (img, observer) => {
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.dataset.lazyWarmupBound === "1") return;
+    if ((img.getAttribute("loading") || "").toLowerCase() !== "lazy") return;
+    img.dataset.lazyWarmupBound = "1";
+    img.loading = "eager";
+    img.decoding = "async";
+    warmImage(img);
+    if (observer) observer.observe(img);
+  };
+
+  const warmImage = (img) => {
+    if (!(img instanceof HTMLImageElement)) return;
+    img.loading = "eager";
+    img.decoding = "async";
+    const source = img.currentSrc || img.src;
+    if (!source) return;
+    const preloader = new Image();
+    preloader.decoding = "async";
+    preloader.src = source;
+  };
+
+  const preloadMargin = window.matchMedia("(max-width: 768px)").matches ? 2600 : 3200;
+  const lazyObserver = typeof IntersectionObserver === "function"
+    ? new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const img = entry.target;
+        if (img instanceof HTMLImageElement) warmImage(img);
+        observer.unobserve(entry.target);
+      });
+    }, {
+      root: null,
+      rootMargin: `${preloadMargin}px 0px ${preloadMargin}px 0px`,
+      threshold: 0
+    })
+    : null;
+
+  document.querySelectorAll('img[loading="eager"]').forEach((img) => bindLazyImage(img, lazyObserver));
+
+  if (typeof MutationObserver !== "function" || !(document.body instanceof HTMLElement)) return;
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (!(node instanceof Element)) return;
+        if (node instanceof HTMLImageElement) bindLazyImage(node, lazyObserver);
+        node.querySelectorAll?.('img[loading="eager"]').forEach((img) => bindLazyImage(img, lazyObserver));
+      });
+    });
+  });
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
+}
+
+setupEarlyLazyImageWarmup();
 initialize();
 window.addEventListener("hashchange", activateProductFromHash);
+window.addEventListener("scroll", requestPortfolioGatewayRevealUpdate, { passive: true });
 window.addEventListener("popstate", () => {
   const nextCategory = resolveCategoryFromQuery();
   applyActiveCategory(nextCategory, { updateUrl: false });
 });
+window.addEventListener("resize", requestPortfolioGatewayRevealUpdate);
 window.addEventListener("resize", syncFooterAccordion);
 </script>
 </body>

@@ -5,7 +5,7 @@ const seasonalEvents = [
     id: "eid",
     title: "Ramadan & Eid Collection",
     start: "03-07",
-    end: "04-15",
+    end: "04-01",
     priority: 10,
     description: "",
     collectionHref: "#collection-eid",
@@ -213,7 +213,7 @@ function getTopPrioritySeasonalEvent(today = new Date()) {
 function formatRupiah(value) {
   const amount = Number(value);
   if (!Number.isFinite(amount)) return "";
-  return `Rp ${new Intl.NumberFormat("id-ID").format(Math.round(amount))}`;
+  return `Rp${new Intl.NumberFormat("id-ID").format(Math.round(amount))}`;
 }
 
 function buildWhatsAppOrderHref(eventTitle, productName, priceStart, phone = ORDER_PHONE) {

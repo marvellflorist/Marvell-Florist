@@ -4,9 +4,286 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Marvell Florist CMS</title>
+  <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #f5efe6;
+      color: #1f1a15;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    .cms-status {
+      max-width: 680px;
+      margin: 10vh auto;
+      padding: 20px 22px;
+      border-radius: 14px;
+      border: 1px solid rgba(31, 26, 21, 0.16);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 14px 30px rgba(20, 15, 11, 0.08);
+      line-height: 1.5;
+    }
+    .cms-status h1 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+      letter-spacing: 0.01em;
+    }
+    .cms-status p {
+      margin: 0 0 10px;
+      font-size: 0.95rem;
+    }
+    .cms-status ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 0.92rem;
+    }
+    .cms-status code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+      background: rgba(31, 26, 21, 0.08);
+      border-radius: 6px;
+      padding: 2px 6px;
+    }
+    .cms-status.is-hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <div class="cms-status" id="cms-status">
+    <h1>Loading CMS...</h1>
+    <p>The admin app is starting. If this takes too long, check your internet connection and reload.</p>
+  </div>
+  <noscript>
+    <div class="cms-status">
+      <h1>JavaScript is required</h1>
+      <p>Please enable JavaScript in your browser to use the CMS.</p>
+    </div>
+  </noscript>
+  <script>
+    const statusCard = document.getElementById("cms-status");
+    const LOCAL_CMS_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
+    const LOCAL_CMS_PROXY_URL = "http://127.0.0.1:8081/api/v1";
+
+    function isLocalCmsSession() {
+      return LOCAL_CMS_HOSTS.has(window.location.hostname);
+    }
+
+    function setStatus(title, message, details = []) {
+      if (!statusCard) return;
+      statusCard.classList.remove("is-hidden");
+      statusCard.innerHTML = `
+        <h1>${title}</h1>
+        <p>${message}</p>
+        ${details.length ? `<ul>${details.map((item) => `<li>${item}</li>`).join("")}</ul>` : ""}
+      `;
+    }
+
+    function hideStatus() {
+      if (!statusCard) return;
+      statusCard.classList.add("is-hidden");
+    }
+
+    async function probeLocalBackend() {
+      try {
+        await fetch(LOCAL_CMS_PROXY_URL, { method: "GET", mode: "cors", cache: "no-store" });
+        return true;
+      } catch (_error) {
+        return false;
+      }
+    }
+
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+        script.onload = () => resolve(src);
+        script.onerror = () => reject(new Error(`Failed loading script: ${src}`));
+        document.body.appendChild(script);
+      });
+    }
+
+    async function bootCMS() {
+      const localSession = isLocalCmsSession();
+
+      if (!localSession) {
+        try {
+          await loadScript("https://identity.netlify.com/v1/netlify-identity-widget.js");
+        } catch (_error) {
+          setStatus(
+            "Netlify Identity failed to load",
+            "The login service could not be reached.",
+            [
+              "Check network/firewall access to <code>identity.netlify.com</code>.",
+              "Reload this page and try again."
+            ]
+          );
+          return;
+        }
+      }
+
+      try {
+        await loadScript("https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js");
+      } catch (_error) {
+        try {
+          await loadScript("https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js");
+        } catch (_fallbackError) {
+          setStatus(
+            "CMS app failed to load",
+            "Decap CMS could not be loaded from both CDNs.",
+            [
+              "Check network/firewall access to <code>unpkg.com</code> and <code>cdn.jsdelivr.net</code>.",
+              "Reload this page and try again."
+            ]
+          );
+          return;
+        }
+      }
+
+      if (!window.CMS) {
+        setStatus(
+          "CMS app did not initialize",
+          "Scripts loaded but Decap CMS was not detected.",
+          ["Open browser console and check for JavaScript errors."]
+        );
+        return;
+      }
+
+      if (localSession) {
+        const proxyReady = await probeLocalBackend();
+        if (!proxyReady) {
+          setStatus(
+            "Local CMS backend not detected",
+            "Decap loaded, but the local backend proxy is not responding on <code>127.0.0.1:8081</code>.",
+            [
+              "If Node.js is already installed, the proxy most likely is not running yet or stalled before binding to port <code>8081</code>.",
+              "If <code>npx</code> reports <code>ENOTFOUND registry.npmjs.org</code>, the blocker is npm registry connectivity rather than Decap itself.",
+              "Run <code>./start-local-cms-test.sh</code> from the project root, or start the proxy manually with <code>npx --yes decap-server --port 8081</code>.",
+              "Keep that terminal window open while using the CMS.",
+              "Open the admin at <code>http://127.0.0.1:5500/admin/</code> after the proxy is running."
+            ]
+          );
+          return;
+        }
+      }
+
+      hideStatus();
+
+      if (!localSession && window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", (user) => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    }
+
+    function enableDecapListAutoScroll() {
+      const ADD_KEYWORDS = ["add", "new", "tambah", "buat", "create"];
+      let pendingScroll = null;
+
+      function normalizeText(value) {
+        return String(value || "").trim().toLowerCase();
+      }
+
+      function isAddActionButton(button) {
+        if (!(button instanceof HTMLElement)) return false;
+        const text = normalizeText(button.textContent);
+        const aria = normalizeText(button.getAttribute("aria-label"));
+        const title = normalizeText(button.getAttribute("title"));
+        const combined = `${text} ${aria} ${title}`;
+        return ADD_KEYWORDS.some((keyword) => combined.includes(keyword));
+      }
+
+      function getControlCount(element) {
+        if (!(element instanceof Element)) return 0;
+        return element.querySelectorAll("input, textarea, select, [contenteditable='true']").length;
+      }
+
+      function isVisibleElement(element) {
+        if (!(element instanceof HTMLElement)) return false;
+        const style = window.getComputedStyle(element);
+        if (style.display === "none" || style.visibility === "hidden") return false;
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      }
+
+      function getEntryContainer(element) {
+        let node = element instanceof Element ? element : null;
+        while (node && node !== document.body) {
+          if (node instanceof HTMLElement && isVisibleElement(node) && getControlCount(node) >= 3) {
+            return node;
+          }
+          node = node.parentElement;
+        }
+        return element instanceof HTMLElement ? element : null;
+      }
+
+      function findBestScrollTarget() {
+        const candidates = Array.from(document.querySelectorAll("input, textarea, select, [contenteditable='true']"))
+          .map((field) => getEntryContainer(field))
+          .filter((element, index, list) => element && isVisibleElement(element) && list.indexOf(element) === index);
+
+        if (!candidates.length) return null;
+
+        candidates.sort((a, b) => {
+          const aTop = a.getBoundingClientRect().top + window.scrollY;
+          const bTop = b.getBoundingClientRect().top + window.scrollY;
+          return bTop - aTop;
+        });
+
+        return candidates[0];
+      }
+
+      function scheduleScrollToNewEntry() {
+        if (pendingScroll) {
+          pendingScroll.observer.disconnect();
+          window.clearTimeout(pendingScroll.timeoutId);
+        }
+
+        const state = { candidate: null, timeoutId: 0, observer: null };
+        state.observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+              if (!(node instanceof Element)) return;
+              const target = getEntryContainer(node);
+              if (target) state.candidate = target;
+            });
+          });
+        });
+
+        state.observer.observe(document.body, { childList: true, subtree: true });
+        state.timeoutId = window.setTimeout(() => {
+          state.observer.disconnect();
+          const target = state.candidate || findBestScrollTarget();
+          if (target instanceof HTMLElement) {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          pendingScroll = null;
+        }, 420);
+
+        pendingScroll = state;
+      }
+
+      document.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const button = target.closest("button, [role='button']");
+        if (!isAddActionButton(button)) return;
+        scheduleScrollToNewEntry();
+      }, true);
+    }
+
+    bootCMS();
+    enableDecapListAutoScroll();
+  </script>
 </body>
 </html>

@@ -10,6 +10,8 @@ html, body {
   height: auto;
   overflow-x: hidden;
   font-family: serif;
+  background: #f8f6f1;
+  color: #2f2923;
 }
 
 /* NAVIGATION */
@@ -22,13 +24,13 @@ html, body {
   display: flex;
   gap: 24px;
   z-index: 10;
-  background: rgba(255,255,255,0.6);
+  background: rgba(248,246,241,0.82);
   backdrop-filter: blur(8px);
 }
 
 .nav a {
   text-decoration: none;
-  color: black;
+  color: #2f2923;
   font-size: 14px;
 }
 

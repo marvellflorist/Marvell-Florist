@@ -2,81 +2,124 @@
   "defaultKicker": "SEASONAL COLLECTION",
   "events": [
     {
-      "id": "eid",
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Ramadan & Eid Collection",
       "heroImage": "/assets/ramadhan.webp",
+      "start": "03-07",
       "products": [
         {
           "name": "Garden Abundance",
-          "price": "Rp1.050.000",
+          "price": 1050000,
           "src": "/assets/seasonal/eid/eidparcel.webp"
         },
         {
           "name": "Golden Gathering",
-          "price": "Rp1.200.000",
+          "price": 1200000,
           "src": "/assets/seasonal/eid/eidparcel2.png.webp"
         },
         {
           "name": "Sunlit Harmony",
-          "price": "Rp700.000",
+          "price": 700000,
           "src": "/assets/seasonal/eid/eidfloralarrange.webp"
         },
         {
           "name": "Crescent Bloom",
-          "price": "Rp650.000",
+          "price": 650000,
           "src": "/assets/seasonal/eid/floralarrangement.webp"
         }
-      ]
+      ],
+      "priority": 10,
+      "consultLabel": "Consult Ramadan & Eid Collection",
+      "warningText": "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.",
+      "forceActive": false,
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Ramadan & Eid Collection",
+      "end": "04-01",
+      "id": "eid",
+      "promoText": "Ramadan & Eid Collection - Explore the arrangements",
+      "lead": "Each season brings a moment. We give it form."
     },
     {
+      "heroImage": "/assets/valentine.webp",
+      "start": "02-01",
+      "products": [],
+      "priority": 9,
+      "forceActive": false,
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Valentine's Collection",
+      "end": "02-16",
       "id": "valentine",
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Valentine’s Collection",
-      "heroImage": "/assets/valentines.jpeg",
-      "products": []
+      "promoText": "Valentine's Collection - Discover the bouquets"
     },
     {
+      "heroImage": "/assets/graduation.webp",
+      "start": "04-16",
+      "products": [],
+      "priority": 4,
+      "forceActive": false,
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Graduation Collection",
+      "end": "04-30",
       "id": "graduation",
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Graduation Collection",
-      "heroImage": "/assets/graduation.webp",
-      "products": []
+      "promoText": "Graduation Collection - Celebrate the moment"
     },
     {
+      "heroImage": "/assets/graduation.webp",
+      "start": "05-17",
+      "products": [],
+      "priority": 4,
+      "forceActive": false,
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Graduation Collection",
+      "end": "07-31",
       "id": "graduation_late",
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Graduation Collection",
-      "heroImage": "/assets/graduation.webp",
-      "products": []
+      "promoText": "Graduation Collection - Celebrate the moment"
     },
     {
+      "heroImage": "/assets/popupmothersday.webp",
+      "start": "05-01",
+      "products": [],
+      "priority": 7,
+      "forceActive": false,
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Mother's Day Collection",
+      "end": "05-16",
       "id": "mothers_day",
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Mother’s Day Collection",
-      "heroImage": "/assets/mothersday.jpeg",
-      "products": []
+      "promoText": "Mother's Day Collection - Explore the arrangements"
     },
     {
+      "heroImage": "/assets/chinesenewyear.webp",
+      "start": "01-01",
+      "products": [],
+      "priority": 8,
+      "forceActive": false,
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Chinese New Year Collection",
+      "end": "01-31",
       "id": "cny",
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Chinese New Year Collection",
-      "heroImage": "/assets/chinesenewyear.webp",
-      "products": []
+      "promoText": "Chinese New Year Collection - Discover the arrangements"
     },
     {
+      "heroImage": "/assets/chinesenewyear.webp",
+      "start": "02-17",
+      "products": [],
+      "priority": 8,
+      "forceActive": false,
+      "kicker": "SEASONAL COLLECTION",
+      "title": "Chinese New Year Collection",
+      "end": "03-06",
       "id": "cny_mid",
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Chinese New Year Collection",
-      "heroImage": "/assets/chinesenewyear.webp",
-      "products": []
+      "promoText": "Chinese New Year Collection - Discover the arrangements"
     },
     {
-      "id": "christmas",
+      "heroImage": "/assets/popupchristmas.webp",
+      "start": "12-01",
+      "products": [],
+      "priority": 6,
+      "forceActive": false,
       "kicker": "SEASONAL COLLECTION",
       "title": "Christmas Collection",
-      "heroImage": "/assets/christmas.jpeg",
-      "products": []
+      "end": "12-27",
+      "id": "christmas",
+      "promoText": "Christmas Collection - Explore the arrangements"
     }
   ]
 }

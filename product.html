@@ -3,8 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Detail • Marvell Florist</title>
-  <link rel="icon" href="/assets/logoo.webp?v=4" type="image/webp" sizes="32x32">
+  <title>Product Detail | Marvell Florist</title>
+  <meta name="description" content="View product details and floral arrangement information from Marvell Florist.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#f8f6f1">
+  <link rel="canonical" href="https://marvellflorist.com/product.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Marvell Florist">
+  <meta property="og:url" content="https://marvellflorist.com/product.html">
+  <meta property="og:title" content="Product Detail | Marvell Florist">
+  <meta property="og:description" content="View product details and floral arrangement information from Marvell Florist.">
+  <meta property="og:image" content="https://marvellflorist.com/assets/preview.png">
+  <meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Marvell Florist website preview">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Product Detail | Marvell Florist">
+  <meta name="twitter:description" content="View product details and floral arrangement information from Marvell Florist.">
+  <meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png">
+  <script src="assets/site-language.js"></script>
+  <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+  <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+  <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
@@ -33,14 +57,15 @@
   font-display: swap;
 }
 :root {
-  --canvas: #ffffff;
-  --page-bg: #f5f5f2;
-  --ink: #2a2118;
-  --muted: rgba(42, 33, 24, 0.68);
-  --line: rgba(157, 133, 101, 0.24);
+  --canvas: #f8f6f1;
+  --page-bg: #f8f6f1;
+  --ink: #2f2923;
+  --muted: rgba(47, 41, 35, 0.68);
+  --line: rgba(63, 54, 45, 0.16);
 }
 * { box-sizing:border-box; }
 html,body { margin:0; padding:0; }
+html { background: var(--page-bg); }
 body { font-family:"Fraunces",serif; color:var(--ink); background:var(--page-bg); }
 header {
   position: fixed; left: 0; width: 100%; top: 0; padding: 0 24px; height: 72px; display: flex; align-items: center; z-index: 50; pointer-events: none;
@@ -61,7 +86,7 @@ header::after {
 }
 header::before {
   z-index: 1;
-  background: #f6f0e7;
+  background: #f8f6f1;
   border: 0;
   border-bottom: 1px solid var(--line);
   backdrop-filter: none;
@@ -71,19 +96,29 @@ header::before {
 header::after {
   display: none;
 }
-.header-logo { display:inline-flex; align-items:center; text-decoration:none; }
-.header-logo img { height:36px; width:auto; }
+.header-logo { display:inline-flex; align-items:center; text-decoration:none; position:absolute; left:50%; transform:translateX(-50%); }
+.header-logo img { display:none; }
 .header-logo-text {
-  display:none; font-family:"Imperial Script",cursive; font-size:32px; line-height:.9; letter-spacing:.01em;
-  color:transparent; -webkit-text-fill-color:transparent; -webkit-text-stroke:.8px rgba(42,33,24,.82);
+  display:inline-block; font-family:"Imperial Script",cursive; font-size:32px; line-height:.9; letter-spacing:.01em;
+  color:rgba(42,33,24,.82); -webkit-text-fill-color:currentColor; -webkit-text-stroke:0;
 }
 .contact-quick-trigger {
   display:inline-flex; align-items:center; padding:0; line-height:1.1; color:rgba(42,33,24,.82)!important; font-family:"Inter Tight",sans-serif;
   font-size:12px!important; font-weight:400!important; letter-spacing:.06em!important; text-transform:none!important; background:none; border:0; cursor:pointer; text-decoration:none!important;
 }
 .contact-quick-trigger::before { content:"+"; margin-right:8px; font-size:14px; line-height:1; transform:translateY(-.5px); }
+.search-toggle {
+  display:inline-flex; align-items:center; gap:8px; margin-left:auto; border:0; background:transparent; font-family:"Inter Tight",sans-serif;
+  font-size:12px; letter-spacing:.06em; color:rgba(42,33,24,.82); cursor:pointer; text-decoration:none;
+}
+.search-toggle svg {
+  width:18px; height:18px; display:block; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+}
+.search-toggle:hover,.search-toggle:focus-visible,.contact-quick-trigger:hover,.contact-quick-trigger:focus-visible,.menu-toggle:hover,.menu-toggle:focus-visible {
+  opacity:.84; outline:none;
+}
 .menu-toggle {
-  margin-left:auto; display:inline-flex; align-items:center; gap:10px; border:0; background:transparent; font-family:"Inter Tight",sans-serif;
+  display:inline-flex; align-items:center; gap:10px; border:0; background:transparent; font-family:"Inter Tight",sans-serif;
   font-size:12px; letter-spacing:.06em; color:rgba(42,33,24,.82); cursor:pointer;
 }
 .menu-toggle .menu-icon { display:inline-flex; flex-direction:column; gap:4px; }
@@ -123,12 +158,12 @@ header::after {
 }
 .contact-quick-backdrop.is-open { opacity:1; pointer-events:auto; }
 .contact-quick-panel,.menu-panel {
-  position: fixed; top:0; right:0; width:min(92vw,460px); height:100vh; background:#f7f5f2; color:#151210;
+  position: fixed; top:0; right:0; width:min(92vw,460px); height:100vh; background:#f8f6f1; color:#2f2923;
   transform:translateX(100%); transition:transform .5s ease-in-out; z-index:241; box-shadow:none; display:grid; grid-template-rows:auto 1fr;
 }
 .menu-panel { width:min(92vw,600px); }
 .contact-quick-panel.is-open,.menu-panel.is-open { transform:translateX(0); box-shadow:-20px 0 36px rgba(10,12,18,.22); }
-.contact-quick-head,.menu-head { display:flex; align-items:center; justify-content:space-between; padding:28px 30px 18px; }
+.contact-quick-head,.menu-head { display:flex; align-items:center; justify-content:flex-end; padding:28px 30px 18px; }
 .menu-head { justify-content:flex-end; }
 .contact-quick-head h3 { margin:0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.18em; text-transform:uppercase; }
 .contact-quick-close,.menu-close {
@@ -136,8 +171,32 @@ header::after {
 }
 .contact-quick-body { padding:8px 30px 30px; display:grid; gap:18px; }
 .contact-quick-block { display:grid; gap:6px; }
-.contact-quick-label { margin:0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:rgba(21,18,16,.52); }
-.contact-quick-link,.contact-quick-text { font-size:13px; line-height:1.45; color:#1d1a18; text-decoration:none; margin:0; }
+.contact-quick-label { margin:0; font-family:"Inter Tight",sans-serif; font-size:14px; line-height:1.08; letter-spacing:.16em; text-transform:uppercase; color:rgba(21,18,16,.65); }
+.contact-quick-link,.contact-quick-text { font-family:"Inter Tight",sans-serif; font-size:13px; line-height:1.45; color:#1d1a18; text-decoration:none; margin:0; }
+.contact-quick-link { line-height:1.04; }
+.contact-quick-text { color:rgba(21,18,16,.82); }
+.contact-quick-block .contact-quick-link + .contact-quick-link { margin-top:1px; }
+.contact-quick-block .contact-quick-text + .contact-quick-text { margin-top:-4px; }
+.contact-quick-link:hover,.contact-quick-link:focus-visible { opacity:.85; text-decoration:underline; text-underline-offset:.08em; text-decoration-thickness:1px; }
+.contact-quick-link::after {
+  content:none; position:absolute; left:0; bottom:0; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:left center; transition:transform .22s ease;
+}
+.contact-quick-link:hover::after,.contact-quick-link:focus-visible::after { transform:scaleX(1); }
+.contact-quick-text.is-muted { color:rgba(21,18,16,.55); }
+#contact-quick-panel { width:min(92vw,600px); }
+#contact-quick-panel .contact-quick-head { padding:24px 34px 8px; }
+#contact-quick-panel .contact-quick-body { padding:18px 40px 34px 88px; gap:20px; overflow-y:auto; overscroll-behavior:contain; }
+#contact-quick-panel .contact-quick-block { gap:10px; }
+#contact-quick-panel .contact-quick-label { font-size:14px; letter-spacing:.12em; font-weight:600; }
+#contact-quick-panel .contact-quick-link {
+  width:fit-content; position:relative; display:inline-flex; align-items:center; gap:8px; font-size:clamp(14px,1.3vw,18px); font-weight:500; line-height:1.22;
+}
+#contact-quick-panel .contact-quick-link::after {
+  content:"\203A"; position:static; width:auto; height:auto; background:none; opacity:0; transform:translateX(-4px); transition:opacity .2s ease, transform .2s ease;
+}
+#contact-quick-panel .contact-quick-link:hover::after,#contact-quick-panel .contact-quick-link:focus-visible::after { opacity:.65; transform:translateX(0); }
+#contact-quick-panel .contact-quick-text { font-size:14px; line-height:1.45; }
+#contact-quick-panel .contact-quick-text.is-muted { color:rgba(21,18,16,.62); }
 .menu-body { position:relative; padding:0; overflow:hidden; min-height:460px; }
 .menu-view { position:absolute; inset:18px 40px 34px 88px; display:grid; align-content:start; gap:16px; opacity:0; transform:translateX(18px); pointer-events:none; transition:opacity .28s ease, transform .32s cubic-bezier(.22,1,.36,1); }
 .menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"], .menu-panel[data-menu-current="portfolio"] .menu-view[data-menu-view="portfolio"] { opacity:1; transform:translateX(0); pointer-events:auto; }
@@ -187,6 +246,11 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   letter-spacing: .06em;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.product-whatsapp-btn:hover,
+.product-whatsapp-btn:focus-visible {
+  transform: scale(0.985);
 }
 .product-faq-label {
   margin: 46px 0 16px;
@@ -289,8 +353,8 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
 
 #site-footer {
   position: relative;
-  background: linear-gradient(180deg, #f6f0e7 0%, #f3ece2 100%);
-  color: #2a2118;
+  background: linear-gradient(180deg, #f8f6f1 0%, #eee7dd 100%);
+  color: #2f2923;
   padding: 48px 0 calc(env(safe-area-inset-bottom, 0px) + 96px);
   border-top: 1px solid var(--line);
 }
@@ -305,7 +369,7 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
 #site-footer .footer-accordion-icon { display:none; }
 #site-footer .footer-accordion-panel { max-height:none; overflow:visible; }
 #site-footer .footer-links,#site-footer .footer-list { display:grid; gap:10px; list-style:none; margin:0; padding:0; }
-#site-footer .footer-link { color:#2a2118; text-decoration:none; font-family:"Fraunces",serif; font-size:13px; line-height:1.3; }
+#site-footer .footer-link { color:#2a2118; text-decoration:none; font-family:"Fraunces",serif; font-size:14px; line-height:1.04; letter-spacing:0; text-transform:none; }
 #site-footer .footer-link:hover,
 #site-footer .footer-link:focus-visible { text-decoration:underline; text-underline-offset:.08em; }
 #site-footer .footer-bottom { border-top:1px solid var(--line); padding-top:12px; text-align:center; }
@@ -325,9 +389,10 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
 }
 
 @media (max-width: 768px) {
-  .header-logo img { display:none; }
-  .header-logo-text { display:inline-block; font-size:30px; }
+  .header-logo-text { font-size:30px; }
   .contact-quick-trigger, .brand-pinned-title, .menu-toggle .menu-label { display:none; }
+  .search-toggle { gap:0; margin-left:auto; }
+  .search-toggle .search-label { display:none; }
   .menu-toggle { gap:0; padding:0; }
   .menu-view { inset:14px 24px 24px 42px; gap:20px; }
   .menu-link { width:100%; justify-content:space-between; font-size:clamp(18px,6vw,24px); }
@@ -356,50 +421,54 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
   #site-footer .footer-col.is-open .footer-accordion-icon { transform:rotate(45deg); }
 }
   </style>
+<style>
+.search-toggle { display: none !important; }
+.menu-toggle { margin-left: auto !important; }
+</style>
 </head>
 <body>
 <header>
   <div class="header-bar">
+    <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Hubungi Kami</button>
     <a class="header-logo" href="index.html" aria-label="Go to home page">
-      <img src="assets/logo.webp" alt="Marvell Florist">
       <span class="header-logo-text">Marvell Florist</span>
     </a>
-    <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Contact Us</button>
+    <a class="search-toggle" href="index.html?search" aria-label="Open search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
+      <span class="search-label">Cari</span>
+    </a>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
       <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
       <span class="menu-label">Menu</span>
     </button>
   </div>
 </header>
-<div class="brand-pinned-title" aria-hidden="true">Marvell Florist</div>
-
 <div class="contact-quick-backdrop" id="contact-quick-backdrop" aria-hidden="true"></div>
 <aside class="contact-quick-panel" id="contact-quick-panel" aria-hidden="true" tabindex="-1">
   <div class="contact-quick-head">
-    <h3>Contact Us</h3>
     <button class="contact-quick-close" id="contact-quick-close" type="button" aria-label="Close contact panel">&#10005;</button>
   </div>
   <div class="contact-quick-body">
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Message Us</p>
-      <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Floral Arrangements</a>
-      <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Custom Orders</a>
-      <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Supplies</a>
-      <p class="contact-quick-text">Available Monday – Saturday</p>
-      <p class="contact-quick-text">8:00 – 18:00 (WIB)</p>
+      <p class="contact-quick-label">Hubungi Kami</p>
+      <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Rangkaian Bunga</a>
+      <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Pesanan Kustom</a>
+      <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
+      <p class="contact-quick-text is-muted">Tersedia Senin – Sabtu</p>
+      <p class="contact-quick-text is-muted">8:00 – 18:00 (WIB)</p>
     </div>
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Our Location</p>
-      <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Arrangements</a>
-      <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Supplies</a>
+      <p class="contact-quick-label">Lokasi Kami</p>
+      <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Rangkaian</a>
+      <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
     </div>
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Keep In Touch</p>
+      <p class="contact-quick-label">Tetap Terhubung</p>
       <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
       <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
     </div>
     <div class="contact-quick-block">
-      <p class="contact-quick-label">Shop Us Online</p>
+      <p class="contact-quick-label">Belanja Online</p>
       <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
       <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
     </div>
@@ -411,7 +480,6 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
   <div class="menu-body">
     <div class="menu-view" data-menu-view="main">
       <a class="menu-link" href="index.html">Home</a>
-      <a class="menu-link" href="index.html#featured">Featured</a>
       <button class="menu-link menu-link-button" type="button" data-menu-open="portfolio">Portfolio</button>
       <a class="menu-link" href="about.html">About</a>
       <a class="menu-link" href="index.html#services">Services</a>
@@ -437,15 +505,15 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
     </div>
     <div class="product-detail-content">
       <nav class="product-breadcrumb" id="product-breadcrumb" aria-label="Breadcrumb"></nav>
-      <h1 id="product-title" class="product-detail-title">Product</h1>
+      <h1 id="product-title" class="product-detail-title">Produk</h1>
       <p id="product-price" class="product-detail-price" hidden></p>
-      <a id="product-whatsapp" class="product-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Consult On WhatsApp</a>
-      <p class="product-faq-label">Frequently Asked Questions</p>
+      <a id="product-whatsapp" class="product-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a>
+      <p class="product-faq-label">Pertanyaan yang Sering Diajukan</p>
       <section class="product-faq" id="product-faq"></section>
     </div>
   </section>
   <section class="related-products" aria-label="Related products">
-    <h2>You May Also Like</h2>
+    <h2>Anda Mungkin Suka</h2>
     <div class="related-grid" id="related-grid"></div>
   </section>
 </main>
@@ -458,10 +526,10 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
     </div>
     <div class="footer-grid">
       <section class="footer-col" aria-label="Contact links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Connect <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-contact">
           <div class="footer-links">
-            <a class="footer-link" href="index.html#services">Contact Us</a>
+            <a class="footer-link" href="index.html#services">Hubungi Kami</a>
             <a class="footer-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>
             <a class="footer-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a class="footer-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
@@ -469,17 +537,17 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
         </div>
       </section>
       <section class="footer-col" aria-label="About links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">About <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">Tentang <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-about">
           <ul class="footer-list">
-            <li><a class="footer-link" href="about.html#journey">Our Journey</a></li>
-            <li><a class="footer-link" href="about.html#craft">Our Craft</a></li>
-            <li><a class="footer-link" href="about.html#team">Our Team</a></li>
+            <li><a class="footer-link" href="about.html#journey">Perjalanan Kami</a></li>
+            <li><a class="footer-link" href="about.html#craft">Karya Kami</a></li>
+            <li><a class="footer-link" href="about.html#team">Tim Kami</a></li>
           </ul>
         </div>
       </section>
       <section class="footer-col" aria-label="Category links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories">Categories <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories">Kategori <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-categories">
           <div class="footer-links">
             <a class="footer-link" href="gallery.html?category=Standing%20Flowers">Standing Flowers</a>
@@ -488,18 +556,18 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
             <a class="footer-link" href="gallery.html?category=Papan%20Bunga">Papan Bunga</a>
             <a class="footer-link" href="gallery.html?category=Funerals">Funerals</a>
             <a class="footer-link" href="gallery.html?category=Parcels">Parcels</a>
-            <a class="footer-link" href="gallery.html?category=By%20Request">By Request</a>
+            <a class="footer-link" href="gallery.html?category=By%20Request">Sesuai Permintaan</a>
           </div>
         </div>
       </section>
     </div>
-    <div class="footer-bottom"><p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privacy</a> · <a class="footer-legal-link" href="terms-conditions.html">Terms</a> · © 2006–2026 Marvell Florist</p></div>
+    <div class="footer-bottom"><p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privasi</a> · <a class="footer-legal-link" href="terms-conditions.html">Ketentuan</a> · © 2006–2026 Marvell Florist</p></div>
     <div class="footer-brand" aria-hidden="true">Marvell Florist</div>
   </div>
 </footer>
 
 <script>
-const FAQ_BY_GROUP = {
+const FAQ_BY_GROUP_EN = {
   bouquets: [
     { title: "Pricing", content: "Bouquets typically begin from around Rp120.000 for artificial arrangements and approximately Rp170.000 for fresh flower bouquets. The final price may vary depending on the flower selection, arrangement size, and the style requested.\n\nFinal pricing will be confirmed during consultation." },
     { title: "Customization", content: "Each bouquet is arranged individually for the order. Color palettes, wrapping styles, and flower varieties may be adjusted depending on the occasion and flower availability. If a particular flower is not available, a similar variety may be used while maintaining the overall character of the arrangement." },
@@ -573,6 +641,87 @@ const FAQ_BY_GROUP = {
   ]
 };
 
+const FAQ_BY_GROUP_ID = {
+  bouquets: [
+    { title: "Harga", content: "Buket umumnya dimulai dari sekitar Rp120.000 untuk rangkaian artifisial dan sekitar Rp170.000 untuk buket bunga segar. Harga akhir dapat berubah tergantung pilihan bunga, ukuran rangkaian, dan gaya yang diminta.\n\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Setiap buket dirangkai khusus untuk tiap pesanan. Palet warna, gaya wrapping, dan jenis bunga dapat disesuaikan tergantung momen dan ketersediaan bunga. Jika bunga tertentu tidak tersedia, kami dapat menggunakan alternatif serupa sambil tetap menjaga karakter keseluruhan rangkaian." },
+    { title: "Pengiriman & Persiapan", content: "Pengiriman tersedia di seluruh Batam. Pengiriman di hari yang sama mungkin bisa dilakukan tergantung waktu persiapan yang dibutuhkan. Sebagian besar buket dapat disiapkan dalam sekitar 30 menit, meski rangkaian yang lebih detail mungkin memerlukan waktu tambahan." },
+    { title: "Proses Pemesanan", content: "Pesanan diproses melalui konsultasi WhatsApp. Setelah desain dan detail rangkaian dikonfirmasi, pembayaran dapat dilakukan via transfer. Buket kemudian akan disiapkan dan dijadwalkan untuk dikirim." }
+  ],
+  artificialArrangement: [
+    { title: "Harga", content: "Rangkaian bunga artifisial umumnya dimulai dari sekitar Rp200.000, tergantung wadah, ukuran rangkaian, dan material yang digunakan.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Rangkaian artifisial dapat disesuaikan dari segi palet warna, gaya, dan wadah sesuai kebutuhan ruang atau penggunaannya. Rangkaian ini sering dipilih untuk dekorasi rumah, hadiah, atau display interior." },
+    { title: "Pengiriman & Persiapan", content: "Pengiriman tersedia di seluruh Batam. Persiapan biasanya dimulai segera setelah pesanan dikonfirmasi, dengan durasi menyesuaikan kompleksitas rangkaian." },
+    { title: "Proses Pemesanan", content: "Pesanan dikonfirmasi melalui konsultasi WhatsApp, di mana tim kami akan membantu menentukan gaya rangkaian dan harga akhir sebelum proses persiapan dimulai." }
+  ],
+  bloomBox: [
+    { title: "Harga", content: "Rangkaian bloom box umumnya dimulai dari sekitar Rp200.000, tergantung pilihan bunga dan skala rangkaiannya.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Bloom box dapat disusun dengan tema warna dan kombinasi bunga yang berbeda sesuai momennya. Jika jenis bunga tertentu tidak tersedia, kami dapat menggunakan pengganti yang serupa sambil tetap menjaga desain keseluruhan." },
+    { title: "Pengiriman & Persiapan", content: "Pengiriman tersedia di seluruh Batam. Waktu persiapan menyesuaikan gaya rangkaian dan ketersediaan bunga." },
+    { title: "Proses Pemesanan", content: "Pesanan ditangani melalui konsultasi WhatsApp. Setelah desain dan detail dikonfirmasi, pembayaran dilakukan dan rangkaian akan dipersiapkan sesuai kebutuhan." }
+  ],
+  balloonBloomBox: [
+    { title: "Harga", content: "Rangkaian balloon bloom box umumnya dimulai dari sekitar Rp350.000, tergantung gaya balon, pilihan bunga, dan ukuran rangkaian.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Warna balon, pesan, dan kombinasi bunga dapat disesuaikan tergantung momennya, termasuk ulang tahun, wisuda, dan perayaan." },
+    { title: "Pengiriman & Persiapan", content: "Pengiriman tersedia di seluruh Batam. Waktu persiapan dapat berbeda tergantung tingkat kompleksitas rangkaian." },
+    { title: "Proses Pemesanan", content: "Pesanan diproses melalui konsultasi WhatsApp, di mana detail dan harga dikonfirmasi terlebih dahulu sebelum persiapan dimulai." }
+  ],
+  papanSingle: [
+    { title: "Harga", content: "Papan bunga umumnya dimulai dari sekitar Rp150.000 untuk 1 papan, tergantung desain dan gaya floralnya.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Teks ucapan, kombinasi warna, dan gaya bunga dapat disesuaikan tergantung momen serta nuansa rangkaian yang diinginkan." },
+    { title: "Pengiriman & Pemasangan", content: "Pengiriman dan pemasangan tersedia di seluruh Batam. Dalam banyak kasus, pemasangan dapat dilakukan di hari yang sama tergantung ketersediaan." },
+    { title: "Proses Pemesanan", content: "Pesanan diproses melalui konsultasi WhatsApp, di mana teks ucapan, lokasi pemasangan, dan desain dikonfirmasi sebelum persiapan dimulai." }
+  ],
+  papanDouble: [
+    { title: "Harga", content: "Papan bunga umumnya dimulai dari sekitar Rp280.000 untuk 2 papan, tergantung desain dan gaya floralnya.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Teks ucapan, kombinasi warna, dan gaya bunga dapat disesuaikan tergantung momen serta nuansa rangkaian yang diinginkan." },
+    { title: "Pengiriman & Pemasangan", content: "Pengiriman dan pemasangan tersedia di seluruh Batam. Dalam banyak kasus, pemasangan dapat dilakukan di hari yang sama tergantung ketersediaan." },
+    { title: "Proses Pemesanan", content: "Pesanan diproses melalui konsultasi WhatsApp, di mana teks ucapan, lokasi pemasangan, dan desain dikonfirmasi sebelum persiapan dimulai." }
+  ],
+  funeralsSingle: [
+    { title: "Harga", content: "Papan bunga duka mengikuti kisaran harga umum yang sama, dimulai dari sekitar Rp150.000 untuk 1 papan, tergantung rangkaian dan desain floralnya.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Durasi", content: "Papan bunga umumnya dipasang sekitar tiga hari untuk kebanyakan acara. Untuk rangkaian duka, pemasangan dapat berlangsung hingga rangkaian penghormatan selesai, tergantung keinginan keluarga." },
+    { title: "Pengiriman & Pemasangan", content: "Pengiriman dan pemasangan tersedia di seluruh Batam, dan rangkaian sering kali dapat disiapkan dalam hari yang sama." },
+    { title: "Proses Pemesanan", content: "Pesanan ditangani melalui konsultasi WhatsApp, di mana teks ucapan, lokasi pemasangan, dan desain dikonfirmasi sebelum persiapan dimulai." }
+  ],
+  funeralsDouble: [
+    { title: "Harga", content: "Papan bunga duka mengikuti kisaran harga umum yang sama, dimulai dari sekitar Rp280.000 untuk 2 papan, tergantung rangkaian dan desain floralnya.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Durasi", content: "Papan bunga umumnya dipasang sekitar tiga hari untuk kebanyakan acara. Untuk rangkaian duka, pemasangan dapat berlangsung hingga rangkaian penghormatan selesai, tergantung keinginan keluarga." },
+    { title: "Pengiriman & Pemasangan", content: "Pengiriman dan pemasangan tersedia di seluruh Batam, dan rangkaian sering kali dapat disiapkan dalam hari yang sama." },
+    { title: "Proses Pemesanan", content: "Pesanan ditangani melalui konsultasi WhatsApp, di mana teks ucapan, lokasi pemasangan, dan desain dikonfirmasi sebelum persiapan dimulai." }
+  ],
+  standing: [
+    { title: "Harga", content: "Standing flower umumnya dimulai dari sekitar Rp1.000.000 untuk rangkaian artifisial dan sekitar Rp1.100.000 untuk rangkaian bunga segar, tergantung ukuran dan komposisi floral.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Standing arrangement dapat disesuaikan dari segi palet warna dan gaya bunga tergantung acara, baik untuk grand opening, perayaan, maupun momen formal." },
+    { title: "Pengiriman & Pemasangan", content: "Pengiriman dan pemasangan tersedia di seluruh Batam." },
+    { title: "Proses Pemesanan", content: "Pesanan dikonfirmasi melalui konsultasi WhatsApp, di mana detail rangkaian dan harga akhir dibahas sebelum persiapan dimulai." }
+  ],
+  parcels: [
+    { title: "Harga", content: "Parcel umumnya dimulai dari sekitar Rp450.000, tergantung isi dan presentasinya.\nHarga final akan dikonfirmasi saat konsultasi." },
+    { title: "Kustomisasi", content: "Isi parcel dapat disesuaikan tergantung momennya, dengan opsi yang cocok untuk perayaan, hampers, atau kebutuhan musiman." },
+    { title: "Pengiriman & Persiapan", content: "Pengiriman tersedia di seluruh Batam, dengan waktu persiapan yang menyesuaikan isi parcel dan presentasinya." },
+    { title: "Proses Pemesanan", content: "Pesanan diproses melalui konsultasi WhatsApp, di mana isi parcel dan harga akhir dikonfirmasi sebelum persiapan dimulai." }
+  ],
+  customRequest: [
+    { title: "Harga", content: "Rangkaian kustom ditentukan berdasarkan detail permintaan, material, dan skala rangkaian.\nHarga final akan dikonfirmasi setelah konsultasi." },
+    { title: "Kustomisasi", content: "Setiap rangkaian kustom dikembangkan berdasarkan permintaan. Gaya, palet, dan struktur dibahas terlebih dahulu agar sesuai dengan konsep yang diinginkan sebelum konfirmasi." },
+    { title: "Pengiriman & Persiapan", content: "Pengiriman tersedia di seluruh Batam. Waktu persiapan tergantung kompleksitas desain dan ketersediaan material, dan akan dikonfirmasi saat konsultasi." },
+    { title: "Proses Pemesanan", content: "Pesanan ditangani melalui konsultasi WhatsApp. Setelah konsep dan detail dikonfirmasi, harga akhir serta timeline akan dibagikan sebelum persiapan dimulai." }
+  ],
+  featuredConsult: [
+    { title: "Kustomisasi", content: "Rangkaian unggulan dapat disesuaikan dengan palet, pilihan bunga, dan konsep acara yang Anda inginkan setelah berdiskusi dengan tim kami." },
+    { title: "Pengiriman & Persiapan", content: "Waktu pengiriman dan persiapan akan dikonfirmasi saat konsultasi, tergantung kompleksitas rangkaian dan jadwal." },
+    { title: "Proses Pemesanan", content: "Pesanan diproses melalui konsultasi WhatsApp. Arah desain, harga, dan timeline dikonfirmasi terlebih dahulu sebelum persiapan dimulai." }
+  ]
+};
+
+function getFaqGroups() {
+  const activeLanguage = typeof window.MarvellLanguage?.getLanguage === "function"
+    ? window.MarvellLanguage.getLanguage()
+    : "en";
+  return activeLanguage === "id" ? FAQ_BY_GROUP_ID : FAQ_BY_GROUP_EN;
+}
+
 function isFeaturedCategory(value) {
   const text = normalize(value);
   if (!text) return false;
@@ -605,6 +754,7 @@ function getFileStem(path) {
 }
 function toTitleCase(text) {
   return String(text || "")
+    .toLowerCase()
     .split(/\s+/)
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -645,13 +795,140 @@ function getItemNumberInCategory(items, category, image) {
 }
 async function loadGalleryItems() {
   try {
-    const response = await fetch("/content/gallery.json", { cache: "no-store" });
-    if (!response.ok) return [];
-    const payload = await response.json();
-    return Array.isArray(payload?.items) ? payload.items : [];
+    const fetchFirstAvailableJson = async (endpoints = []) => {
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, { cache: "no-store" });
+          if (!response.ok) continue;
+          return await response.json();
+        } catch (_error) {
+          // Try next endpoint variant.
+        }
+      }
+      return null;
+    };
+    const payload = await fetchFirstAvailableJson([
+      "/content/gallery.json",
+      "content/gallery.json",
+      "/data/gallery.json",
+      "data/gallery.json"
+    ]);
+    if (!payload) return [];
+    const normalizeItem = (item, fallbackCategory = "") => {
+      if (!item || typeof item !== "object") return null;
+      const priceRaw = item.price;
+      const normalizedPrice = priceRaw === null || priceRaw === undefined || priceRaw === ""
+        ? null
+        : (Number.isFinite(Number(priceRaw)) && Number(priceRaw) > 0
+          ? Number(priceRaw)
+          : null);
+      return {
+        ...item,
+        title: String(item.title || item.name || "").trim(),
+        category: String(item.category || fallbackCategory).trim(),
+        price: normalizedPrice
+      };
+    };
+
+    if (Array.isArray(payload?.items)) {
+      return payload.items
+        .map((item) => normalizeItem(item))
+        .filter(Boolean);
+    }
+
+    const categories = Array.isArray(payload?.categories) ? payload.categories : [];
+    if (!categories.length) return [];
+
+    const flattened = [];
+    categories.forEach((categoryEntry) => {
+      const fallbackCategory = String(categoryEntry?.name || categoryEntry?.key || "").trim();
+      const categoryItems = Array.isArray(categoryEntry?.items) ? categoryEntry.items : [];
+      categoryItems.forEach((item) => {
+        const normalized = normalizeItem(item, fallbackCategory);
+        if (!normalized) return;
+        flattened.push(normalized);
+      });
+    });
+    return flattened;
   } catch (_error) {
     return [];
   }
+}
+async function loadFeaturedItems() {
+  try {
+    const fetchFirstAvailableJson = async (endpoints = []) => {
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, { cache: "no-store" });
+          if (!response.ok) continue;
+          return await response.json();
+        } catch (_error) {
+          // Try next endpoint variant.
+        }
+      }
+      return null;
+    };
+    const payload = await fetchFirstAvailableJson([
+      "/content/featured.json",
+      "content/featured.json"
+    ]);
+    const events = Array.isArray(payload?.events) ? payload.events : [];
+    const flattened = [];
+    events.forEach((event) => {
+      const eventTitle = String(event?.title || "").trim();
+      const products = Array.isArray(event?.products) ? event.products : [];
+      products.forEach((product) => {
+        const image = String(product?.src || "").trim();
+        const title = String(product?.name || "").trim();
+        const price = Number.isFinite(Number(product?.price)) && Number(product?.price) > 0
+          ? Number(product.price)
+          : null;
+        if (!image || !title) return;
+        flattened.push({
+          category: eventTitle || "Seasonal Collection",
+          title,
+          image,
+          price
+        });
+      });
+    });
+    return flattened;
+  } catch (_error) {
+    return [];
+  }
+}
+function normalizeImagePath(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "";
+  if (/^(https?:)?\/\//i.test(raw)) return raw.toLowerCase();
+  const cleaned = raw.replace(/^\.?\//, "");
+  return `/${cleaned}`.toLowerCase();
+}
+function findCanonicalGalleryMatch(items, category, image) {
+  const targetImage = normalizeImagePath(image);
+  const targetCategory = normalizeCategoryKey(category);
+  if (!targetImage && !targetCategory) return null;
+  const byImage = items.find((item) => normalizeImagePath(item?.image) === targetImage);
+  if (byImage) return byImage;
+  if (!targetCategory) return null;
+  return items.find((item) => normalizeCategoryKey(item?.category) === targetCategory) || null;
+}
+function findCanonicalFeaturedMatch(items, category, title, image) {
+  const targetImage = normalizeImagePath(image);
+  const targetTitle = normalize(title);
+  const targetCategory = normalize(category);
+  const byImage = items.find((item) => normalizeImagePath(item?.image) === targetImage);
+  if (byImage) return byImage;
+  const byTitleAndCategory = items.find((item) => normalize(item?.title) === targetTitle && normalize(item?.category) === targetCategory);
+  if (byTitleAndCategory) return byTitleAndCategory;
+  return items.find((item) => normalize(item?.title) === targetTitle) || null;
+}
+function formatRupiah(value) {
+  if (value === null || value === undefined || value === "") return "";
+  const numeric = Number(String(value).replace(/[^\d.-]/g, ""));
+  if (!Number.isFinite(numeric)) return String(value || "").trim();
+  if (numeric <= 0) return "";
+  return `Rp${new Intl.NumberFormat("id-ID").format(Math.round(numeric))}`;
 }
 function normalizeProductTitle(category, rawTitle, imagePath) {
   const base = rawTitle && rawTitle !== "Product" ? rawTitle : getFileStem(imagePath);
@@ -788,7 +1065,8 @@ function buildWaLink(phone, title) {
 function renderFaq(group, title, image) {
   const wrap = document.getElementById("product-faq");
   if (!(wrap instanceof HTMLElement)) return;
-  const faqs = FAQ_BY_GROUP[group] || FAQ_BY_GROUP.bouquets;
+  const faqGroups = getFaqGroups();
+  const faqs = faqGroups[group] || faqGroups.bouquets;
   const toFaqParagraphs = (content) => String(content || "")
     .split(/\n+/)
     .map((part) => part.trim())
@@ -834,15 +1112,47 @@ function renderFaq(group, title, image) {
 }
 async function initDetail() {
   const params = new URLSearchParams(window.location.search);
-  const category = decodeParam(params.get("category"));
-  const titleParam = decodeParam(params.get("title")) || "Product";
-  const image = decodeParam(params.get("image"));
+  const requestedCategory = decodeParam(params.get("category"));
+  const requestedTitle = decodeParam(params.get("title")) || "Product";
+  const requestedImage = decodeParam(params.get("image"));
   const priceParam = decodeParam(params.get("price"));
-  const galleryItems = await loadGalleryItems();
-  const rawBaseTitle = normalizeProductTitle(category, titleParam, image);
+  const [galleryItems, featuredItems] = await Promise.all([
+    loadGalleryItems(),
+    loadFeaturedItems()
+  ]);
+  const matchedGalleryItem = findCanonicalGalleryMatch(galleryItems, requestedCategory, requestedImage);
+  const matchedFeaturedItem = matchedGalleryItem
+    ? null
+    : findCanonicalFeaturedMatch(featuredItems, requestedCategory, requestedTitle, requestedImage);
+  const category = String(
+    matchedGalleryItem?.category
+    || matchedFeaturedItem?.category
+    || requestedCategory
+    || ""
+  ).trim();
+  const image = String(
+    matchedGalleryItem?.image
+    || matchedFeaturedItem?.image
+    || requestedImage
+    || ""
+  ).trim();
+  const sourceTitle = String(
+    matchedGalleryItem?.title
+    || matchedFeaturedItem?.title
+    || requestedTitle
+    || "Product"
+  ).trim();
+  const hasExplicitTitle = Boolean(sourceTitle) && normalize(sourceTitle) !== "product";
   const productNumber = getItemNumberInCategory(galleryItems, category, image);
-  const baseTitle = adjustTitleByCategoryNumber(category, rawBaseTitle, productNumber);
-  const title = isFeaturedCategory(category) ? baseTitle : withDisplayNumber(baseTitle, productNumber || 1);
+  const rawBaseTitle = hasExplicitTitle
+    ? sourceTitle
+    : normalizeProductTitle(category, sourceTitle, image);
+  const baseTitle = hasExplicitTitle
+    ? rawBaseTitle
+    : adjustTitleByCategoryNumber(category, rawBaseTitle, productNumber);
+  const title = isFeaturedCategory(category)
+    ? baseTitle
+    : (hasExplicitTitle ? baseTitle : withDisplayNumber(baseTitle, productNumber || 1));
   const imageEl = document.getElementById("product-image");
   const titleEl = document.getElementById("product-title");
   const priceEl = document.getElementById("product-price");
@@ -853,9 +1163,12 @@ async function initDetail() {
     imageEl.alt = title;
   }
   if (titleEl instanceof HTMLElement) titleEl.textContent = title;
+  document.title = `${title} | Marvell Florist`;
   if (priceEl instanceof HTMLElement) {
     const priceText =
-      String(priceParam || "").trim()
+      formatRupiah(matchedGalleryItem?.price)
+      || formatRupiah(matchedFeaturedItem?.price)
+      || formatRupiah(priceParam)
       || (isFeaturedCategory(category) ? resolveFeaturedPriceByTitle(title) : "")
       || resolveSpecialRetailPrice(category, productNumber || 1);
     priceEl.textContent = priceText;
@@ -869,8 +1182,6 @@ async function initDetail() {
     if (isFeaturedCategory(categoryName)) {
       breadcrumbEl.innerHTML = `
         <a href="index.html">Home</a>
-        <span aria-hidden="true">/</span>
-        <a href="index.html#featured">Featured</a>
         <span aria-hidden="true">/</span>
         <span class="crumb-current">${title}</span>
       `;
@@ -919,6 +1230,60 @@ function renderRelatedProducts(category, currentImage, galleryItems = []) {
       </a>
     `;
   }).join("");
+}
+
+function setupEarlyLazyImageWarmup() {
+  const bindLazyImage = (img, observer) => {
+    if (!(img instanceof HTMLImageElement)) return;
+    if (img.dataset.lazyWarmupBound === "1") return;
+    if ((img.getAttribute("loading") || "").toLowerCase() !== "lazy") return;
+    img.dataset.lazyWarmupBound = "1";
+    img.loading = "eager";
+    img.decoding = "async";
+    warmImage(img);
+    if (observer) observer.observe(img);
+  };
+
+  const warmImage = (img) => {
+    if (!(img instanceof HTMLImageElement)) return;
+    img.loading = "eager";
+    img.decoding = "async";
+    const source = img.currentSrc || img.src;
+    if (!source) return;
+    const preloader = new Image();
+    preloader.decoding = "async";
+    preloader.src = source;
+  };
+
+  const preloadMargin = window.matchMedia("(max-width: 768px)").matches ? 2600 : 3200;
+  const lazyObserver = typeof IntersectionObserver === "function"
+    ? new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const img = entry.target;
+        if (img instanceof HTMLImageElement) warmImage(img);
+        observer.unobserve(entry.target);
+      });
+    }, {
+      root: null,
+      rootMargin: `${preloadMargin}px 0px ${preloadMargin}px 0px`,
+      threshold: 0
+    })
+    : null;
+
+  document.querySelectorAll('img[loading="eager"]').forEach((img) => bindLazyImage(img, lazyObserver));
+
+  if (typeof MutationObserver !== "function" || !(document.body instanceof HTMLElement)) return;
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (!(node instanceof Element)) return;
+        if (node instanceof HTMLImageElement) bindLazyImage(node, lazyObserver);
+        node.querySelectorAll?.('img[loading="eager"]').forEach((img) => bindLazyImage(img, lazyObserver));
+      });
+    });
+  });
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 const contactTrigger = document.getElementById("contact-quick-trigger");
@@ -1006,6 +1371,7 @@ window.addEventListener("resize", syncFooterAccordion);
 
 initDetail();
 syncFooterAccordion();
+setupEarlyLazyImageWarmup();
 </script>
 </body>
 </html>
