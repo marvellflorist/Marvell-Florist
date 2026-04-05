@@ -1827,7 +1827,6 @@ header::after {
   border: 0;
   background: #c7b9ab;
   overflow: hidden;
-  animation: promoStripFade 2.2s ease forwards;
   min-height: var(--promo-strip-height);
   display: block;
   opacity: 0;
@@ -1835,6 +1834,7 @@ header::after {
   transition: transform 0.55s ease, opacity 0.55s ease;
 }
 body.has-promo-strip .collection-promo-strip {
+  animation: promoStripFade 2.2s ease forwards;
   opacity: 1;
   transform: translateY(0);
 }
@@ -1870,6 +1870,9 @@ body.has-promo-strip .promo-strip-fallback {
   line-height: 1.25;
   letter-spacing: 0.02em;
   text-align: center;
+  opacity: 0;
+}
+body.has-promo-strip .collection-promo-link {
   animation: promoTextFade 1.2s ease forwards;
 }
 .collection-promo-link:hover,
