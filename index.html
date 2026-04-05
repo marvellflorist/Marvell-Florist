@@ -6451,7 +6451,7 @@ body.seasonal-popup-open {
   }
   .mobile-safe-area-fill--top {
     top: 0;
-    height: env(safe-area-inset-top, 0px);
+    height: max(env(safe-area-inset-top, 0px), var(--promo-offset));
     background: var(--theme-header-bar-bg);
     z-index: 49;
   }
@@ -6462,13 +6462,14 @@ body.seasonal-popup-open {
     z-index: 49;
   }
   header {
+    background: var(--theme-header-bar-bg);
     padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px;
     justify-content: space-between;
     gap: 10px;
     height: calc(62px + env(safe-area-inset-top, 0px));
   }
   header::before {
-    display: block;
+    display: none;
     height: calc(62px + env(safe-area-inset-top, 0px));
   }
   header::after {
@@ -8468,7 +8469,7 @@ body.seasonal-popup-open {
 }
 </style>
 </head>
-<body class="edition-i text-reveal-anim text-reveal-pending intro-scroll-lock desktop-header-hero-mode desktop-promo-deferred">
+<body class="edition-i text-reveal-anim text-reveal-pending intro-scroll-lock">
 <div class="mobile-safe-area-fill mobile-safe-area-fill--top" aria-hidden="true"></div>
 <div class="mobile-safe-area-fill mobile-safe-area-fill--bottom" aria-hidden="true"></div>
 <div id="intro">

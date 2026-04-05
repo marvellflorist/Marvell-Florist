@@ -43,10 +43,13 @@ function setSeasonalAvailabilityState(isActive) {
   });
 
   const promoStrip = document.querySelector(".collection-promo-strip");
-  if (promoStrip instanceof HTMLElement) promoStrip.hidden = !isActive;
+  if (promoStrip instanceof HTMLElement) {
+    promoStrip.hidden = false;
+    promoStrip.setAttribute("aria-hidden", isActive ? "false" : "true");
+  }
 
   const promoFallback = document.querySelector(".promo-strip-fallback");
-  if (promoFallback instanceof HTMLElement) promoFallback.hidden = !isActive;
+  if (promoFallback instanceof HTMLElement) promoFallback.hidden = false;
 
   const searchFeaturedBlock = document.getElementById("search-featured-block");
   if (searchFeaturedBlock instanceof HTMLElement) searchFeaturedBlock.hidden = !isActive;
