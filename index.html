@@ -6442,6 +6442,9 @@ body.seasonal-popup-open {
   :root {
     --promo-strip-height: calc(40px + env(safe-area-inset-top, 0px));
   }
+  body.has-promo-strip {
+    --promo-offset: 0px;
+  }
   .mobile-safe-area-fill {
     position: fixed;
     left: 0;
@@ -6451,9 +6454,13 @@ body.seasonal-popup-open {
   }
   .mobile-safe-area-fill--top {
     top: 0;
-    height: max(env(safe-area-inset-top, 0px), var(--promo-offset));
+    height: env(safe-area-inset-top, 0px);
     background: var(--theme-header-bar-bg);
-    z-index: 49;
+    z-index: 48;
+    transition: none;
+  }
+  body.has-promo-strip .mobile-safe-area-fill--top {
+    opacity: 0;
   }
   .mobile-safe-area-fill--bottom {
     bottom: 0;
@@ -6462,22 +6469,32 @@ body.seasonal-popup-open {
     z-index: 49;
   }
   header {
-    background: var(--theme-header-bar-bg);
-    padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px;
-    justify-content: space-between;
-    gap: 10px;
-    height: calc(62px + env(safe-area-inset-top, 0px));
+    top: 0;
+    padding: 0 16px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 0;
+    height: calc(72px + env(safe-area-inset-top, 0px));
+    background: transparent;
+  }
+  .header-bar {
+    width: 100%;
+    height: 72px;
+    min-height: 72px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
   }
   header::before {
-    display: none;
-    height: calc(62px + env(safe-area-inset-top, 0px));
+    display: block;
+    top: 0;
+    height: calc(72px + env(safe-area-inset-top, 0px));
+    background: var(--theme-header-bar-bg);
+    border-bottom: 1px solid rgba(157, 133, 101, 0.24);
+    transition: none;
   }
   header::after {
     display: none;
-  }
-  header > a[aria-label="Go to home page"] {
-    top: calc(env(safe-area-inset-top, 0px) + 12px);
-    left: 16px;
   }
   .header-logo-text {
     font-size: 30px;
@@ -6527,10 +6544,13 @@ body.seasonal-popup-open {
     display: none;
   }
   .collection-promo-strip {
-    top: 0;
+    top: calc(72px + env(safe-area-inset-top, 0px));
+  }
+  .promo-strip-fallback {
+    top: calc(72px + env(safe-area-inset-top, 0px));
   }
   .collection-promo-track {
-    padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+    padding-top: 8px;
     padding-bottom: 8px;
   }
   .menu-view {
@@ -8069,7 +8089,7 @@ body.seasonal-popup-open {
 #services .service-title {
   margin: 0 !important;
   font-family: "Relationship of Melodrame", "RelationshipDisplay", serif !important;
-  font-size: clamp(24px, 2.7vw, 34px) !important;
+  font-size: clamp(22px, 2.2vw, 30px) !important;
   font-weight: 400 !important;
   line-height: 0.92 !important;
   letter-spacing: 0.01em !important;
@@ -8192,7 +8212,7 @@ body.seasonal-popup-open {
     display: block !important;
   }
   #services .contact-title-composed {
-    font-size: clamp(18px, 4.8vw, 22px) !important;
+    font-size: clamp(16px, 4.2vw, 20px) !important;
     line-height: 1.2 !important;
     letter-spacing: 0.03em !important;
     text-transform: uppercase !important;
@@ -8248,7 +8268,8 @@ body.seasonal-popup-open {
     padding: 22px !important;
   }
   #services .service-title {
-    font-size: clamp(18px, 5.8vw, 24px) !important;
+    font-size: clamp(16px, 5vw, 21px) !important;
+    white-space: nowrap !important;
   }
   #services .service-desc {
     font-size: 15px !important;
@@ -8456,10 +8477,8 @@ body.seasonal-popup-open {
 /* Match Services headings to Discover Our Story / V-Portfolio / Ramadan and Eid Collection typography */
 #services .contact-title-strong,
 #services .contact-title-mobile {
-  font-family: "Inter Tight", sans-serif !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.01em !important;
-  text-transform: none !important;
+  font: inherit !important;
+  color: inherit !important;
 }
 #services .service-title {
   font-family: "Relationship of Melodrame", "RelationshipDisplay", serif !important;
@@ -12268,8 +12287,7 @@ function initializeGlobalTextRevealAnimations() {
     "#featured .featured-lead",
     "#about .about-heading",
     "#about .about-slogan",
-    "#services .contact-intro h1",
-    "#services .contact-slogan"
+    "#services .contact-intro"
   ].join(", ")));
   textTargets.forEach((item, index) => {
     prepareGalleryRevealItem(item, (index % 8) * 120, observer);
