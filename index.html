@@ -5326,7 +5326,7 @@ body.seasonal-popup-open {
 .reviews-headline .reviews-stars {
   display: block;
   font-family: "Inter Tight", sans-serif;
-  font-size: 22px;
+  font-size: 28px;
   letter-spacing: 0.08em;
   color: #2f353c;
   margin: 0 0 4px;
@@ -5336,11 +5336,11 @@ body.seasonal-popup-open {
   display: block;
   margin-top: 4px;
   font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-  font-size: clamp(26px, 2.4vw, 36px);
-  line-height: 1.05;
-  letter-spacing: 0.02em;
+  font-size: clamp(40px, 4.8vw, 68px);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
   color: inherit;
-  font-weight: 700;
+  font-weight: 400;
   text-shadow: none;
 }
 .reviews-meta-line {
@@ -6442,6 +6442,25 @@ body.seasonal-popup-open {
   :root {
     --promo-strip-height: calc(40px + env(safe-area-inset-top, 0px));
   }
+  .mobile-safe-area-fill {
+    position: fixed;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    display: block;
+  }
+  .mobile-safe-area-fill--top {
+    top: 0;
+    height: env(safe-area-inset-top, 0px);
+    background: var(--theme-header-bar-bg);
+    z-index: 49;
+  }
+  .mobile-safe-area-fill--bottom {
+    bottom: 0;
+    height: env(safe-area-inset-bottom, 0px);
+    background: var(--footer-offwhite);
+    z-index: 49;
+  }
   header {
     padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px;
     justify-content: space-between;
@@ -6979,7 +6998,7 @@ body.seasonal-popup-open {
   }
   .reviews-headline .reviews-stars {
     display: block;
-    font-size: 16px;
+    font-size: 22px;
     letter-spacing: 0.12em;
     color: #2a2118;
     margin: 0 0 4px;
@@ -6988,9 +7007,9 @@ body.seasonal-popup-open {
   .reviews-headline .reviews-rating-line {
     display: block;
     font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-    font-size: 18px;
-    line-height: 1.05;
-    letter-spacing: 0.02em;
+    font-size: clamp(30px, 8.2vw, 48px);
+    line-height: 0.94;
+    letter-spacing: 0.01em;
     color: #2a2118;
     font-weight: 400;
     text-shadow: none;
@@ -8090,6 +8109,8 @@ body.seasonal-popup-open {
   display: grid !important;
   grid-template-rows: 0fr !important;
   width: min(100%, 360px) !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
   transition: grid-template-rows 280ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease !important;
   opacity: 0 !important;
 }
@@ -8099,6 +8120,7 @@ body.seasonal-popup-open {
 }
 #services .service-body-inner {
   min-height: 0 !important;
+  width: 100% !important;
   overflow: hidden !important;
   display: grid !important;
   gap: 0 !important;
@@ -8447,6 +8469,8 @@ body.seasonal-popup-open {
 </style>
 </head>
 <body class="edition-i text-reveal-anim text-reveal-pending intro-scroll-lock desktop-header-hero-mode desktop-promo-deferred">
+<div class="mobile-safe-area-fill mobile-safe-area-fill--top" aria-hidden="true"></div>
+<div class="mobile-safe-area-fill mobile-safe-area-fill--bottom" aria-hidden="true"></div>
 <div id="intro">
   <img src="assets/logo2.svg" alt="Marvell Florist Logo" loading="lazy" decoding="async">
 </div>
@@ -8841,7 +8865,7 @@ body.seasonal-popup-open {
 <section id="reviews">
   <div class="section-content">
     <div class="reviews-header">
-      <p class="reviews-headline"><span class="reviews-stars" aria-hidden="true">★★★★★</span> 5.0 Rating Rata-Rata</p>
+      <p class="reviews-headline"><span class="reviews-stars" aria-hidden="true">★★★★★</span><span class="reviews-rating-line">5.0 Rating Rata-Rata</span></p>
       <p class="reviews-slogan">Ulasan nyata dari pelanggan yang mempercayakan momen mereka kepada Marvell Florist.</p>
     </div>
     <div class="reviews-divider" aria-hidden="true"></div>
@@ -12499,7 +12523,8 @@ function initializeReviewsCarousel() {
   const reviewsHeadline = document.querySelector("#reviews .reviews-headline");
   const reviewsMetaLine = document.querySelector("#reviews .reviews-meta-line");
   if (reviewsHeadline) {
-    reviewsHeadline.innerHTML = '<span class="reviews-stars" aria-hidden="true">★★★★★</span><span class="reviews-rating-line">Rated 5.0 on Google</span>';
+    const ratingLine = reviewsHeadline.querySelector(".reviews-rating-line");
+    if (ratingLine instanceof HTMLElement) ratingLine.textContent = "Rated 5.0 on Google";
   }
   if (reviewsMetaLine) {
     reviewsMetaLine.textContent = "From our valued customers.";

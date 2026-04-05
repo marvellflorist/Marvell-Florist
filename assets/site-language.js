@@ -717,9 +717,9 @@
       setSelectorText(".service-link", t("Get Store Directions", "Lihat Arah Toko"), serviceCards[2]);
     }
 
-    setSelectorHtml(".reviews-headline", currentLanguage === "id"
-      ? '<span class="reviews-stars" aria-hidden="true">\u2605\u2605\u2605\u2605\u2605</span> 5.0 Rating Rata-Rata'
-      : '<span class="reviews-stars" aria-hidden="true">\u2605\u2605\u2605\u2605\u2605</span> 5.0 Average Rating');
+    setSelectorText(".reviews-rating-line", currentLanguage === "id"
+      ? "5.0 Rating Rata-Rata"
+      : "5.0 Average Rating");
     setSelectorText(".reviews-slogan", t("Real reviews from customers who trust Marvell Florist with their important moments.", "Ulasan nyata dari pelanggan yang mempercayakan momen mereka kepada Marvell Florist."));
     setSelectorText(".reviews-cta", t("Write a Review on Google", "Tulis Ulasan di Google"));
 
