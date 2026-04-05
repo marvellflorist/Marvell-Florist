@@ -1722,6 +1722,7 @@ body.portfolio-gateway-active #site-footer {
   .portfolio-gateway-card {
     min-height: min(86svh, 760px);
     padding: 0;
+    --gateway-overlay-height: clamp(320px, 56vh, 520px);
   }
   .portfolio-gateway-card--intro {
     min-height: min(98svh, 860px);
@@ -1754,6 +1755,9 @@ body.portfolio-gateway-active #site-footer {
     max-width: 11ch;
     white-space: normal;
     text-wrap: balance;
+  }
+  .portfolio-gateway-card[data-category-key="by-request"] img {
+    object-position: 30% center;
   }
   .portfolio-gateway-card-cta {
     font-size: 10px;
