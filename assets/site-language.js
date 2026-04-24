@@ -433,18 +433,18 @@
   function pageNameFromPathname(pathname) {
     const name = String(pathname || "").split("/").pop() || "index.html";
     if (name === "index.html" || name === "") return "home";
-    if (name === "gallery.html") return "gallery";
-    if (name === "product.html") return "product";
-    if (name === "about.html") return "about";
-    if (name === "featured.html") return "featured";
-    if (name === "faq.html") return "faq";
-    if (name === "privacy-policy.html") return "privacy";
-    if (name === "terms-conditions.html") return "terms";
-    if (name === "contact.html") return "contact";
-    if (name === "services.html") return "services";
-    if (name === "custom-arrangements.html") return "custom";
-    if (name === "journals.html") return "stories";
-    if (name === "journal.html") return "story";
+    if (name === "gallery" || name === "gallery.html") return "gallery";
+    if (name === "product" || name === "product.html") return "product";
+    if (name === "about" || name === "about.html") return "about";
+    if (name === "featured" || name === "featured.html") return "featured";
+    if (name === "faq" || name === "faq.html") return "faq";
+    if (name === "privacy-policy" || name === "privacy-policy.html") return "privacy";
+    if (name === "terms-conditions" || name === "terms-conditions.html") return "terms";
+    if (name === "contact" || name === "contact.html") return "contact";
+    if (name === "services" || name === "services.html") return "services";
+    if (name === "custom-arrangements" || name === "custom-arrangements.html") return "custom";
+    if (name === "journals" || name === "journals.html") return "stories";
+    if (name === "journal" || name === "journal.html") return "story";
     return "";
   }
 

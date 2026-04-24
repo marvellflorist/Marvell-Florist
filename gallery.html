@@ -7,10 +7,10 @@
 <meta name="description" content="Browse Marvell Florist collections by category.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#f8f6f1">
-<link rel="canonical" href="https://marvellflorist.com/gallery.html">
+<link rel="canonical" href="https://marvellflorist.com/gallery">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Marvell Florist">
-<meta property="og:url" content="https://marvellflorist.com/gallery.html">
+<meta property="og:url" content="https://marvellflorist.com/gallery">
 <meta property="og:title" content="Gallery | Marvell Florist">
 <meta property="og:description" content="Browse Marvell Florist collections by category.">
 <meta property="og:image" content="https://marvellflorist.com/assets/preview.png?v=2">
@@ -4571,7 +4571,7 @@ function syncGallerySeoMeta(category = activeCategoryState, items = null) {
   const breadcrumbScript = ensureStructuredDataScript("gallery-breadcrumb-structured-data");
 
   if (!category || !category.key) {
-    const genericUrl = `${baseUrl}/gallery.html`;
+    const genericUrl = `${baseUrl}/gallery`;
     const genericTitle = language === "id" ? "Galeri | Marvell Florist" : "Gallery | Marvell Florist";
     const genericDescription = language === "id"
       ? "Jelajahi koleksi Marvell Florist berdasarkan kategori."
@@ -4611,7 +4611,7 @@ function syncGallerySeoMeta(category = activeCategoryState, items = null) {
   }
 
   const { localizedName, localizedSubtitle } = getGalleryCategorySeoContext(category);
-  const categoryUrl = `${baseUrl}/gallery.html?category=${encodeURIComponent(category.key)}`;
+  const categoryUrl = `${baseUrl}/gallery?category=${encodeURIComponent(category.key)}`;
   const categoryImage = category.coverImage ? `${baseUrl}${normalizeAssetPath(category.coverImage)}` : `${baseUrl}/assets/preview.png?v=2`;
   const seoTitle = `${localizedName} | Marvell Florist`;
   const seoDescription = language === "id"

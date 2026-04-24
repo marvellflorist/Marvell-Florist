@@ -9,7 +9,7 @@
 
   function isFeaturedPage() {
     const pathname = window.location.pathname.replace(/\/+$/, "");
-    return pathname.endsWith("/featured.html");
+    return pathname.endsWith("/featured.html") || pathname.endsWith("/featured");
   }
 
   function shouldUsePromoStrip() {

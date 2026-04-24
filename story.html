@@ -7,18 +7,18 @@
 <script>
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("story") || params.get("journal") || "";
-const target = slug ? `journal.html?journal=${encodeURIComponent(slug)}` : "journal.html";
+const target = slug ? `journal?journal=${encodeURIComponent(slug)}` : "journal";
 window.location.replace(target);
 </script>
 </head>
 <body>
-<p><a id="story-redirect-link" href="journal.html">Continue to Journal</a></p>
+<p><a id="story-redirect-link" href="journal">Continue to Journal</a></p>
 <script>
 const link = document.getElementById("story-redirect-link");
 if (link instanceof HTMLAnchorElement) {
   const params = new URLSearchParams(window.location.search);
   const slug = params.get("story") || params.get("journal") || "";
-  link.href = slug ? `journal.html?journal=${encodeURIComponent(slug)}` : "journal.html";
+  link.href = slug ? `journal?journal=${encodeURIComponent(slug)}` : "journal";
 }
 </script>
 </body>

@@ -1,74 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-<url>
-<loc>https://marvellflorist.com/</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/gallery.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/gallery.html?category=standing-flowers</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/gallery.html?category=artificial-flowers</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/gallery.html?category=bouquets</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/gallery.html?category=papan-bunga</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/gallery.html?category=funerals</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/gallery.html?category=parcels</loc>
-</url>
-
-
-<url>
-<loc>https://marvellflorist.com/about.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/contact.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/services.html</loc>
-</url>
-
-
-<url>
-<loc>https://marvellflorist.com/faq.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/privacy-policy.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/terms-conditions.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/featured.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/journals.html</loc>
-</url>
-
-<url>
-<loc>https://marvellflorist.com/journal.html</loc>
-</url>
-
+  <url>
+    <loc>https://marvellflorist.com/</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/gallery</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/gallery?category=standing-flowers</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/gallery?category=artificial-flowers</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/gallery?category=bouquets</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/gallery?category=papan-bunga</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/gallery?category=funerals</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/gallery?category=parcels</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/about</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/contact</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/services</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/faq</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/privacy-policy</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/terms-conditions</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/featured</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/journals</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/journal</loc>
+  </url>
 </urlset>
