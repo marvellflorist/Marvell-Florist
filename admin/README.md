@@ -19,7 +19,8 @@ Akses admin yang benar:
 
 Catatan teknis di repo:
 
-- `netlify.toml` sudah menambahkan redirect `/admin -> /admin/` dan fallback `/admin/* -> /admin/index.html`.
+- `netlify.toml` hanya perlu menjaga redirect `/admin -> /admin/`.
+- Jangan pakai rewrite fallback `/admin/* -> /admin/index.html` di Netlify untuk setup ini, karena bisa memicu loop redirect pada admin live.
 
 ## 2) Struktur konten yang dikelola admin
 
@@ -66,3 +67,13 @@ Lihat SOP lengkap di:
 
 - `admin/SOP-OPERASIONAL-CMS.md`
 - Script uji cepat lokal: `./start-local-cms-test.sh`
+
+## Local admin yang stabil
+
+Untuk admin lokal di `http://127.0.0.1:5500/admin/`:
+
+1. Jalankan `npm install` sekali di root project untuk memasang `decap-server`.
+2. Jalankan `npm run cms:test`.
+3. Biarkan terminal itu tetap terbuka saat memakai CMS.
+
+Jika tab admin dibuka lebih dulu, halaman sekarang akan menunggu proxy lokal beberapa detik dan lanjut otomatis saat backend sudah hidup.

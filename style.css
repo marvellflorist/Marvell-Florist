@@ -5,6 +5,55 @@
   box-sizing: border-box;
 }
 
+/* SITE LOADER (Production) */
+#site-loader { /* Injected by JS */ }
+body.loading { overflow: hidden; }
+
+/* Hero/Carousel Skeletons */
+.loading-hero .hero,
+.loading-hero .custom-hero-media,
+.loading-hero .featured-campaign-hero,
+.loading-hero .portfolio-campaign-hero {
+  background: linear-gradient(90deg, #f3f1ec 0%, #eae6de 50%, #f3f1ec 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-hero .hero::after,
+.loading-hero .custom-hero-media::after,
+.loading-hero .featured-campaign-hero::after,
+.loading-hero .portfolio-campaign-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(47,41,35,0.04);
+}
+
+.loading-gallery #products-grid,
+.loading-gallery .custom-carousel {
+  background: linear-gradient(90deg, #f3f1ec 0%, #eae6de 50%, #f3f1ec 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  min-height: 400px;
+}
+
+/* Shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Content fade-in */
+body:not(.loading) .loading-hero,
+body:not(.loading) .loading-gallery {
+  opacity: 1;
+  transition: opacity 0.4s ease-in;
+}
+
+
+
 html, body {
   width: 100%;
   height: auto;

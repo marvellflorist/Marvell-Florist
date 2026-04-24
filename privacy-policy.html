@@ -13,8 +13,9 @@
   <meta property="og:url" content="https://marvellflorist.com/privacy-policy.html">
   <meta property="og:title" content="Privacy Policy | Marvell Florist">
   <meta property="og:description" content="Read Marvell Florist's privacy policy.">
-  <meta property="og:image" content="https://marvellflorist.com/assets/preview.png">
-  <meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png">
+  <meta property="og:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta property="og:image:url" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png?v=2">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,8 +23,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Privacy Policy | Marvell Florist">
   <meta name="twitter:description" content="Read Marvell Florist's privacy policy.">
-  <meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png">
-  <script src="assets/site-language.js"></script>
+  <meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
+  <script src="assets/site-language.js?v=20260424a"></script>
+  <script src="assets/header-template.js?v=20260424b"></script>
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -31,7 +36,7 @@
   <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     @font-face {
       font-family: "Relationship of Melodrame";
@@ -46,6 +51,9 @@
       --ink: #2f2923;
       --muted: rgba(47, 41, 35, 0.72);
       --line: rgba(63, 54, 45, 0.16);
+      --legal-sidebar-width: clamp(168px, 15vw, 188px);
+      --legal-gap: clamp(18px, 2.8vw, 30px);
+      --legal-content-width: 760px;
     }
     * { box-sizing: border-box; }
     html {
@@ -55,7 +63,7 @@
       margin: 0;
       background: var(--bg);
       color: var(--ink);
-      font-family: "Fraunces", serif;
+      font-family: "Inter Tight", sans-serif;
     }
     header {
       position: fixed;
@@ -125,8 +133,8 @@
       margin-left: auto;
     }
     .search-toggle svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       display: block;
       stroke: currentColor;
       fill: none;
@@ -139,55 +147,232 @@
     }
     .menu-icon {
       display: inline-flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      justify-content: center;
     }
-    .menu-icon span {
-      width: 18px;
-      height: 2px;
-      background: rgba(42, 33, 24, 0.72);
+    .menu-icon svg {
+      width: 20px;
+      height: 20px;
       display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    html {
+      scroll-behavior: smooth;
     }
     main {
-      width: min(900px, 92vw);
+      width: min(1080px, calc(100vw - 32px));
       margin: 0 auto;
-      padding: 106px 0 64px;
+      padding: 106px 0 72px;
+    }
+    .legal-page {
+      display: grid;
+      gap: 32px;
+      align-items: start;
+    }
+    .legal-intro {
+      display: grid;
+      gap: 0;
+      width: min(100%, var(--legal-content-width));
+      margin-left: calc(var(--legal-sidebar-width) + var(--legal-gap));
+      justify-items: center;
+      text-align: center;
     }
     h1 {
-      margin: 0 0 18px;
-      font-family: "Relationship of Melodrame", "Imperial Script", cursive;
-      font-size: clamp(42px, 8vw, 74px);
-      line-height: 0.9;
-      font-weight: 400;
-    }
-    p, li {
-      font-size: clamp(16px, 2vw, 19px);
-      line-height: 1.72;
-      color: var(--muted);
       margin: 0;
+      font-family: "Relationship of Melodrame", serif;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 0.94;
+      font-weight: 400;
+      letter-spacing: 0;
     }
-    ul {
-      margin: 14px 0 18px 20px;
+    .lead {
+      display: none;
+    }
+    .legal-layout {
+      display: grid;
+      grid-template-columns: minmax(0, var(--legal-sidebar-width)) minmax(0, 1fr);
+      column-gap: var(--legal-gap);
+      justify-content: center;
+      align-items: start;
+    }
+    .legal-content {
+      grid-column: 2;
+      grid-row: 1;
+      display: grid;
+      gap: 26px;
+      min-width: 0;
+      width: 100%;
+      max-width: var(--legal-content-width);
+    }
+    .legal-summary,
+    .legal-card,
+    .legal-suite,
+    .legal-toc {
+      border: 0;
+      background: transparent;
+    }
+    .legal-summary {
+      padding: 0 0 2px;
+      display: grid;
+      gap: 8px;
+    }
+    .legal-summary p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.78;
+      color: var(--muted);
+    }
+    .legal-card {
       padding: 0;
+      display: grid;
+      gap: 10px;
+      scroll-margin-top: 92px;
+    }
+    .legal-card + .legal-card {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+    .legal-card-head {
+      display: grid;
+      gap: 6px;
+      align-items: start;
+    }
+    .legal-card-index {
+      margin: 0;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(47, 41, 35, 0.52);
+    }
+    .legal-card-title {
+      margin: 0;
+      font-family: "Inter Tight", sans-serif;
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .legal-card-body {
+      display: grid;
+      gap: 10px;
+    }
+    .legal-card-body p,
+    .legal-card-body li {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--muted);
+    }
+    .legal-card-body ul {
+      margin: 0;
+      padding-left: 18px;
       display: grid;
       gap: 6px;
     }
-    .stack {
+    .legal-sidebar {
+      grid-column: 1;
+      grid-row: 1;
+      width: 100%;
+      position: sticky;
+      top: 96px;
+      align-self: start;
       display: grid;
-      gap: 16px;
+      gap: 18px;
+      padding-top: 6px;
+      min-width: 0;
+      z-index: 2;
     }
-    @media (max-width: 768px) {
-      header {
-        height: 62px;
-        padding: 0 14px;
+    .legal-suite,
+    .legal-toc {
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .legal-suite {
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .legal-suite-label,
+    .legal-toc-label {
+      margin: 0;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(47, 41, 35, 0.58);
+    }
+    .legal-suite-nav,
+    .legal-toc-nav {
+      display: grid;
+      gap: 8px;
+    }
+    .legal-suite-link,
+    .legal-toc-link {
+      display: block;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: rgba(42, 33, 24, 0.82);
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 1.45;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      overflow-wrap: anywhere;
+    }
+    .legal-suite-link.is-active {
+      color: rgba(42, 33, 24, 0.98);
+    }
+    .legal-suite-link:hover,
+    .legal-suite-link:focus-visible,
+    .legal-toc-link:hover,
+    .legal-toc-link:focus-visible {
+      text-decoration: underline;
+      text-underline-offset: 0.1em;
+      outline: none;
+    }
+    .legal-toc-link {
+      color: rgba(47, 41, 35, 0.76);
+    }
+    @media (max-width: 920px) {
+      .legal-intro {
+        width: 100%;
+        margin-left: 0;
       }
-      header::before,
-      .header-bar {
-        height: 62px;
+      .legal-page {
+        gap: 16px;
       }
-      .header-logo-text {
-        font-size: 28px;
+      .legal-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        justify-content: stretch;
       }
+      .legal-content,
+      .legal-sidebar {
+        grid-column: 1;
+        grid-row: auto;
+        position: static;
+        width: auto;
+        padding-top: 0;
+      }
+      .legal-sidebar {
+        order: 1;
+      }
+      .legal-content {
+        order: 2;
+      }
+      .legal-toc {
+        order: 1;
+      }
+      .legal-suite {
+        order: 2;
+      }
+    }
+    @media (max-width: 899px) {
       .header-contact {
         display: none;
       }
@@ -195,18 +380,40 @@
       .menu-toggle {
         gap: 0;
       }
+      .menu-toggle {
+        padding: 0;
+      }
       .search-toggle .search-label,
       .menu-toggle .menu-label {
         display: none;
       }
+    }
+    @media (max-width: 768px) {
       main {
-        padding-top: 92px;
+        width: min(100vw - 24px, 760px);
+        padding-top: 102px;
+        padding-bottom: 56px;
+      }
+      h1 {
+        font-size: clamp(42px, 15vw, 64px);
+      }
+      .legal-card-head {
+        gap: 10px;
+      }
+      .legal-card-title {
+        font-size: 14px;
+      }
+      .legal-card-body p,
+      .legal-card-body li,
+      .legal-summary p,
+      .lead {
+        font-size: 12px;
+      }
+      .legal-suite-link,
+      .legal-toc-link {
+        font-size: 11px;
       }
     }
-</style>
-<style>
-.search-toggle { display: none !important; }
-.menu-toggle { margin-left: auto !important; }
 </style>
 </head>
 <body>
@@ -217,29 +424,225 @@
         <span class="header-logo-text">Marvell Florist</span>
       </a>
       <a class="search-toggle" href="index.html?search" aria-label="Open search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
         <span class="search-label">Cari</span>
       </a>
-      <a class="menu-toggle" href="index.html#home" aria-label="Go to home">
-        <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      <button class="menu-toggle" type="button" aria-label="Open menu">
+        <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg></span>
         <span class="menu-label">Menu</span>
-      </a>
+      </button>
     </div>
   </header>
   <main>
-    <h1>Kebijakan Privasi</h1>
-    <div class="stack">
-      <p>Marvell Florist respects your privacy.</p>
-      <p>This website does not directly collect personal data. However, when you contact us through WhatsApp or other platforms, we may receive information such as your name and contact details.</p>
-      <p>This information is used solely to:</p>
-      <ul>
-        <li>respond to inquiries</li>
-        <li>provide services and arrangements</li>
-      </ul>
-      <p>We do not sell, share, or distribute your personal information to third parties.</p>
-      <p>Some basic technical data (such as IP address or browser type) may be processed automatically to ensure the website functions properly.</p>
-      <p>If you have any questions, you may contact us through WhatsApp.</p>
+    <div class="legal-page">
+      <div class="legal-intro">
+        <h1>Privacy Policy</h1>
+        <p class="lead">A clearer summary of what information may be collected, why it is used, how it is handled, and how customers can contact us about privacy-related requests.</p>
+      </div>
+      <div class="legal-layout">
+        <div class="legal-content">
+          <section class="legal-summary" aria-label="Privacy summary">
+            <p>At Marvell Florist, discretion is part of the experience. We only collect the information needed to guide each arrangement with care, precision, and personal attention.</p>
+          </section>
+
+          <section class="legal-card" id="privacy-01">
+            <div class="legal-card-head">
+              <p class="legal-card-index">01</p>
+              <h2 class="legal-card-title">Overview</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>This policy explains how Marvell Florist handles customer information when you browse the website, contact us, or place an order.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-02">
+            <div class="legal-card-head">
+              <p class="legal-card-index">02</p>
+              <h2 class="legal-card-title">Why we collect information</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Your information helps us respond properly, coordinate timing and delivery, support consultation, share order updates, and understand how the website is used.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-03">
+            <div class="legal-card-head">
+              <p class="legal-card-index">03</p>
+              <h2 class="legal-card-title">What we may collect</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>We may collect contact details such as your name, phone number, email address, or messaging preference.</p>
+              <p>We may also collect order-related details such as arrangement type, occasion, personalization notes, color preference, recipient information, and delivery instructions.</p>
+              <p>When you browse the site, technical data such as device, browser, page visits, clicks, and on-device preference settings may also be stored or recorded.</p>
+              <p>This includes browser-side preferences such as language, wishlist items, intro or seasonal-popup dismissal state, and certain display settings.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-04">
+            <div class="legal-card-head">
+              <p class="legal-card-index">04</p>
+              <h2 class="legal-card-title">How information is collected</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Most personal information is provided directly by you when you message us, request consultation, or place an order through WhatsApp, Instagram, or other contact channels.</p>
+              <p>Some technical information is collected automatically through browser storage and Google Analytics.</p>
+              <p>The website also records certain interaction events, including clicks on WhatsApp links, to understand which contact paths are being used.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-05">
+            <div class="legal-card-head">
+              <p class="legal-card-index">05</p>
+              <h2 class="legal-card-title">Sharing information</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>We do not sell personal information.</p>
+              <p>Information may be shared only when needed to complete or support your order, such as with delivery support or event coordination at your request.</p>
+              <p>Third-party services such as WhatsApp, Instagram, email providers, Google Analytics, Shopee, or Tokopedia may process information according to their own policies when you use those services.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-06">
+            <div class="legal-card-head">
+              <p class="legal-card-index">06</p>
+              <h2 class="legal-card-title">Storage and retention</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Information shared directly with us is kept only as long as needed to complete your order, provide follow-up support, or maintain service records where appropriate.</p>
+              <p>Preference data stored in your browser, such as language, wishlist, intro, seasonal-popup, or display settings, may remain until you clear them yourself.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-07">
+            <div class="legal-card-head">
+              <p class="legal-card-index">07</p>
+              <h2 class="legal-card-title">Your choices</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>You may request access to, correction of, or deletion of the information you have shared directly with us, and you may opt out of future communication at any time by contacting us.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-08">
+            <div class="legal-card-head">
+              <p class="legal-card-index">08</p>
+              <h2 class="legal-card-title">Security</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>We take reasonable steps to protect information through limited internal access, controlled order handling, and the secure communication channels provided by the services we use.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="privacy-09">
+            <div class="legal-card-head">
+              <p class="legal-card-index">09</p>
+              <h2 class="legal-card-title">Contact</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>For privacy-related requests, please contact Marvell Florist in Batam, Indonesia.</p>
+              <ul>
+                <li>WhatsApp: +62 812 7501 7456</li>
+                <li>Email: floristmarvell@gmail.com</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <aside class="legal-sidebar">
+          <section class="legal-suite">
+            <p class="legal-suite-label">Customer Information</p>
+            <nav class="legal-suite-nav" aria-label="Customer information pages">
+              <a class="legal-suite-link" href="faq.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">FAQ</a>
+              <a class="legal-suite-link is-active" href="privacy-policy.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">Privacy</a>
+              <a class="legal-suite-link" href="terms-conditions.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">Terms</a>
+              <a class="legal-suite-link" href="contact.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">Contact</a>
+            </nav>
+          </section>
+          <section class="legal-toc" aria-label="Privacy contents">
+            <p class="legal-toc-label">Contents</p>
+            <nav class="legal-toc-nav">
+              <a class="legal-toc-link" href="#privacy-01" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-01', event) : true;">01. Overview</a>
+              <a class="legal-toc-link" href="#privacy-02" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-02', event) : true;">02. Why we collect information</a>
+              <a class="legal-toc-link" href="#privacy-03" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-03', event) : true;">03. What we may collect</a>
+              <a class="legal-toc-link" href="#privacy-04" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-04', event) : true;">04. How information is collected</a>
+              <a class="legal-toc-link" href="#privacy-05" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-05', event) : true;">05. Sharing information</a>
+              <a class="legal-toc-link" href="#privacy-06" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-06', event) : true;">06. Storage and retention</a>
+              <a class="legal-toc-link" href="#privacy-07" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-07', event) : true;">07. Your choices</a>
+              <a class="legal-toc-link" href="#privacy-08" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-08', event) : true;">08. Security</a>
+              <a class="legal-toc-link" href="#privacy-09" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-09', event) : true;">09. Contact</a>
+            </nav>
+          </section>
+        </aside>
+      </div>
     </div>
   </main>
+<script src="assets/shared-contact.js?v=20260414g"></script>
+<script src="assets/shared-footer.js?v=20260423j"></script>
+<script src="assets/favorites.js?v=20260422b"></script>
+<script src="assets/secondary-menu.js?v=20260424e"></script>
+<script>
+  (function () {
+    window.MarvellLegalNav = window.MarvellLegalNav || {
+      go: function (href, event) {
+        if (event) event.preventDefault();
+        window.location.href = href;
+        return false;
+      },
+      jump: function (id, event) {
+        if (event) event.preventDefault();
+        var target = document.getElementById(id);
+        if (!(target instanceof HTMLElement)) return false;
+        var top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
+        window.history.replaceState(null, "", "#" + id);
+        window.scrollTo({ top: top, behavior: "smooth" });
+        return false;
+      }
+    };
+
+    function bindLegalLinks() {
+      document.addEventListener("click", function (event) {
+        var link = event.target && event.target.closest ? event.target.closest(".legal-suite-link, .legal-toc-link") : null;
+        if (!(link instanceof HTMLAnchorElement)) return;
+        if (event.defaultPrevented) return;
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+        var href = link.getAttribute("href") || "";
+        if (!href) return;
+
+        if (href.charAt(0) === "#") {
+          var target = document.getElementById(href.slice(1));
+          if (!(target instanceof HTMLElement)) return;
+          event.preventDefault();
+          var top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
+          window.history.replaceState(null, "", href);
+          window.scrollTo({ top: top, behavior: "smooth" });
+          return;
+        }
+
+        try {
+          var destination = new URL(link.href, window.location.href);
+          if (destination.origin === window.location.origin && destination.pathname === window.location.pathname && destination.hash) {
+            var hashTarget = document.getElementById(destination.hash.slice(1));
+            if (!(hashTarget instanceof HTMLElement)) return;
+            event.preventDefault();
+            var hashTop = Math.max(0, hashTarget.getBoundingClientRect().top + window.scrollY - 96);
+            window.history.replaceState(null, "", destination.hash);
+            window.scrollTo({ top: hashTop, behavior: "smooth" });
+            return;
+          }
+        } catch (_error) {}
+
+        event.preventDefault();
+        window.location.href = link.href;
+      }, true);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bindLegalLinks, { once: true });
+    } else {
+      bindLegalLinks();
+    }
+  })();
+</script>
 </body>
 </html>

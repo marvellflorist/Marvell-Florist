@@ -1,22 +1,10 @@
 {
   "categories": [
     {
-      "key": "standing-flowers",
-      "name": "Standing Flowers",
-      "subtitle": "Standing flowers untuk dekorasi acara dan kebutuhan display formal.",
-      "phone": "6281275017456",
+      "matchCategories": [],
       "coverImage": "/assets/standingcover.webp",
-      "aliases": [
-        {
-          "value": "standing flowers"
-        },
-        {
-          "value": "standing flower"
-        }
-      ],
-      "matchCategories": [
-
-      ],
+      "priceMin": 1000000,
+      "name": "Standing Flowers",
       "filterGroups": [
         {
           "id": "color",
@@ -47,6 +35,18 @@
               "label": "Orange"
             },
             {
+              "id": "peach",
+              "label": "Peach"
+            },
+            {
+              "id": "brown",
+              "label": "Brown"
+            },
+            {
+              "id": "gray",
+              "label": "Gray"
+            },
+            {
               "id": "green",
               "label": "Green"
             },
@@ -58,7 +58,7 @@
         },
         {
           "id": "flower-condition",
-          "label": "Flower Condition",
+          "label": "Flower Type",
           "options": [
             {
               "id": "artificial",
@@ -76,7 +76,7 @@
         },
         {
           "id": "flower-type",
-          "label": "Flower Type",
+          "label": "Flowers",
           "options": [
             {
               "id": "mawar",
@@ -105,33 +105,28 @@
           ]
         }
       ],
-      "enablePriceFilter": true,
-      "priceMin": 1000000,
-      "priceMax": 1500000,
-      "showOnHome": true,
-      "showInGallery": true,
-      "order": 1
-    },
-    {
-      "key": "artificial-flowers",
-      "name": "Artificial Flowers",
-      "subtitle": "Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.",
       "phone": "6281275017456",
-      "coverImage": "/assets/artificialcover.webp",
+      "order": 1,
+      "showInGallery": true,
+      "subtitle": "Standing flowers untuk dekorasi acara dan kebutuhan display formal.",
+      "showOnHome": true,
+      "priceMax": 1500000,
+      "enablePriceFilter": true,
       "aliases": [
         {
-          "value": "artificial flowers"
+          "value": "standing flowers"
         },
         {
-          "value": "artificial flower arrangements"
-        },
-        {
-          "value": "artificial"
+          "value": "standing flower"
         }
       ],
-      "matchCategories": [
-
-      ],
+      "key": "standing-flowers"
+    },
+    {
+      "matchCategories": [],
+      "coverImage": "/assets/artificialcover.webp",
+      "priceMin": 200000,
+      "name": "Table Arrangements",
       "filterGroups": [
         {
           "id": "type",
@@ -176,6 +171,18 @@
               "label": "Orange"
             },
             {
+              "id": "peach",
+              "label": "Peach"
+            },
+            {
+              "id": "brown",
+              "label": "Brown"
+            },
+            {
+              "id": "gray",
+              "label": "Gray"
+            },
+            {
               "id": "green",
               "label": "Green"
             },
@@ -184,96 +191,10 @@
               "label": "Mixed"
             }
           ]
-        }
-      ],
-      "enablePriceFilter": true,
-      "priceMin": 200000,
-      "priceMax": 450000,
-      "showOnHome": true,
-      "showInGallery": true,
-      "order": 2
-    },
-    {
-      "key": "bouquets",
-      "name": "Bouquets",
-      "subtitle": "Bouquet custom untuk hadiah, perayaan, dan momen spesial.",
-      "phone": "6281275017456",
-      "coverImage": "/assets/bouquetcover.webp",
-      "aliases": [
-        {
-          "value": "bouquets"
-        },
-        {
-          "value": "bouquet"
-        }
-      ],
-      "matchCategories": [
-
-      ],
-      "filterGroups": [
-        {
-          "id": "color",
-          "label": "Color",
-          "options": [
-            {
-              "id": "white",
-              "label": "White"
-            },
-            {
-              "id": "red",
-              "label": "Red"
-            },
-            {
-              "id": "pink",
-              "label": "Pink"
-            },
-            {
-              "id": "purple",
-              "label": "Purple"
-            },
-            {
-              "id": "yellow",
-              "label": "Yellow"
-            },
-            {
-              "id": "orange",
-              "label": "Orange"
-            },
-            {
-              "id": "blue",
-              "label": "Blue"
-            },
-            {
-              "id": "mixed",
-              "label": "Mixed"
-            }
-          ]
-        },
-        {
-          "id": "size",
-          "label": "Size",
-          "options": [
-            {
-              "id": "small",
-              "label": "Small"
-            },
-            {
-              "id": "medium",
-              "label": "Medium"
-            },
-            {
-              "id": "large",
-              "label": "Large"
-            },
-            {
-              "id": "grand",
-              "label": "Grand"
-            }
-          ]
         },
         {
           "id": "flower-condition",
-          "label": "Flower Condition",
+          "label": "Flower Type",
           "options": [
             {
               "id": "artificial",
@@ -291,7 +212,7 @@
         },
         {
           "id": "flower-type",
-          "label": "Flower Type",
+          "label": "Flowers",
           "options": [
             {
               "id": "mawar",
@@ -344,33 +265,208 @@
           ]
         }
       ],
-      "enablePriceFilter": true,
-      "priceMin": 120000,
-      "priceMax": 200000,
-      "showOnHome": true,
-      "showInGallery": true,
-      "order": 3
-    },
-    {
-      "key": "papan-bunga",
-      "name": "Papan Bunga",
-      "subtitle": "Papan bunga ucapan untuk pernikahan, wisuda, belasungkawa, dan ucapan sukses.",
       "phone": "6281275017456",
-      "coverImage": "/assets/papancover.webp",
+      "order": 2,
+      "showInGallery": true,
+      "subtitle": "Rangkaian meja untuk kebutuhan dekoratif dan display jangka panjang.",
+      "showOnHome": true,
+      "priceMax": 450000,
+      "enablePriceFilter": true,
       "aliases": [
         {
-          "value": "papan bunga"
+          "value": "table arrangements"
         },
         {
-          "value": "flower boards"
+          "value": "table arrangement"
         },
         {
-          "value": "papan"
+          "value": "rangkaian meja"
+        },
+        {
+          "value": "artificial flowers"
+        },
+        {
+          "value": "artificial flower arrangements"
+        },
+        {
+          "value": "artificial"
         }
       ],
-      "matchCategories": [
-
+      "key": "artificial-flowers"
+    },
+    {
+      "matchCategories": [],
+      "coverImage": "/assets/bouquetcover.webp",
+      "priceMin": 120000,
+      "name": "Bouquets",
+      "filterGroups": [
+        {
+          "id": "color",
+          "label": "Color",
+          "options": [
+            {
+              "id": "white",
+              "label": "White"
+            },
+            {
+              "id": "red",
+              "label": "Red"
+            },
+            {
+              "id": "pink",
+              "label": "Pink"
+            },
+            {
+              "id": "purple",
+              "label": "Purple"
+            },
+            {
+              "id": "yellow",
+              "label": "Yellow"
+            },
+            {
+              "id": "orange",
+              "label": "Orange"
+            },
+            {
+              "id": "peach",
+              "label": "Peach"
+            },
+            {
+              "id": "brown",
+              "label": "Brown"
+            },
+            {
+              "id": "gray",
+              "label": "Gray"
+            },
+            {
+              "id": "blue",
+              "label": "Blue"
+            },
+            {
+              "id": "mixed",
+              "label": "Mixed"
+            }
+          ]
+        },
+        {
+          "id": "size",
+          "label": "Size",
+          "options": [
+            {
+              "id": "small",
+              "label": "Small"
+            },
+            {
+              "id": "medium",
+              "label": "Medium"
+            },
+            {
+              "id": "large",
+              "label": "Large"
+            },
+            {
+              "id": "grand",
+              "label": "Grand"
+            }
+          ]
+        },
+        {
+          "id": "flower-condition",
+          "label": "Flower Type",
+          "options": [
+            {
+              "id": "artificial",
+              "label": "Artificial"
+            },
+            {
+              "id": "fresh",
+              "label": "Fresh"
+            },
+            {
+              "id": "preserved",
+              "label": "Preserved"
+            }
+          ]
+        },
+        {
+          "id": "flower-type",
+          "label": "Flowers",
+          "options": [
+            {
+              "id": "mawar",
+              "label": "Mawar"
+            },
+            {
+              "id": "tulip",
+              "label": "Tulip"
+            },
+            {
+              "id": "anggrek",
+              "label": "Anggrek"
+            },
+            {
+              "id": "lily",
+              "label": "Lily"
+            },
+            {
+              "id": "babys-breath",
+              "label": "Baby's Breath"
+            },
+            {
+              "id": "aster",
+              "label": "Aster"
+            },
+            {
+              "id": "sunflower",
+              "label": "Sunflower"
+            },
+            {
+              "id": "carnation",
+              "label": "Carnation"
+            },
+            {
+              "id": "hydrangea",
+              "label": "Hydrangea"
+            },
+            {
+              "id": "peony",
+              "label": "Peony"
+            },
+            {
+              "id": "gerbera",
+              "label": "Gerbera"
+            },
+            {
+              "id": "chrysanthemum",
+              "label": "Krisan"
+            }
+          ]
+        }
       ],
+      "phone": "6281275017456",
+      "order": 3,
+      "showInGallery": true,
+      "subtitle": "Bouquet custom untuk hadiah, perayaan, dan momen spesial.",
+      "showOnHome": true,
+      "priceMax": 200000,
+      "enablePriceFilter": true,
+      "aliases": [
+        {
+          "value": "bouquets"
+        },
+        {
+          "value": "bouquet"
+        }
+      ],
+      "key": "bouquets"
+    },
+    {
+      "matchCategories": [],
+      "coverImage": "/assets/papancover.webp",
+      "priceMin": 150000,
+      "name": "Papan Bunga",
       "filterGroups": [
         {
           "id": "occasion",
@@ -427,33 +523,31 @@
           ]
         }
       ],
-      "enablePriceFilter": true,
-      "priceMin": 150000,
-      "priceMax": 280000,
-      "showOnHome": true,
+      "phone": "6281275017456",
+      "order": 4,
       "showInGallery": true,
-      "order": 4
-    },
-    {
-      "key": "parcels",
-      "name": "Parcels",
-      "subtitle": "Parcel hadiah untuk perayaan, hampers, dan kebutuhan gifting.",
-      "phone": "628116667920",
-      "coverImage": "/assets/parcelcover.webp",
+      "subtitle": "Papan bunga ucapan untuk pernikahan, wisuda, belasungkawa, dan ucapan sukses.",
+      "showOnHome": true,
+      "priceMax": 280000,
+      "enablePriceFilter": true,
       "aliases": [
         {
-          "value": "parcels"
+          "value": "papan bunga"
         },
         {
-          "value": "parcel"
+          "value": "flower boards"
         },
         {
-          "value": "hampers"
+          "value": "papan"
         }
       ],
-      "matchCategories": [
-
-      ],
+      "key": "papan-bunga"
+    },
+    {
+      "matchCategories": [],
+      "coverImage": "/assets/parcelcover.webp",
+      "priceMin": 450000,
+      "name": "Parcels",
       "filterGroups": [
         {
           "id": "occasion",
@@ -494,39 +588,45 @@
               "label": "Green"
             },
             {
+              "id": "peach",
+              "label": "Peach"
+            },
+            {
+              "id": "brown",
+              "label": "Brown"
+            },
+            {
+              "id": "gray",
+              "label": "Gray"
+            },
+            {
               "id": "mixed",
               "label": "Mixed"
             }
           ]
         }
       ],
-      "enablePriceFilter": true,
-      "priceMin": 450000,
-      "priceMax": 900000,
-      "showOnHome": true,
+      "phone": "628116667920",
+      "order": 5,
       "showInGallery": true,
-      "order": 5
-    },
-    {
-      "key": "funerals",
-      "name": "Funerals",
-      "subtitle": "Rangkaian bunga belasungkawa dan papan duka untuk menyampaikan penghormatan yang tulus.",
-      "phone": "6281275017456",
-      "coverImage": "/assets/funeral.webp",
+      "subtitle": "Parcel hadiah untuk perayaan, hampers, dan kebutuhan gifting.",
+      "showOnHome": true,
+      "priceMax": 900000,
+      "enablePriceFilter": true,
       "aliases": [
         {
-          "value": "funerals"
+          "value": "parcels"
         },
         {
-          "value": "funeral"
+          "value": "parcel"
         },
         {
-          "value": "duka"
-        },
-        {
-          "value": "duka cita"
+          "value": "hampers"
         }
       ],
+      "key": "parcels"
+    },
+    {
       "matchCategories": [
         {
           "value": "funerals"
@@ -541,6 +641,9 @@
           "value": "duka cita"
         }
       ],
+      "coverImage": "/assets/funeral.webp",
+      "priceMin": 150000,
+      "name": "Funerals",
       "filterGroups": [
         {
           "id": "type",
@@ -589,6 +692,18 @@
               "label": "Yellow"
             },
             {
+              "id": "peach",
+              "label": "Peach"
+            },
+            {
+              "id": "brown",
+              "label": "Brown"
+            },
+            {
+              "id": "gray",
+              "label": "Gray"
+            },
+            {
               "id": "green",
               "label": "Green"
             },
@@ -600,7 +715,7 @@
         },
         {
           "id": "flower-type",
-          "label": "Flower Type",
+          "label": "Flowers",
           "options": [
             {
               "id": "mawar",
@@ -625,27 +740,30 @@
           ]
         }
       ],
-      "enablePriceFilter": true,
-      "priceMin": 150000,
-      "priceMax": 1500000,
-      "showOnHome": true,
+      "phone": "6281275017456",
+      "order": 6,
       "showInGallery": true,
-      "order": 6
-    },
-    {
-      "key": "by-request",
-      "name": "By Request",
-      "subtitle": "Kategori custom by request untuk kebutuhan khusus dan konsep personal.",
-      "phone": "628116667457",
-      "coverImage": "/assets/request.webp",
+      "subtitle": "Rangkaian bunga belasungkawa dan papan duka untuk menyampaikan penghormatan yang tulus.",
+      "showOnHome": true,
+      "priceMax": 1500000,
+      "enablePriceFilter": true,
       "aliases": [
         {
-          "value": "by request"
+          "value": "funerals"
         },
         {
-          "value": "custom"
+          "value": "funeral"
+        },
+        {
+          "value": "duka"
+        },
+        {
+          "value": "duka cita"
         }
       ],
+      "key": "funerals"
+    },
+    {
       "matchCategories": [
         {
           "value": "by request"
@@ -660,13 +778,24 @@
           "value": "opening ribbons"
         }
       ],
-      "filterGroups": [
-
-      ],
-      "enablePriceFilter": false,
-      "showOnHome": false,
+      "coverImage": "/assets/request.webp",
+      "name": "By Request",
+      "filterGroups": [],
+      "phone": "628116667457",
+      "order": 7,
       "showInGallery": true,
-      "order": 7
+      "subtitle": "Kategori custom by request untuk kebutuhan khusus dan konsep personal.",
+      "showOnHome": false,
+      "enablePriceFilter": false,
+      "aliases": [
+        {
+          "value": "by request"
+        },
+        {
+          "value": "custom"
+        }
+      ],
+      "key": "by-request"
     }
   ]
 }

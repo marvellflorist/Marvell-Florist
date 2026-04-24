@@ -33,9 +33,6 @@
 <loc>https://marvellflorist.com/gallery.html?category=parcels</loc>
 </url>
 
-<url>
-<loc>https://marvellflorist.com/gallery.html?category=by-request</loc>
-</url>
 
 <url>
 <loc>https://marvellflorist.com/about.html</loc>
@@ -44,6 +41,11 @@
 <url>
 <loc>https://marvellflorist.com/contact.html</loc>
 </url>
+
+<url>
+<loc>https://marvellflorist.com/services.html</loc>
+</url>
+
 
 <url>
 <loc>https://marvellflorist.com/faq.html</loc>
@@ -59,6 +61,14 @@
 
 <url>
 <loc>https://marvellflorist.com/featured.html</loc>
+</url>
+
+<url>
+<loc>https://marvellflorist.com/journals.html</loc>
+</url>
+
+<url>
+<loc>https://marvellflorist.com/journal.html</loc>
 </url>
 
 </urlset>

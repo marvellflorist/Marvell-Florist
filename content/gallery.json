@@ -56,139 +56,139 @@
     },
     {
       "key": "artificial-flowers",
-      "name": "Artificial Flowers",
+      "name": "Table Arrangements",
       "items": [
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-bloombal,whiteblackgold.webp",
           "price": null,
-          "title": "Artificial Flower No. 01"
+          "title": "Table Arrangement No. 01"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-bloombalgoldblack.webp",
           "price": null,
-          "title": "Artificial Flower No. 02"
+          "title": "Table Arrangement No. 02"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-bloombalpinkpurple.webp",
           "price": null,
-          "title": "Artificial Flower No. 03"
+          "title": "Table Arrangement No. 03"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-bloombalredyellowblueflowers.webp",
           "price": null,
-          "title": "Artificial Flower No. 04"
+          "title": "Table Arrangement No. 04"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-bloombalyelloworange.webp",
           "price": null,
-          "title": "Artificial Flower No. 05"
+          "title": "Table Arrangement No. 05"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-blueredgreenwhitepurple.webp",
           "price": null,
-          "title": "Artificial Flower No. 06"
+          "title": "Table Arrangement No. 06"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-bluerosewithsomeredroses.webp",
           "price": null,
-          "title": "Artificial Flower No. 07"
+          "title": "Table Arrangement No. 07"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-greenwhitecrea.webp",
           "price": null,
-          "title": "Artificial Flower No. 08"
+          "title": "Table Arrangement No. 08"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-mf5299.webp",
           "price": 300000,
-          "title": "Artificial Flower No. 09"
+          "title": "Table Arrangement No. 09"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-potredrose.webp",
           "price": null,
-          "title": "Artificial Flower No. 10"
+          "title": "Table Arrangement No. 10"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-potyelloworange.webp",
           "price": null,
-          "title": "Artificial Flower No. 11"
+          "title": "Table Arrangement No. 11"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-redrose,somewhites.webp",
           "price": null,
-          "title": "Artificial Flower No. 12"
+          "title": "Table Arrangement No. 12"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-smallboxredroseblackwhite.webp",
           "price": null,
-          "title": "Artificial Flower No. 13"
+          "title": "Table Arrangement No. 13"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-sunflower,red,yellow,green.webp",
           "price": null,
-          "title": "Artificial Flower No. 14"
+          "title": "Table Arrangement No. 14"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-whitegold.webp",
           "price": null,
-          "title": "Artificial Flower No. 15"
+          "title": "Table Arrangement No. 15"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-whitelily,redrose,yellow.webp",
           "price": null,
-          "title": "Artificial Flower No. 16"
+          "title": "Table Arrangement No. 16"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-whitemaroonredpinkgreen.webp",
           "price": null,
-          "title": "Artificial Flower No. 17"
+          "title": "Table Arrangement No. 17"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-whitebox.webp",
           "price": null,
-          "title": "Artificial Flower No. 18"
+          "title": "Table Arrangement No. 18"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/art-yellowpinkredbasketpot.webp",
           "price": null,
-          "title": "Artificial Flower No. 19"
+          "title": "Table Arrangement No. 19"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/Artificial-yellowbloombox.webp",
           "price": null,
-          "title": "Artificial Flower No. 20"
+          "title": "Table Arrangement No. 20"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/Artificial-yellowbloomboxlight.webp",
           "price": null,
-          "title": "Artificial Flower No. 21"
+          "title": "Table Arrangement No. 21"
         },
         {
-          "category": "Artificial Flowers",
+          "category": "Table Arrangements",
           "image": "/assets/uploads/artificialboxpink450000.webp",
           "price": 450000,
-          "title": "Artificial Flower No. 22"
+          "title": "Table Arrangement No. 22"
         }
       ]
     },
@@ -639,6 +639,18 @@
           "image": "/assets/uploads/pit-ribbonsindoor.webp",
           "price": null,
           "title": "By Request No. 06"
+        },
+        {
+          "image": "/assets/uploads/55983b11-3c42-4804-8bc3-dba09aee8896.jpg",
+          "title": "Marvell Florist X Haidilao"
+        },
+        {
+          "image": "/assets/uploads/fece5b94-eadf-4910-b1fb-893e22661173.jpg",
+          "title": "Marvell Florist X Haidilao"
+        },
+        {
+          "image": "/assets/uploads/47ec897c-34a7-4148-8847-c3afd64230af.jpg",
+          "title": "Marvell Florist X Haidilao"
         }
       ]
     }

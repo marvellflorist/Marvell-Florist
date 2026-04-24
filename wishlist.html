@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wishlist | Marvell Florist</title>
+<meta name="description" content="Review the floral arrangements you saved on this device and compare them in one place.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f8f6f1">
+<link rel="canonical" href="https://marvellflorist.com/wishlist.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/wishlist.html">
+<meta property="og:title" content="Wishlist | Marvell Florist">
+<meta property="og:description" content="Review the floral arrangements you saved on this device and compare them in one place.">
+<meta property="og:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wishlist | Marvell Florist">
+<meta name="twitter:description" content="Review the floral arrangements you saved on this device and compare them in one place.">
+<meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<script src="assets/site-language.js?v=20260424a"></script>
+<script src="assets/header-template.js?v=20260424b"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@font-face {
+  font-family: "RelationshipDisplay";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Relationship of Melodrame";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+:root {
+  --cream: #f8f6f1;
+  --ink: #2f2923;
+  --muted: rgba(47, 41, 35, 0.72);
+  --line: rgba(63, 54, 45, 0.16);
+  --soft: #ece4d9;
+}
+html {
+  scroll-behavior: smooth;
+  background: var(--cream);
+}
+body {
+  font-family: "Inter Tight", sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 80;
+  height: 72px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+header::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: 72px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+  z-index: 1;
+}
+.header-bar {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  z-index: 2;
+  pointer-events: auto;
+}
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.header-logo-text {
+  display: inline-block;
+  font-family: "Imperial Script", cursive;
+  font-size: 32px;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: rgba(42, 33, 24, 0.82);
+}
+.header-contact,
+.search-toggle,
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  background: transparent;
+  border: 0;
+}
+.header-contact:hover,
+.header-contact:focus-visible,
+.search-toggle:hover,
+.search-toggle:focus-visible,
+.menu-toggle:hover,
+.menu-toggle:focus-visible,
+.header-logo:hover,
+.header-logo:focus-visible {
+  opacity: 0.84;
+  outline: none;
+}
+.header-contact::before {
+  content: "+";
+  margin-right: 8px;
+  font-size: 14px;
+  line-height: 1;
+  transform: translateY(-0.5px);
+}
+.search-toggle {
+  margin-left: auto;
+}
+.search-mobile-trigger {
+  display: none;
+  margin-left: auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  min-height: 42px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(42, 33, 24, 0.82);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+.search-mobile-trigger span {
+  display: none;
+}
+.search-mobile-trigger svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.search-toggle svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.menu-toggle {
+  gap: 10px;
+}
+.menu-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+main {
+  padding-top: 72px;
+}
+.wishlist-page {
+  min-height: calc(100vh - 72px);
+}
+.wishlist-page[data-mode="empty"] .wishlist-filled-stage,
+.wishlist-page[data-mode="filled"] .wishlist-empty-stage,
+.wishlist-page [hidden] {
+  display: none !important;
+}
+.wishlist-page[data-mode="empty"] .wishlist-empty-stage {
+  display: block;
+}
+.wishlist-page[data-mode="filled"] .wishlist-filled-stage {
+  display: block;
+}
+.wishlist-empty-stage {
+  --wishlist-empty-hero-height: min(calc(100vh - 72px), 760px);
+  position: relative;
+  z-index: 0;
+  min-height: calc(100vh - 72px);
+}
+.wishlist-empty-hero {
+  position: sticky;
+  top: 72px;
+  z-index: 0;
+  min-height: var(--wishlist-empty-hero-height);
+  background:
+    linear-gradient(90deg, rgba(28, 21, 16, 0.42) 0%, rgba(28, 21, 16, 0.18) 34%, rgba(248, 246, 241, 0.02) 58%),
+    url("assets/empty.webp") center center / cover no-repeat;
+}
+.wishlist-empty-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin-top: calc(-1 * var(--wishlist-empty-hero-height));
+  padding-bottom: 44px;
+}
+.wishlist-empty-shell {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start;
+  gap: clamp(24px, 4vw, 40px);
+  min-height: var(--wishlist-empty-hero-height);
+  padding-top: clamp(118px, 12vw, 150px);
+  padding-bottom: 42px;
+}
+.wishlist-empty-copy-wrap {
+  max-width: 520px;
+  color: #f4eee4;
+}
+.wishlist-kicker {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(244, 238, 228, 0.82);
+}
+.wishlist-divider {
+  margin-top: 10px;
+  width: min(100%, 620px);
+  height: 1px;
+  background: rgba(244, 238, 228, 0.5);
+}
+.wishlist-empty-title {
+  margin-top: 14px;
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+}
+.wishlist-empty-text {
+  margin-top: 14px;
+  max-width: 460px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(244, 238, 228, 0.88);
+}
+.wishlist-empty-actions {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.wishlist-empty-button,
+.wishlist-empty-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 10px 16px;
+  border: 1px solid rgba(244, 238, 228, 0.72);
+  background: rgba(18, 12, 9, 0.84);
+  color: #f8f3ea;
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.wishlist-empty-link {
+  background: rgba(248, 246, 241, 0.08);
+  color: #f8f3ea;
+}
+.wishlist-side-panel {
+  align-self: start;
+  width: min(100%, 320px);
+  background: rgba(250, 248, 243, 0.96);
+  border: 1px solid rgba(63, 54, 45, 0.14);
+  padding: 18px 16px;
+  display: grid;
+  gap: 0;
+  margin-top: 6px;
+}
+.wishlist-side-item {
+  display: grid;
+  gap: 10px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(63, 54, 45, 0.12);
+}
+.wishlist-side-item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.wishlist-side-trigger {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  color: #2f2923;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+}
+.wishlist-side-trigger:hover,
+.wishlist-side-trigger:focus-visible {
+  opacity: 0.76;
+  outline: none;
+}
+.wishlist-side-icon {
+  font-size: 18px;
+  line-height: 1;
+  color: rgba(47, 41, 35, 0.82);
+}
+.wishlist-side-panel-copy {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.28s ease, opacity 0.22s ease;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(47, 41, 35, 0.78);
+}
+.wishlist-side-item.is-open .wishlist-side-panel-copy {
+  max-height: 180px;
+  opacity: 1;
+}
+.wishlist-side-item.is-open .wishlist-side-icon {
+  transform: rotate(45deg);
+}
+.wishlist-filled-hero {
+  position: sticky;
+  top: 72px;
+  z-index: 0;
+  min-height: min(44vw, 420px);
+  background:
+    linear-gradient(180deg, rgba(10, 7, 5, 0.08) 0%, rgba(10, 7, 5, 0.18) 46%, rgba(10, 7, 5, 0.32) 100%),
+    url("assets/wishlist.webp") center 28% / cover no-repeat;
+}
+.wishlist-filled-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  background: linear-gradient(180deg, transparent 0, transparent 60px, var(--cream) 60px, var(--cream) 100%);
+}
+.wishlist-filled-title-wrap {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  margin-top: clamp(-84px, -9vw, -52px);
+  padding: 0 0 16px;
+  position: relative;
+  z-index: 2;
+}
+.wishlist-filled-shell {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  padding: 20px 0 48px;
+}
+.wishlist-flow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 30px;
+  padding-bottom: 12px;
+}
+.wishlist-flow::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(63, 54, 45, 0.18);
+}
+.wishlist-flow-step {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.wishlist-flow-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #f8f6f1;
+  border: 1px solid rgba(63, 54, 45, 0.26);
+}
+.wishlist-flow-step.is-active .wishlist-flow-dot {
+  background: #2f2923;
+  border-color: #2f2923;
+}
+.wishlist-flow-label {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.62);
+}
+.wishlist-flow-step.is-active .wishlist-flow-label {
+  color: #2f2923;
+}
+.wishlist-filled-title {
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: clamp(34px, 4.8vw, 56px);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: #f6f0e8;
+  line-height: 0.96;
+  text-transform: none;
+  text-align: center;
+  text-shadow: 0 12px 28px rgba(16, 12, 10, 0.24);
+}
+.wishlist-filled-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.72fr) minmax(360px, 0.94fr);
+  gap: 22px;
+  align-items: start;
+}
+.wishlist-selections {
+  border: 1px solid rgba(63, 54, 45, 0.1);
+  background: rgba(252, 250, 246, 0.82);
+  padding: 18px 18px 16px;
+  display: grid;
+  gap: 24px;
+}
+.wishlist-selections-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+.wishlist-selections-copy {
+  display: grid;
+  gap: 6px;
+}
+.wishlist-selections-kicker {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.58);
+}
+.wishlist-selections-count {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: rgba(47, 41, 35, 0.86);
+}
+.wishlist-clear {
+  border: 0;
+  background: transparent;
+  color: #2f2923;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.wishlist-list {
+  display: grid;
+  gap: 0;
+}
+.wishlist-card {
+  display: grid;
+  grid-template-columns: 156px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(63, 54, 45, 0.12);
+}
+.wishlist-card:first-child {
+  padding-top: 0;
+}
+.wishlist-card-media {
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--soft);
+  align-self: start;
+}
+.wishlist-card-media img,
+.wishlist-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.wishlist-card-media img {
+  object-fit: cover;
+}
+.wishlist-card-body {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-content: start;
+  gap: 14px;
+  min-height: 100%;
+  min-width: 0;
+}
+.wishlist-card-topline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+}
+.wishlist-card-copy {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.wishlist-card-category {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.46);
+}
+.wishlist-card-title {
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: 26px;
+  line-height: 0.96;
+  font-weight: 400;
+  color: #2f2923;
+  overflow-wrap: anywhere;
+}
+.wishlist-card-price {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.68);
+  overflow-wrap: anywhere;
+}
+.wishlist-card-amount {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.56);
+  overflow-wrap: anywhere;
+}
+.wishlist-card-qty {
+  position: relative;
+  display: grid;
+  gap: 0;
+  justify-items: start;
+}
+.wishlist-card-qty-label {
+  display: none;
+}
+.wishlist-card-qty-trigger {
+  min-width: 66px;
+  min-height: 32px;
+  padding: 0 22px 0 8px;
+  border: 1px solid rgba(63, 54, 45, 0.32);
+  border-radius: 0;
+  background:
+    linear-gradient(45deg, transparent 50%, rgba(47, 41, 35, 0.82) 50%) calc(100% - 11px) calc(50% - 2px) / 4px 4px no-repeat,
+    linear-gradient(135deg, rgba(47, 41, 35, 0.82) 50%, transparent 50%) calc(100% - 8px) calc(50% - 2px) / 4px 4px no-repeat,
+    #fff;
+  color: #2f2923;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: left;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  box-shadow: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+.wishlist-card-qty-trigger-label,
+.wishlist-card-qty-trigger-value {
+  display: inline-block;
+}
+.wishlist-card-qty-trigger-label {
+  color: rgba(47, 41, 35, 0.8);
+}
+.wishlist-card-qty-trigger-value {
+  min-width: 1ch;
+  color: #2f2923;
+}
+.wishlist-card-qty-trigger:hover,
+.wishlist-card-qty-trigger:focus-visible {
+  outline: none;
+  border-color: rgba(47, 41, 35, 0.52);
+}
+.wishlist-card-qty.is-open .wishlist-card-qty-trigger {
+  border-color: rgba(63, 54, 45, 0.4);
+  box-shadow: 0 0 0 1px rgba(63, 54, 45, 0.08);
+}
+.wishlist-card-qty-menu {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  min-width: 66px;
+  border: 1px solid rgba(63, 54, 45, 0.22);
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(16, 12, 10, 0.12);
+  padding: 0;
+  display: none;
+  z-index: 8;
+  max-height: 124px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(47, 41, 35, 0.32) transparent;
+}
+.wishlist-card-qty-menu::-webkit-scrollbar {
+  width: 6px;
+}
+.wishlist-card-qty-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+.wishlist-card-qty-menu::-webkit-scrollbar-thumb {
+  background: rgba(47, 41, 35, 0.28);
+  border-radius: 999px;
+}
+.wishlist-card-qty.is-open .wishlist-card-qty-menu {
+  display: grid;
+}
+.wishlist-card-qty-option {
+  border: 0;
+  background: transparent;
+  min-height: 31px;
+  padding: 0 8px;
+  color: #2f2923;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+  border-top: 1px solid rgba(63, 54, 45, 0.12);
+}
+.wishlist-card-qty-option:first-child {
+  border-top: 0;
+}
+.wishlist-card-qty-option:hover,
+.wishlist-card-qty-option:focus-visible,
+.wishlist-card-qty-option.is-active {
+  outline: none;
+  background: rgba(47, 41, 35, 0.12);
+}
+.wishlist-card-actions {
+  margin-top: 0;
+  padding-top: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-self: end;
+}
+.wishlist-card-link,
+.wishlist-card-remove {
+  display: inline-flex;
+  align-items: center;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2f2923;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.wishlist-card-meta {
+  display: none;
+}
+.wishlist-filled-side {
+  display: grid;
+  gap: 16px;
+}
+.wishlist-info-box {
+  border: 1px solid rgba(63, 54, 45, 0.14);
+  background: rgba(251, 249, 244, 0.9);
+  padding: 20px 16px 20px;
+  display: grid;
+  gap: 14px;
+}
+.wishlist-service-box {
+  gap: 16px;
+}
+.wishlist-service-copy {
+  margin-top: -2px;
+}
+.wishlist-info-title {
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: #2f2923;
+}
+.wishlist-service-box .wishlist-info-title {
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+.wishlist-info-copy {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  line-height: 1.72;
+  color: rgba(47, 41, 35, 0.74);
+}
+.wishlist-info-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 1px solid rgba(36, 28, 21, 0.72);
+  background: #12100e;
+  color: #f8f4ec;
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0 16px;
+  width: fit-content;
+}
+.wishlist-info-links {
+  display: grid;
+  gap: 10px;
+}
+.wishlist-info-link {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2f2923;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.wishlist-service-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+.wishlist-service-label {
+  flex: 0 0 100%;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.52);
+}
+.wishlist-service-line {
+  white-space: nowrap;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(47, 41, 35, 0.82);
+}
+.wishlist-service-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 9px;
+}
+.wishlist-service-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.58;
+  color: rgba(47, 41, 35, 0.76);
+}
+.wishlist-service-step::before {
+  content: attr(data-step);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(47, 41, 35, 0.16);
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: rgba(47, 41, 35, 0.72);
+}
+.wishlist-service-note {
+  margin: -2px 0 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  line-height: 1.58;
+  color: rgba(47, 41, 35, 0.62);
+}
+.wishlist-reassurance-strip {
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(63, 54, 45, 0.12);
+}
+.wishlist-reassurance-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.wishlist-reassurance-item {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  align-content: start;
+}
+.wishlist-reassurance-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+  stroke: rgba(47, 41, 35, 0.9);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.wishlist-reassurance-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2f2923;
+}
+.wishlist-reassurance-text {
+  display: grid;
+  gap: 0;
+  justify-items: center;
+}
+.wishlist-bottom-cta {
+  margin-top: 2px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(63, 54, 45, 0.12);
+  display: grid;
+}
+.wishlist-message-box {
+  margin-top: -2px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(63, 54, 45, 0.12);
+  display: grid;
+  gap: 12px;
+}
+.wishlist-message-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.wishlist-message-copy-wrap {
+  display: grid;
+  gap: 8px;
+}
+.wishlist-message-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #2f2923;
+}
+.wishlist-message-copy {
+  max-width: 560px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(47, 41, 35, 0.72);
+}
+.wishlist-message-toggle {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border: 1px solid rgba(63, 54, 45, 0.24);
+  background: transparent;
+  color: #2f2923;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.wishlist-message-toggle svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.wishlist-message-toggle[aria-pressed="true"] {
+  background: #12100e;
+  border-color: #12100e;
+  color: #f8f4ec;
+}
+.wishlist-message-toggle[aria-pressed="true"] svg {
+  opacity: 1;
+}
+.wishlist-message-toggle:focus-visible {
+  outline: none;
+  border-color: rgba(47, 41, 35, 0.42);
+}
+.wishlist-message-body {
+  display: none;
+}
+.wishlist-message-box.is-open .wishlist-message-body {
+  display: grid;
+}
+.wishlist-message-field {
+  width: 100%;
+  min-height: 132px;
+  resize: vertical;
+  border: 1px solid rgba(63, 54, 45, 0.16);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 14px 16px;
+  color: #2f2923;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.wishlist-message-field::placeholder {
+  color: rgba(47, 41, 35, 0.46);
+}
+.wishlist-message-field:focus-visible {
+  outline: none;
+  border-color: rgba(47, 41, 35, 0.34);
+}
+.wishlist-consult-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  width: 100%;
+  padding: 0 22px;
+  border: 1px solid rgba(36, 28, 21, 0.72);
+  background: #12100e;
+  color: #f8f4ec;
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+@media (max-width: 899px) {
+  header {
+    padding: 0 16px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 0;
+    height: calc(72px + env(safe-area-inset-top, 0px));
+    background: #f8f6f1;
+  }
+  header::before {
+    display: none;
+  }
+  header::after {
+    display: none;
+  }
+  .header-bar {
+    width: 100%;
+    height: 72px;
+    min-height: 72px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+  .header-contact {
+    display: none;
+  }
+  .search-toggle {
+    display: none !important;
+  }
+  .search-mobile-trigger {
+    display: none;
+  }
+  .menu-toggle {
+    margin-left: auto !important;
+    gap: 0;
+    padding: 0;
+  }
+  .menu-toggle .menu-label {
+    display: none;
+  }
+  .header-logo-text {
+    font-size: 30px;
+  }
+  .wishlist-empty-stage {
+    --wishlist-empty-hero-height: 600px;
+    min-height: auto;
+  }
+  .wishlist-empty-hero {
+    top: calc(72px + env(safe-area-inset-top, 0px));
+    background:
+      linear-gradient(180deg, rgba(18, 13, 10, 0.08) 0%, rgba(18, 13, 10, 0.18) 28%, rgba(18, 13, 10, 0.54) 100%),
+      url("assets/empty.webp") center 42% / cover no-repeat;
+  }
+  .wishlist-empty-content {
+    margin-top: calc(-1 * var(--wishlist-empty-hero-height));
+    padding-bottom: 0;
+    background:
+      linear-gradient(
+        180deg,
+        transparent 0,
+        transparent calc(var(--wishlist-empty-hero-height) - 78px),
+        var(--cream) calc(var(--wishlist-empty-hero-height) - 78px),
+        var(--cream) 100%
+      );
+  }
+  .wishlist-empty-shell {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 0;
+    min-height: var(--wishlist-empty-hero-height);
+    padding-top: 124px;
+    padding-bottom: 0;
+    align-content: end;
+  }
+  .wishlist-empty-copy-wrap {
+    max-width: none;
+    padding: 0 24px 18px;
+    display: grid;
+    align-content: end;
+  }
+  .wishlist-kicker {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: rgba(244, 238, 228, 0.9);
+  }
+  .wishlist-divider {
+    margin-top: 12px;
+    width: 100%;
+    background: rgba(244, 238, 228, 0.72);
+  }
+  .wishlist-empty-title {
+    margin-top: 16px;
+    font-size: clamp(34px, 10.6vw, 54px);
+    line-height: 0.94;
+    max-width: 9ch;
+  }
+  .wishlist-empty-text {
+    margin-top: 14px;
+    max-width: 33ch;
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(244, 238, 228, 0.92);
+  }
+  .wishlist-side-panel {
+    width: 100%;
+    margin-top: 112px;
+    padding: 0 24px 10px;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+  .wishlist-side-item {
+    padding: 18px 0;
+  }
+  .wishlist-side-item:first-child {
+    border-top: 1px solid rgba(63, 54, 45, 0.14);
+    padding-top: 16px;
+  }
+  .wishlist-side-item.is-open .wishlist-side-panel-copy {
+    max-height: 260px;
+  }
+  .wishlist-side-trigger {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .wishlist-side-panel-copy {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .wishlist-empty-actions {
+    margin-top: 24px;
+    gap: 10px;
+  }
+  .wishlist-empty-button,
+  .wishlist-empty-link {
+    min-height: 42px;
+    padding: 0 16px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .wishlist-empty-button {
+    background: #12100e;
+    border-color: #12100e;
+    color: #f8f3ea;
+  }
+  .wishlist-page[data-mode="empty"] #site-footer {
+    margin-top: 72px !important;
+    padding-top: 36px !important;
+    background: transparent;
+  }
+  .wishlist-page[data-mode="empty"] #site-footer .footer-inner {
+    width: calc(100vw - 48px);
+  }
+  .wishlist-filled-hero {
+    top: calc(72px + env(safe-area-inset-top, 0px));
+    min-height: 300px;
+    background-position: center 24%;
+  }
+  .wishlist-filled-title-wrap {
+    width: min(1180px, calc(100vw - 28px));
+    margin-top: clamp(-72px, -14vw, -44px);
+    padding-bottom: 14px;
+  }
+  .wishlist-filled-content {
+    background: linear-gradient(180deg, transparent 0, transparent 48px, var(--cream) 48px, var(--cream) 100%);
+  }
+  .wishlist-filled-title {
+    font-size: clamp(26px, 9vw, 42px);
+    text-align: center;
+  }
+  .wishlist-filled-shell {
+    width: min(1180px, calc(100vw - 28px));
+    padding: 14px 0 38px;
+  }
+  .wishlist-flow {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .wishlist-flow-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .wishlist-filled-grid {
+    grid-template-columns: 1fr;
+  }
+  .wishlist-selections {
+    padding: 14px 12px 12px;
+  }
+  .wishlist-selections-head {
+    align-items: start;
+  }
+  .wishlist-card {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 0;
+  }
+  .wishlist-card-body {
+    gap: 10px;
+  }
+  .wishlist-card-topline {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .wishlist-card-qty {
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: center;
+    gap: 0;
+  }
+  .wishlist-card-category {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+  .wishlist-card-title {
+    font-size: 21px;
+    line-height: 0.95;
+  }
+  .wishlist-card-price {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+  .wishlist-card-amount {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .wishlist-card-qty-label {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+  .wishlist-card-qty-trigger {
+    min-width: 58px;
+    min-height: 28px;
+    padding: 0 18px 0 6px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    background:
+      linear-gradient(45deg, transparent 50%, rgba(47, 41, 35, 0.82) 50%) calc(100% - 10px) calc(50% - 2px) / 4px 4px no-repeat,
+      linear-gradient(135deg, rgba(47, 41, 35, 0.82) 50%, transparent 50%) calc(100% - 7px) calc(50% - 2px) / 4px 4px no-repeat,
+      #fff;
+  }
+  .wishlist-card-qty-menu {
+    min-width: 58px;
+    max-height: 112px;
+  }
+  .wishlist-card-qty-option {
+    min-height: 28px;
+    padding: 0 6px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+  }
+  .wishlist-card-actions {
+    gap: 10px 14px;
+    align-items: center;
+  }
+  .wishlist-card-link,
+  .wishlist-card-remove {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+  .wishlist-service-step {
+    gap: 8px;
+    font-size: 12px;
+  }
+  .wishlist-service-note {
+    font-size: 11px;
+  }
+  .wishlist-reassurance-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .wishlist-reassurance-item {
+    justify-items: start;
+    text-align: left;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .wishlist-reassurance-text {
+    justify-items: start;
+  }
+  .wishlist-bottom-cta {
+    margin-top: 24px;
+  }
+  .wishlist-message-box {
+    margin-top: 0;
+  }
+  .wishlist-message-head {
+    align-items: center;
+  }
+  .wishlist-message-field {
+    min-height: 116px;
+  }
+  .wishlist-info-title,
+  .wishlist-service-box .wishlist-info-title {
+    font-size: 28px;
+  }
+}
+#site-footer {
+  position: relative;
+  z-index: 1;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 18px) !important;
+}
+.wishlist-page[data-mode="empty"] + #site-footer {
+  margin-top: 0;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="header-bar">
+      <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+      <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
+        <span class="header-logo-text">Marvell Florist</span>
+      </a>
+      <a class="search-toggle" href="index.html?search" aria-label="Open search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+        <span class="search-label">Search</span>
+      </a>
+      <a class="search-mobile-trigger" href="index.html?search" aria-label="Open search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+        <span>Search arrangements</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open menu">
+        <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg></span>
+        <span class="menu-label">Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="wishlist-page" id="wishlist-page" data-mode="empty">
+      <section class="wishlist-empty-stage" id="wishlist-empty-stage" hidden>
+        <div class="wishlist-empty-hero" aria-hidden="true"></div>
+        <div class="wishlist-empty-content">
+          <div class="wishlist-empty-shell">
+            <div class="wishlist-empty-copy-wrap">
+              <p class="wishlist-kicker" id="wishlist-empty-kicker">Your selections</p>
+              <div class="wishlist-divider" aria-hidden="true"></div>
+              <h1 class="wishlist-empty-title" id="wishlist-empty-title">Wishlist is empty.</h1>
+              <p class="wishlist-empty-text" id="wishlist-empty-text">Tap the heart on any arrangement to save it here, then return to compare them quietly in one place.</p>
+              <div class="wishlist-empty-actions">
+                <a class="wishlist-empty-button" id="wishlist-empty-primary" href="gallery.html">Continue Browsing</a>
+                <a class="wishlist-empty-link" id="wishlist-empty-secondary" href="featured.html">Explore Collections</a>
+              </div>
+            </div>
+            <aside class="wishlist-side-panel" aria-label="Wishlist help">
+              <div class="wishlist-side-item is-open">
+                <button class="wishlist-side-trigger" type="button">
+                  <span id="wishlist-side-help-title">May we help?</span>
+                  <span class="wishlist-side-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="wishlist-side-panel-copy" id="wishlist-side-help-copy">Saved arrangements stay only on this device, so you can revisit them and compare details quietly later.</div>
+              </div>
+              <div class="wishlist-side-item">
+                <button class="wishlist-side-trigger" type="button">
+                  <span id="wishlist-side-compare-title">How comparison works</span>
+                  <span class="wishlist-side-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="wishlist-side-panel-copy" id="wishlist-side-compare-copy">Use the hearts across portfolio, collections, and product pages. Each saved arrangement appears here with its image, category, and price when available.</div>
+              </div>
+              <div class="wishlist-side-item">
+                <button class="wishlist-side-trigger" type="button">
+                  <span id="wishlist-side-device-title">Device only</span>
+                  <span class="wishlist-side-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="wishlist-side-panel-copy" id="wishlist-side-device-copy">Your wishlist is stored locally in this browser, so it will not automatically appear on another phone or laptop.</div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="wishlist-filled-stage" id="wishlist-filled-stage" hidden>
+        <div class="wishlist-filled-hero" aria-hidden="true"></div>
+        <div class="wishlist-filled-content">
+          <div class="wishlist-filled-title-wrap">
+            <h1 class="wishlist-filled-title" id="wishlist-filled-title">Wishlist</h1>
+          </div>
+          <div class="wishlist-filled-shell">
+            <div class="wishlist-flow" aria-label="Wishlist consultation flow">
+              <div class="wishlist-flow-step is-active">
+                <span class="wishlist-flow-dot" aria-hidden="true"></span>
+                <span class="wishlist-flow-label" id="wishlist-flow-step-wishlist">Wishlist</span>
+              </div>
+              <div class="wishlist-flow-step">
+                <span class="wishlist-flow-dot" aria-hidden="true"></span>
+                <span class="wishlist-flow-label" id="wishlist-flow-step-consultation">Consultation</span>
+              </div>
+              <div class="wishlist-flow-step">
+                <span class="wishlist-flow-dot" aria-hidden="true"></span>
+                <span class="wishlist-flow-label" id="wishlist-flow-step-confirmation">Confirmation</span>
+              </div>
+            </div>
+            <div class="wishlist-filled-grid">
+              <section class="wishlist-selections" aria-label="Wishlist selections">
+                <div class="wishlist-selections-head">
+                  <div class="wishlist-selections-copy">
+                    <p class="wishlist-selections-kicker" id="wishlist-selections-kicker">Your selections</p>
+                    <p class="wishlist-selections-count" id="wishlist-selections-count">0 saved arrangements</p>
+                  </div>
+                  <button class="wishlist-clear" id="wishlist-clear" type="button">Clear Wishlist</button>
+                </div>
+                <div class="wishlist-list" id="wishlist-list"></div>
+                <section class="wishlist-message-box" id="wishlist-message-box" aria-label="Personal message">
+                  <div class="wishlist-message-head">
+                    <div class="wishlist-message-copy-wrap">
+                      <h2 class="wishlist-message-title" id="wishlist-message-title">Add a Message</h2>
+                      <p class="wishlist-message-copy" id="wishlist-message-copy">Add a note for the card or share anything we should know.</p>
+                    </div>
+                    <button class="wishlist-message-toggle" id="wishlist-message-toggle" type="button" aria-pressed="false" aria-expanded="false" aria-controls="wishlist-message-body">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L19 8"></path></svg>
+                    </button>
+                  </div>
+                  <div class="wishlist-message-body" id="wishlist-message-body">
+                    <textarea class="wishlist-message-field" id="wishlist-personal-message"></textarea>
+                  </div>
+                </section>
+                <div class="wishlist-bottom-cta">
+                  <a class="wishlist-consult-button" id="wishlist-consult-button" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Consult on WhatsApp</a>
+                </div>
+              </section>
+              <aside class="wishlist-filled-side" aria-label="Wishlist information">
+                <section class="wishlist-info-box" aria-label="View details">
+                  <h2 class="wishlist-info-title" id="wishlist-details-title">View details</h2>
+                  <p class="wishlist-info-copy" id="wishlist-details-copy">Open any saved arrangement to review the original product page, pricing details, and collection context before consulting.</p>
+                </section>
+                <section class="wishlist-info-box wishlist-service-box" aria-label="Customer service">
+                  <h2 class="wishlist-info-title" id="wishlist-service-title">Customer service</h2>
+                  <div class="wishlist-service-meta">
+                    <p class="wishlist-service-label" id="wishlist-service-hours-label">Consultation hours</p>
+                    <p class="wishlist-service-line" id="wishlist-service-hours-days">Monday to Saturday 8am-6pm WIB</p>
+                    <p class="wishlist-service-line" id="wishlist-service-hours-time" hidden></p>
+                  </div>
+                  <p class="wishlist-info-copy wishlist-service-copy" id="wishlist-service-copy">Send your wishlist on WhatsApp and we will review each arrangement with you before anything is finalized.</p>
+                  <ol class="wishlist-service-steps" aria-label="What happens next">
+                    <li class="wishlist-service-step" id="wishlist-service-step-1" data-step="1">Share your saved wishlist and any notes you want us to consider.</li>
+                    <li class="wishlist-service-step" id="wishlist-service-step-2" data-step="2">We confirm design direction, availability, delivery timing, and final pricing with you.</li>
+                    <li class="wishlist-service-step" id="wishlist-service-step-3" data-step="3">After confirmation, payment and preparation continue according to the agreed arrangement.</li>
+                  </ol>
+                  <p class="wishlist-service-note" id="wishlist-service-note">Fixed-price items stay visible in your wishlist, while custom details are confirmed during consultation.</p>
+                  <div class="wishlist-info-links">
+                    <a class="wishlist-info-link" id="wishlist-service-link-primary" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Consult on WhatsApp</a>
+                  </div>
+                  <div class="wishlist-reassurance-strip" aria-label="Consultation assurances">
+                    <div class="wishlist-reassurance-list">
+                    <div class="wishlist-reassurance-item">
+                      <svg class="wishlist-reassurance-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path>
+                        <path d="m15 5 4 4"></path>
+                      </svg>
+                      <div class="wishlist-reassurance-text">
+                        <h3 class="wishlist-reassurance-title" id="wishlist-assurance-custom-title">Customizable</h3>
+                      </div>
+                    </div>
+                    <div class="wishlist-reassurance-item">
+                      <svg class="wishlist-reassurance-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                        <path d="m9 11 3 3L22 4"></path>
+                      </svg>
+                      <div class="wishlist-reassurance-text">
+                        <h3 class="wishlist-reassurance-title" id="wishlist-assurance-availability-title">Availability Discussed</h3>
+                      </div>
+                    </div>
+                    <div class="wishlist-reassurance-item">
+                      <svg class="wishlist-reassurance-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+                        <path d="M15 18H9"></path>
+                        <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+                        <circle cx="17" cy="18" r="2"></circle>
+                        <circle cx="7" cy="18" r="2"></circle>
+                      </svg>
+                      <div class="wishlist-reassurance-text">
+                        <h3 class="wishlist-reassurance-title" id="wishlist-assurance-delivery-title">Delivery Coordinated</h3>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </section>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="assets/favorites.js?v=20260422b"></script>
+  <script src="assets/wishlist-page.js"></script>
+  <script src="assets/shared-contact.js?v=20260414g"></script>
+<script src="assets/secondary-menu.js?v=20260424e"></script>
+  <script src="assets/shared-footer.js?v=20260423j"></script>
+</body>
+</html>

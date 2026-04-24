@@ -13,8 +13,9 @@
   <meta property="og:url" content="https://marvellflorist.com/product.html">
   <meta property="og:title" content="Product Detail | Marvell Florist">
   <meta property="og:description" content="View product details and floral arrangement information from Marvell Florist.">
-  <meta property="og:image" content="https://marvellflorist.com/assets/preview.png">
-  <meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png">
+  <meta property="og:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta property="og:image:url" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png?v=2">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,8 +23,13 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Product Detail | Marvell Florist">
   <meta name="twitter:description" content="View product details and floral arrangement information from Marvell Florist.">
-  <meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png">
-  <script src="assets/site-language.js"></script>
+  <meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
+<script defer src="assets/site-loader.js?v=20260424d"></script>
+<script src="assets/site-language.js?v=20260424a"></script>
+<script src="assets/header-template.js?v=20260424b"></script>
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -62,6 +68,7 @@
   --ink: #2f2923;
   --muted: rgba(47, 41, 35, 0.68);
   --line: rgba(63, 54, 45, 0.16);
+  --soft: #ece4d9;
 }
 * { box-sizing:border-box; }
 html,body { margin:0; padding:0; }
@@ -112,7 +119,7 @@ header::after {
   font-size:12px; letter-spacing:.06em; color:rgba(42,33,24,.82); cursor:pointer; text-decoration:none;
 }
 .search-toggle svg {
-  width:18px; height:18px; display:block; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  width:20px; height:20px; display:block; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
 }
 .search-toggle:hover,.search-toggle:focus-visible,.contact-quick-trigger:hover,.contact-quick-trigger:focus-visible,.menu-toggle:hover,.menu-toggle:focus-visible {
   opacity:.84; outline:none;
@@ -121,8 +128,8 @@ header::after {
   display:inline-flex; align-items:center; gap:10px; border:0; background:transparent; font-family:"Inter Tight",sans-serif;
   font-size:12px; letter-spacing:.06em; color:rgba(42,33,24,.82); cursor:pointer;
 }
-.menu-toggle .menu-icon { display:inline-flex; flex-direction:column; gap:4px; }
-.menu-toggle .menu-icon span { display:block; width:18px; height:2px; background:rgba(42,33,24,.72); }
+.menu-toggle .menu-icon { display:inline-flex; align-items:center; justify-content:center; }
+.menu-toggle .menu-icon svg { display:block; width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .brand-pinned-title {
   position: fixed; top: 26px; left: 50%; transform: translateX(-50%) translateY(-6px) scale(.96); z-index: 52;
   font-family: "Imperial Script",cursive; font-size: clamp(20px,2.3vw,30px); line-height: .9; color: transparent;
@@ -140,6 +147,12 @@ header::after {
   gap: 4px;
   align-items: center;
 }
+.product-breadcrumb-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
 .product-breadcrumb a {
   color: rgba(42, 33, 24, 0.7);
   text-decoration: none;
@@ -152,116 +165,210 @@ header::after {
 .product-breadcrumb .crumb-current {
   color: rgba(42, 33, 24, 0.8);
 }
-.contact-quick-backdrop {
-  position: fixed; inset: 0; background: rgba(0,0,0,.25); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  opacity:0; pointer-events:none; transition:opacity .5s ease-in-out; z-index:240;
+main { padding-top: 72px; max-width: none; margin: 0; }
+.product-page-shell {
+  width: 100%;
+  margin: 0;
+  padding: 24px 0 56px;
+  display: grid;
+  gap: 42px;
 }
-.contact-quick-backdrop.is-open { opacity:1; pointer-events:auto; }
-.contact-quick-panel,.menu-panel {
-  position: fixed; top:0; right:0; width:min(92vw,460px); height:100vh; background:#f8f6f1; color:#2f2923;
-  transform:translateX(100%); transition:transform .5s ease-in-out; z-index:241; box-shadow:none; display:grid; grid-template-rows:auto 1fr;
-}
-.menu-panel { width:min(92vw,600px); }
-.contact-quick-panel.is-open,.menu-panel.is-open { transform:translateX(0); box-shadow:-20px 0 36px rgba(10,12,18,.22); }
-.contact-quick-head,.menu-head { display:flex; align-items:center; justify-content:flex-end; padding:28px 30px 18px; }
-.menu-head { justify-content:flex-end; }
-.contact-quick-head h3 { margin:0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.18em; text-transform:uppercase; }
-.contact-quick-close,.menu-close {
-  width:38px; height:38px; border-radius:50%; border:1px solid rgba(32,26,22,.18); background:rgba(21,18,16,.06); color:#1d1a18; cursor:pointer;
-}
-.contact-quick-body { padding:8px 30px 30px; display:grid; gap:18px; }
-.contact-quick-block { display:grid; gap:6px; }
-.contact-quick-label { margin:0; font-family:"Inter Tight",sans-serif; font-size:14px; line-height:1.08; letter-spacing:.16em; text-transform:uppercase; color:rgba(21,18,16,.65); }
-.contact-quick-link,.contact-quick-text { font-family:"Inter Tight",sans-serif; font-size:13px; line-height:1.45; color:#1d1a18; text-decoration:none; margin:0; }
-.contact-quick-link { line-height:1.04; }
-.contact-quick-text { color:rgba(21,18,16,.82); }
-.contact-quick-block .contact-quick-link + .contact-quick-link { margin-top:1px; }
-.contact-quick-block .contact-quick-text + .contact-quick-text { margin-top:-4px; }
-.contact-quick-link:hover,.contact-quick-link:focus-visible { opacity:.85; text-decoration:underline; text-underline-offset:.08em; text-decoration-thickness:1px; }
-.contact-quick-link::after {
-  content:none; position:absolute; left:0; bottom:0; width:100%; height:1px; background:currentColor; transform:scaleX(0); transform-origin:left center; transition:transform .22s ease;
-}
-.contact-quick-link:hover::after,.contact-quick-link:focus-visible::after { transform:scaleX(1); }
-.contact-quick-text.is-muted { color:rgba(21,18,16,.55); }
-#contact-quick-panel { width:min(92vw,600px); }
-#contact-quick-panel .contact-quick-head { padding:24px 34px 8px; }
-#contact-quick-panel .contact-quick-body { padding:18px 40px 34px 88px; gap:20px; overflow-y:auto; overscroll-behavior:contain; }
-#contact-quick-panel .contact-quick-block { gap:10px; }
-#contact-quick-panel .contact-quick-label { font-size:14px; letter-spacing:.12em; font-weight:600; }
-#contact-quick-panel .contact-quick-link {
-  width:fit-content; position:relative; display:inline-flex; align-items:center; gap:8px; font-size:clamp(14px,1.3vw,18px); font-weight:500; line-height:1.22;
-}
-#contact-quick-panel .contact-quick-link::after {
-  content:"\203A"; position:static; width:auto; height:auto; background:none; opacity:0; transform:translateX(-4px); transition:opacity .2s ease, transform .2s ease;
-}
-#contact-quick-panel .contact-quick-link:hover::after,#contact-quick-panel .contact-quick-link:focus-visible::after { opacity:.65; transform:translateX(0); }
-#contact-quick-panel .contact-quick-text { font-size:14px; line-height:1.45; }
-#contact-quick-panel .contact-quick-text.is-muted { color:rgba(21,18,16,.62); }
-.menu-body { position:relative; padding:0; overflow:hidden; min-height:460px; }
-.menu-view { position:absolute; inset:18px 40px 34px 88px; display:grid; align-content:start; gap:16px; opacity:0; transform:translateX(18px); pointer-events:none; transition:opacity .28s ease, transform .32s cubic-bezier(.22,1,.36,1); }
-.menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"], .menu-panel[data-menu-current="portfolio"] .menu-view[data-menu-view="portfolio"] { opacity:1; transform:translateX(0); pointer-events:auto; }
-.menu-panel[data-menu-current="portfolio"] .menu-view[data-menu-view="main"] { transform:translateX(-18px); }
-.menu-link { display:inline-flex; align-items:center; gap:10px; color:#1d1a18; text-decoration:none; font-family:"Inter Tight",sans-serif; font-size:clamp(20px,1.9vw,28px); font-weight:500; line-height:1.16; width:fit-content; }
-.menu-link-button { border:0; background:transparent; padding:0; cursor:pointer; text-align:left; font-family:"Inter Tight",sans-serif; font-size:clamp(20px,1.9vw,28px); font-weight:500; line-height:1.16; }
-.menu-back { font-size:14px; letter-spacing:.03em; color:rgba(21,18,16,.72); }
-
-main { padding: 72px 0 56px; max-width: none; margin: 0; }
 .product-detail-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.96fr) minmax(420px, 1.04fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0;
   align-items: start;
 }
-.product-detail-image-wrap { position: relative; background:var(--page-bg); order:1; justify-self:stretch; align-self:stretch; min-height:calc(100vh - 72px); }
-.product-detail-image { width:100%; height:100%; display:block; object-fit:contain; object-position:left top; max-height:none; margin:0; }
+.product-detail-image-wrap {
+  position: relative;
+  order: 1;
+  justify-self: stretch;
+  align-self: stretch;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.product-detail-media-desktop {
+  display: grid;
+  gap: 0;
+}
+.product-detail-stack-item {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+.product-detail-stack-item--primary {
+  min-height: 0;
+}
+.product-detail-stack-item--secondary {
+  min-height: 0;
+}
+.product-detail-media-desktop .product-detail-image {
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:initial;
+  object-position:initial;
+  max-height:none;
+  margin:0;
+}
+.product-detail-media-mobile .product-detail-image {
+  width:100%;
+  height:auto;
+  display:block;
+  object-fit:initial;
+  object-position:initial;
+  max-height:none;
+  margin:0;
+}
+.product-detail-media-mobile {
+  display: none;
+}
+.product-detail-mobile-carousel {
+  position: relative;
+  width: 100%;
+}
+.product-detail-mobile-viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  touch-action: pan-x;
+}
+.product-detail-mobile-viewport::-webkit-scrollbar {
+  display: none;
+}
+.product-detail-mobile-track {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+.product-detail-mobile-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: auto;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: transparent;
+  overflow: hidden;
+}
+.product-detail-mobile-meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 0;
+  pointer-events: none;
+}
+.product-detail-mobile-progress {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: rgba(42, 33, 24, 0.16);
+  overflow: hidden;
+}
+.product-detail-mobile-progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: rgba(42, 33, 24, 0.82);
+  transition: width 220ms ease;
+}
+.product-detail-mobile-carousel.is-single .product-detail-mobile-meta {
+  display: none;
+}
 .product-detail-content {
-  order:2;
+  order: 2;
   position: sticky;
   top: calc(72px + clamp(12px, 2vw, 24px));
-  padding: clamp(24px, 3.2vw, 48px) clamp(34px, 4vw, 72px) clamp(14px, 2.2vw, 28px);
-  max-width: 760px;
+  padding: clamp(24px, 3.2vw, 48px) clamp(28px, 3.6vw, 64px) clamp(14px, 2.2vw, 28px) clamp(28px, 3.6vw, 64px);
+  border: 0;
+  background: transparent;
+  display: grid;
+  gap: 18px;
+  max-width: none;
   width: 100%;
+  justify-self: stretch;
 }
 .product-detail-title {
-  margin:0 0 24px; font-family:"Louis George Cafe","Inter Tight",sans-serif; font-size: clamp(22px, 2.5vw, 34px); line-height: 1.06; color:#2a2118;
+  margin: 0;
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: clamp(34px, 4.8vw, 56px);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: 0.02em;
+  color: #2f2923;
 }
 .product-detail-price {
-  margin: -8px 0 18px;
+  margin: -6px 0 0;
   font-family: "Inter Tight", sans-serif;
-  font-size: 13px;
-  letter-spacing: .03em;
-  color: rgba(42, 33, 24, 0.72);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.64);
 }
 .product-whatsapp-btn {
-  width: 100%;
-  min-height: 48px;
-  border-radius: 999px;
-  border: 0;
+  width: fit-content;
+  min-width: min(100%, 240px);
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid rgba(36, 28, 21, 0.72);
+  border-radius: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  background: #1c1713;
-  color: #f6f0e7;
+  background: #12100e;
+  color: #f8f4ec;
   font-family: "Inter Tight", sans-serif;
-  font-size: 13px;
-  letter-spacing: .06em;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 .product-whatsapp-btn:hover,
 .product-whatsapp-btn:focus-visible {
   transform: scale(0.985);
 }
-.product-faq-label {
-  margin: 46px 0 16px;
+.product-order-note {
+  margin-top: -2px;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(63, 54, 45, 0.12);
+  display: grid;
+  gap: 8px;
+}
+.product-order-note-title {
+  margin: 0;
   font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: .11em;
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(42,33,24,.48);
+  color: rgba(47, 41, 35, 0.52);
+}
+.product-order-note-copy {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
+  line-height: 1.68;
+  color: rgba(47, 41, 35, 0.76);
+}
+.product-faq-label {
+  margin: 4px 0 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.52);
 }
 .product-faq {
-  margin-top: 10px;
+  margin-top: 0;
   padding: 0;
   border-top: 1px solid var(--line);
   border-bottom: 0;
@@ -282,16 +389,19 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
 .faq-content p { margin: 0; }
 .faq-content p + p { margin-top: 1em; }
 .related-products {
-  margin-top: 42px;
-  padding: 0 clamp(20px, 3.4vw, 56px);
+  margin-top: 0;
+  padding: 0 0 0 clamp(20px, 3.4vw, 56px);
+  width: 100%;
+  justify-self: stretch;
 }
 .related-products h2 {
   margin: 0 0 14px;
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
   font-weight: 500;
   line-height: 1.2;
+  white-space: nowrap;
 }
 .related-grid {
   display: grid;
@@ -344,11 +454,18 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
   opacity: 1;
   transform: scale(1);
 }
-.related-card-title {
+.related-empty {
+  margin: 0;
   font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: .03em;
-  line-height: 1.35;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(47, 41, 35, 0.72);
+}
+.product-breadcrumb-row {
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 #site-footer {
@@ -369,7 +486,7 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
 #site-footer .footer-accordion-icon { display:none; }
 #site-footer .footer-accordion-panel { max-height:none; overflow:visible; }
 #site-footer .footer-links,#site-footer .footer-list { display:grid; gap:10px; list-style:none; margin:0; padding:0; }
-#site-footer .footer-link { color:#2a2118; text-decoration:none; font-family:"Fraunces",serif; font-size:14px; line-height:1.04; letter-spacing:0; text-transform:none; }
+#site-footer .footer-link { color:#2a2118; text-decoration:none; font-family:"Inter Tight",sans-serif; font-size:14px; line-height:1.04; letter-spacing:0; text-transform:none; }
 #site-footer .footer-link:hover,
 #site-footer .footer-link:focus-visible { text-decoration:underline; text-underline-offset:.08em; }
 #site-footer .footer-bottom { border-top:1px solid var(--line); padding-top:12px; text-align:center; }
@@ -389,29 +506,211 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
 }
 
 @media (max-width: 768px) {
+  header { background:#f8f6f1; }
   .header-logo-text { font-size:30px; }
   .contact-quick-trigger, .brand-pinned-title, .menu-toggle .menu-label { display:none; }
-  .search-toggle { gap:0; margin-left:auto; }
-  .search-toggle .search-label { display:none; }
+  .search-toggle { display:none; }
   .menu-toggle { gap:0; padding:0; }
-  .menu-view { inset:14px 24px 24px 42px; gap:20px; }
-  .menu-link { width:100%; justify-content:space-between; font-size:clamp(18px,6vw,24px); }
-  main { padding: 94px 16px 36px; }
-  .product-detail-layout { grid-template-columns: 1fr; gap: 16px; }
-  .product-detail-image-wrap { order:1; justify-self:stretch; min-height:0; }
-  .product-detail-content { order:2; position: static; top: auto; padding: 4px 0 0; max-width: none; }
-  .product-detail-image { max-height: none; width: 100%; height: auto; object-fit: contain; }
-  .product-detail-title { font-size: clamp(26px, 8vw, 36px); margin-bottom: 14px; }
-  .product-whatsapp-btn { min-height: 46px; }
-  .product-faq-label { margin: 58px 0 18px; }
-  .product-faq { margin-top: 14px; }
-  .related-products {
-    margin-top: 48px;
-    padding: 0;
+  .menu-panel {
+    --mobile-menu-left-gutter: 14px;
+    --mobile-menu-right-gutter: 16px;
+    --mobile-menu-icon-track: 42px;
+    --menu-panel-single-width: 100vw;
+    --menu-panel-width: 100vw;
+    width: 100vw;
+    min-width: 100vw;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    border-left: 0;
+    border-right: 0;
   }
-  .related-grid { grid-auto-columns: minmax(150px, 1fr); }
+  .menu-panel::after { display:none; }
+  .menu-panel.is-open { box-shadow:0 -20px 36px rgba(10, 12, 18, 0.22); }
+  .menu-close { width:40px; height:40px; font-size:22px; }
+  .menu-head { justify-content:flex-end; padding:14px var(--mobile-menu-right-gutter) 0 0; width:100vw; min-width:100vw; }
+  .menu-view { inset:62px 0 28px 0 !important; gap:24px; }
+  .menu-view[data-menu-view="main"] { align-content:start; justify-items:stretch !important; text-align:left; gap:0; width:100% !important; }
+  .menu-view[data-menu-view="featured"],
+  .menu-view[data-menu-view="about"],
+  .menu-view[data-menu-view="services"],
+  .menu-view[data-menu-view="visit"],
+  .menu-view[data-menu-view="contact"] { justify-items:stretch !important; width:100% !important; }
+  .menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"],
+  .menu-panel[data-menu-current="featured"] .menu-view[data-menu-view="featured"],
+  .menu-panel[data-menu-current="about"] .menu-view[data-menu-view="about"],
+  .menu-panel[data-menu-current="services"] .menu-view[data-menu-view="services"],
+  .menu-panel[data-menu-current="visit"] .menu-view[data-menu-view="visit"],
+  .menu-panel[data-menu-current="contact"] .menu-view[data-menu-view="contact"] { left:0 !important; right:0 !important; inset:62px 0 28px 0 !important; transform:translateX(0) !important; }
+  .menu-main-layout { display:block; width:100% !important; }
+  .menu-main-quickpane { display:none; }
+  .menu-main-primary,.menu-main-secondary { justify-items:stretch !important; width:100% !important; }
+  .menu-main-primary { gap:18px; }
+  .menu-main-secondary { margin-top:22px; gap:18px; }
+  .menu-main-left { padding:0 22px !important; }
+  .menu-main-left { padding:0 !important; justify-items:stretch !important; width:100% !important; }
+  .menu-view[data-menu-view="about"],
+  .menu-view[data-menu-view="services"],
+  .menu-view[data-menu-view="visit"] { justify-items:stretch !important; gap:16px; width:100% !important; }
+  .menu-link,
+  .menu-link-button { display:grid !important; grid-template-columns:minmax(0, 1fr) var(--mobile-menu-icon-track) !important; align-items:center !important; width:100%; padding:6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important; font-size:clamp(18px,5.2vw,21px); line-height:1.24; box-sizing:border-box !important; column-gap:0 !important; justify-self:stretch !important; min-width:0 !important; }
+  .menu-link-secondary,.menu-link-button.menu-link-secondary { width:100%; font-size:17px; }
+  .menu-link::after, .menu-link-button::after { content:"›" !important; position:static !important; justify-self:center !important; align-self:center !important; opacity:.72; transform:none !important; width:auto !important; margin:0 !important; text-align:center; display:block !important; }
+  .menu-view[data-menu-view="featured"] .menu-back,
+  .menu-view[data-menu-view="about"] .menu-back,
+  .menu-view[data-menu-view="services"] .menu-back,
+  .menu-view[data-menu-view="visit"] .menu-back,
+  .menu-view[data-menu-view="contact"] .menu-back { grid-template-columns:minmax(0, 1fr) !important; width:100%; padding:6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important; font-size:10px !important; line-height:1.1 !important; letter-spacing:.14em !important; font-weight:500 !important; text-transform:uppercase !important; }
+  .menu-view[data-menu-view="featured"] .menu-back::after,
+  .menu-view[data-menu-view="about"] .menu-back::after,
+  .menu-view[data-menu-view="services"] .menu-back::after,
+  .menu-view[data-menu-view="visit"] .menu-back::after,
+  .menu-view[data-menu-view="contact"] .menu-back::after { content:none !important; display:none !important; }
+  .menu-link .nav-label,
+  .menu-link-button .nav-label { min-width:0; display:block; }
+  .menu-view[data-menu-view="featured"] .menu-link,
+  .menu-view[data-menu-view="about"] .menu-link,
+  .menu-view[data-menu-view="services"] .menu-link,
+  .menu-view[data-menu-view="visit"] .menu-link,
+  .menu-view[data-menu-view="contact"] .menu-link,
+  .menu-view[data-menu-view="featured"] .menu-link-button,
+  .menu-view[data-menu-view="about"] .menu-link-button,
+  .menu-view[data-menu-view="services"] .menu-link-button,
+  .menu-view[data-menu-view="visit"] .menu-link-button,
+  .menu-view[data-menu-view="contact"] .menu-link-button { width:100% !important; justify-self:stretch !important; padding:6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important; min-width:0 !important; }
+  .menu-view[data-menu-view="contact"] { justify-items:stretch !important; gap:18px; width:100% !important; }
+  .contact-quick-body { gap:24px; padding:10px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter); }
+  .menu-link-contact { display:grid !important; }
+  body { overflow-x: hidden; }
+  main { padding-top: var(--mobile-header-stack-height, 72px); }
+  .product-page,
+  .product-page-shell {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-top: 0;
+    padding-top: 0;
+    padding-bottom: 34px;
+    gap: 16px;
+  }
+  .product-detail-layout {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .product-detail-image-wrap {
+    order:1;
+    justify-self:stretch;
+    min-height:0;
+    width:100%;
+    max-width: 100%;
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .product-detail-media-desktop {
+    display: none;
+  }
+  .product-detail-media-mobile {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .product-detail-mobile-carousel {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+  .product-detail-mobile-viewport,
+  .product-detail-mobile-track,
+  .product-detail-mobile-slide {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .product-detail-mobile-slide {
+    display: block;
+  }
+  .product-detail-media-mobile .product-detail-image {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    display: block;
+    height: auto;
+    object-fit: contain;
+    object-position: var(--product-detail-position, center center);
+  }
+  .product-detail-content {
+    order:2;
+    position: static;
+    top: auto;
+    padding: 14px 16px 0;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    gap: 16px;
+    justify-self: stretch;
+    background: var(--page-bg);
+  }
+  .product-detail-image { max-height: none; width: 100%; height: auto; object-fit: initial; }
+  .product-detail-title { font-size: clamp(26px, 10vw, 36px); }
+  .product-breadcrumb {
+    font-size: 10px;
+    gap: 3px;
+  }
+  .product-whatsapp-btn {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 14px;
+    text-align: center;
+    line-height: 1.3;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .product-order-note {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+  .product-order-note-copy {
+    font-size: 12px;
+  }
+  .product-breadcrumb-row {
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .favorite-toggle--detail {
+    flex: 0 0 auto;
+    align-self: flex-start;
+  }
+  .product-faq-label { margin: 4px 0 0; }
+  .product-faq { margin-top: 0; }
+  .related-products {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0 16px;
+  }
+  .related-grid {
+    grid-auto-columns: minmax(150px, 1fr);
+    gap: 14px;
+  }
   .related-card { width: 150px; }
-  .related-card-image { width: 150px; }
+  .related-card-image {
+    width: 150px;
+    background: transparent;
+  }
+  .related-card-image img,
+  .related-image-cover,
+  .related-image-full {
+    object-fit: contain;
+    transform: none;
+  }
 
   #site-footer .footer-grid { grid-template-columns:1fr; gap:16px; }
   #site-footer .footer-col-title { margin:0; cursor:pointer; padding:2px 0; }
@@ -421,10 +720,6 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
   #site-footer .footer-col.is-open .footer-accordion-icon { transform:rotate(45deg); }
 }
   </style>
-<style>
-.search-toggle { display: none !important; }
-.menu-toggle { margin-left: auto !important; }
-</style>
 </head>
 <body>
 <header>
@@ -434,11 +729,11 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
       <span class="header-logo-text">Marvell Florist</span>
     </a>
     <a class="search-toggle" href="index.html?search" aria-label="Open search">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
       <span class="search-label">Cari</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
-      <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg></span>
       <span class="menu-label">Menu</span>
     </button>
   </div>
@@ -475,47 +770,101 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
   </div>
 </aside>
 
-<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1">
+<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1" hidden>
   <div class="menu-head"><button class="menu-close" id="menu-close" type="button" aria-label="Close menu">&#10005;</button></div>
   <div class="menu-body">
     <div class="menu-view" data-menu-view="main">
-      <a class="menu-link" href="index.html">Home</a>
-      <button class="menu-link menu-link-button" type="button" data-menu-open="portfolio">Portfolio</button>
-      <a class="menu-link" href="about.html">About</a>
-      <a class="menu-link" href="index.html#services">Services</a>
-      <a class="menu-link" href="index.html#reviews">Reviews</a>
+      <div class="menu-main-primary">
+        <button class="menu-link menu-link-button" type="button" data-menu-open="featured" data-seasonal-featured-link>Collections</button>
+        <a class="menu-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
+        <a class="menu-link" href="gallery.html?category=artificial-flowers">Table Arrangements</a>
+        <a class="menu-link" href="gallery.html?category=bouquets">Bouquets</a>
+        <a class="menu-link" href="gallery.html?category=papan-bunga">Papan Bunga</a>
+        <a class="menu-link" href="gallery.html?category=funerals">Funerals</a>
+        <a class="menu-link" href="gallery.html?category=parcels">Parcels</a>
+      </div>
+      <div class="menu-main-secondary">
+        <a class="menu-link menu-link-secondary" href="services.html">Services</a>
+        <a class="menu-link menu-link-secondary" href="about.html">About</a>
+        <a class="menu-link menu-link-secondary" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Visit Us</a>
+        <button class="menu-link menu-link-button menu-link-secondary menu-link-contact" type="button" data-menu-open="contact" data-menu-mobile-href="contact.html">Contact Us</button>
+      </div>
     </div>
-    <div class="menu-view" data-menu-view="portfolio">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&larr; Back</button>
-      <a class="menu-link" href="gallery.html?category=Standing%20Flowers">Standing Flowers</a>
-      <a class="menu-link" href="gallery.html?category=Artificial%20Flowers">Artificial Flowers</a>
-      <a class="menu-link" href="gallery.html?category=Bouquets">Bouquets</a>
-      <a class="menu-link" href="gallery.html?category=Papan%20Bunga">Papan Bunga</a>
-      <a class="menu-link" href="gallery.html?category=Funerals">Funerals</a>
-      <a class="menu-link" href="gallery.html?category=Parcels">Parcels</a>
-      <a class="menu-link" href="gallery.html?category=By%20Request">By Request</a>
+    <div class="menu-view" data-menu-view="featured">
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <div data-featured-menu-list></div>
+    </div>
+    <div class="menu-view" data-menu-view="contact">
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <div class="contact-quick-body">
+        <div class="contact-quick-block">
+          <p class="contact-quick-label">Hubungi Kami</p>
+          <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Rangkaian Bunga</a>
+          <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Pesanan Kustom</a>
+          <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
+          <p class="contact-quick-text is-muted">Tersedia Senin – Sabtu</p>
+          <p class="contact-quick-text is-muted">8:00 – 18:00 (WIB)</p>
+        </div>
+        <div class="contact-quick-block">
+          <p class="contact-quick-label">Lokasi Kami</p>
+          <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Rangkaian</a>
+          <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
+        </div>
+        <div class="contact-quick-block">
+          <p class="contact-quick-label">Tetap Terhubung</p>
+          <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
+        </div>
+        <div class="contact-quick-block">
+          <p class="contact-quick-label">Belanja Online</p>
+          <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
+          <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
+        </div>
+      </div>
     </div>
   </div>
 </aside>
 
-<main>
-  <section class="product-detail-layout">
-    <div class="product-detail-image-wrap">
-      <img id="product-image" class="product-detail-image" src="" alt="Product image">
-    </div>
-    <div class="product-detail-content">
-      <nav class="product-breadcrumb" id="product-breadcrumb" aria-label="Breadcrumb"></nav>
-      <h1 id="product-title" class="product-detail-title">Produk</h1>
-      <p id="product-price" class="product-detail-price" hidden></p>
-      <a id="product-whatsapp" class="product-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a>
-      <p class="product-faq-label">Pertanyaan yang Sering Diajukan</p>
-      <section class="product-faq" id="product-faq"></section>
-    </div>
-  </section>
-  <section class="related-products" aria-label="Related products">
-    <h2>Anda Mungkin Suka</h2>
-    <div class="related-grid" id="related-grid"></div>
-  </section>
+<main class="product-page">
+  <div class="product-page-shell">
+    <section class="product-detail-layout">
+      <div class="product-detail-image-wrap">
+        <div class="product-detail-media-desktop" id="product-media-desktop"></div>
+        <div class="product-detail-media-mobile">
+          <div class="product-detail-mobile-carousel is-single" id="product-mobile-carousel">
+            <div class="product-detail-mobile-viewport" id="product-mobile-viewport" aria-label="Product image gallery">
+              <div class="product-detail-mobile-track" id="product-mobile-track"></div>
+            </div>
+            <div class="product-detail-mobile-meta" aria-hidden="true">
+              <div class="product-detail-mobile-progress"><span class="product-detail-mobile-progress-fill" id="product-mobile-progress-fill"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-detail-content">
+        <div class="product-breadcrumb-row">
+          <nav class="product-breadcrumb" id="product-breadcrumb" aria-label="Breadcrumb"></nav>
+          <button id="product-save" class="favorite-toggle favorite-toggle--detail" type="button" data-favorite-toggle aria-label="Add arrangement to wishlist">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5 4.9 13.74a4.79 4.79 0 0 1 0-6.98 5.18 5.18 0 0 1 7.1 0L12 7.77l.01-.01a5.18 5.18 0 0 1 7.1 0 4.79 4.79 0 0 1 0 6.98L12 20.5Z"/></svg>
+            <span class="favorite-toggle__label">Wishlist</span>
+          </button>
+        </div>
+        <h1 id="product-title" class="product-detail-title">Produk</h1>
+        <p id="product-price" class="product-detail-price" hidden></p>
+        <a id="product-whatsapp" class="product-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a>
+        <div class="product-order-note" aria-label="Ordering guidance">
+          <p class="product-order-note-title" id="product-order-title">How to order</p>
+          <p class="product-order-note-copy" id="product-order-copy">Use this page as a reference, then continue on WhatsApp to confirm design details, availability, delivery timing, and final pricing before we prepare your arrangement.</p>
+        </div>
+        <p class="product-faq-label">Pertanyaan yang Sering Diajukan</p>
+        <section class="product-faq" id="product-faq"></section>
+      </div>
+    </section>
+    <section class="related-products" aria-label="Related products">
+      <h2>Anda Mungkin Suka</h2>
+      <div class="related-grid" id="related-grid"></div>
+    </section>
+  </div>
 </main>
 
 <footer id="site-footer">
@@ -529,7 +878,7 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
         <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-contact">
           <div class="footer-links">
-            <a class="footer-link" href="index.html#services">Hubungi Kami</a>
+            <a class="footer-link" href="services.html#consultation">Hubungi Kami</a>
             <a class="footer-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>
             <a class="footer-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a class="footer-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
@@ -537,12 +886,13 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
         </div>
       </section>
       <section class="footer-col" aria-label="About links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">Tentang <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">About Marvell Florist <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-about">
           <ul class="footer-list">
-            <li><a class="footer-link" href="about.html#journey">Perjalanan Kami</a></li>
-            <li><a class="footer-link" href="about.html#craft">Karya Kami</a></li>
+            <li><a class="footer-link" href="about.html#foundation">Perjalanan Kami</a></li>
+            <li><a class="footer-link" href="about.html#philosophy">Karya Kami</a></li>
             <li><a class="footer-link" href="about.html#team">Tim Kami</a></li>
+            <li><a class="footer-link" href="journals.html">The Journals</a></li>
           </ul>
         </div>
       </section>
@@ -550,13 +900,12 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
         <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories">Kategori <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-categories">
           <div class="footer-links">
-            <a class="footer-link" href="gallery.html?category=Standing%20Flowers">Standing Flowers</a>
-            <a class="footer-link" href="gallery.html?category=Artificial%20Flowers">Artificial Flowers</a>
-            <a class="footer-link" href="gallery.html?category=Bouquets">Bouquets</a>
-            <a class="footer-link" href="gallery.html?category=Papan%20Bunga">Papan Bunga</a>
-            <a class="footer-link" href="gallery.html?category=Funerals">Funerals</a>
-            <a class="footer-link" href="gallery.html?category=Parcels">Parcels</a>
-            <a class="footer-link" href="gallery.html?category=By%20Request">Sesuai Permintaan</a>
+            <a class="footer-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
+            <a class="footer-link" href="gallery.html?category=artificial-flowers">Table Arrangements</a>
+            <a class="footer-link" href="gallery.html?category=bouquets">Bouquets</a>
+            <a class="footer-link" href="gallery.html?category=papan-bunga">Papan Bunga</a>
+            <a class="footer-link" href="gallery.html?category=funerals">Funerals</a>
+            <a class="footer-link" href="gallery.html?category=parcels">Parcels</a>
           </div>
         </div>
       </section>
@@ -566,6 +915,11 @@ main { padding: 72px 0 56px; max-width: none; margin: 0; }
   </div>
 </footer>
 
+<script src="assets/shared-contact.js?v=20260414g"></script>
+<script src="assets/shared-footer.js?v=20260423j"></script>
+<script src="assets/secondary-menu.js?v=20260424e"></script>
+<script src="assets/favorites.js?v=20260422b"></script>
+<script type="module" src="/seasonal/seasonal-page.js"></script>
 <script>
 const FAQ_BY_GROUP_EN = {
   bouquets: [
@@ -748,6 +1102,55 @@ function resolveFeaturedPriceByTitle(title) {
 
 function normalize(value) { return String(value || "").trim().toLowerCase(); }
 function decodeParam(value) { try { return decodeURIComponent(value || ""); } catch { return String(value || ""); } }
+function normalizeMediaPosition(value) {
+  const raw = String(value || "").trim();
+  return raw || "center center";
+}
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+function normalizeAdditionalImages(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => {
+      if (typeof entry === "string") {
+        const image = String(entry || "").trim();
+        if (!image) return null;
+        return {
+          image,
+          scrollPosition: "center center"
+        };
+      }
+      if (!entry || typeof entry !== "object") return null;
+      const image = String(entry.image || entry.src || "").trim();
+      if (!image) return null;
+      return {
+        image,
+        scrollPosition: normalizeMediaPosition(entry.scrollPosition)
+      };
+    })
+    .filter(Boolean);
+}
+function buildProductMediaCollection(item, fallbackImage = "") {
+  const primaryImage = String(item?.image || item?.src || fallbackImage || "").trim();
+  const media = [];
+  if (primaryImage) {
+    media.push({
+      image: primaryImage,
+      scrollPosition: "left top"
+    });
+  }
+  normalizeAdditionalImages(item?.additionalImages).forEach((entry) => {
+    if (!entry?.image) return;
+    media.push(entry);
+  });
+  return media;
+}
 function getFileStem(path) {
   const raw = String(path || "").split("/").pop() || "";
   return raw.replace(/\.[a-z0-9]+$/i, "");
@@ -770,7 +1173,7 @@ function normalizeCategoryKey(value) {
   const raw = normalize(value).replace(/\s+/g, " ");
   if (!raw) return raw;
   if (["papan bunga", "flower boards", "papan"].includes(raw)) return "flower boards";
-  if (["artificial flowers", "artificial flower arrangements", "artificial"].includes(raw)) return "artificial flowers";
+  if (["table arrangements", "table arrangement", "rangkaian meja", "artificial flowers", "artificial flower arrangements", "artificial"].includes(raw)) return "artificial flowers";
   if (["standing flowers", "standing flower"].includes(raw)) return "standing flowers";
   if (["parcels", "hampers", "parcel"].includes(raw)) return "parcels";
   if (["by request", "custom", "car decorations", "opening ribbons"].includes(raw)) return "by request";
@@ -826,7 +1229,8 @@ async function loadGalleryItems() {
         ...item,
         title: String(item.title || item.name || "").trim(),
         category: String(item.category || fallbackCategory).trim(),
-        price: normalizedPrice
+        price: normalizedPrice,
+        additionalImages: normalizeAdditionalImages(item.additionalImages)
       };
     };
 
@@ -888,7 +1292,8 @@ async function loadFeaturedItems() {
           category: eventTitle || "Seasonal Collection",
           title,
           image,
-          price
+          price,
+          additionalImages: normalizeAdditionalImages(product?.additionalImages)
         });
       });
     });
@@ -973,11 +1378,11 @@ function normalizeProductTitle(category, rawTitle, imagePath) {
     if (hasGrad) return `${leadColor}Graduation Bouquet`.trim();
     return `${leadColor}Bouquet Arrangement`.trim();
   }
-  if (cat.includes("artificial")) {
+  if (cat.includes("artificial") || cat.includes("table arrangement") || cat.includes("rangkaian meja")) {
     if (hasBalloon) return `${leadColor}Balloon Bloom Box`.trim();
     if (hasBloomBox) return `${leadColor}Bloom Box`.trim();
     if (tokens.includes("pot") || tokens.includes("potted") || tokens.includes("basket")) return `${leadColor}Potted Arrangement`.trim();
-    return `${leadColor}Artificial Arrangement`.trim();
+    return `${leadColor}Table Arrangement`.trim();
   }
   if (hasPapan) {
     const papanType = isRustic ? "Rustic" : "Suyuk";
@@ -1003,19 +1408,19 @@ function adjustTitleByCategoryNumber(category, baseTitle, number) {
   if (cat.includes("papan") && safeNumber === 1) {
     return baseTitle.replace(/\bSuyuk\b/i, "Rustic");
   }
-  if (cat.includes("artificial") && safeNumber === 15) {
+  if ((cat.includes("artificial") || cat.includes("table arrangement") || cat.includes("rangkaian meja")) && safeNumber === 15) {
     return "Bloom Box";
   }
-  if (cat.includes("artificial") && (safeNumber === 13 || safeNumber === 18)) {
+  if ((cat.includes("artificial") || cat.includes("table arrangement") || cat.includes("rangkaian meja")) && (safeNumber === 13 || safeNumber === 18)) {
     return "Bloom Box";
   }
-  if (cat.includes("artificial") && safeNumber === 22) {
+  if ((cat.includes("artificial") || cat.includes("table arrangement") || cat.includes("rangkaian meja")) && safeNumber === 22) {
     return "Bloom Box";
   }
-  if (cat.includes("artificial") && (safeNumber === 20 || safeNumber === 21)) {
+  if ((cat.includes("artificial") || cat.includes("table arrangement") || cat.includes("rangkaian meja")) && (safeNumber === 20 || safeNumber === 21)) {
     return "Balloon Bloom Box";
   }
-  if (cat.includes("artificial") && safeNumber >= 2 && safeNumber <= 4) {
+  if ((cat.includes("artificial") || cat.includes("table arrangement") || cat.includes("rangkaian meja")) && safeNumber >= 2 && safeNumber <= 4) {
     return "Balloon Bloom Box";
   }
   return baseTitle;
@@ -1023,7 +1428,7 @@ function adjustTitleByCategoryNumber(category, baseTitle, number) {
 function resolveSpecialRetailPrice(category, number) {
   const cat = normalize(category);
   const safeNumber = Number(number) || 0;
-  if (cat.includes("artificial") && safeNumber === 22) return "Retail price: Rp450.000";
+  if ((cat.includes("artificial") || cat.includes("table arrangement") || cat.includes("rangkaian meja")) && safeNumber === 22) return "Retail price: Rp450.000";
   return "";
 }
 function inferFaqGroup(category, title, image, number = 0) {
@@ -1036,7 +1441,7 @@ function inferFaqGroup(category, title, image, number = 0) {
   if (text.includes("funeral") || text.includes("duka")) return isDoublePapan ? "funeralsDouble" : "funeralsSingle";
   if (text.includes("papan")) return isDoublePapan ? "papanDouble" : "papanSingle";
   if (text.includes("balloon") || text.includes("bloombal")) return "balloonBloomBox";
-  if (text.includes("artificial") || text.includes("bloom box") || text.includes("bloombox")) {
+  if (text.includes("artificial") || text.includes("table arrangement") || text.includes("rangkaian meja") || text.includes("bloom box") || text.includes("bloombox")) {
     const no = Number(number) || 0;
     if (no === 15 || no === 22) return "bloomBox";
     if ((no >= 2 && no <= 4) || no === 20 || no === 21) return "balloonBloomBox";
@@ -1062,11 +1467,16 @@ function buildWaLink(phone, title) {
   ].join("\n");
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 }
-function renderFaq(group, title, image) {
+function renderFaq(group, title, image, options = {}) {
   const wrap = document.getElementById("product-faq");
   if (!(wrap instanceof HTMLElement)) return;
   const faqGroups = getFaqGroups();
-  const faqs = faqGroups[group] || faqGroups.bouquets;
+  const hasFixedPrice = options?.hasFixedPrice === true;
+  const faqs = (faqGroups[group] || faqGroups.bouquets).filter((item) => {
+    if (!hasFixedPrice) return true;
+    const faqTitle = String(item?.title || "").trim().toLowerCase();
+    return faqTitle !== "pricing" && faqTitle !== "harga";
+  });
   const toFaqParagraphs = (content) => String(content || "")
     .split(/\n+/)
     .map((part) => part.trim())
@@ -1110,12 +1520,30 @@ function renderFaq(group, title, image) {
     });
   });
 }
+
+function isByRequestCategoryName(value) {
+  const raw = normalize(value || "");
+  if (!raw) return false;
+  return [
+    "by request",
+    "by-request",
+    "sesuai permintaan",
+    "custom request",
+    "custom arrangement",
+    "custom arrangements"
+  ].includes(raw);
+}
+
 async function initDetail() {
   const params = new URLSearchParams(window.location.search);
   const requestedCategory = decodeParam(params.get("category"));
   const requestedTitle = decodeParam(params.get("title")) || "Product";
   const requestedImage = decodeParam(params.get("image"));
   const priceParam = decodeParam(params.get("price"));
+  if (isByRequestCategoryName(requestedCategory)) {
+    window.location.replace("custom-arrangements.html");
+    return;
+  }
   const [galleryItems, featuredItems] = await Promise.all([
     loadGalleryItems(),
     loadFeaturedItems()
@@ -1130,6 +1558,10 @@ async function initDetail() {
     || requestedCategory
     || ""
   ).trim();
+  if (isByRequestCategoryName(category)) {
+    window.location.replace("custom-arrangements.html");
+    return;
+  }
   const image = String(
     matchedGalleryItem?.image
     || matchedFeaturedItem?.image
@@ -1153,14 +1585,54 @@ async function initDetail() {
   const title = isFeaturedCategory(category)
     ? baseTitle
     : (hasExplicitTitle ? baseTitle : withDisplayNumber(baseTitle, productNumber || 1));
-  const imageEl = document.getElementById("product-image");
+  const mediaCollection = buildProductMediaCollection(matchedGalleryItem || matchedFeaturedItem, image);
+  const desktopMedia = document.getElementById("product-media-desktop");
+  const mobileCarousel = document.getElementById("product-mobile-carousel");
+  const mobileViewport = document.getElementById("product-mobile-viewport");
+  const mobileTrack = document.getElementById("product-mobile-track");
+  const mobileProgressFill = document.getElementById("product-mobile-progress-fill");
   const titleEl = document.getElementById("product-title");
   const priceEl = document.getElementById("product-price");
   const waBtn = document.getElementById("product-whatsapp");
+  const saveBtn = document.getElementById("product-save");
   const breadcrumbEl = document.getElementById("product-breadcrumb");
-  if (imageEl instanceof HTMLImageElement) {
-    imageEl.src = image || "/assets/quotes.webp";
-    imageEl.alt = title;
+  const safeMedia = mediaCollection.length
+    ? mediaCollection
+    : [{ image: image || "/assets/quotes.webp", scrollPosition: "left top" }];
+  if (desktopMedia instanceof HTMLElement) {
+    desktopMedia.innerHTML = safeMedia.map((entry, index) => `
+      <div class="product-detail-stack-item ${index === 0 ? "product-detail-stack-item--primary" : "product-detail-stack-item--secondary"}">
+        <img class="product-detail-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(index === 0 ? title : `${title} image ${index + 1}`)}" loading="eager" decoding="async" fetchpriority="${index === 0 ? "high" : "auto"}" style="--product-detail-position:${escapeHtml(entry.scrollPosition || "left top")};">
+      </div>
+    `).join("");
+  }
+  if (mobileTrack instanceof HTMLElement) {
+    mobileTrack.innerHTML = safeMedia.map((entry, index) => `
+      <div class="product-detail-mobile-slide" data-product-mobile-slide="${index}">
+        <img class="product-detail-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(index === 0 ? title : `${title} image ${index + 1}`)}" loading="eager" decoding="async" fetchpriority="${index === 0 ? "high" : "auto"}" style="--product-detail-position:${escapeHtml(entry.scrollPosition || "left top")};">
+      </div>
+    `).join("");
+  }
+  if (mobileCarousel instanceof HTMLElement) {
+    const slideCount = Math.max(1, safeMedia.length);
+    mobileCarousel.classList.toggle("is-single", slideCount <= 1);
+    const updateMobileProgress = () => {
+      if (!(mobileViewport instanceof HTMLElement) || !(mobileProgressFill instanceof HTMLElement)) return;
+      const viewportWidth = mobileViewport.clientWidth || 1;
+      const currentIndex = Math.max(0, Math.min(slideCount - 1, Math.round(mobileViewport.scrollLeft / viewportWidth)));
+      mobileProgressFill.style.width = `${((currentIndex + 1) / slideCount) * 100}%`;
+    };
+    if (mobileViewport instanceof HTMLElement) {
+      let frame = 0;
+      mobileViewport.addEventListener("scroll", () => {
+        if (frame) cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          frame = 0;
+          updateMobileProgress();
+        });
+      }, { passive: true });
+    }
+    updateMobileProgress();
   }
   if (titleEl instanceof HTMLElement) titleEl.textContent = title;
   document.title = `${title} | Marvell Florist`;
@@ -1173,6 +1645,25 @@ async function initDetail() {
       || resolveSpecialRetailPrice(category, productNumber || 1);
     priceEl.textContent = priceText;
     priceEl.hidden = !priceText;
+    if (saveBtn instanceof HTMLElement) {
+      const favoriteId = window.MarvellFavorites?.buildItemId?.({
+        title,
+        image,
+        href: window.location.pathname + window.location.search,
+        category
+      }) || "";
+      saveBtn.dataset.favoriteId = favoriteId;
+      saveBtn.dataset.favoriteTitle = title;
+      saveBtn.dataset.favoriteImage = image;
+      saveBtn.dataset.favoriteHref = `${window.location.pathname}${window.location.search}`;
+      saveBtn.dataset.favoritePrice = priceText;
+      saveBtn.dataset.favoriteCategory = category;
+      saveBtn.dataset.favoriteSource = "product";
+      window.MarvellFavorites?.syncButtons?.(document);
+    }
+    renderFaq(inferFaqGroup(category, title, image, productNumber || 0), title, image, {
+      hasFixedPrice: Boolean(priceText)
+    });
   }
   if (waBtn instanceof HTMLAnchorElement) {
     waBtn.href = buildWaLink(resolvePhone(category, title, image), title);
@@ -1197,7 +1688,6 @@ async function initDetail() {
       `;
     }
   }
-  renderFaq(inferFaqGroup(category, title, image, productNumber || 0), title, image);
   renderRelatedProducts(category, image, galleryItems);
 }
 
@@ -1211,7 +1701,7 @@ function renderRelatedProducts(category, currentImage, galleryItems = []) {
     .filter((entry) => normalize(entry.item?.image) !== current)
     .slice(0, 6);
   if (!related.length) {
-    grid.innerHTML = '<p class="related-card-title">No additional items in this category yet.</p>';
+    grid.innerHTML = '<p class="related-empty">No additional items in this category yet.</p>';
     return;
   }
   grid.innerHTML = related.map(({ item, categoryIndex }) => {
@@ -1292,17 +1782,31 @@ const contactPanel = document.getElementById("contact-quick-panel");
 const contactClose = document.getElementById("contact-quick-close");
 const menuToggle = document.getElementById("menu-toggle");
 const menuPanel = document.getElementById("menu-panel");
+const SHARED_CONTACT_MANAGED = !!(contactPanel && contactPanel.dataset.sharedManaged === "true");
+const SHARED_MENU_MANAGED = !!(menuPanel && menuPanel.dataset.sharedManaged === "true");
 const menuClose = document.getElementById("menu-close");
 const menuViews = menuPanel ? Array.from(menuPanel.querySelectorAll("[data-menu-view]")) : [];
+const featuredMenuList = menuPanel ? menuPanel.querySelector("[data-featured-menu-list]") : null;
 const footerCols = Array.from(document.querySelectorAll("#site-footer .footer-col"));
 const footerToggles = Array.from(document.querySelectorAll("#site-footer .footer-accordion-toggle"));
 
 const setMenuView = (view = "main") => {
   if (!menuPanel) return;
   menuPanel.setAttribute("data-menu-current", view);
-  menuViews.forEach((v) => v.setAttribute("aria-hidden", v.getAttribute("data-menu-view") === view ? "false" : "true"));
+  menuViews.forEach((v) => {
+    const isMatch = v.getAttribute("data-menu-view") === view;
+    const isMainView = v.getAttribute("data-menu-view") === "main";
+    v.setAttribute("aria-hidden", isMatch ? "false" : "true");
+    v.style.opacity = isMatch ? "1" : "0";
+    v.style.pointerEvents = isMatch ? "auto" : "none";
+    v.style.visibility = isMatch ? "visible" : "hidden";
+    v.style.transform = isMatch
+      ? "translateX(0)"
+      : (isMainView && view !== "main" ? "translateX(-18px)" : "translateX(18px)");
+  });
 };
 const setContactOpen = (open) => {
+  if (SHARED_CONTACT_MANAGED) return;
   if (!contactPanel || !contactBackdrop || !contactTrigger) return;
   contactPanel.classList.toggle("is-open", open);
   contactBackdrop.classList.toggle("is-open", open);
@@ -1310,6 +1814,7 @@ const setContactOpen = (open) => {
   contactTrigger.setAttribute("aria-expanded", open ? "true" : "false");
 };
 const setMenuOpen = (open) => {
+  if (SHARED_MENU_MANAGED) return;
   if (!menuPanel || !contactBackdrop || !menuToggle) return;
   menuPanel.classList.toggle("is-open", open);
   contactBackdrop.classList.toggle("is-open", open);
@@ -1317,18 +1822,118 @@ const setMenuOpen = (open) => {
   menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
   if (!open) setMenuView("main");
 };
-if (menuPanel) setMenuView("main");
-if (contactTrigger) contactTrigger.addEventListener("click", () => setContactOpen(!(contactPanel && contactPanel.classList.contains("is-open"))));
-if (contactClose) contactClose.addEventListener("click", () => setContactOpen(false));
-if (menuToggle && menuPanel) menuToggle.addEventListener("click", () => { const o = menuPanel.classList.contains("is-open"); if (!o) setContactOpen(false); setMenuOpen(!o); });
-if (menuClose) menuClose.addEventListener("click", () => setMenuOpen(false));
-if (contactBackdrop) contactBackdrop.addEventListener("click", () => { setContactOpen(false); setMenuOpen(false); });
-if (menuPanel) {
+if (menuPanel && !SHARED_MENU_MANAGED) setMenuView("main");
+if (featuredMenuList instanceof HTMLElement && !featuredMenuList.children.length && !featuredMenuList.textContent.trim()) {
+  featuredMenuList.innerHTML = '<a class="menu-link" data-seasonal-fallback="true" href="featured.html">Collections</a>';
+}
+function getActiveUiLanguage() {
+  const params = new URL(window.location.href).searchParams;
+  const fromUrl = String(params.get("lang") || "").trim().toLowerCase();
+  if (fromUrl === "en" || fromUrl === "id") return fromUrl;
+  try {
+    const fromStorage = String(window.localStorage?.getItem("marvell-language") || "").trim().toLowerCase();
+    if (fromStorage === "en" || fromStorage === "id") return fromStorage;
+  } catch (_error) {
+    // Ignore storage access issues.
+  }
+  return String(document.documentElement.lang || "").trim().toLowerCase() === "id" ? "id" : "en";
+}
+function buildLocalizedFeaturedHref(eventId = "") {
+  const href = eventId ? `featured.html?event=${encodeURIComponent(eventId)}` : "featured.html";
+  const url = new URL(href, window.location.href);
+  url.searchParams.set("lang", getActiveUiLanguage());
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+function localizeSeasonalCollectionTitle(title = "") {
+  const raw = String(title || "").trim();
+  if (!raw) return "Collections";
+  if (getActiveUiLanguage() !== "id") return raw;
+  const map = {
+    "Ramadan & Eid Collection": "Koleksi Ramadan & Idul Fitri",
+    "Valentine's Collection": "Koleksi Valentine",
+    "Graduation Collection": "Koleksi Wisuda",
+    "Mother's Day Collection": "Koleksi Hari Ibu",
+    "Chinese New Year Collection": "Koleksi Tahun Baru Imlek",
+    "Christmas Collection": "Koleksi Natal",
+    "Collections": "Koleksi"
+  };
+  return map[raw] || raw;
+}
+function parseFeaturedMonthDay(value) {
+  const [monthRaw, dayRaw] = String(value || "").split("-");
+  const month = Number(monthRaw);
+  const day = Number(dayRaw);
+  if (!Number.isInteger(month) || !Number.isInteger(day)) return null;
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  return { month, day };
+}
+function isFeaturedEventActive(eventConfig, today = new Date()) {
+  const startPart = parseFeaturedMonthDay(eventConfig?.start);
+  const endPart = parseFeaturedMonthDay(eventConfig?.end);
+  if (!startPart || !endPart) return false;
+  const now = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const year = now.getFullYear();
+  const startDate = new Date(year, startPart.month - 1, startPart.day);
+  const endDate = new Date(year, endPart.month - 1, endPart.day);
+  if (endDate >= startDate) return now >= startDate && now <= endDate;
+  return now >= startDate || now <= endDate;
+}
+function syncSeasonalMenuEntry(catalog) {
+  const activeEvents = (Array.isArray(catalog?.events) ? catalog.events : [])
+    .filter((eventConfig) => eventConfig?.forceActive === true || isFeaturedEventActive(eventConfig))
+    .filter((eventConfig) => Array.isArray(eventConfig?.products) && eventConfig.products.some((item) => String(item?.src || "").trim()));
+  const primaryEvent = [...activeEvents].sort((a, b) => {
+    const byPriority = (Number(b?.priority) || 0) - (Number(a?.priority) || 0);
+    if (byPriority !== 0) return byPriority;
+    return String(a?.id || "").localeCompare(String(b?.id || ""));
+  })[0] || null;
+  const directHref = primaryEvent ? buildLocalizedFeaturedHref(String(primaryEvent.id || "").trim()) : buildLocalizedFeaturedHref("");
+  const rawLabel = primaryEvent ? String(primaryEvent.title || "").trim() || "Collections" : "Collections";
+  const label = localizeSeasonalCollectionTitle(rawLabel);
+  document.querySelectorAll("[data-seasonal-featured-link]").forEach((trigger) => {
+    if (!(trigger instanceof HTMLElement)) return;
+    trigger.setAttribute("data-seasonal-direct-href", directHref);
+    trigger.dataset.seasonalManaged = "true";
+    trigger.dataset.seasonalLabel = rawLabel;
+    trigger.textContent = label;
+  });
+  if (featuredMenuList instanceof HTMLElement) {
+    featuredMenuList.innerHTML = `<a class="menu-link" data-seasonal-fallback="true" data-seasonal-managed="true" data-seasonal-label="${String(rawLabel).replace(/"/g, "&quot;")}" href="${directHref}">${label}</a>`;
+  }
+}
+fetch("content/featured.json", { cache: "no-store" })
+  .then((response) => (response.ok ? response.json() : null))
+  .then((catalog) => {
+    if (catalog) syncSeasonalMenuEntry(catalog);
+  })
+  .catch(() => {
+    // Keep the static fallback when the featured catalog cannot be loaded.
+  });
+if (contactTrigger && !SHARED_CONTACT_MANAGED) contactTrigger.addEventListener("click", () => setContactOpen(!(contactPanel && contactPanel.classList.contains("is-open"))));
+if (contactClose && !SHARED_CONTACT_MANAGED) contactClose.addEventListener("click", () => setContactOpen(false));
+if (menuToggle && menuPanel && !SHARED_MENU_MANAGED) menuToggle.addEventListener("click", () => { const o = menuPanel.classList.contains("is-open"); if (!o) setContactOpen(false); setMenuOpen(!o); });
+if (menuClose && !SHARED_MENU_MANAGED) menuClose.addEventListener("click", () => setMenuOpen(false));
+if (contactBackdrop && !SHARED_CONTACT_MANAGED && !SHARED_MENU_MANAGED) contactBackdrop.addEventListener("click", () => { setContactOpen(false); setMenuOpen(false); });
+if (menuPanel && !SHARED_MENU_MANAGED) {
   menuPanel.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
+    const directBtn = target.closest("[data-seasonal-direct-href]");
+    if (directBtn instanceof HTMLElement) {
+      const directHref = String(directBtn.getAttribute("data-seasonal-direct-href") || "").trim();
+      if (directHref) {
+        window.location.href = directHref;
+        return;
+      }
+    }
     const openBtn = target.closest("[data-menu-open]");
-    if (openBtn instanceof HTMLElement) { const v = openBtn.getAttribute("data-menu-open"); if (v) setMenuView(v); return; }
+    if (openBtn instanceof HTMLElement) {
+      const mobileHref = String(openBtn.getAttribute("data-menu-mobile-href") || "").trim();
+      if (mobileHref && window.matchMedia("(max-width: 899px)").matches) { setMenuOpen(false); window.location.href = mobileHref; return; }
+      const v = openBtn.getAttribute("data-menu-open");
+      if (v) setMenuView(v);
+      return;
+    }
     const backBtn = target.closest("[data-menu-back]");
     if (backBtn instanceof HTMLElement) { const v = backBtn.getAttribute("data-menu-back") || "main"; setMenuView(v); return; }
     if (target instanceof HTMLAnchorElement) setMenuOpen(false);

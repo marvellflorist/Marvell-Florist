@@ -1,4 +1,11 @@
 {
+  "homeHero": {
+    "image": "assets/home.webp",
+    "eyebrow": "Marvell Florist",
+    "heading": "For Moments That Matter",
+    "ctaLabel": "Discover the Collection",
+    "ctaTarget": "gallery-entry"
+  },
   "homePortfolio": {
     "kicker": "OUR WORK",
     "heading": "The Portfolio",
@@ -8,7 +15,7 @@
   },
   "galleryPage": {
     "note": "Most pieces are custom made, so availability and flower selection must be confirmed first.",
-    "byRequestHook": "Not every arrangement begins in a catalog. Some start with a conversation.",
-    "consultButtonLabel": "Consult This Collection"
+    "byRequestHook": "Didn't find what you were looking for?",
+    "consultButtonLabel": "Start a Custom Request"
   }
 }

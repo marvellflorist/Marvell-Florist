@@ -13,8 +13,9 @@
 <meta property="og:url" content="https://marvellflorist.com/gallery.html">
 <meta property="og:title" content="Gallery | Marvell Florist">
 <meta property="og:description" content="Browse Marvell Florist collections by category.">
-<meta property="og:image" content="https://marvellflorist.com/assets/preview.png">
-<meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png">
+<meta property="og:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta property="og:image:url" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png?v=2">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,8 +23,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Gallery | Marvell Florist">
 <meta name="twitter:description" content="Browse Marvell Florist collections by category.">
-<meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png">
-<script src="assets/site-language.js"></script>
+<meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
+<script defer src="assets/site-loader.js?v=20260424d"></script>
+<script src="assets/site-language.js?v=20260424b"></script>
+<script src="assets/header-template.js?v=20260424b"></script>
 <script src="gallery-fallback-data.js"></script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
@@ -56,6 +62,23 @@
   --ink: #2f2923;
   --muted: rgba(47, 41, 35, 0.68);
   --line: rgba(63, 54, 45, 0.16);
+  --promo-strip-height: 44px;
+  --gallery-category-nav-height: 42px;
+  --gallery-header-stack-height: calc(72px + env(safe-area-inset-top, 0px));
+  --gallery-mobile-toolbar-offset: 12px;
+  --gallery-mobile-dropdown-offset: 18px;
+}
+body {
+  --gallery-promo-offset: 0px;
+  --shared-header-top: var(--gallery-promo-offset);
+  --gallery-mobile-toolbar-top: calc(var(--gallery-header-stack-height) + var(--gallery-promo-offset) + var(--gallery-mobile-toolbar-offset));
+  --gallery-mobile-toolbar-runtime-height: var(--gallery-mobile-toolbar-height);
+}
+body.has-promo-strip {
+  --gallery-promo-offset: var(--promo-strip-height);
+}
+body.promo-strip-closing {
+  --gallery-promo-offset: 0px;
 }
 html {
   scroll-behavior: smooth;
@@ -74,7 +97,7 @@ html {
   border: 0 !important;
 }
 body {
-  font-family: "Fraunces", serif;
+  font-family: "Inter Tight", sans-serif;
   background: var(--canvas);
   color: var(--ink);
   overscroll-behavior-y: none;
@@ -116,7 +139,7 @@ header::after {
   border-radius: 0;
   pointer-events: none;
   opacity: 1;
-  transition: none;
+  transition: top 0.5s ease;
 }
 header::before {
   z-index: 1;
@@ -127,8 +150,138 @@ header::before {
   -webkit-backdrop-filter: none;
   box-shadow: none;
 }
+header,
+header::before,
+header::after {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
 header::after {
   display: none;
+}
+.collection-promo-strip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: #c7b9ab;
+  overflow: hidden;
+  min-height: 0;
+  max-height: var(--gallery-promo-offset);
+  opacity: 0;
+  transform: translateY(0);
+  transition: max-height 0.5s ease, transform 0.5s ease;
+}
+body.has-promo-strip .collection-promo-strip {
+  opacity: 1;
+  transform: translateY(0);
+}
+.collection-promo-strip.is-closing {
+  max-height: var(--promo-strip-height);
+  opacity: 1;
+  transform: translateY(calc(-1 * var(--promo-strip-height)));
+}
+.promo-strip-fallback {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--promo-strip-height);
+  background: #f8f6f1;
+  z-index: 48;
+  pointer-events: none;
+  opacity: 0;
+  height: var(--gallery-promo-offset);
+  transition: height 0.5s ease;
+}
+body.has-promo-strip .promo-strip-fallback {
+  opacity: 1;
+}
+body.promo-strip-closing .promo-strip-fallback {
+  height: var(--promo-strip-height);
+  opacity: 1;
+}
+.collection-promo-track {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding: 10px 44px 10px 20px;
+}
+.collection-promo-link {
+  color: #5f5044;
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-align: center;
+  opacity: 0;
+  flex: 0 1 auto;
+  white-space: nowrap;
+  font-weight: 500;
+  position: relative;
+}
+body.has-promo-strip .collection-promo-link {
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+.collection-promo-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.collection-promo-link:hover,
+.collection-promo-link:focus-visible {
+  outline: none;
+}
+.collection-promo-link:hover::after,
+.collection-promo-link:focus-visible::after {
+  transform: scaleX(1);
+}
+.collection-promo-close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: #5f5044;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
+header,
+.category-nav,
+.mobile-category-toolbar,
+.filters-dock {
+  transition: top 0.5s ease;
+}
+header {
+  top: var(--gallery-promo-offset);
+}
+header::before,
+header::after {
+  top: var(--gallery-promo-offset);
+}
+.category-nav {
+  top: calc(var(--gallery-header-stack-height) + var(--gallery-promo-offset));
+}
+.mobile-category-toolbar {
+  top: calc(var(--gallery-header-stack-height) + var(--gallery-promo-offset));
 }
 .header-brand {
   display: inline-flex;
@@ -171,8 +324,8 @@ header::after {
   text-decoration: none;
 }
 .search-toggle svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   display: block;
   stroke: currentColor;
   fill: none;
@@ -203,14 +356,18 @@ header::after {
 }
 .menu-toggle .menu-icon {
   display: inline-flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  justify-content: center;
 }
-.menu-toggle .menu-icon span {
+.menu-toggle .menu-icon svg {
   display: block;
-  width: 18px;
-  height: 2px;
-  background: rgba(42, 33, 24, 0.72);
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .contact-quick-trigger {
   display: inline-flex;
@@ -251,13 +408,14 @@ header::after {
 }
 .category-nav {
   position: fixed;
-  top: 72px;
+  top: calc(var(--gallery-header-stack-height) + var(--gallery-promo-offset));
   left: 0;
   right: 0;
-  z-index: 49;
+  z-index: 58;
+  height: var(--gallery-category-nav-height);
   background: #f8f6f1;
   border-top: 0;
-  border-bottom: 0;
+  border-bottom: 1px solid rgba(63, 54, 45, 0.14);
   overflow-x: auto;
   white-space: nowrap;
 }
@@ -265,7 +423,9 @@ header::after {
   display: inline-flex;
   min-width: 100%;
   gap: 18px;
-  padding: 10px 12px;
+  height: 100%;
+  padding: 0 12px;
+  align-items: center;
 }
 .category-nav-list a {
   text-decoration: none;
@@ -278,12 +438,9 @@ header::after {
   color: #111;
   text-transform: uppercase;
 }
-body.portfolio-gateway-active .category-nav,
-body.portfolio-gateway-active .mobile-category-toolbar {
-  display: none !important;
-}
 .mobile-category-toolbar {
   display: none;
+  --gallery-mobile-toolbar-height: 46px;
 }
 .filters-mobile-icon {
   display: none;
@@ -345,7 +502,7 @@ body.portfolio-gateway-active .mobile-category-toolbar {
   position: fixed;
   left: 0;
   right: 0;
-  top: calc(env(safe-area-inset-top, 0px) + 128px);
+  top: calc(var(--gallery-mobile-toolbar-top) + var(--gallery-mobile-toolbar-runtime-height) + var(--gallery-mobile-dropdown-offset));
   background: #f8f6f1;
   border-top: 0;
   border-bottom: 0;
@@ -353,7 +510,7 @@ body.portfolio-gateway-active .mobile-category-toolbar {
   transform: translateY(-10px);
   pointer-events: none;
   transition: opacity 0.24s ease, transform 0.24s ease;
-  z-index: 48;
+  z-index: 59;
 }
 .mobile-category-panel.is-open {
   opacity: 1;
@@ -363,11 +520,11 @@ body.portfolio-gateway-active .mobile-category-toolbar {
 .mobile-category-list {
   display: grid;
   gap: 0;
-  padding: 10px 0 12px;
+  padding: 0 0 12px;
 }
 .mobile-category-title {
   margin: 0;
-  padding: 6px 16px 8px;
+  padding: 2px 16px 8px;
   font-family: "Inter Tight", sans-serif;
   font-size: 12px;
   letter-spacing: 0.08em;
@@ -389,7 +546,7 @@ body.portfolio-gateway-active .mobile-category-toolbar {
 .mobile-category-list a.is-active {
   color: #111;
   text-transform: none;
-  font-weight: 700;
+  font-weight: 500;
 }
 .mobile-category-check {
   width: 13px;
@@ -414,7 +571,7 @@ body.portfolio-gateway-active .mobile-category-toolbar {
   position: fixed;
   left: 0;
   right: 0;
-  top: calc(env(safe-area-inset-top, 0px) + 114px);
+  top: calc(var(--gallery-mobile-toolbar-top) + var(--gallery-mobile-toolbar-runtime-height) + var(--gallery-mobile-dropdown-offset));
   bottom: 0;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(6px);
@@ -422,330 +579,9 @@ body.portfolio-gateway-active .mobile-category-toolbar {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.24s ease;
-  z-index: 47;
+  z-index: 58;
 }
 .mobile-category-backdrop.is-open {
-  opacity: 1;
-  pointer-events: auto;
-}
-.contact-quick-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease-in-out;
-  z-index: 240;
-}
-.contact-quick-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: min(92vw, 460px);
-  height: 100vh;
-  background: #f8f6f1;
-  color: #151210;
-  transform: translateX(100%);
-  transition: transform 0.5s ease-in-out;
-  z-index: 241;
-  box-shadow: none;
-  display: grid;
-  grid-template-rows: auto 1fr;
-}
-.menu-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: min(92vw, 600px);
-  height: 100vh;
-  background: #f8f6f1;
-  color: #151210;
-  transform: translateX(100%);
-  transition: transform 0.5s ease-in-out;
-  z-index: 241;
-  box-shadow: none;
-  display: grid;
-  grid-template-rows: auto 1fr;
-}
-.menu-head {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 24px 34px 8px;
-}
-.menu-head h3 {
-  margin: 0;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-.menu-close {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(32, 26, 22, 0.18);
-  background: rgba(21, 18, 16, 0.06);
-  color: #1d1a18;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-.menu-close:hover,
-.menu-close:focus-visible {
-  background: rgba(21, 18, 16, 0.12);
-  border-color: rgba(21, 18, 16, 0.28);
-}
-.menu-body {
-  position: relative;
-  padding: 0;
-  overflow: hidden;
-  min-height: 460px;
-}
-.menu-view {
-  position: absolute;
-  inset: 18px 40px 34px 88px;
-  display: grid;
-  align-content: start;
-  gap: 16px;
-  opacity: 0;
-  transform: translateX(18px);
-  pointer-events: none;
-  transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.menu-panel:not([data-menu-current]) .menu-view[data-menu-view="main"] {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
-}
-.menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"],
-.menu-panel[data-menu-current="portfolio"] .menu-view[data-menu-view="portfolio"],
-.menu-panel[data-menu-current="contact"] .menu-view[data-menu-view="contact"] {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
-}
-.menu-panel[data-menu-current="portfolio"] .menu-view[data-menu-view="main"],
-.menu-panel[data-menu-current="contact"] .menu-view[data-menu-view="main"] {
-  transform: translateX(-18px);
-}
-.menu-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: #1d1a18;
-  text-decoration: none;
-  font-family: "Inter Tight", sans-serif;
-  font-size: clamp(20px, 1.9vw, 28px);
-  font-weight: 500;
-  line-height: 1.16;
-  width: fit-content;
-}
-.menu-link::after {
-  content: "›";
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.menu-link-button {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-  font-family: "Inter Tight", sans-serif;
-  font-size: clamp(20px, 1.9vw, 28px);
-  font-weight: 500;
-  line-height: 1.16;
-}
-.menu-back {
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  color: rgba(21, 18, 16, 0.72);
-}
-.menu-link:hover,
-.menu-link:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 0.08em;
-}
-.menu-link:hover::after,
-.menu-link:focus-visible::after {
-  opacity: 0.65;
-  transform: translateX(0);
-}
-.menu-subtitle {
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: rgba(21, 18, 16, 0.65);
-}
-.menu-link-contact {
-  display: none;
-}
-.menu-view[data-menu-view="contact"] {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-.menu-view[data-menu-view="contact"] .contact-quick-body {
-  padding: 8px 0 0;
-}
-.contact-quick-head {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 28px 30px 18px;
-}
-.contact-quick-head h3 {
-  margin: 0;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-.contact-quick-close {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(32, 26, 22, 0.18);
-  background: rgba(21, 18, 16, 0.06);
-  color: #1d1a18;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-.contact-quick-close:hover,
-.contact-quick-close:focus-visible {
-  background: rgba(21, 18, 16, 0.12);
-  border-color: rgba(21, 18, 16, 0.28);
-}
-.contact-quick-body {
-  padding: 8px 30px 30px;
-  display: grid;
-  gap: 18px;
-}
-.contact-quick-block {
-  display: grid;
-  gap: 6px;
-}
-.contact-quick-label {
-  margin: 0;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 14px;
-  line-height: 1.08;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(21, 18, 16, 0.65);
-}
-.contact-quick-link {
-  font-family: "Inter Tight", sans-serif;
-  width: fit-content;
-  position: relative;
-  display: inline-block;
-  text-decoration: none;
-  color: #1d1a18;
-  font-size: 13px;
-  line-height: 1.04;
-}
-.contact-quick-block .contact-quick-link + .contact-quick-link {
-  margin-top: 1px;
-}
-.contact-quick-block .contact-quick-text + .contact-quick-text {
-  margin-top: -4px;
-}
-.contact-quick-link:hover,
-.contact-quick-link:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 0.08em;
-}
-.contact-quick-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: rgba(29, 26, 24, 0.55);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
-}
-.contact-quick-link:hover::after,
-.contact-quick-link:focus-visible::after {
-  transform: scaleX(1);
-}
-.contact-quick-text {
-  margin: 0;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 13px;
-  line-height: 1.45;
-  color: rgba(21, 18, 16, 0.82);
-}
-.contact-quick-text.is-muted {
-  color: rgba(21, 18, 16, 0.56);
-}
-#contact-quick-panel {
-  width: min(92vw, 600px);
-}
-#contact-quick-panel .contact-quick-head {
-  padding: 24px 34px 8px;
-}
-#contact-quick-panel .contact-quick-body {
-  padding: 18px 40px 34px 88px;
-  gap: 20px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-#contact-quick-panel .contact-quick-block {
-  gap: 10px;
-}
-#contact-quick-panel .contact-quick-label {
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-}
-#contact-quick-panel .contact-quick-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: clamp(14px, 1.3vw, 18px);
-  font-weight: 500;
-  line-height: 1.22;
-}
-#contact-quick-panel .contact-quick-link::after {
-  content: "\203A";
-  position: static;
-  width: auto;
-  height: auto;
-  background: none;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-#contact-quick-panel .contact-quick-link:hover::after,
-#contact-quick-panel .contact-quick-link:focus-visible::after {
-  opacity: 0.65;
-  transform: translateX(0);
-}
-#contact-quick-panel .contact-quick-text {
-  font-size: 14px;
-  line-height: 1.45;
-}
-#contact-quick-panel .contact-quick-text.is-muted {
-  color: rgba(21, 18, 16, 0.62);
-}
-.contact-quick-panel.is-open {
-  transform: translateX(0);
-  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
-}
-.menu-panel.is-open {
-  transform: translateX(0);
-  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
-}
-.contact-quick-backdrop.is-open {
   opacity: 1;
   pointer-events: auto;
 }
@@ -755,11 +591,17 @@ main {
   padding: 104px 0 56px;
   background: #f8f6f1;
 }
+body.has-promo-strip main {
+  padding-top: 104px;
+}
 body.portfolio-gateway-active main {
   padding-top: 72px;
   position: relative;
   z-index: 2;
   background: #f8f6f1;
+}
+body.portfolio-gateway-active .filters-dock {
+  display: none !important;
 }
 body.portfolio-gateway-active main::after {
   display: none;
@@ -802,7 +644,7 @@ body.portfolio-gateway-active main::after {
 .portfolio-gateway-lead {
   margin: 0 auto;
   max-width: 44rem;
-  font-family: "Fraunces", serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: clamp(16px, 1.8vw, 20px);
   line-height: 1.62;
   color: rgba(47, 41, 35, 0.74);
@@ -953,6 +795,59 @@ body.portfolio-gateway-active main::after {
   white-space: nowrap;
   text-wrap: nowrap;
 }
+.portfolio-gateway-card--prompt {
+  min-height: clamp(420px, 58vh, 620px);
+  background:
+    radial-gradient(120% 120% at 50% 8%, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 52%),
+    linear-gradient(180deg, #f4ede3 0%, #eadfd0 100%);
+}
+.portfolio-gateway-card--prompt .portfolio-gateway-card-media {
+  inset: 0;
+  background:
+    radial-gradient(80% 80% at 20% 18%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(180deg, rgba(244, 237, 227, 0.96) 0%, rgba(234, 223, 208, 0.98) 100%);
+}
+.portfolio-gateway-card--prompt .portfolio-gateway-card-media::after {
+  inset: 0;
+  height: auto;
+  background: linear-gradient(180deg, rgba(244, 237, 227, 0.04) 0%, rgba(234, 223, 208, 0.22) 100%);
+  opacity: 1;
+}
+.portfolio-gateway-card--prompt img {
+  opacity: 0.14;
+  filter: grayscale(0.12) saturate(0.48) contrast(1) brightness(1.06);
+  transform: none;
+}
+.portfolio-gateway-card--prompt .portfolio-gateway-card-copy {
+  inset: 0;
+  bottom: auto;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  padding: clamp(34px, 6vw, 72px);
+  text-align: center;
+}
+.portfolio-gateway-card--prompt .portfolio-gateway-card-kicker {
+  color: rgba(47, 41, 35, 0.58);
+  text-shadow: none;
+}
+.portfolio-gateway-card--prompt .portfolio-gateway-card-title {
+  max-width: min(15ch, 88vw);
+  white-space: normal;
+  text-wrap: balance;
+  color: #2f2923;
+  text-shadow: none;
+}
+.portfolio-gateway-card--prompt .portfolio-gateway-card-cta {
+  margin-top: 10px;
+  min-height: 46px;
+  padding: 0 22px;
+  border: 1px solid rgba(47, 41, 35, 0.18);
+  background: rgba(255, 255, 255, 0.74);
+  color: #2f2923;
+  box-shadow: none;
+  text-shadow: none;
+}
 .portfolio-gateway-card-cta {
   margin: 4px 0 0;
   display: inline-flex;
@@ -986,8 +881,10 @@ body.portfolio-gateway-active main::after {
   opacity: 0.88;
 }
 body.portfolio-gateway-active .hero,
-body.portfolio-gateway-active .portfolio-note,
+body.portfolio-gateway-active .category-nav,
+body.portfolio-gateway-active .mobile-category-toolbar,
 body.portfolio-gateway-active .filters-toolbar,
+body.portfolio-gateway-active .portfolio-note,
 body.portfolio-gateway-active .filters-count,
 body.portfolio-gateway-active .products-grid,
 body.portfolio-gateway-active .collection-hook,
@@ -1025,14 +922,6 @@ body.portfolio-gateway-active .collection-meta {
   inset: 0;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.08) 62%, rgba(0, 0, 0, 0.03) 100%);
 }
-.hero-gateway-hit {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
 .hero-text {
   position: absolute;
   left: 28px;
@@ -1044,35 +933,45 @@ body.portfolio-gateway-active .collection-meta {
 .hero-title {
   margin: 0;
   font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-  font-size: clamp(64px, 8.2vw, 122px);
-  line-height: 0.88;
+  font-size: clamp(30px, 3.8vw, 56px);
+  line-height: 0.9;
   font-weight: 400;
 }
 .hero-subtitle {
   margin: 12px 0 0;
-  max-width: 760px;
-  font-family: "Fraunces", serif;
-  font-size: clamp(14px, 1.3vw, 18px);
+  max-width: 620px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(12px, 1vw, 15px);
   letter-spacing: 0;
   text-transform: none;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 .portfolio-note {
-  margin-top: 34px;
-  max-width: 760px;
-  font-family: "Fraunces", serif;
+  margin: 44px 28px 0;
+  width: min(760px, calc(100% - 56px));
+  padding: 0;
+  font-family: "Inter Tight", sans-serif;
   font-size: 16px;
   line-height: 1.6;
   color: rgba(42, 33, 24, 0.72);
 }
+.filters-dock {
+  position: sticky;
+  top: calc(var(--gallery-header-stack-height) + var(--gallery-category-nav-height) + var(--gallery-promo-offset));
+  z-index: 57;
+  margin-top: 0;
+  padding: 10px 44px 10px 64px;
+  background: #f8f6f1;
+}
 .filters-toolbar {
-  margin-top: 24px;
   display: flex;
   justify-content: flex-end;
-  padding-right: 44px;
+  margin-top: 0;
+  padding-right: 0;
 }
 .filters-count {
-  margin-top: 10px;
+  margin: 8px 44px 0 64px;
+  padding: 0;
   text-align: center;
   font-family: "Inter Tight", sans-serif;
   font-size: 12px;
@@ -1093,8 +992,10 @@ body.portfolio-gateway-active .collection-meta {
   font-size: 12px;
   letter-spacing: 0.06em;
   cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.filters-trigger .filters-trigger-icon {
+.filters-trigger .filters-trigger-icon,
+.filters-trigger .filters-mobile-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1102,7 +1003,8 @@ body.portfolio-gateway-active .collection-meta {
   height: 14px;
   flex: 0 0 auto;
 }
-.filters-trigger .filters-trigger-icon svg {
+.filters-trigger .filters-trigger-icon svg,
+.filters-trigger .filters-mobile-icon svg {
   width: 14px;
   height: 14px;
   display: block;
@@ -1112,21 +1014,11 @@ body.portfolio-gateway-active .collection-meta {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.filters-trigger::after {
-  content: "";
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 7px;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.22s ease;
-}
-.filters-trigger:hover::after,
-.filters-trigger:focus-visible::after {
-  transform: scaleX(1);
+.filters-trigger:hover,
+.filters-trigger:focus-visible {
+  border-color: rgba(42, 33, 24, 0.86);
+  box-shadow: inset 0 0 0 1px rgba(42, 33, 24, 0.86);
+  outline: none;
 }
 .filters-panel {
   display: grid;
@@ -1191,6 +1083,11 @@ body.portfolio-gateway-active .collection-meta {
 .filter-options {
   display: grid;
   gap: 8px;
+}
+.filter-options--color {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 12px;
 }
 .filter-range {
   display: grid;
@@ -1288,10 +1185,17 @@ body.portfolio-gateway-active .collection-meta {
 }
 .filter-option input {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   opacity: 0;
-  pointer-events: none;
+  cursor: pointer;
 }
-.filter-option span {
+.filter-option--color {
+  width: 100%;
+}
+.filter-option-label {
   position: relative;
   display: flex;
   align-items: center;
@@ -1307,7 +1211,7 @@ body.portfolio-gateway-active .collection-meta {
   line-height: 1.2;
   transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
 }
-.filter-option span::before {
+.filter-option-label::before {
   content: "";
   position: absolute;
   right: 12px;
@@ -1317,7 +1221,7 @@ body.portfolio-gateway-active .collection-meta {
   background: rgba(120, 103, 85, 0.38);
   transition: background 0.22s ease;
 }
-.filter-option span::after {
+.filter-option-label::after {
   content: "";
   position: absolute;
   right: 24px;
@@ -1328,17 +1232,124 @@ body.portfolio-gateway-active .collection-meta {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   transition: right 0.22s ease, background 0.22s ease;
 }
-.filter-option input:checked + span {
+.filter-option input:checked + .filter-option-label {
   background: rgba(42, 33, 24, 0.08);
   color: #2c231b;
   border-color: #2c231b;
 }
-.filter-option input:checked + span::before {
+.filter-option input:checked + .filter-option-label::before {
   background: rgba(42, 33, 24, 0.48);
 }
-.filter-option input:checked + span::after {
+.filter-option input:checked + .filter-option-label::after {
   right: 14px;
   background: #2c231b;
+}
+.filter-option--color .filter-option-label {
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: start;
+  justify-items: stretch;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+  box-shadow: none;
+}
+.filter-option--color .filter-option-label::before,
+.filter-option--color .filter-option-label::after {
+  content: none;
+}
+.filter-option--color input:checked + .filter-option-label {
+  background: transparent;
+  border-color: transparent;
+  color: inherit;
+}
+.filter-color-swatch {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(42, 33, 24, 0.12);
+  background: var(--filter-swatch, #d7cfc2);
+  border-radius: 0;
+  box-shadow: none;
+  transition: border-color 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
+}
+.filter-option--color:hover .filter-color-swatch,
+.filter-option--color:focus-within .filter-color-swatch {
+  transform: scale(0.976);
+}
+.filter-color-meta {
+  display: grid;
+  gap: 7px;
+  min-height: 0;
+}
+.filter-color-text {
+  display: block;
+  text-align: left;
+  color: rgba(42, 33, 24, 0.86);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  line-height: 1.3;
+  flex: 1 1 auto;
+}
+.filter-color-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-height: 24px;
+  padding: 4px 10px;
+  border: 1px solid rgba(88, 71, 56, 0.12);
+  border-radius: 999px;
+  background: rgba(250, 247, 242, 0.92);
+  color: rgba(84, 64, 49, 0.72);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: normal;
+  box-shadow: none;
+  justify-self: start;
+}
+.filter-option--color input:checked + .filter-option-label .filter-color-swatch {
+  border-color: rgba(24, 19, 15, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(24, 19, 15, 0.78);
+}
+.filter-option--color.is-selected .filter-color-swatch {
+  border-color: rgba(24, 19, 15, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(24, 19, 15, 0.78);
+}
+.filter-option--color input:checked + .filter-option-label .filter-color-text {
+  color: #1f1a15;
+}
+.filter-option--color.is-selected .filter-color-text {
+  color: #1f1a15;
+}
+.filter-option--color input:checked + .filter-option-label .filter-color-count {
+  border-color: rgba(24, 19, 15, 0.24);
+  color: rgba(24, 19, 15, 0.82);
+}
+.filter-option--color.is-selected .filter-color-count {
+  border-color: rgba(24, 19, 15, 0.24);
+  color: rgba(24, 19, 15, 0.82);
+}
+.filter-option--color[data-color-id="white"] .filter-color-swatch {
+  border-color: rgba(42, 33, 24, 0.22);
+}
+.filter-option--color[data-color-id="white"] input:checked + .filter-option-label .filter-color-swatch {
+  border-color: rgba(24, 19, 15, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(24, 19, 15, 0.82);
+}
+.filter-option--color[data-color-id="white"].is-selected .filter-color-swatch {
+  border-color: rgba(24, 19, 15, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(24, 19, 15, 0.82);
 }
 .filter-actions {
   display: flex;
@@ -1416,7 +1427,7 @@ body.portfolio-gateway-active .collection-meta {
 .products-grid {
   margin-top: 54px;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   transition: opacity 0.28s ease;
 }
@@ -1438,55 +1449,137 @@ body.portfolio-gateway-active .collection-meta {
 }
 .product-card {
   position: relative;
-  aspect-ratio: 1 / 1;
+  display: block;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #f1f1f1;
+  background: #f3f1ec;
   opacity: 0;
-  transform: none;
-  animation: productCardFadeIn 0.52s ease forwards;
-  animation-delay: calc(var(--item-index, 0) * 42ms);
+  transform: translateY(12px);
+  transition: opacity 0.48s ease, transform 0.48s ease;
+}
+.product-card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.product-card-media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+}
+.product-card-carousel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.product-card-viewport {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.product-card-viewport::-webkit-scrollbar {
+  display: none;
+}
+.product-card-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.product-card-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  background: #f3f1ec;
 }
 .product-detail-link {
   display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
   color: inherit;
   text-decoration: none;
 }
-.product-card img {
+.product-card-image,
+.product-card-placeholder {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   display: block;
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  background: #f3f1ec;
 }
-.product-image-cover {
+.product-card-image {
   object-fit: cover;
-  opacity: 1;
-  transform: scale(1);
 }
-.product-image-full {
+.product-card-hover-preview {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.24s ease;
+}
+.product-card-carousel.is-hover-preview-active .product-card-hover-preview {
+  opacity: 1;
+}
+.product-card-hover-preview-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.product-card-hover-preview-image.is-full-preview {
   object-fit: contain;
+  padding: 12px;
+  background: #f3f1ec;
+}
+.product-card-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: rgba(42, 33, 24, 0.92);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
   opacity: 0;
-  transform: scale(0.98);
+  transition: opacity 0.22s ease, color 0.22s ease;
+  z-index: 4;
 }
-.product-card:hover img,
-.product-card:focus-within img,
-.product-card:active img,
-.product-card.is-active img {
-  transform: none;
-}
-.product-card:hover .product-image-cover,
-.product-card:focus-within .product-image-cover,
-.product-card:active .product-image-cover,
-.product-card.is-active .product-image-cover {
-  opacity: 0;
-}
-.product-card:hover .product-image-full,
-.product-card:focus-within .product-image-full,
-.product-card:active .product-image-full,
-.product-card.is-active .product-image-full {
+.product-card:hover .product-card-nav-btn,
+.product-card:focus-within .product-card-nav-btn,
+.product-card.is-carousel-engaged .product-card-nav-btn {
   opacity: 1;
-  transform: scale(1);
+}
+.product-card-carousel.is-single .product-card-nav-btn {
+  display: none;
+}
+.product-card-nav-btn[disabled] {
+  opacity: 0;
+  cursor: default;
+}
+.product-card-nav-btn--prev {
+  left: 10px;
+}
+.product-card-nav-btn--next {
+  right: 10px;
 }
 .product-card.is-active {
   outline: 2px solid rgba(42, 33, 24, 0.35);
@@ -1514,10 +1607,22 @@ body.portfolio-gateway-active .collection-meta {
   margin: 28px auto 0;
   max-width: 820px;
   text-align: center;
-  font-family: "Fraunces", serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 18px;
   line-height: 1.5;
   color: rgba(42, 33, 24, 0.86);
+}
+.collection-hook-copy {
+  color: inherit;
+}
+.collection-hook-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+.collection-hook-link:hover,
+.collection-hook-link:focus-visible {
+  opacity: 0.72;
 }
 .collection-cta {
   display: inline-flex;
@@ -1539,20 +1644,21 @@ body.portfolio-gateway-active .collection-meta {
   transform: scale(0.97);
 }
 .collection-meta {
+  display: none;
   margin-top: 34px;
   text-align: center;
 }
 .collection-meta h2 {
   margin: 0;
   font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-  font-size: clamp(44px, 4.6vw, 66px);
+  font-size: clamp(30px, 3.5vw, 48px);
   line-height: 0.9;
   font-weight: 400;
 }
 .collection-meta p {
   margin: 10px auto 0;
   max-width: 760px;
-  font-family: "Fraunces", serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 16px;
   line-height: 1.55;
   color: rgba(42, 33, 24, 0.78);
@@ -1565,10 +1671,12 @@ body.portfolio-gateway-active .collection-meta {
   border-top: 1px solid var(--line);
 }
 body.portfolio-gateway-active #site-footer {
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
-  border-top: 0;
+  position: relative;
+  bottom: auto;
+  z-index: auto;
+  margin-top: 0;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
 }
 #site-footer .footer-inner {
   width: min(1160px, 92vw);
@@ -1642,7 +1750,7 @@ body.portfolio-gateway-active #site-footer {
 #site-footer .footer-link {
   color: #2a2118;
   text-decoration: none;
-  font-family: "Fraunces", serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   line-height: 1.04;
   letter-spacing: 0;
@@ -1698,6 +1806,27 @@ body.portfolio-gateway-active #site-footer {
   }
 }
 @media (max-width: 768px) {
+  header {
+    background: #f8f6f1;
+  }
+  .filters-dock {
+    display: none;
+  }
+  .portfolio-note {
+    width: auto;
+    margin: 28px 14px 0;
+  }
+  .filters-count {
+    margin: 8px 14px 0;
+    text-align: center;
+  }
+  .collection-promo-track {
+    gap: 12px;
+    padding: 8px 10px;
+  }
+  .collection-promo-link {
+    font-size: 12px;
+  }
   .portfolio-gateway {
     --gateway-card-radius: 0px;
     --gateway-stack-overlap: 188px;
@@ -1767,6 +1896,35 @@ body.portfolio-gateway-active #site-footer {
     min-height: 40px;
     padding: 0 16px;
   }
+  .portfolio-gateway-card--prompt {
+    min-height: 420px;
+  }
+  .portfolio-gateway-card--prompt .portfolio-gateway-card-copy {
+    inset: 0;
+    width: 100%;
+    gap: 12px;
+    padding: 28px 22px;
+    place-content: center;
+    justify-items: center;
+    text-align: center;
+  }
+  .portfolio-gateway-card--prompt .portfolio-gateway-card-title {
+    max-width: min(16ch, 86vw);
+    white-space: normal;
+    text-wrap: balance;
+    font-size: clamp(28px, 8vw, 40px);
+    color: #2f2923;
+  }
+  .portfolio-gateway-card--prompt .portfolio-gateway-card-kicker {
+    color: rgba(47, 41, 35, 0.58);
+  }
+  .portfolio-gateway-card--prompt .portfolio-gateway-card-cta {
+    min-height: 42px;
+    padding: 0 18px;
+    color: #2f2923;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(47, 41, 35, 0.16);
+  }
   .header-bar {
     height: 72px;
   }
@@ -1786,13 +1944,10 @@ body.portfolio-gateway-active #site-footer {
     display: none;
   }
   .search-toggle {
-    margin-left: auto;
-    gap: 0;
-  }
-  .search-toggle .search-label {
     display: none;
   }
   .menu-toggle {
+    margin-left: auto;
     gap: 0;
     padding: 0;
   }
@@ -1807,17 +1962,20 @@ body.portfolio-gateway-active #site-footer {
   }
   .mobile-category-toolbar {
     position: fixed;
-    top: 72px;
+    top: var(--gallery-mobile-toolbar-top);
     left: 0;
     right: 0;
-    z-index: 49;
+    z-index: 60;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 10px 16px;
+    height: var(--gallery-mobile-toolbar-height);
+    min-height: var(--gallery-mobile-toolbar-height);
+    padding: 4px 16px;
+    box-sizing: border-box;
     background: #f8f6f1;
-    border-top: 1px solid rgba(63, 54, 45, 0.14);
+    border-top: 0;
     border-bottom: 0;
   }
   .mobile-category-panel {
@@ -1863,45 +2021,207 @@ body.portfolio-gateway-active #site-footer {
     height: 14px;
     display: block;
   }
+  .menu-panel {
+    --mobile-menu-left-gutter: 14px;
+    --mobile-menu-right-gutter: 16px;
+    --mobile-menu-icon-track: 42px;
+    --menu-panel-single-width: 100vw;
+    --menu-panel-width: 100vw;
+    width: 100vw;
+    min-width: 100vw;
+    max-width: 100vw;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    border-left: 0;
+    border-right: 0;
+  }
+  .menu-panel::after {
+    display: none;
+  }
+  .menu-panel.is-open {
+    box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.22);
+  }
+  .menu-close {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
   .menu-view {
-    inset: 14px 24px 24px 42px;
-    gap: 20px;
+    inset: 62px 0 28px 0 !important;
+    gap: 24px;
   }
-  .menu-link {
+  .menu-view[data-menu-view="main"] {
+    align-content: start;
+    justify-items: stretch !important;
+    text-align: left;
+    gap: 0;
+    width: 100% !important;
+  }
+  .menu-view[data-menu-view="featured"],
+  .menu-view[data-menu-view="about"],
+  .menu-view[data-menu-view="services"],
+  .menu-view[data-menu-view="visit"],
+  .menu-view[data-menu-view="contact"] {
+    justify-items: stretch !important;
+    width: 100% !important;
+  }
+  .menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"],
+  .menu-panel[data-menu-current="featured"] .menu-view[data-menu-view="featured"],
+  .menu-panel[data-menu-current="about"] .menu-view[data-menu-view="about"],
+  .menu-panel[data-menu-current="services"] .menu-view[data-menu-view="services"],
+  .menu-panel[data-menu-current="visit"] .menu-view[data-menu-view="visit"],
+  .menu-panel[data-menu-current="contact"] .menu-view[data-menu-view="contact"] {
+    left: 0 !important;
+    right: 0 !important;
+    inset: 62px 0 28px 0 !important;
+    transform: translateX(0) !important;
+  }
+  .menu-main-layout {
+    display: block;
+    width: 100% !important;
+  }
+  .menu-main-quickpane {
+    display: none;
+  }
+  .menu-head {
+    justify-content: flex-end;
+    padding: 14px var(--mobile-menu-right-gutter) 0 0;
+    width: 100vw;
+    min-width: 100vw;
+  }
+  .menu-close {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 22px !important;
+  }
+  .menu-main-left {
+    padding: 0 22px !important;
+  }
+  .menu-view[data-menu-view="about"],
+  .menu-view[data-menu-view="services"],
+  .menu-view[data-menu-view="visit"] {
+    justify-items: stretch !important;
+    gap: 16px;
+    width: 100% !important;
+  }
+  .menu-main-primary,
+  .menu-main-secondary {
+    justify-items: stretch !important;
+    width: 100% !important;
+  }
+  .menu-main-primary {
+    gap: 18px;
+  }
+  .menu-main-secondary {
+    margin-top: 22px;
+    gap: 18px;
+  }
+  .menu-main-left {
+    padding: 0 !important;
+    justify-items: stretch !important;
+    width: 100% !important;
+  }
+  .menu-link,
+  .menu-link-button {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) var(--mobile-menu-icon-track) !important;
+    align-items: center !important;
     width: 100%;
-    justify-content: space-between;
-    font-size: clamp(18px, 6vw, 24px);
-    line-height: 1.2;
+    padding: 6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important;
+    font-size: clamp(18px, 5.2vw, 21px);
+    line-height: 1.24;
+    box-sizing: border-box !important;
+    column-gap: 0 !important;
+    justify-self: stretch !important;
+    min-width: 0 !important;
   }
-  .menu-link::after {
-    opacity: 0.62;
-    transform: none;
-    margin-left: 12px;
+  .menu-link::after,
+  .menu-link-button::after {
+    content: "›" !important;
+    position: static !important;
+    justify-self: center !important;
+    align-self: center !important;
+    opacity: 0.72;
+    transform: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    text-align: center;
+    display: block !important;
   }
-  .menu-back::after {
-    content: none;
+  .menu-link-secondary,
+  .menu-link-button.menu-link-secondary {
+    width: 100%;
+    font-size: 17px;
+  }
+  .menu-view[data-menu-view="featured"] .menu-back,
+  .menu-view[data-menu-view="about"] .menu-back,
+  .menu-view[data-menu-view="services"] .menu-back,
+  .menu-view[data-menu-view="visit"] .menu-back,
+  .menu-view[data-menu-view="contact"] .menu-back {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100%;
+    padding: 6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important;
+    font-size: 10px !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.14em !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+  }
+  .menu-view[data-menu-view="featured"] .menu-back::after,
+  .menu-view[data-menu-view="about"] .menu-back::after,
+  .menu-view[data-menu-view="services"] .menu-back::after,
+  .menu-view[data-menu-view="visit"] .menu-back::after,
+  .menu-view[data-menu-view="contact"] .menu-back::after {
+    content: none !important;
+    display: none !important;
+  }
+  .menu-link .nav-label,
+  .menu-link-button .nav-label {
+    min-width: 0;
+    display: block;
+  }
+  .menu-view[data-menu-view="featured"] .menu-link,
+  .menu-view[data-menu-view="about"] .menu-link,
+  .menu-view[data-menu-view="services"] .menu-link,
+  .menu-view[data-menu-view="visit"] .menu-link,
+  .menu-view[data-menu-view="contact"] .menu-link,
+  .menu-view[data-menu-view="featured"] .menu-link-button,
+  .menu-view[data-menu-view="about"] .menu-link-button,
+  .menu-view[data-menu-view="services"] .menu-link-button,
+  .menu-view[data-menu-view="visit"] .menu-link-button,
+  .menu-view[data-menu-view="contact"] .menu-link-button {
+    width: 100% !important;
+    justify-self: stretch !important;
+    padding: 6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important;
+    min-width: 0 !important;
   }
   .menu-link-contact {
-    display: inline-flex;
+    display: grid !important;
+  }
+  .menu-view[data-menu-view="contact"] {
+    justify-items: stretch !important;
+    gap: 18px;
+    width: 100% !important;
   }
   .contact-quick-body {
-    gap: 20px;
-    padding: 10px 0 2px;
+    gap: 24px;
+    padding: 10px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter);
   }
   .contact-quick-block {
-    gap: 8px;
+    gap: 11px;
   }
   .contact-quick-label {
-    font-size: 13px;
-    letter-spacing: 0.13em;
+    font-size: 12px;
+    letter-spacing: 0.14em;
   }
   .contact-quick-link {
-    font-size: 15px;
-    line-height: 1.3;
+    font-size: 21px;
+    line-height: 1.22;
   }
   .contact-quick-text {
-    font-size: 13px;
-    line-height: 1.35;
+    font-size: 15px;
+    line-height: 1.48;
   }
   main {
     position: relative;
@@ -1943,6 +2263,13 @@ body.portfolio-gateway-active #site-footer {
   .hero-subtitle {
     font-size: 14px;
   }
+  .portfolio-note {
+    margin-left: 16px;
+    margin-right: 16px;
+    width: calc(100% - 32px);
+    font-size: 13px;
+    line-height: 1.5;
+  }
   .products-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
@@ -1952,33 +2279,14 @@ body.portfolio-gateway-active #site-footer {
     grid-auto-flow: row;
     grid-auto-columns: auto;
   }
-  .product-card img {
-    transition: none;
-    transform: none !important;
-  }
-  .product-image-cover {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .product-image-full {
-    display: none !important;
-    opacity: 0 !important;
-    transform: none !important;
-  }
-  .product-card:hover .product-image-cover,
-  .product-card:focus-within .product-image-cover,
-  .product-card:active .product-image-cover,
-  .product-card.is-active .product-image-cover {
-    opacity: 1 !important;
-  }
-  .product-card:hover .product-image-full,
-  .product-card:focus-within .product-image-full,
-  .product-card:active .product-image-full,
-  .product-card.is-active .product-image-full {
-    opacity: 0 !important;
+  .product-card-nav-btn {
+    opacity: 0.9;
   }
   .product-card.is-active {
     outline: 0;
+  }
+  .product-card {
+    aspect-ratio: 4 / 5;
   }
   #site-footer .footer-grid {
     grid-template-columns: 1fr;
@@ -2016,12 +2324,23 @@ body.portfolio-gateway-active #site-footer {
   }
 }
 </style>
-<style>
-.search-toggle { display: none !important; }
-.menu-toggle { margin-left: auto !important; }
-</style>
 </head>
-<body>
+<body class="loading" data-header-divider="none">
+<div id="site-loader">
+  <div class="logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 1240.368164 1647.422485" xmlns="http://www.w3.org/2000/svg" width="130" height="172">
+      <path d="M776.704925 669.156824 C683.785769 673.285550 589.746185 645.817447 513.658152 592.323266 C484.942923 572.134842 457.974474 547.316589 444.114130 515.067129 C430.253786 482.817669 432.217259 441.917436 456.255945 416.338569 C497.870831 466.557127 553.778981 503.973873 614.375326 528.094089 C674.971672 552.214305 740.197225 563.411883 805.363290 566.073820 C816.397868 566.524567 827.637071 566.768563 838.101977 570.297138 C844.876587 572.581415 851.119853 576.178178 857.312098 579.751602 C875.060624 589.993934 892.809151 600.236266 910.557678 610.478597 C912.048828 611.339110 913.585612 612.239984 914.594072 613.635341 C918.177901 618.594109 913.045586 625.130246 908.143646 628.791419 C870.864215 656.634779 823.188715 667.091385 776.704926 669.156824 z"/>
+      <path d="M312.631915 628.439277 C365.099800 608.168366 422.362090 600.431266 478.328227 606.050912 C482.602507 606.480099 487.590640 607.479282 489.399834 611.375497 C491.570390 616.049920 487.602647 621.161227 483.801247 624.641300 C445.619678 659.595435 394.390134 676.514170 343.787150 687.421121 C259.430734 705.603277 170.230250 709.447411 87.759202 684.048161 C89.633787 677.568182 95.061879 672.834982 100.303795 668.589218 C163.807744 617.153377 238.871746 580.073118 318.311574 560.897327 C341.120453 555.391545 364.489449 551.325877 387.937519 552.189965 C411.385588 553.054052 435.054631 559.102801 454.380672 572.409294 C453.192451 576.840760 447.363111 577.650443 442.775530 577.712582 C402.363418 578.259954 362.149905 589.690144 327.491636 610.480592 C320.544924 614.647714 313.105772 620.352425 312.631914 628.439276 z"/>
+    </svg>
+  </div>
+</div>
+<div class="collection-promo-strip" aria-hidden="true">
+  <div class="collection-promo-track">
+    <a class="collection-promo-link" id="collection-promo-link" href="featured.html">Collections - Explore the arrangements</a>
+    <button class="collection-promo-close" id="collection-promo-close" type="button" aria-label="Close seasonal promotion">&times;</button>
+  </div>
+</div>
+<div class="promo-strip-fallback" aria-hidden="true"></div>
 <header>
   <div class="header-bar">
     <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Hubungi Kami</button>
@@ -2029,14 +2348,12 @@ body.portfolio-gateway-active #site-footer {
       <span class="header-logo-text">Marvell Florist</span>
     </a>
     <a class="search-toggle" href="index.html?search" aria-label="Open search">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
       <span class="search-label">Cari</span>
     </a>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
       <span class="menu-icon" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
+        <svg viewBox="0 0 24 24"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
       </span>
       <span class="menu-label">Menu</span>
     </button>
@@ -2044,18 +2361,33 @@ body.portfolio-gateway-active #site-footer {
 </header>
 <div class="brand-pinned-title" aria-hidden="true">Marvell Florist</div>
 <nav class="category-nav" aria-label="Category navigation">
-  <div class="category-nav-list" id="category-nav-list"></div>
+  <div class="category-nav-list" id="category-nav-list">
+    <a class="is-active" href="gallery.html?category=standing-flowers">Standing Flowers</a>
+    <a href="gallery.html?category=artificial-flowers">Table Arrangements</a>
+    <a href="gallery.html?category=bouquets">Bouquets</a>
+    <a href="gallery.html?category=papan-bunga">Papan Bunga</a>
+    <a href="gallery.html?category=funerals">Funerals</a>
+    <a href="gallery.html?category=parcels">Parcels</a>
+  </div>
 </nav>
 <div class="mobile-category-toolbar" aria-label="Mobile category and filters controls">
   <button class="mobile-category-trigger" id="mobile-category-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="mobile-category-panel">
-    <span class="mobile-category-label" id="mobile-category-label">Kategori</span>
+    <span class="mobile-category-label" id="mobile-category-label">Standing Flowers</span>
     <span class="mobile-category-chevron" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7l9 10 9-10"/></svg></span>
   </button>
-  <button class="filters-trigger" id="filters-trigger-mobile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel"><span class="filters-trigger-label">Filter</span><span class="filters-mobile-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2"/></svg></span></button>
+  <button class="filters-trigger" id="filters-trigger-mobile" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel"><span class="filters-trigger-label">Filter</span><span class="filters-mobile-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings2-icon lucide-settings-2"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></span></button>
 </div>
 <div class="mobile-category-backdrop" id="mobile-category-backdrop" aria-hidden="true"></div>
 <aside class="mobile-category-panel" id="mobile-category-panel" aria-hidden="true">
-  <div class="mobile-category-list" id="mobile-category-list"></div>
+  <div class="mobile-category-list" id="mobile-category-list">
+    <p class="mobile-category-title">Kategori</p>
+    <a class="is-active" href="gallery.html?category=standing-flowers">Standing Flowers<span class="mobile-category-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6"/></svg></span></a>
+    <a href="gallery.html?category=artificial-flowers">Table Arrangements</a>
+    <a href="gallery.html?category=bouquets">Bouquets</a>
+    <a href="gallery.html?category=papan-bunga">Papan Bunga</a>
+    <a href="gallery.html?category=funerals">Funerals</a>
+    <a href="gallery.html?category=parcels">Parcels</a>
+  </div>
 </aside>
 
 <div class="contact-quick-backdrop" id="contact-quick-backdrop" aria-hidden="true"></div>
@@ -2090,31 +2422,34 @@ body.portfolio-gateway-active #site-footer {
   </div>
 </aside>
 
-<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1">
+<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1" hidden>
   <div class="menu-head">
     <button class="menu-close" id="menu-close" type="button" aria-label="Close menu">&#10005;</button>
   </div>
   <div class="menu-body">
     <div class="menu-view" data-menu-view="main">
-      <a class="menu-link" href="index.html">Home</a>
-      <button class="menu-link menu-link-button" type="button" data-menu-open="portfolio">Portfolio</button>
-      <a class="menu-link" href="about.html">About</a>
-      <a class="menu-link" href="index.html#services">Services</a>
-      <a class="menu-link" href="index.html#reviews">Reviews</a>
-      <button class="menu-link menu-link-button menu-link-contact" type="button" data-menu-open="contact">Contact Us</button>
+      <div class="menu-main-primary">
+        <button class="menu-link menu-link-button" type="button" data-menu-open="featured" data-seasonal-featured-link>Collections</button>
+        <a class="menu-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
+        <a class="menu-link" href="gallery.html?category=artificial-flowers">Table Arrangements</a>
+        <a class="menu-link" href="gallery.html?category=bouquets">Bouquets</a>
+        <a class="menu-link" href="gallery.html?category=papan-bunga">Papan Bunga</a>
+        <a class="menu-link" href="gallery.html?category=funerals">Funerals</a>
+        <a class="menu-link" href="gallery.html?category=parcels">Parcels</a>
+      </div>
+      <div class="menu-main-secondary">
+        <a class="menu-link menu-link-secondary" href="services.html">Services</a>
+        <a class="menu-link menu-link-secondary" href="about.html">About</a>
+        <a class="menu-link menu-link-secondary" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Visit Us</a>
+        <button class="menu-link menu-link-button menu-link-secondary menu-link-contact" type="button" data-menu-open="contact" data-menu-mobile-href="contact.html">Contact Us</button>
+      </div>
     </div>
-    <div class="menu-view" data-menu-view="portfolio">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&larr; Back</button>
-      <a class="menu-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
-      <a class="menu-link" href="gallery.html?category=artificial-flowers">Artificial Flowers</a>
-      <a class="menu-link" href="gallery.html?category=bouquets">Bouquets</a>
-      <a class="menu-link" href="gallery.html?category=papan-bunga">Papan Bunga</a>
-      <a class="menu-link" href="gallery.html?category=funerals">Funerals</a>
-      <a class="menu-link" href="gallery.html?category=parcels">Parcels</a>
-      <a class="menu-link" href="gallery.html?category=by-request">By Request</a>
+    <div class="menu-view" data-menu-view="featured">
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <div data-featured-menu-list></div>
     </div>
     <div class="menu-view" data-menu-view="contact">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&larr; Back</button>
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
       <div class="contact-quick-body">
         <div class="contact-quick-block">
           <p class="contact-quick-label">Hubungi Kami</p>
@@ -2159,7 +2494,6 @@ body.portfolio-gateway-active #site-footer {
     <div class="portfolio-gateway-grid" id="portfolio-gateway-grid"></div>
   </section>
   <section class="hero">
-    <button class="hero-gateway-hit" id="hero-gateway-hit" type="button" aria-label="Return to portfolio category gateway"></button>
     <img id="hero-image" src="" alt="Category hero image" loading="eager" decoding="async" fetchpriority="high">
     <div class="hero-text">
       <h1 class="hero-title" id="hero-title"></h1>
@@ -2171,34 +2505,34 @@ body.portfolio-gateway-active #site-footer {
     <h2>Portfolio Categories</h2>
     <ul>
       <li><a href="gallery.html?category=standing-flowers">Standing Flowers</a>: Standing flower arrangements in Batam for openings, events, and formal floral displays.</li>
-      <li><a href="gallery.html?category=artificial-flowers">Artificial Flowers</a>: Artificial flower arrangements for decorative display and long-lasting floral styling.</li>
+      <li><a href="gallery.html?category=artificial-flowers">Table Arrangements</a>: Decorative table arrangements for long-lasting floral styling.</li>
       <li><a href="gallery.html?category=bouquets">Bouquets</a>: Custom flower bouquets in Batam for gifts, celebrations, graduations, and everyday moments.</li>
       <li><a href="gallery.html?category=papan-bunga">Papan Bunga</a>: Flower boards in Batam for congratulations, condolences, and formal occasions.</li>
       <li><a href="gallery.html?category=funerals">Funerals</a>: Sympathy flowers and funeral flower arrangements in Batam for respectful condolences.</li>
       <li><a href="gallery.html?category=parcels">Parcels</a>: Gift parcels and floral hampers for celebrations, festive gifting, and personal occasions.</li>
-      <li><a href="gallery.html?category=by-request">By Request</a>: Custom floral arrangements for personalized concepts, car decorations, and special requests.</li>
     </ul>
   </section>
 
   <p class="portfolio-note" id="gallery-portfolio-note">Sebagian besar karya dibuat khusus, jadi ketersediaan dan pilihan bunga perlu dikonfirmasi terlebih dahulu.</p>
-
-  <div class="filters-toolbar">
-    <button class="filters-trigger" id="filters-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel"><span class="filters-trigger-label">Filter</span><span class="filters-trigger-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="11" cy="18" r="2"/></svg></span></button>
+  <div class="filters-dock">
+    <div class="filters-toolbar">
+      <button class="filters-trigger" id="filters-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters-panel"><span class="filters-trigger-label">Filter</span><span class="filters-trigger-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings2-icon lucide-settings-2"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></span></button>
+    </div>
   </div>
   <p class="filters-count" id="filters-count" aria-live="polite"></p>
 
   <section class="products-grid" id="products-grid" aria-live="polite"></section>
 
-  <p class="collection-hook" id="collection-hook" hidden>Not every arrangement begins in a catalog. Some start with a conversation.</p>
-
   <div class="cta-wrap">
-    <a id="consult-collection" class="collection-cta" href="#" target="_blank" rel="noopener noreferrer">Konsultasikan Koleksi Ini</a>
+    <a id="consult-collection" class="collection-cta" href="https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20consult%20about%20an%20arrangement." target="_blank" rel="noopener noreferrer">Start a Consultation</a>
   </div>
 
-  <section class="collection-meta" aria-label="Collection details">
+  <section class="collection-meta" aria-label="Collection details" hidden aria-hidden="true">
     <h2 id="meta-title"></h2>
     <p id="meta-subtitle"></p>
   </section>
+
+  <p class="collection-hook" id="collection-hook" hidden><span class="collection-hook-copy" id="collection-hook-copy"></span> <a class="collection-hook-link" id="custom-arrangements-link" href="https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20consult%20about%20an%20arrangement." target="_blank" rel="noopener noreferrer"></a></p>
 </main>
 
 <footer id="site-footer">
@@ -2212,7 +2546,7 @@ body.portfolio-gateway-active #site-footer {
         <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-contact">
           <div class="footer-links">
-            <a class="footer-link" href="index.html#services">Hubungi Kami</a>
+            <a class="footer-link" href="services.html#consultation">Hubungi Kami</a>
             <a class="footer-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>
             <a class="footer-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a class="footer-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
@@ -2220,12 +2554,13 @@ body.portfolio-gateway-active #site-footer {
         </div>
       </section>
       <section class="footer-col" aria-label="About links">
-        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">Tentang <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+        <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">About Marvell Florist <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
         <div class="footer-accordion-panel" id="footer-panel-about">
           <ul class="footer-list">
-            <li><a class="footer-link" href="about.html#journey">Perjalanan Kami</a></li>
-            <li><a class="footer-link" href="about.html#craft">Karya Kami</a></li>
+            <li><a class="footer-link" href="about.html#foundation">Perjalanan Kami</a></li>
+            <li><a class="footer-link" href="about.html#philosophy">Karya Kami</a></li>
             <li><a class="footer-link" href="about.html#team">Tim Kami</a></li>
+            <li><a class="footer-link" href="journals.html">The Journals</a></li>
           </ul>
         </div>
       </section>
@@ -2243,6 +2578,9 @@ body.portfolio-gateway-active #site-footer {
   </div>
 </footer>
 
+<script src="assets/shared-contact.js?v=20260414g"></script>
+<script src="assets/shared-footer.js?v=20260423j"></script>
+<script src="assets/secondary-menu.js?v=20260424e"></script>
 <script>
 const PORTFOLIO_CATEGORIES_ENDPOINTS = ["/content/portfolio-categories.json", "content/portfolio-categories.json"];
 const GALLERY_CONTENT_ENDPOINTS = ["/content/gallery.json", "content/gallery.json"];
@@ -2253,15 +2591,16 @@ const EMBEDDED_GALLERY_FALLBACK = window.__GALLERY_FALLBACK__ && typeof window._
   : {};
 const GALLERY_PAGE_DEFAULT_COPY = {
   note: "Most pieces are custom made, so availability and flower selection must be confirmed first.",
-  byRequestHook: "Not every arrangement begins in a catalog. Some start with a conversation.",
+  byRequestHook: "Looking for something that feels more personal?",
+  byRequestLinkLabel: "Explore custom arrangements",
   consultButtonLabel: "Consult This Collection"
 };
 const CATEGORY_META = [
   {
-    name: "Artificial Flowers",
+    name: "Table Arrangements",
     key: "artificial-flowers",
-    aliases: ["artificial flowers"],
-    subtitle: "Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang.",
+    aliases: ["table arrangements", "table arrangement", "rangkaian meja", "artificial flowers"],
+    subtitle: "Rangkaian meja untuk kebutuhan dekoratif dan display jangka panjang.",
     phone: "6281275017456",
     coverImage: "/assets/artificialcover.webp"
   },
@@ -2316,6 +2655,23 @@ const CATEGORY_META = [
     coverImage: "/assets/request.webp"
   }
 ];
+
+function getDisplayCategoryMeta() {
+  return CATEGORY_META.filter((item) => item?.key !== "by-request");
+}
+
+function isByRequestCategoryValue(rawValue) {
+  const raw = normalizeValue(rawValue || "");
+  if (!raw) return false;
+  const byRequestCategory = CATEGORY_META.find((item) => item?.key === "by-request");
+  if (!byRequestCategory) return false;
+  const candidates = [
+    byRequestCategory.key,
+    byRequestCategory.name,
+    ...(Array.isArray(byRequestCategory.aliases) ? byRequestCategory.aliases : [])
+  ];
+  return candidates.some((value) => normalizeValue(value) === raw);
+}
 
 function normalizeTextList(value) {
   if (!Array.isArray(value)) return [];
@@ -2428,6 +2784,36 @@ async function hydrateCategoryMetaFromContent() {
 }
 
 function extractGalleryItems(payload) {
+  const normalizeAdditionalImageUsage = (value) => {
+    const raw = String(value || "").trim().toLowerCase();
+    if (raw === "hover" || raw === "carousel" || raw === "both") return raw;
+    return "both";
+  };
+  const normalizeMediaPosition = (value) => {
+    const raw = String(value || "").trim();
+    return raw || "center center";
+  };
+  const normalizeAdditionalImageRecord = (entry) => {
+    if (typeof entry === "string") {
+      const image = normalizeAssetPath(entry);
+      if (!image) return null;
+      return {
+        image,
+        usage: "both",
+        hoverPosition: "center center",
+        scrollPosition: "center center"
+      };
+    }
+    if (!entry || typeof entry !== "object") return null;
+    const image = normalizeAssetPath(entry.image || entry.src || "");
+    if (!image) return null;
+    return {
+      image,
+      usage: normalizeAdditionalImageUsage(entry.usage),
+      hoverPosition: normalizeMediaPosition(entry.hoverPosition),
+      scrollPosition: normalizeMediaPosition(entry.scrollPosition)
+    };
+  };
   const normalizeGalleryItemRecord = (item, fallbackCategory = "") => {
     if (!item || typeof item !== "object") return null;
     const normalizedTitle = String(item.title || item.name || "").trim();
@@ -2441,7 +2827,10 @@ function extractGalleryItems(payload) {
       ...item,
       title: normalizedTitle ? titleCaseWords(normalizedTitle) : "",
       category: String(item.category || fallbackCategory).trim(),
-      price: normalizedPrice
+      price: normalizedPrice,
+      additionalImages: Array.isArray(item.additionalImages)
+        ? item.additionalImages.map((entry) => normalizeAdditionalImageRecord(entry)).filter(Boolean)
+        : []
     };
   };
 
@@ -2467,6 +2856,75 @@ function extractGalleryItems(payload) {
   });
 
   return flattened;
+}
+
+function buildGalleryCardSlides(item) {
+  const primaryImage = normalizeAssetPath(item?.image || item?.src || "");
+  const slides = [];
+  let hoverIndex = -1;
+  if (primaryImage) {
+    slides.push({
+      image: primaryImage,
+      scrollPosition: "center center"
+    });
+  }
+  const extras = Array.isArray(item?.additionalImages) ? item.additionalImages : [];
+  const hoverEntry = extras.find((entry) => entry?.image && entry.usage !== "carousel") || null;
+  if (hoverEntry?.image) {
+    hoverIndex = slides.length;
+    slides.push({
+      image: hoverEntry.image,
+      scrollPosition: hoverEntry.hoverPosition || hoverEntry.scrollPosition || "center center"
+    });
+  }
+  extras.forEach((entry) => {
+    if (!entry?.image || entry.usage === "hover") return;
+    if (hoverEntry && entry.image === hoverEntry.image) return;
+    slides.push({
+      image: entry.image,
+      scrollPosition: entry.scrollPosition || "center center"
+    });
+  });
+  return { slides, hoverIndex };
+}
+
+function renderGalleryCardMedia(item, detailHref, displayName) {
+  const { slides, hoverIndex } = buildGalleryCardSlides(item);
+  const fallbackImage = normalizeAssetPath(item?.image || item?.src || "");
+  const safeSlides = slides.length ? slides : [{ image: fallbackImage, scrollPosition: "center center" }];
+  const hoverPreviewSlide = hoverIndex > 0 && hoverIndex < safeSlides.length ? safeSlides[hoverIndex] : null;
+  const hasSingleFullPreview = !hoverPreviewSlide && safeSlides.length === 1 && !!safeSlides[0]?.image;
+  const previewSlide = hoverPreviewSlide || (hasSingleFullPreview ? safeSlides[0] : null);
+  const slidesMarkup = safeSlides.map((entry, index) => {
+    if (!entry.image) {
+      return `<div class="product-card-slide" data-gallery-card-slide="${index}"><a class="product-detail-link" href="${escapeHTML(detailHref)}" aria-label="${escapeHTML(displayName)}"><div class="product-card-placeholder" aria-hidden="true"></div></a></div>`;
+    }
+    return `
+      <div class="product-card-slide" data-gallery-card-slide="${index}">
+        <a class="product-detail-link" href="${escapeHTML(detailHref)}" aria-label="${escapeHTML(displayName)}">
+          <img class="product-card-image" src="${escapeHTML(entry.image)}" alt="${index === 0 ? escapeHTML(displayName) : ""}" ${index === 0 ? "" : 'aria-hidden="true"'} loading="lazy" decoding="async" style="object-position:${escapeHTML(entry.scrollPosition || "center center")};">
+        </a>
+      </div>
+    `;
+  }).join("");
+  const hoverPreviewMarkup = previewSlide?.image ? `
+    <div class="product-card-hover-preview" data-gallery-card-hover-preview aria-hidden="true">
+      <img class="product-card-hover-preview-image${hasSingleFullPreview ? " is-full-preview" : ""}" src="${escapeHTML(previewSlide.image)}" alt="" loading="lazy" decoding="async" style="object-position:${escapeHTML(previewSlide.scrollPosition || "center center")};">
+    </div>
+  ` : "";
+
+  return `
+    <div class="product-card-carousel ${safeSlides.length <= 1 ? "is-single" : ""}" data-gallery-card-carousel data-gallery-card-hover-index="${hoverIndex}" ${hasSingleFullPreview ? 'data-gallery-card-single-full-preview="1"' : ""}>
+      <div class="product-card-viewport" data-gallery-card-viewport>
+        <div class="product-card-track">
+          ${slidesMarkup}
+        </div>
+      </div>
+      ${hoverPreviewMarkup}
+      <button class="product-card-nav-btn product-card-nav-btn--prev" type="button" aria-label="Previous image" data-gallery-card-prev>&#8249;</button>
+      <button class="product-card-nav-btn product-card-nav-btn--next" type="button" aria-label="Next image" data-gallery-card-next>&#8250;</button>
+    </div>
+  `;
 }
 
 function normalizeValue(value) {
@@ -2569,8 +3027,12 @@ function countColorHits(context) {
     ["blue"],
     ["yellow"],
     ["orange"],
+    ["peach"],
+    ["brown", "cokelat", "coklat", "mocha", "tan"],
+    ["gray", "grey", "abu", "abu-abu"],
     ["gold"],
-    ["black"]
+    ["black"],
+    ["green"]
   ];
   return groups.reduce((total, group) => total + (sourceHasAny(context, group) ? 1 : 0), 0);
 }
@@ -2591,10 +3053,10 @@ function buildCategoryLabel(activeCategory, item, context) {
   if (categoryKey === "artificial-flowers") {
     const artificialType = detectArtificialType(item, context, Number(item?.artificialIndex || 0) - 1);
     if (artificialType === "bloom-box") {
-      if (sourceHasAny(context, ["balloon", "bloombal", "balon"])) return "Artificial Flowers Balloons";
-      return "Artificial Flowers Bloom Box";
+      if (sourceHasAny(context, ["balloon", "bloombal", "balon"])) return "Table Arrangements Balloon";
+      return "Table Arrangements Bloom Box";
     }
-    return "Artificial Flowers Pot";
+    return "Table Arrangements Pot";
   }
 
   if (categoryKey === "bouquets") {
@@ -2732,12 +3194,34 @@ function buildColorFilterGroup() {
       { id: "blue", label: "Blue", match: (_item, context) => sourceHasAny(context, ["blue"]) },
       { id: "yellow", label: "Yellow", match: (_item, context) => sourceHasAny(context, ["yellow"]) },
       { id: "orange", label: "Orange", match: (_item, context) => sourceHasAny(context, ["orange"]) },
+      { id: "peach", label: "Peach", match: (_item, context) => sourceHasAny(context, ["peach"]) },
+      { id: "brown", label: "Brown", match: (_item, context) => sourceHasAny(context, ["brown", "cokelat", "coklat", "mocha", "tan"]) },
+      { id: "gray", label: "Gray", match: (_item, context) => sourceHasAny(context, ["gray", "grey", "abu", "abu-abu"]) },
       { id: "green", label: "Green", match: (_item, context) => sourceHasAny(context, ["green"]) },
       { id: "black", label: "Black", match: (_item, context) => sourceHasAny(context, ["black"]) },
-      { id: "gold", label: "Gold", match: (_item, context) => sourceHasAny(context, ["gold"]) },
-      { id: "mixed", label: "Mixed", match: (_item, context) => sourceHasAny(context, ["mixed"]) || countColorHits(context) > 1 }
+      { id: "gold", label: "Gold", match: (_item, context) => sourceHasAny(context, ["gold"]) }
     ]
   };
+}
+
+function getColorSwatchValue(colorId) {
+  const normalized = normalizeFilterToken(colorId);
+  const palette = {
+    pink: "#e78bb2",
+    white: "#fffdf8",
+    red: "#d9546d",
+    purple: "#9267d8",
+    blue: "#5d8fda",
+    yellow: "#e1bc33",
+    orange: "#e58d39",
+    peach: "#efb29a",
+    brown: "#9d6b43",
+    gray: "#b3adab",
+    green: "#6da65f",
+    black: "#2a241f",
+    gold: "#d5ab2d"
+  };
+  return palette[normalized] || "#d7cfc2";
 }
 
 const FLOWER_TYPE_DEFINITIONS = [
@@ -2761,7 +3245,7 @@ function buildFlowerTypeFilterGroup(allowedIds = []) {
   if (!definitions.length) return null;
   return {
     id: "flower-type",
-    label: "Flower Type",
+    label: "Flowers",
     options: definitions.map((entry) => ({
       id: entry.id,
       label: entry.label,
@@ -2774,18 +3258,17 @@ function matchFlowerCondition(context, conditionId, categoryKey) {
   const normalizedCondition = normalizeFilterToken(conditionId);
 
   if (normalizedCondition === "artificial") {
-    if (categoryKey === "artificial-flowers") return true;
-    return false;
+    return categoryKey === "artificial-flowers" || sourceHasAny(context, ["artificial", "silk", "faux", "imitasi"]);
   }
 
   if (normalizedCondition === "preserved") {
-    if (categoryKey === "artificial-flowers") return false;
-    return false;
+    return sourceHasAny(context, ["preserved", "dried", "everlasting", "awet"]);
   }
 
   if (normalizedCondition === "fresh") {
     if (categoryKey === "artificial-flowers") return false;
-    return false;
+    if (sourceHasAny(context, ["preserved", "dried", "everlasting", "awet"])) return false;
+    return true;
   }
 
   return false;
@@ -2794,7 +3277,7 @@ function matchFlowerCondition(context, conditionId, categoryKey) {
 function buildFlowerConditionFilterGroup(categoryKey) {
   return {
     id: "flower-condition",
-    label: "Flower Condition",
+    label: "Flower Type",
     options: [
       {
         id: "artificial",
@@ -2893,7 +3376,22 @@ function buildLegacyCategoryFilters(activeCategory) {
           { id: "bloom-box", label: "Bloom Box", match: (item, context, index) => detectArtificialType(item, context, index) === "bloom-box" }
         ]
       },
-      colorGroup
+      colorGroup,
+      buildFlowerConditionFilterGroup(activeCategory.key),
+      buildFlowerTypeFilterGroup([
+        "mawar",
+        "tulip",
+        "anggrek",
+        "lily",
+        "babys-breath",
+        "aster",
+        "sunflower",
+        "carnation",
+        "hydrangea",
+        "peony",
+        "gerbera",
+        "chrysanthemum"
+      ])
     ].filter(Boolean);
   }
 
@@ -2995,7 +3493,7 @@ function buildLegacyCategoryFilters(activeCategory) {
       {
         id: "color",
         label: "Color",
-        options: colorGroup.options.filter((option) => ["red", "gold", "green", "mixed"].includes(option.id))
+        options: colorGroup.options.filter((option) => ["red", "gold", "green"].includes(option.id))
       }
     ];
   }
@@ -3021,7 +3519,9 @@ function buildCategoryFilters(activeCategory, allItems) {
   const legacyGroups = buildLegacyCategoryFilters(activeCategory);
   const cmsDrivenGroups = categoryFilterGroups.length ? categoryFilterGroups
     .map((group, groupIndex) => {
-      const options = Array.isArray(group?.options) ? group.options : [];
+      const options = (Array.isArray(group?.options) ? group.options : []).filter((option) => {
+        return !(normalizeFilterToken(group?.id) === "color" && normalizeFilterToken(option?.id) === "mixed");
+      });
       if (!options.length) return null;
       return {
         id: String(group.id || "").trim() || `group-${groupIndex + 1}`,
@@ -3029,7 +3529,7 @@ function buildCategoryFilters(activeCategory, allItems) {
         options: options.map((option) => {
           const optionId = String(option.id || "").trim() || toSlug(option.label || "option");
           const optionLabel = String(option.label || optionId).trim() || optionId;
-          const legacyMatch = findLegacyMatcher(legacyGroups, group.id, optionId);
+          const legacyMatch = group.id === "flower-condition" ? null : findLegacyMatcher(legacyGroups, group.id, optionId);
           return {
             id: optionId,
             label: optionLabel,
@@ -3072,13 +3572,211 @@ function renderProductGrid(activeCategory, items) {
     const productSlug = toSlug(`${name}-${itemIndex + 1}`);
     const productId = `product-${productSlug || `item-${itemIndex + 1}`}`;
     const detailHref = `product.html?category=${encodeURIComponent(activeCategory.name)}&title=${encodeURIComponent(canonicalTitle)}&image=${encodeURIComponent(image)}${price ? `&price=${encodeURIComponent(price)}` : ""}`;
+    const favoriteId = `gallery:${toSlug(activeCategory.name || "")}:${toSlug(canonicalTitle || name || "")}:${toSlug(image || String(itemIndex + 1))}`;
     return `
       <article class="product-card" id="${escapeHTML(productId)}" style="--item-index:${itemIndex};">
-        ${image ? `<a class="product-detail-link" href="${escapeHTML(detailHref)}"><img class="product-image-cover" src="${escapeHTML(image)}" alt="${escapeHTML(name)}" loading="lazy" decoding="async"><img class="product-image-full" src="${escapeHTML(image)}" alt="" aria-hidden="true" loading="lazy" decoding="async"></a>` : ""}
+        <div class="product-card-media">
+          ${renderGalleryCardMedia(item, detailHref, name)}
+          <button class="favorite-toggle" type="button" data-favorite-toggle data-favorite-id="${escapeHTML(favoriteId)}" data-favorite-title="${escapeHTML(name)}" data-favorite-image="${escapeHTML(image)}" data-favorite-href="${escapeHTML(detailHref)}" data-favorite-price="${escapeHTML(price)}" data-favorite-category="${escapeHTML(activeCategory.name)}" data-favorite-source="gallery" aria-label="Save ${escapeHTML(name)}" onclick="return window.MarvellFavorites && window.MarvellFavorites.handleToggleClick ? window.MarvellFavorites.handleToggleClick(event, this) : false;">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5 4.9 13.74a4.79 4.79 0 0 1 0-6.98 5.18 5.18 0 0 1 7.1 0L12 7.77l.01-.01a5.18 5.18 0 0 1 7.1 0 4.79 4.79 0 0 1 0 6.98L12 20.5Z"/></svg>
+          </button>
+        </div>
       </article>
     `;
   }).join("");
+  initializeGalleryCardCarousels(grid);
+  initializeGalleryCardReveal(grid);
   window.requestAnimationFrame(() => grid.classList.remove("is-transitioning"));
+}
+
+function initializeGalleryCardReveal(scopeRoot) {
+  if (!(scopeRoot instanceof HTMLElement)) return;
+  const cards = Array.from(scopeRoot.querySelectorAll(".product-card"));
+  if (!cards.length) return;
+  const groupCardsByRenderedRows = (items, rowsPerBatch = 2) => {
+    const rows = [];
+    items.forEach((item) => {
+      if (!(item instanceof HTMLElement)) return;
+      const top = Math.round(item.getBoundingClientRect().top);
+      const lastRow = rows[rows.length - 1];
+      if (lastRow && Math.abs(lastRow.top - top) <= 12) {
+        lastRow.items.push(item);
+        return;
+      }
+      rows.push({ top, items: [item] });
+    });
+    return rows.map((row, index) => ({
+      items: row.items,
+      batchIndex: Math.floor(index / Math.max(1, rowsPerBatch))
+    }));
+  };
+  const revealBatches = () => {
+    const batches = groupCardsByRenderedRows(cards, cards.length > 8 ? 2 : 1);
+    batches.forEach(({ items, batchIndex }) => {
+      window.setTimeout(() => {
+        items.forEach((card) => {
+          if (card instanceof HTMLElement) card.classList.add("is-visible");
+        });
+      }, Math.max(batchIndex, 0) * 110);
+    });
+  };
+  cards.forEach((card) => {
+    if (card instanceof HTMLElement) card.classList.remove("is-visible");
+  });
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion || typeof IntersectionObserver === "undefined") {
+    revealBatches();
+    return;
+  }
+  const observer = new IntersectionObserver((entries, obs) => {
+    const shouldReveal = entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.16);
+    if (!shouldReveal) return;
+    revealBatches();
+    obs.disconnect();
+  }, {
+    threshold: [0, 0.16, 0.3],
+    root: null,
+    rootMargin: "0px 0px 18% 0px"
+  });
+  observer.observe(scopeRoot);
+}
+
+function initializeGalleryCardCarousels(scope = document) {
+  const carousels = Array.from(scope.querySelectorAll("[data-gallery-card-carousel]"));
+  carousels.forEach((carousel) => {
+    if (!(carousel instanceof HTMLElement)) return;
+    const viewport = carousel.querySelector("[data-gallery-card-viewport]");
+    const hoverPreview = carousel.querySelector("[data-gallery-card-hover-preview]");
+    const prev = carousel.querySelector("[data-gallery-card-prev]");
+    const next = carousel.querySelector("[data-gallery-card-next]");
+    if (!(viewport instanceof HTMLElement)) return;
+
+    const slideCount = Math.max(1, carousel.querySelectorAll("[data-gallery-card-slide]").length);
+    const hoverIndex = Number.parseInt(carousel.dataset.galleryCardHoverIndex || "-1", 10);
+    const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const canAutoHover = Number.isFinite(hoverIndex) && hoverIndex > 0 && hoverIndex < slideCount && hoverPreview instanceof HTMLElement;
+    const canSingleFullPreview = carousel.dataset.galleryCardSingleFullPreview === "1" && slideCount === 1 && hoverPreview instanceof HTMLElement;
+    const canHoverPreview = canAutoHover || canSingleFullPreview;
+    let currentIndex = 0;
+    let hoverDriven = false;
+    let isProgrammaticScroll = false;
+    const card = carousel.closest(".product-card");
+    const getActiveIndex = () => (hoverDriven && canAutoHover ? hoverIndex : currentIndex);
+    const clearHoverPreview = () => {
+      hoverDriven = false;
+      carousel.classList.remove("is-hover-preview-active");
+    };
+    const updateUi = () => {
+      const viewportWidth = viewport.clientWidth || 1;
+      currentIndex = Math.max(0, Math.min(slideCount - 1, Math.round(viewport.scrollLeft / viewportWidth)));
+      const activeIndex = getActiveIndex();
+      if (card instanceof HTMLElement) {
+        card.classList.toggle("is-carousel-engaged", activeIndex > 0);
+      }
+      if (prev instanceof HTMLButtonElement) prev.disabled = activeIndex <= 0;
+      if (next instanceof HTMLButtonElement) next.disabled = activeIndex >= slideCount - 1;
+    };
+    const goToIndex = (index, behavior = "smooth", options = {}) => {
+      const nextIndex = Math.max(0, Math.min(slideCount - 1, index));
+      if (typeof options.hoverDriven === "boolean") hoverDriven = options.hoverDriven;
+      isProgrammaticScroll = true;
+      viewport.scrollTo({
+        left: viewport.clientWidth * nextIndex,
+        behavior
+      });
+      window.setTimeout(() => {
+        isProgrammaticScroll = false;
+      }, behavior === "smooth" ? 320 : 0);
+    };
+    const activateHoverSlide = () => {
+      if (!supportsHover || !canHoverPreview) return;
+      if (isProgrammaticScroll || hoverDriven || currentIndex !== 0) return;
+      hoverDriven = true;
+      carousel.classList.add("is-hover-preview-active");
+      updateUi();
+    };
+    const resetHoverSlide = (event) => {
+      if (!supportsHover || !hoverDriven) return;
+      if (event instanceof FocusEvent) {
+        const nextFocused = event.relatedTarget;
+        if (nextFocused instanceof Node && card instanceof HTMLElement && card.contains(nextFocused)) {
+          return;
+        }
+      }
+      clearHoverPreview();
+      updateUi();
+    };
+    const commitManualNavigation = () => {
+      clearHoverPreview();
+    };
+    const syncHoverPreviewToSlide = () => {
+      if (!hoverDriven || !canAutoHover) return;
+      goToIndex(hoverIndex, "auto", { hoverDriven: false });
+    };
+
+    if (prev instanceof HTMLButtonElement && prev.dataset.bound !== "1") {
+      prev.dataset.bound = "1";
+      prev.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const activeIndex = getActiveIndex();
+        commitManualNavigation();
+        goToIndex(activeIndex - 1);
+      });
+    }
+
+    if (next instanceof HTMLButtonElement && next.dataset.bound !== "1") {
+      next.dataset.bound = "1";
+      next.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const activeIndex = getActiveIndex();
+        if (hoverDriven && canAutoHover && activeIndex === hoverIndex) {
+          syncHoverPreviewToSlide();
+          if (activeIndex >= slideCount - 1) {
+            updateUi();
+            return;
+          }
+          requestAnimationFrame(() => {
+            goToIndex(activeIndex + 1);
+          });
+          return;
+        }
+        commitManualNavigation();
+        goToIndex(activeIndex + 1);
+      });
+    }
+
+    let frame = 0;
+    viewport.addEventListener("scroll", () => {
+      if (supportsHover && !isProgrammaticScroll) {
+        clearHoverPreview();
+      }
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        updateUi();
+      });
+    }, { passive: true });
+
+    viewport.addEventListener("wheel", () => {
+      commitManualNavigation();
+    }, { passive: true });
+    viewport.addEventListener("pointerdown", commitManualNavigation, { passive: true });
+    viewport.addEventListener("touchstart", commitManualNavigation, { passive: true });
+
+    if (card instanceof HTMLElement && card.dataset.galleryCarouselHoverBound !== "1") {
+      card.dataset.galleryCarouselHoverBound = "1";
+      if (supportsHover) {
+        card.addEventListener("mouseenter", activateHoverSlide);
+        card.addEventListener("focusin", activateHoverSlide);
+        card.addEventListener("mouseleave", resetHoverSlide);
+        card.addEventListener("focusout", resetHoverSlide);
+      }
+    }
+
+    updateUi();
+  });
 }
 
 function updateFiltersCount(count) {
@@ -3155,6 +3853,37 @@ function setupFilters(activeCategory, allItems) {
       `;
     }
 
+    if (normalizeFilterToken(group.id) === "color") {
+      return `
+        <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}">
+          <button class="filter-group-toggle" type="button" aria-expanded="false" aria-controls="filter-panel-${escapeHTML(group.id)}">
+            <span class="filter-group-title">${escapeHTML(group.label)}</span>
+            <span class="filter-group-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="filter-group-panel" id="filter-panel-${escapeHTML(group.id)}">
+            <div class="filter-options filter-options--color">
+              ${group.options.map((option) => {
+                const count = optionCountMap.get(`${group.id}:${option.id}`) ?? 0;
+                const countLabel = formatFilterCount(count);
+                const label = `${option.label} (${countLabel})`;
+                return `
+                  <label class="filter-option filter-option--color" data-color-id="${escapeHTML(option.id)}" title="${escapeHTML(label)}" aria-label="${escapeHTML(label)}">
+                    <input type="checkbox" data-filter-group="${escapeHTML(group.id)}" value="${escapeHTML(option.id)}" aria-label="${escapeHTML(label)}">
+                    <span class="filter-option-label" style="--filter-swatch:${escapeHTML(getColorSwatchValue(option.id))};">
+                      <span class="filter-color-swatch" aria-hidden="true"></span>
+                      <span class="filter-color-meta">
+                        <span class="filter-color-text">${escapeHTML(label)}</span>
+                      </span>
+                    </span>
+                  </label>
+                `;
+              }).join("")}
+            </div>
+          </div>
+        </fieldset>
+      `;
+    }
+
     return `
       <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}">
         <button class="filter-group-toggle" type="button" aria-expanded="false" aria-controls="filter-panel-${escapeHTML(group.id)}">
@@ -3166,7 +3895,7 @@ function setupFilters(activeCategory, allItems) {
             ${group.options.map((option) => `
               <label class="filter-option">
                 <input type="checkbox" data-filter-group="${escapeHTML(group.id)}" value="${escapeHTML(option.id)}">
-                <span>${escapeHTML(option.label)} (${formatFilterCount(optionCountMap.get(`${group.id}:${option.id}`) ?? 0)})</span>
+                <span class="filter-option-label">${escapeHTML(option.label)} (${formatFilterCount(optionCountMap.get(`${group.id}:${option.id}`) ?? 0)})</span>
               </label>
             `).join("")}
           </div>
@@ -3198,6 +3927,14 @@ function setupFilters(activeCategory, allItems) {
   const rangeInputs = Array.from(filtersWrap.querySelectorAll("input[type='range'][data-filter-group]"));
   const groupToggles = Array.from(filtersWrap.querySelectorAll(".filter-group-toggle"));
   const clearButton = filtersWrap.querySelector("#filter-clear");
+
+  const syncColorFilterVisualState = () => {
+    Array.from(filtersWrap.querySelectorAll(".filter-option--color")).forEach((option) => {
+      if (!(option instanceof HTMLElement)) return;
+      const input = option.querySelector("input[type='checkbox'][data-filter-group]");
+      option.classList.toggle("is-selected", input instanceof HTMLInputElement && input.checked);
+    });
+  };
 
   const isRangeFilterActive = (groupId) => {
     const state = rangeStateByGroup.get(groupId);
@@ -3324,6 +4061,7 @@ function setupFilters(activeCategory, allItems) {
       if (!selected) return;
       if (input.checked) selected.add(input.value);
       else selected.delete(input.value);
+      syncColorFilterVisualState();
       applyFilters();
     });
   });
@@ -3364,11 +4102,13 @@ function setupFilters(activeCategory, allItems) {
         if (maxInput instanceof HTMLInputElement) maxInput.value = String(state.max);
         updateRangeUI(groupId);
       });
+      syncColorFilterVisualState();
       applyFilters();
     });
   }
 
   updateFiltersCount(allItems.length);
+  syncColorFilterVisualState();
   applyFilters();
 }
 
@@ -3405,32 +4145,35 @@ function renderCategoryNav(activeCategory) {
   const footerCategories = document.getElementById("footer-categories");
   const mobileCategoryList = document.getElementById("mobile-category-list");
   const mobileCategoryLabel = document.getElementById("mobile-category-label");
-  if (!(nav instanceof HTMLElement) || !(footerCategories instanceof HTMLElement)) return;
-  const categoryLinksMarkup = CATEGORY_META.map((item) => {
+  const displayCategoryMeta = getDisplayCategoryMeta();
+  const categoryLinksMarkup = displayCategoryMeta.map((item) => {
     const isActive = item.key === activeCategory.key;
     return `<a class="${isActive ? "is-active" : ""}" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(item.name)}</a>`;
   }).join("");
-  nav.innerHTML = categoryLinksMarkup;
+  if (nav instanceof HTMLElement) {
+    nav.innerHTML = categoryLinksMarkup;
+  }
   if (mobileCategoryList instanceof HTMLElement) {
     const activeFirst = [
-      ...CATEGORY_META.filter((item) => item.key === activeCategory.key),
-      ...CATEGORY_META.filter((item) => item.key !== activeCategory.key)
+      ...displayCategoryMeta.filter((item) => item.key === activeCategory.key),
+      ...displayCategoryMeta.filter((item) => item.key !== activeCategory.key)
     ];
     mobileCategoryList.innerHTML = `
       <p class="mobile-category-title">Kategori</p>
       ${activeFirst.map((item) => {
         const isActive = item.key === activeCategory.key;
-        const displayName = item.key === "by-request" ? "Sesuai Permintaan" : item.name;
-        return `<a class="${isActive ? "is-active" : ""}" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(displayName)}${isActive ? '<span class="mobile-category-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6"/></svg></span>' : ""}</a>`;
+        return `<a class="${isActive ? "is-active" : ""}" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(item.name)}${isActive ? '<span class="mobile-category-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6"/></svg></span>' : ""}</a>`;
       }).join("")}
     `;
   }
   if (mobileCategoryLabel instanceof HTMLElement) {
-    mobileCategoryLabel.textContent = activeCategory.key === "by-request" ? "Sesuai Permintaan" : activeCategory.name;
+    mobileCategoryLabel.textContent = activeCategory.name;
   }
-  footerCategories.innerHTML = CATEGORY_META.map((item) => (
-    `<a class="footer-link" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(item.key === "by-request" ? "Sesuai Permintaan" : item.name)}</a>`
-  )).join("");
+  if (footerCategories instanceof HTMLElement) {
+    footerCategories.innerHTML = displayCategoryMeta.map((item) => (
+      `<a class="footer-link" href="gallery.html?category=${encodeURIComponent(item.key)}">${escapeHTML(item.name)}</a>`
+    )).join("");
+  }
   syncFooterAccordion();
 }
 
@@ -3447,6 +4190,16 @@ function renderPortfolioGateway() {
   const gatewaySection = document.getElementById("portfolio-gateway");
   const gatewayGrid = document.getElementById("portfolio-gateway-grid");
   if (!(gatewaySection instanceof HTMLElement) || !(gatewayGrid instanceof HTMLElement)) return;
+  const gatewayEntrySource = resolvePortfolioGatewayEntrySource();
+  const displayCategoryMeta = (() => {
+    const base = [...getDisplayCategoryMeta()];
+    if (gatewayEntrySource !== "home-hero") return base;
+    const funeralIndex = base.findIndex((item) => item?.key === "funerals");
+    if (funeralIndex < 0) return base;
+    const [funeralItem] = base.splice(funeralIndex, 1);
+    base.push(funeralItem);
+    return base;
+  })();
   const gatewayEntries = [
     {
       type: "intro",
@@ -3456,12 +4209,23 @@ function renderPortfolioGateway() {
       cta: "The Collection",
       coverImage: "/assets/portfolio.webp"
     },
-    ...CATEGORY_META.map((item) => ({
+    ...displayCategoryMeta.map((item) => ({
       type: "category",
       ...item,
       kicker: "Collection",
       cta: "Discover More"
-    }))
+    })),
+    ...(gatewayEntrySource === "home-hero"
+      ? []
+      : [{
+          type: "prompt",
+          key: "custom-request-prompt",
+          title: "Don't see what you're looking for?",
+          kicker: "Custom Service",
+          cta: "Start a Consultation",
+          coverImage: "/assets/request.webp",
+          href: "https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20consult%20about%20an%20arrangement."
+        }])
   ];
 
   gatewayGrid.innerHTML = gatewayEntries.map((item, index) => {
@@ -3478,6 +4242,20 @@ function renderPortfolioGateway() {
             <button class="portfolio-gateway-card-cta portfolio-gateway-intro-cta" type="button">${escapeHTML(item.cta)}</button>
           </div>
         </article>
+      `;
+    }
+    if (item.type === "prompt") {
+      return `
+        <a class="portfolio-gateway-card portfolio-gateway-card--prompt" href="${escapeHTML(item.href)}" aria-label="${escapeHTML(item.title)}" style="${sharedStyle}">
+          <div class="portfolio-gateway-card-media">
+            ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.title)} cover" loading="eager" decoding="async">` : ""}
+          </div>
+          <div class="portfolio-gateway-card-copy">
+            <p class="portfolio-gateway-card-kicker">${escapeHTML(item.kicker)}</p>
+            <h2 class="portfolio-gateway-card-title">${escapeHTML(item.title)}</h2>
+            <span class="portfolio-gateway-card-cta">${escapeHTML(item.cta)}</span>
+          </div>
+        </a>
       `;
     }
     return `
@@ -3779,11 +4557,15 @@ function syncGallerySeoMeta(category = activeCategoryState, items = null) {
   const ogTitle = ensureHeadMetaTag('meta[property="og:title"]', "property", "og:title");
   const ogDescription = ensureHeadMetaTag('meta[property="og:description"]', "property", "og:description");
   const ogImage = ensureHeadMetaTag('meta[property="og:image"]', "property", "og:image");
+  const ogImageUrl = ensureHeadMetaTag('meta[property="og:image:url"]', "property", "og:image:url");
   const ogImageSecure = ensureHeadMetaTag('meta[property="og:image:secure_url"]', "property", "og:image:secure_url");
   const ogImageAlt = ensureHeadMetaTag('meta[property="og:image:alt"]', "property", "og:image:alt");
   const twitterTitle = ensureHeadMetaTag('meta[name="twitter:title"]', "name", "twitter:title");
   const twitterDescription = ensureHeadMetaTag('meta[name="twitter:description"]', "name", "twitter:description");
   const twitterImage = ensureHeadMetaTag('meta[name="twitter:image"]', "name", "twitter:image");
+  const twitterImageSrc = ensureHeadMetaTag('meta[name="twitter:image:src"]', "name", "twitter:image:src");
+  const genericImage = ensureHeadMetaTag('meta[name="image"]', "name", "image");
+  const imageSrcLink = ensureHeadLinkTag('link[rel="image_src"]', "image_src");
   const descriptionMeta = ensureHeadMetaTag('meta[name="description"]', "name", "description");
   const collectionScript = ensureStructuredDataScript("gallery-category-structured-data");
   const breadcrumbScript = ensureStructuredDataScript("gallery-breadcrumb-structured-data");
@@ -3800,12 +4582,16 @@ function syncGallerySeoMeta(category = activeCategoryState, items = null) {
     ogUrl.content = genericUrl;
     ogTitle.content = genericTitle;
     ogDescription.content = genericDescription;
-    ogImage.content = `${baseUrl}/assets/preview.png`;
-    ogImageSecure.content = `${baseUrl}/assets/preview.png`;
+    ogImage.content = `${baseUrl}/assets/preview.png?v=2`;
+    ogImageUrl.content = `${baseUrl}/assets/preview.png?v=2`;
+    ogImageSecure.content = `${baseUrl}/assets/preview.png?v=2`;
     ogImageAlt.content = "Marvell Florist website preview";
     twitterTitle.content = genericTitle;
     twitterDescription.content = genericDescription;
-    twitterImage.content = `${baseUrl}/assets/preview.png`;
+    twitterImage.content = `${baseUrl}/assets/preview.png?v=2`;
+    twitterImageSrc.content = `${baseUrl}/assets/preview.png?v=2`;
+    genericImage.content = `${baseUrl}/assets/preview.png?v=2`;
+    imageSrcLink.href = `${baseUrl}/assets/preview.png?v=2`;
     collectionScript.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "CollectionPage",
@@ -3826,10 +4612,8 @@ function syncGallerySeoMeta(category = activeCategoryState, items = null) {
 
   const { localizedName, localizedSubtitle } = getGalleryCategorySeoContext(category);
   const categoryUrl = `${baseUrl}/gallery.html?category=${encodeURIComponent(category.key)}`;
-  const categoryImage = category.coverImage ? `${baseUrl}${normalizeAssetPath(category.coverImage)}` : `${baseUrl}/assets/preview.png`;
-  const seoTitle = language === "id"
-    ? `Portofolio ${localizedName} | Marvell Florist`
-    : `${localizedName} Portfolio | Marvell Florist`;
+  const categoryImage = category.coverImage ? `${baseUrl}${normalizeAssetPath(category.coverImage)}` : `${baseUrl}/assets/preview.png?v=2`;
+  const seoTitle = `${localizedName} | Marvell Florist`;
   const seoDescription = language === "id"
     ? `${localizedSubtitle} Jelajahi koleksi ${localizedName} dari Marvell Florist di Batam.`
     : `${localizedSubtitle} Explore the ${localizedName} collection from Marvell Florist in Batam.`;
@@ -3853,11 +4637,15 @@ function syncGallerySeoMeta(category = activeCategoryState, items = null) {
   ogTitle.content = seoTitle;
   ogDescription.content = seoDescription;
   ogImage.content = categoryImage;
+  ogImageUrl.content = categoryImage;
   ogImageSecure.content = categoryImage;
   ogImageAlt.content = `${localizedName} collection cover`;
   twitterTitle.content = seoTitle;
   twitterDescription.content = seoDescription;
   twitterImage.content = categoryImage;
+  twitterImageSrc.content = categoryImage;
+  genericImage.content = categoryImage;
+  imageSrcLink.href = categoryImage;
 
   collectionScript.textContent = JSON.stringify({
     "@context": "https://schema.org",
@@ -3912,16 +4700,15 @@ function renderCategoryPage(activeCategory, items) {
   heroSubtitle.textContent = activeCategory.subtitle;
   metaTitle.textContent = activeCategory.name;
   metaSubtitle.textContent = activeCategory.subtitle;
-  consultBtn.href = buildConsultHref(activeCategory.phone, activeCategory.name);
-  const isByRequest = activeCategory.key === "by-request";
+  consultBtn.href = `https://wa.me/6281275017456?text=${encodeURIComponent(`Hello Marvell Florist, I would like to consult about the ${activeCategory.name} collection.`)}`;
   if (collectionHook instanceof HTMLElement) {
-    collectionHook.hidden = !isByRequest;
+    collectionHook.hidden = true;
   }
   if (ctaWrap instanceof HTMLElement) {
-    ctaWrap.classList.toggle("is-by-request", isByRequest);
+    ctaWrap.classList.remove("is-by-request");
   }
   if (productsGrid instanceof HTMLElement) {
-    productsGrid.classList.toggle("by-request-row", isByRequest);
+    productsGrid.classList.remove("by-request-row");
   }
   setupFilters(activeCategory, items);
   syncGallerySeoMeta(activeCategory, items);
@@ -3929,7 +4716,8 @@ function renderCategoryPage(activeCategory, items) {
 
 function applyGalleryPageCopy(payload = {}) {
   const noteElement = document.getElementById("gallery-portfolio-note");
-  const collectionHook = document.getElementById("collection-hook");
+  const collectionHookCopy = document.getElementById("collection-hook-copy");
+  const customArrangementsLink = document.getElementById("custom-arrangements-link");
   const consultButton = document.getElementById("consult-collection");
   const galleryPage = payload?.galleryPage && typeof payload.galleryPage === "object"
     ? payload.galleryPage
@@ -3937,11 +4725,13 @@ function applyGalleryPageCopy(payload = {}) {
   const resolved = {
     note: String(galleryPage.note || GALLERY_PAGE_DEFAULT_COPY.note).trim(),
     byRequestHook: String(galleryPage.byRequestHook || GALLERY_PAGE_DEFAULT_COPY.byRequestHook).trim(),
+    byRequestLinkLabel: String(galleryPage.byRequestLinkLabel || GALLERY_PAGE_DEFAULT_COPY.byRequestLinkLabel).trim(),
     consultButtonLabel: String(galleryPage.consultButtonLabel || GALLERY_PAGE_DEFAULT_COPY.consultButtonLabel).trim()
   };
 
   if (noteElement instanceof HTMLElement) noteElement.textContent = resolved.note;
-  if (collectionHook instanceof HTMLElement) collectionHook.textContent = resolved.byRequestHook;
+  if (collectionHookCopy instanceof HTMLElement) collectionHookCopy.textContent = resolved.byRequestHook;
+  if (customArrangementsLink instanceof HTMLAnchorElement) customArrangementsLink.textContent = resolved.byRequestLinkLabel;
   if (consultButton instanceof HTMLAnchorElement) consultButton.textContent = resolved.consultButtonLabel;
 }
 
@@ -4004,14 +4794,18 @@ const contactPanel = document.getElementById("contact-quick-panel");
 const contactClose = contactPanel ? contactPanel.querySelector(".contact-quick-close") : null;
 const menuToggle = document.getElementById("menu-toggle");
 const menuPanel = document.getElementById("menu-panel");
+const SHARED_CONTACT_MANAGED = !!(contactPanel && contactPanel.dataset.sharedManaged === "true");
+const SHARED_MENU_MANAGED = !!(menuPanel && menuPanel.dataset.sharedManaged === "true");
 const menuClose = document.getElementById("menu-close");
 const menuViews = menuPanel ? Array.from(menuPanel.querySelectorAll("[data-menu-view]")) : [];
+const featuredMenuList = menuPanel ? menuPanel.querySelector("[data-featured-menu-list]") : null;
 const filtersTrigger = document.getElementById("filters-trigger");
 const filtersTriggerMobile = document.getElementById("filters-trigger-mobile");
 const filtersPanel = document.getElementById("filters-panel");
 const filtersClose = document.getElementById("filters-close");
-const heroGatewayHit = document.getElementById("hero-gateway-hit");
+const headerElement = document.querySelector("header");
 const mobileCategoryTrigger = document.getElementById("mobile-category-trigger");
+const mobileCategoryToolbar = document.querySelector(".mobile-category-toolbar");
 const mobileCategoryPanel = document.getElementById("mobile-category-panel");
 const mobileCategoryBackdrop = document.getElementById("mobile-category-backdrop");
 const footerAccordionColumns = Array.from(document.querySelectorAll("#site-footer .footer-col"));
@@ -4022,11 +4816,19 @@ const setMenuView = (viewName = "main") => {
   menuPanel.setAttribute("data-menu-current", viewName);
   menuViews.forEach((view) => {
     const isMatch = view.getAttribute("data-menu-view") === viewName;
+    const isMainView = view.getAttribute("data-menu-view") === "main";
     view.setAttribute("aria-hidden", isMatch ? "false" : "true");
+    view.style.opacity = isMatch ? "1" : "0";
+    view.style.pointerEvents = isMatch ? "auto" : "none";
+    view.style.visibility = isMatch ? "visible" : "hidden";
+    view.style.transform = isMatch
+      ? "translateX(0)"
+      : (isMainView && viewName !== "main" ? "translateX(-18px)" : "translateX(18px)");
   });
 };
 
 const setContactOpen = (isOpen) => {
+  if (SHARED_CONTACT_MANAGED) return;
   if (!contactPanel || !contactBackdrop || !contactTrigger) return;
   contactPanel.classList.toggle("is-open", isOpen);
   contactBackdrop.classList.toggle("is-open", isOpen);
@@ -4035,6 +4837,7 @@ const setContactOpen = (isOpen) => {
   document.body.classList.toggle("contact-quick-open", isOpen);
 };
 const setMenuOpen = (isOpen) => {
+  if (SHARED_MENU_MANAGED) return;
   if (!menuPanel || !contactBackdrop || !menuToggle) return;
   menuPanel.classList.toggle("is-open", isOpen);
   contactBackdrop.classList.toggle("is-open", isOpen);
@@ -4042,7 +4845,93 @@ const setMenuOpen = (isOpen) => {
   menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
   if (!isOpen) setMenuView("main");
 };
-if (menuPanel) setMenuView("main");
+if (menuPanel && !SHARED_MENU_MANAGED) setMenuView("main");
+if (featuredMenuList instanceof HTMLElement && !featuredMenuList.children.length && !featuredMenuList.textContent.trim()) {
+  featuredMenuList.innerHTML = '<a class="menu-link" data-seasonal-fallback="true" href="featured.html">Collections</a>';
+}
+function getActiveUiLanguage() {
+  const params = new URL(window.location.href).searchParams;
+  const fromUrl = String(params.get("lang") || "").trim().toLowerCase();
+  if (fromUrl === "en" || fromUrl === "id") return fromUrl;
+  try {
+    const fromStorage = String(window.localStorage?.getItem("marvell-language") || "").trim().toLowerCase();
+    if (fromStorage === "en" || fromStorage === "id") return fromStorage;
+  } catch (_error) {
+    // Ignore storage access issues.
+  }
+  return String(document.documentElement.lang || "").trim().toLowerCase() === "id" ? "id" : "en";
+}
+function buildLocalizedFeaturedHref(eventId = "") {
+  const href = eventId ? `featured.html?event=${encodeURIComponent(eventId)}` : "featured.html";
+  const url = new URL(href, window.location.href);
+  url.searchParams.set("lang", getActiveUiLanguage());
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+function localizeSeasonalCollectionTitle(title = "") {
+  const raw = String(title || "").trim();
+  if (!raw) return "Collections";
+  if (getActiveUiLanguage() !== "id") return raw;
+  const map = {
+    "Ramadan & Eid Collection": "Koleksi Ramadan & Idul Fitri",
+    "Valentine's Collection": "Koleksi Valentine",
+    "Graduation Collection": "Koleksi Wisuda",
+    "Mother's Day Collection": "Koleksi Hari Ibu",
+    "Chinese New Year Collection": "Koleksi Tahun Baru Imlek",
+    "Christmas Collection": "Koleksi Natal",
+    "Collections": "Koleksi"
+  };
+  return map[raw] || raw;
+}
+function parseFeaturedMonthDay(value) {
+  const [monthRaw, dayRaw] = String(value || "").split("-");
+  const month = Number(monthRaw);
+  const day = Number(dayRaw);
+  if (!Number.isInteger(month) || !Number.isInteger(day)) return null;
+  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+  return { month, day };
+}
+function isFeaturedEventActive(eventConfig, today = new Date()) {
+  const startPart = parseFeaturedMonthDay(eventConfig?.start);
+  const endPart = parseFeaturedMonthDay(eventConfig?.end);
+  if (!startPart || !endPart) return false;
+  const now = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const year = now.getFullYear();
+  const startDate = new Date(year, startPart.month - 1, startPart.day);
+  const endDate = new Date(year, endPart.month - 1, endPart.day);
+  if (endDate >= startDate) return now >= startDate && now <= endDate;
+  return now >= startDate || now <= endDate;
+}
+function syncSeasonalMenuEntry(catalog) {
+  const activeEvents = (Array.isArray(catalog?.events) ? catalog.events : [])
+    .filter((eventConfig) => eventConfig?.forceActive === true || isFeaturedEventActive(eventConfig))
+    .filter((eventConfig) => Array.isArray(eventConfig?.products) && eventConfig.products.some((item) => String(item?.src || "").trim()));
+  const primaryEvent = [...activeEvents].sort((a, b) => {
+    const byPriority = (Number(b?.priority) || 0) - (Number(a?.priority) || 0);
+    if (byPriority !== 0) return byPriority;
+    return String(a?.id || "").localeCompare(String(b?.id || ""));
+  })[0] || null;
+  const directHref = primaryEvent ? buildLocalizedFeaturedHref(String(primaryEvent.id || "").trim()) : buildLocalizedFeaturedHref("");
+  const rawLabel = primaryEvent ? String(primaryEvent.title || "").trim() || "Collections" : "Collections";
+  const label = localizeSeasonalCollectionTitle(rawLabel);
+  document.querySelectorAll("[data-seasonal-featured-link]").forEach((trigger) => {
+    if (!(trigger instanceof HTMLElement)) return;
+    trigger.setAttribute("data-seasonal-direct-href", directHref);
+    trigger.dataset.seasonalManaged = "true";
+    trigger.dataset.seasonalLabel = rawLabel;
+    trigger.textContent = label;
+  });
+  if (featuredMenuList instanceof HTMLElement) {
+    featuredMenuList.innerHTML = `<a class="menu-link" data-seasonal-fallback="true" data-seasonal-managed="true" data-seasonal-label="${String(rawLabel).replace(/"/g, "&quot;")}" href="${directHref}">${label}</a>`;
+  }
+}
+fetch("content/featured.json", { cache: "no-store" })
+  .then((response) => (response.ok ? response.json() : null))
+  .then((catalog) => {
+    if (catalog) syncSeasonalMenuEntry(catalog);
+  })
+  .catch(() => {
+    // Keep the static fallback when the featured catalog cannot be loaded.
+  });
 const setFiltersOpen = (isOpen) => {
   const filterButtons = [filtersTrigger, filtersTriggerMobile].filter((button) => button instanceof HTMLButtonElement);
   if (!filtersPanel || !contactBackdrop || !filterButtons.length) return;
@@ -4060,9 +4949,63 @@ const setCategoryPickerOpen = (isOpen) => {
     mobileCategoryBackdrop.classList.toggle("is-open", isOpen);
     mobileCategoryBackdrop.setAttribute("aria-hidden", isOpen ? "false" : "true");
   }
+  scheduleMobileCategoryLayoutSync();
 };
 
-if (contactTrigger) {
+const syncMobileCategoryLayout = () => {
+  if (!(mobileCategoryToolbar instanceof HTMLElement)) return;
+  const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
+  if (!isMobileViewport) {
+    mobileCategoryToolbar.style.removeProperty("top");
+    if (mobileCategoryPanel instanceof HTMLElement) mobileCategoryPanel.style.removeProperty("top");
+    if (mobileCategoryBackdrop instanceof HTMLElement) mobileCategoryBackdrop.style.removeProperty("top");
+    document.documentElement.style.removeProperty("--gallery-mobile-toolbar-runtime-height");
+    return;
+  }
+
+  const headerBottom = headerElement instanceof HTMLElement
+    ? Math.max(0, headerElement.getBoundingClientRect().bottom)
+    : 0;
+  mobileCategoryToolbar.style.top = `${headerBottom.toFixed(2)}px`;
+
+  const toolbarRect = mobileCategoryToolbar.getBoundingClientRect();
+  const toolbarHeight = toolbarRect.height;
+  const panelTop = Math.max(headerBottom, toolbarRect.bottom);
+  if (Number.isFinite(toolbarHeight) && toolbarHeight > 0) {
+    document.documentElement.style.setProperty("--gallery-mobile-toolbar-runtime-height", `${toolbarHeight.toFixed(2)}px`);
+  }
+  if (mobileCategoryPanel instanceof HTMLElement) {
+    mobileCategoryPanel.style.top = `${panelTop.toFixed(2)}px`;
+  }
+  if (mobileCategoryBackdrop instanceof HTMLElement) {
+    mobileCategoryBackdrop.style.top = `${panelTop.toFixed(2)}px`;
+  }
+};
+
+const scheduleMobileCategoryLayoutSync = () => {
+  syncMobileCategoryLayout();
+  window.requestAnimationFrame(() => {
+    syncMobileCategoryLayout();
+    window.requestAnimationFrame(syncMobileCategoryLayout);
+  });
+  window.setTimeout(syncMobileCategoryLayout, 180);
+  window.setTimeout(syncMobileCategoryLayout, 420);
+};
+
+scheduleMobileCategoryLayoutSync();
+window.addEventListener("resize", scheduleMobileCategoryLayoutSync);
+window.addEventListener("orientationchange", scheduleMobileCategoryLayoutSync);
+window.addEventListener("load", scheduleMobileCategoryLayoutSync);
+
+if (typeof ResizeObserver === "function") {
+  const mobileCategoryLayoutObserver = new ResizeObserver(() => {
+    scheduleMobileCategoryLayoutSync();
+  });
+  if (headerElement instanceof HTMLElement) mobileCategoryLayoutObserver.observe(headerElement);
+  if (mobileCategoryToolbar instanceof HTMLElement) mobileCategoryLayoutObserver.observe(mobileCategoryToolbar);
+}
+
+if (contactTrigger && !SHARED_CONTACT_MANAGED) {
   if (!POPUPS_ENABLED) {
     contactTrigger.setAttribute("aria-disabled", "true");
   } else {
@@ -4077,17 +5020,17 @@ if (contactTrigger) {
     });
   }
 }
-if (contactBackdrop) {
+if (contactBackdrop && !SHARED_CONTACT_MANAGED) {
   if (POPUPS_ENABLED) {
     contactBackdrop.addEventListener("click", () => setContactOpen(false));
   }
 }
-if (contactClose instanceof HTMLButtonElement) {
+if (contactClose instanceof HTMLButtonElement && !SHARED_CONTACT_MANAGED) {
   if (POPUPS_ENABLED) {
     contactClose.addEventListener("click", () => setContactOpen(false));
   }
 }
-if (menuToggle && menuPanel) {
+if (menuToggle && menuPanel && !SHARED_MENU_MANAGED) {
   if (!POPUPS_ENABLED) {
     menuToggle.setAttribute("aria-disabled", "true");
   } else {
@@ -4103,15 +5046,36 @@ if (menuToggle && menuPanel) {
     });
   }
 }
-if (menuPanel) {
+if (menuPanel && !SHARED_MENU_MANAGED) {
   if (POPUPS_ENABLED) {
     menuPanel.addEventListener("click", (event) => {
       const target = event.target;
       if (!(target instanceof HTMLElement)) return;
       const openButton = target.closest("[data-menu-open]");
       if (openButton instanceof HTMLElement) {
+        const mobileHref = String(openButton.getAttribute("data-menu-mobile-href") || "").trim();
+        if (mobileHref && window.matchMedia("(max-width: 899px)").matches) {
+          setMenuOpen(false);
+          window.location.href = mobileHref;
+          return;
+        }
+        const directHref = openButton.getAttribute("data-seasonal-direct-href");
+        if (directHref) {
+          setMenuOpen(false);
+          window.location.href = directHref;
+          return;
+        }
         const targetView = openButton.getAttribute("data-menu-open");
         if (targetView) setMenuView(targetView);
+        return;
+      }
+      const directButton = target.closest("[data-seasonal-direct-href]");
+      if (directButton instanceof HTMLElement) {
+        const directHref = directButton.getAttribute("data-seasonal-direct-href");
+        if (directHref) {
+          setMenuOpen(false);
+          window.location.href = directHref;
+        }
         return;
       }
       const backButton = target.closest("[data-menu-back]");
@@ -4169,11 +5133,6 @@ if (filtersClose instanceof HTMLButtonElement) {
     filtersClose.addEventListener("click", () => setFiltersOpen(false));
   }
 }
-if (heroGatewayHit instanceof HTMLButtonElement) {
-  heroGatewayHit.addEventListener("click", () => {
-    window.location.href = "gallery.html?entry=portfolio-hero";
-  });
-}
 if (menuClose instanceof HTMLButtonElement) {
   if (POPUPS_ENABLED) {
     menuClose.addEventListener("click", () => setMenuOpen(false));
@@ -4214,10 +5173,15 @@ window.addEventListener("touchmove", (event) => {
 async function initialize() {
   await hydrateCategoryMetaFromContent();
   setupCategoryNavigation();
-  bindFooterAccordion();
-  syncFooterAccordion();
+bindFooterAccordion();
+syncFooterAccordion();
 
   const gatewaySection = document.getElementById("portfolio-gateway");
+  const categoryParamRaw = normalizeValue(new URLSearchParams(window.location.search).get("category") || "");
+  if (isByRequestCategoryValue(categoryParamRaw)) {
+    window.location.replace("https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20consult%20about%20an%20arrangement.");
+    return;
+  }
   const resolvedCategory = resolveCategoryFromQuery();
   const hasExplicitCategory = Boolean(normalizeValue(new URLSearchParams(window.location.search).get("category") || ""));
   if (hasExplicitCategory) {
@@ -4230,6 +5194,7 @@ async function initialize() {
   }
 
   if (shouldShowPortfolioGateway()) {
+    renderCategoryNav(resolveCategoryFromRaw(""));
     renderPortfolioGateway();
     activeCategoryState = resolveCategoryFromRaw("");
     return;
@@ -4361,5 +5326,7 @@ window.addEventListener("popstate", () => {
 window.addEventListener("resize", requestPortfolioGatewayRevealUpdate);
 window.addEventListener("resize", syncFooterAccordion);
 </script>
+<script src="assets/favorites.js?v=20260422b"></script>
+<script type="module" src="/seasonal/seasonal-page.js?v=20260420g"></script>
 </body>
 </html>

@@ -8,22 +8,54 @@
         {
           "name": "Garden Abundance",
           "price": 1050000,
-          "src": "/assets/seasonal/eid/eidparcel.webp"
+          "src": "/assets/seasonal/eid/eidparcel.webp",
+          "filters": {
+            "type": "parcel",
+            "colors": [
+              "green",
+              "gold",
+              "mixed"
+            ]
+          }
         },
         {
           "name": "Golden Gathering",
           "price": 1200000,
-          "src": "/assets/seasonal/eid/eidparcel2.png.webp"
+          "src": "/assets/seasonal/eid/eidparcel2.png.webp",
+          "filters": {
+            "type": "parcel",
+            "colors": [
+              "gold",
+              "red",
+              "mixed"
+            ]
+          }
         },
         {
           "name": "Sunlit Harmony",
           "price": 700000,
-          "src": "/assets/seasonal/eid/eidfloralarrange.webp"
+          "src": "/assets/seasonal/eid/eidfloralarrange.webp",
+          "filters": {
+            "type": "artificial",
+            "colors": [
+              "yellow",
+              "green",
+              "mixed"
+            ]
+          }
         },
         {
           "name": "Crescent Bloom",
           "price": 650000,
-          "src": "/assets/seasonal/eid/floralarrangement.webp"
+          "src": "/assets/seasonal/eid/floralarrangement.webp",
+          "filters": {
+            "type": "artificial",
+            "colors": [
+              "white",
+              "green",
+              "mixed"
+            ]
+          }
         }
       ],
       "priority": 10,
@@ -35,31 +67,400 @@
       "end": "04-01",
       "id": "eid",
       "promoText": "Ramadan & Eid Collection - Explore the arrangements",
-      "lead": "Each season brings a moment. We give it form."
+      "lead": "Defined by reflection and devotion, the Eid Collection embodies a season of patience and renewal. In its stillness, moments of forgiveness and togetherness are experienced with deeper clarity."
     },
     {
       "heroImage": "/assets/valentine.webp",
       "start": "02-01",
-      "products": [],
+      "products": [
+        {
+          "src": "/assets/uploads/screenshot-2026-04-15-at-09.33.33.png",
+          "name": "JAV",
+          "price": 8127,
+          "filters": {
+            "type": "parcel",
+            "colors": [
+              "pink"
+            ]
+          }
+        }
+      ],
       "priority": 9,
       "forceActive": false,
       "kicker": "SEASONAL COLLECTION",
       "title": "Valentine's Collection",
       "end": "02-16",
       "id": "valentine",
-      "promoText": "Valentine's Collection - Discover the bouquets"
+      "promoText": "Valentine's Collection - Discover the bouquets",
+      "lead": "Centered on connection in its most personal form, the Valentine’s Collection explores expressions of love that exist beyond gesture. In subtle moments of closeness, emotion is felt without the need for words."
     },
     {
-      "heroImage": "/assets/graduation.webp",
+      "footerImage": "/assets/uploads/img_4410.webp",
+      "heroImage": "/assets/uploads/img_4376-2-.webp",
       "start": "04-16",
-      "products": [],
+      "products": [
+        {
+          "src": "/assets/uploads/img_4280.webp",
+          "name": "Midnight Sol",
+          "price": 400000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "pink",
+              "white",
+              "yellow",
+              "black",
+              "gold"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "sunflower",
+              "babys-breath"
+            ]
+          },
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4291.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4526.webp"
+            }
+          ]
+        },
+        {
+          "src": "/assets/uploads/img_4289.webp",
+          "name": "Verdant Archive",
+          "price": 330000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "red",
+              "pink",
+              "purple",
+              "blue",
+              "orange",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "lily",
+              "peony",
+              "mawar",
+              "aster"
+            ]
+          },
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4265.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4412.webp"
+            }
+          ]
+        },
+        {
+          "src": "/assets/uploads/img_4276.webp",
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4259.webp",
+              "hoverPosition": ""
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4387.webp"
+            }
+          ],
+          "name": "L'Heure Bleue",
+          "price": 380000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "blue",
+              "white",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "carnation",
+              "mawar",
+              "babys-breath",
+              "aster"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4274.webp",
+          "name": "Amethyst Heirloom",
+          "price": 380000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "red",
+              "pink"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "lily",
+              "mawar",
+              "gerbera",
+              "babys-breath"
+            ]
+          },
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4272.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4323.webp"
+            }
+          ]
+        },
+        {
+          "name": "Sterling Monograph",
+          "price": 180000,
+          "src": "/assets/uploads/img_4261.webp",
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4293.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4374.webp"
+            }
+          ],
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "red",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "mawar"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4269.webp",
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4282.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4343.webp"
+            }
+          ],
+          "name": "Grand Muse",
+          "price": 380000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "pink",
+              "white",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "lily",
+              "mawar"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4283.webp",
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4270.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4458.webp"
+            }
+          ],
+          "name": "L'Aube",
+          "price": 350000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "pink",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "lily",
+              "mawar"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4268.webp",
+          "name": "Bordeaux Noir",
+          "price": 380000,
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4196.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4425.webp"
+            }
+          ],
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "red",
+              "purple",
+              "gold",
+              "black"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "hydrangea",
+              "gerbera"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4279.webp",
+          "name": "Cerulean Shift",
+          "price": 180000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "blue",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "gerbera"
+            ]
+          },
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4290.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4332.webp"
+            }
+          ]
+        },
+        {
+          "src": "/assets/uploads/img_4264.webp",
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4288.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4366.webp"
+            }
+          ],
+          "price": 180000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "green",
+              "black",
+              "gold"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "mawar"
+            ]
+          },
+          "name": "Onyx Prelude"
+        },
+        {
+          "src": "/assets/uploads/img_4262.webp",
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4286.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4479.webp"
+            }
+          ],
+          "name": "Gilded Prose",
+          "price": 180000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "pink",
+              "blue",
+              "green"
+            ],
+            "flowerTypes": [
+              "mawar"
+            ],
+            "flowerCondition": "artificial"
+          }
+        },
+        {
+          "price": 600000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "pink",
+              "blue"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "lily",
+              "gerbera",
+              "mawar",
+              "carnation",
+              "babys-breath"
+            ]
+          },
+          "name": "L'Envol",
+          "src": "/assets/uploads/img_4305-1-.webp",
+          "additionalImages": [
+            {
+              "usage": "carousel",
+              "image": "/assets/uploads/img_4306.webp"
+            },
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4451.webp"
+            }
+          ]
+        }
+      ],
       "priority": 4,
-      "forceActive": false,
+      "consultLabel": "Consult Graduation Collection",
+      "forceActive": true,
       "kicker": "SEASONAL COLLECTION",
       "title": "Graduation Collection",
+      "footerSlogan": "For Brighter Days Ahead.",
+      "journalSlug": "grad-26",
       "end": "04-30",
       "id": "graduation",
-      "promoText": "Graduation Collection - Celebrate the moment"
+      "promoText": "Graduation Collection - Celebrate the moment",
+      "lead": "Marking a passage shaped by time and intention, the Graduation Collection captures a moment of transition. As one chapter draws to a close, there is a quiet space where reflection and anticipation exist in balance."
     },
     {
       "heroImage": "/assets/graduation.webp",
@@ -71,19 +472,21 @@
       "title": "Graduation Collection",
       "end": "07-31",
       "id": "graduation_late",
-      "promoText": "Graduation Collection - Celebrate the moment"
+      "promoText": "Graduation Collection - Celebrate the moment",
+      "lead": "Composed with balanced proportions and soft tonal palettes, the Graduation Collection pairs structured silhouettes with lighter textures. Late afternoon light and quiet conversation settle into a calm moment before what comes next."
     },
     {
       "heroImage": "/assets/popupmothersday.webp",
       "start": "05-01",
       "products": [],
       "priority": 7,
-      "forceActive": false,
+      "forceActive": true,
       "kicker": "SEASONAL COLLECTION",
       "title": "Mother's Day Collection",
       "end": "05-16",
       "id": "mothers_day",
-      "promoText": "Mother's Day Collection - Explore the arrangements"
+      "promoText": "Mother's Day Collection - Explore the arrangements",
+      "lead": "Shaped by a presence that endures over time, the Mother’s Day Collection reflects a bond expressed through the everyday. In its quiet consistency, care and understanding reveal their lasting significance."
     },
     {
       "heroImage": "/assets/chinesenewyear.webp",
@@ -95,7 +498,8 @@
       "title": "Chinese New Year Collection",
       "end": "01-31",
       "id": "cny",
-      "promoText": "Chinese New Year Collection - Discover the arrangements"
+      "promoText": "Chinese New Year Collection - Discover the arrangements",
+      "lead": "Guided by tradition and renewal, the Chinese New Year Collection reflects a return to what is familiar. Within shared rituals and fleeting exchanges, a sense of belonging reveals itself with quiet certainty."
     },
     {
       "heroImage": "/assets/chinesenewyear.webp",
@@ -107,7 +511,8 @@
       "title": "Chinese New Year Collection",
       "end": "03-06",
       "id": "cny_mid",
-      "promoText": "Chinese New Year Collection - Discover the arrangements"
+      "promoText": "Chinese New Year Collection - Discover the arrangements",
+      "lead": "Guided by tradition and renewal, the Chinese New Year Collection reflects a return to what is familiar. Within shared rituals and fleeting exchanges, a sense of belonging reveals itself with quiet certainty."
     },
     {
       "heroImage": "/assets/popupchristmas.webp",
@@ -119,7 +524,8 @@
       "title": "Christmas Collection",
       "end": "12-27",
       "id": "christmas",
-      "promoText": "Christmas Collection - Explore the arrangements"
+      "promoText": "Christmas Collection - Explore the arrangements",
+      "lead": "Rooted in long-held traditions, the Christmas Collection reflects a time of gathering and quiet familiarity. As the day unfolds, moments of warmth and presence emerge, where togetherness is felt in its most natural form."
     }
   ]
 }

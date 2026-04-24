@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reviews Debug</title>
+  <style>
+    body { font: 14px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 0; padding: 16px; background: #f5f1ea; color: #2a2118; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+    iframe { width: 1440px; height: 5000px; border: 1px solid #ccc; background: white; }
+  </style>
+</head>
+<body>
+  <pre id="out">loading…</pre>
+  <iframe id="frame" src="/index.html"></iframe>
+  <script>
+    const out = document.getElementById("out");
+    const frame = document.getElementById("frame");
+
+    function pick(el) {
+      if (!el) return null;
+      const rect = el.getBoundingClientRect();
+      const style = getComputedStyle(el);
+      return {
+        tag: el.tagName,
+        id: el.id || "",
+        className: el.className || "",
+        top: rect.top,
+        bottom: rect.bottom,
+        height: rect.height,
+        offsetTop: el.offsetTop,
+        offsetHeight: el.offsetHeight,
+        display: style.display,
+        visibility: style.visibility,
+        opacity: style.opacity,
+        position: style.position,
+        zIndex: style.zIndex,
+        overflow: style.overflow
+      };
+    }
+
+    frame.addEventListener("load", () => {
+      setTimeout(() => {
+        const doc = frame.contentDocument;
+        const win = frame.contentWindow;
+        const featured = doc.getElementById("featured");
+        const reviews = doc.getElementById("reviews");
+        const track = doc.getElementById("reviews-track");
+        const footer = doc.getElementById("site-footer");
+
+        const snapshot = (label) => {
+          const currentTrack = doc.getElementById("reviews-track");
+          const slide = currentTrack ? currentTrack.querySelector(".review-slide") : null;
+          const cards = currentTrack ? Array.from(currentTrack.querySelectorAll(".review-card")) : [];
+          return {
+            label,
+            track: pick(currentTrack),
+            slide: pick(slide),
+            cardCount: cards.length,
+            cards: cards.map((card) => ({
+              ...pick(card),
+              text: card.innerText.trim().slice(0, 120)
+            }))
+          };
+        };
+
+        const payload = {
+          hasInitFn: typeof win.initializeReviewsCarousel,
+          beforeManualInit: snapshot("beforeManualInit"),
+          scrollHeight: doc.documentElement.scrollHeight,
+          bodyScrollHeight: doc.body.scrollHeight,
+          featured: pick(featured),
+          reviews: pick(reviews),
+          footer: pick(footer)
+        };
+
+        if (typeof win.initializeReviewsCarousel === "function") {
+          win.initializeReviewsCarousel();
+          payload.afterManualInit = snapshot("afterManualInit");
+        }
+
+        out.textContent = JSON.stringify(payload, null, 2);
+      }, 2500);
+    });
+  </script>
+</body>
+</html>

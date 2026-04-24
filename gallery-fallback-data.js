@@ -1315,8 +1315,8 @@ window.__GALLERY_FALLBACK__ = {
     },
     "galleryPage": {
       "note": "Most pieces are custom made, so availability and flower selection must be confirmed first.",
-      "byRequestHook": "Not every arrangement begins in a catalog. Some start with a conversation.",
-      "consultButtonLabel": "Consult This Collection"
+      "byRequestHook": "Looking for something more specific? We can create custom arrangements shaped around your occasion, palette, and references.",
+      "consultButtonLabel": "Start a Custom Request"
     }
   }
 };

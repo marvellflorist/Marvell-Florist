@@ -2,6 +2,7 @@
   const STORAGE_KEY = "marvell-language";
   const SUPPORTED_LANGUAGES = new Set(["en", "id"]);
   const GA_MEASUREMENT_ID = "G-Z9PJ60V3CR";
+  const ANALYTICS_OPT_OUT_STORAGE_KEY = "marvell-analytics-disabled";
   const THEME_FAVICONS = {
     light: { href: "/assets/logo.webp?v=5", type: "image/webp" },
     dark: { href: "/assets/darklogo.png?v=2", type: "image/png" }
@@ -9,6 +10,53 @@
   let themeFaviconBound = false;
   let analyticsInitialized = false;
   let whatsappTrackingBound = false;
+
+  function syncAnalyticsPreferenceFromUrl() {
+    try {
+      const params = new URLSearchParams(window.location.search || "");
+      const value = String(params.get("analytics") || "").trim().toLowerCase();
+      if (value === "off") window.localStorage.setItem(ANALYTICS_OPT_OUT_STORAGE_KEY, "1");
+      else if (value === "on") window.localStorage.removeItem(ANALYTICS_OPT_OUT_STORAGE_KEY);
+    } catch (_error) {
+      // Ignore storage and URL access failures.
+    }
+  }
+
+  function isAnalyticsDisabled() {
+    syncAnalyticsPreferenceFromUrl();
+    try {
+      return window.localStorage.getItem(ANALYTICS_OPT_OUT_STORAGE_KEY) === "1";
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function applyAnalyticsDisabledFlag() {
+    window[`ga-disable-${GA_MEASUREMENT_ID}`] = isAnalyticsDisabled();
+  }
+
+  applyAnalyticsDisabledFlag();
+  window.MarvellAnalytics = window.MarvellAnalytics || {
+    disable() {
+      try {
+        window.localStorage.setItem(ANALYTICS_OPT_OUT_STORAGE_KEY, "1");
+      } catch (_error) {
+        // Ignore storage failures.
+      }
+      applyAnalyticsDisabledFlag();
+    },
+    enable() {
+      try {
+        window.localStorage.removeItem(ANALYTICS_OPT_OUT_STORAGE_KEY);
+      } catch (_error) {
+        // Ignore storage failures.
+      }
+      applyAnalyticsDisabledFlag();
+    },
+    isDisabled() {
+      return isAnalyticsDisabled();
+    }
+  };
 
   const PAGE_TITLES = {
     home: {
@@ -28,8 +76,8 @@
       id: "Tentang | Marvell Florist"
     },
     featured: {
-      en: "Marvell Florist | Featured Collection",
-      id: "Marvell Florist | Koleksi Unggulan"
+      en: "Marvell Florist | Collections",
+      id: "Marvell Florist | Koleksi"
     },
     faq: {
       en: "FAQ | Marvell Florist",
@@ -46,6 +94,22 @@
     contact: {
       en: "Contact | Marvell Florist",
       id: "Kontak | Marvell Florist"
+    },
+    services: {
+      en: "Services | Marvell Florist",
+      id: "Layanan | Marvell Florist"
+    },
+    custom: {
+      en: "Custom Arrangements | Marvell Florist",
+      id: "Rangkaian Kustom | Marvell Florist"
+    },
+    stories: {
+      en: "The Journals | Marvell Florist",
+      id: "Jurnal | Marvell Florist"
+    },
+    story: {
+      en: "Journal | Marvell Florist",
+      id: "Jurnal | Marvell Florist"
     }
   };
 
@@ -73,15 +137,35 @@
     terms: {
       en: "Read the terms and conditions for Marvell Florist orders and services.",
       id: "Baca syarat dan ketentuan untuk pesanan dan layanan Marvell Florist."
+    },
+    contact: {
+      en: "Get in touch with Marvell Florist for orders, inquiries, and floral consultations in Batam.",
+      id: "Hubungi Marvell Florist untuk pemesanan, pertanyaan, dan konsultasi floral di Batam."
+    },
+    services: {
+      en: "Explore Marvell Florist services: consultation, custom arrangements, message cards, delivery, pickup, and floral boards in Batam.",
+      id: "Jelajahi layanan Marvell Florist: konsultasi, rangkaian kustom, kartu pesan, pengiriman, pickup, dan papan bunga di Batam."
+    },
+    custom: {
+      en: "Explore consultation-led custom arrangements by Marvell Florist for gifting, reference-led requests, and one-off floral work in Batam.",
+      id: "Jelajahi rangkaian kustom Marvell Florist yang dibentuk melalui konsultasi untuk gifting, permintaan berbasis referensi, dan kebutuhan floral khusus di Batam."
+    },
+    stories: {
+      en: "Browse The Journals by Marvell Florist as simple editable visual lookbooks.",
+      id: "Jelajahi The Journals dari Marvell Florist sebagai lookbook visual sederhana yang dapat diedit."
+    },
+    story: {
+      en: "Explore a Marvell Florist journal presented as a visual lookbook.",
+      id: "Jelajahi sebuah jurnal Marvell Florist yang ditampilkan sebagai lookbook visual."
     }
   };
 
   const CATEGORY_DATA = {
     "artificial-flowers": {
-      en: "Artificial Flowers",
-      id: "Bunga Artifisial",
-      subtitleEn: "Artificial floral arrangements for decorative use and long-lasting display.",
-      subtitleId: "Rangkaian bunga artifisial untuk kebutuhan dekoratif dan penggunaan jangka panjang."
+      en: "Table Arrangements",
+      id: "Rangkaian Meja",
+      subtitleEn: "Table arrangements for decorative styling and long-lasting display.",
+      subtitleId: "Rangkaian meja untuk kebutuhan dekoratif dan display jangka panjang."
     },
     bouquets: {
       en: "Bouquets",
@@ -120,12 +204,15 @@
       subtitleId: "Kategori kustom untuk kebutuhan khusus dan konsep personal."
     },
     featured: {
-      en: "Featured",
-      id: "Unggulan"
+      en: "Collections",
+      id: "Koleksi"
     }
   };
 
   const CATEGORY_ALIASES = new Map([
+    ["table arrangements", "artificial-flowers"],
+    ["table arrangement", "artificial-flowers"],
+    ["rangkaian meja", "artificial-flowers"],
     ["artificial flowers", "artificial-flowers"],
     ["bunga artifisial", "artificial-flowers"],
     ["bouquets", "bouquets"],
@@ -295,7 +382,8 @@
     "Discover More": "Lihat Lebih Lanjut",
     "The Collection": "Koleksi",
     "Collection": "Koleksi",
-    "Featured": "Unggulan",
+    "Featured": "Koleksi",
+    "Collections": "Koleksi",
     "Products": "Produk",
     "Recommended Products": "Produk Rekomendasi",
     "Related Searches": "Pencarian Terkait",
@@ -308,7 +396,7 @@
   };
 
   const STYLE_TEXT = [
-    ".language-switcher{display:inline-flex;align-items:center;gap:4px;margin-left:10px;pointer-events:auto;color:inherit;}",
+    ".language-switcher{display:inline-flex;align-items:center;gap:4px;margin-left:10px;pointer-events:auto;color:inherit;order:3;}",
     ".language-switcher__button{border:0;background:transparent;padding:0;font-family:\"Inter Tight\",sans-serif;font-size:11px;letter-spacing:.08em;color:currentColor;opacity:.54;cursor:pointer;transition:opacity .18s ease,color .18s ease;}",
     ".language-switcher__button.is-active{opacity:1;}",
     ".language-switcher__button:hover,.language-switcher__button:focus-visible{opacity:.72;outline:none;}",
@@ -353,6 +441,10 @@
     if (name === "privacy-policy.html") return "privacy";
     if (name === "terms-conditions.html") return "terms";
     if (name === "contact.html") return "contact";
+    if (name === "services.html") return "services";
+    if (name === "custom-arrangements.html") return "custom";
+    if (name === "journals.html") return "stories";
+    if (name === "journal.html") return "story";
     return "";
   }
 
@@ -459,14 +551,17 @@
 
       const isMobileViewport = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 768px)").matches;
       if (isMobileViewport) {
-        const searchToggle = bar.querySelector(".search-mobile-trigger, .search-toggle");
-        const menuToggle = bar.querySelector(".menu-toggle");
-        if (searchToggle && searchToggle.parentNode === bar) {
-          if (searchToggle.previousSibling !== switcher) {
-            bar.insertBefore(switcher, searchToggle);
+        const logo = bar.querySelector(".header-logo");
+        const favorites = bar.querySelector(".favorites-launcher");
+        const searchToggle = bar.querySelector(".search-toggle, .search-mobile-trigger");
+        if (logo && logo.parentNode === bar) {
+          if (logo.nextSibling !== switcher) {
+            bar.insertBefore(switcher, logo.nextSibling);
           }
-        } else if (menuToggle && menuToggle.parentNode === bar) {
-          bar.insertBefore(switcher, menuToggle);
+        } else if (favorites && favorites.parentNode === bar) {
+          bar.insertBefore(switcher, favorites);
+        } else if (searchToggle && searchToggle.parentNode === bar) {
+          bar.insertBefore(switcher, searchToggle);
         } else {
           bar.appendChild(switcher);
         }
@@ -536,6 +631,37 @@
     return text;
   }
 
+  function localizeSeasonalCollectionLabel(value) {
+    const text = String(value || "").trim();
+    if (!text) return text;
+    if (currentLanguage !== "id") {
+      const reverseMap = {
+        "Koleksi Ramadan & Idul Fitri": "Ramadan & Eid Collection",
+        "Koleksi Valentine": "Valentine's Collection",
+        "Koleksi Wisuda": "Graduation Collection",
+        "Koleksi Hari Ibu": "Mother's Day Collection",
+        "Koleksi Tahun Baru Imlek": "Chinese New Year Collection",
+        "Koleksi Natal": "Christmas Collection",
+        "Koleksi Musiman": "Seasonal Collection",
+        "Koleksi Pilihan": "Featured Collection",
+        "Koleksi": "Collections"
+      };
+      return reverseMap[text] || text;
+    }
+    const directMap = {
+      "Ramadan & Eid Collection": "Koleksi Ramadan & Idul Fitri",
+      "Valentine's Collection": "Koleksi Valentine",
+      "Graduation Collection": "Koleksi Wisuda",
+      "Mother's Day Collection": "Koleksi Hari Ibu",
+      "Chinese New Year Collection": "Koleksi Tahun Baru Imlek",
+      "Christmas Collection": "Koleksi Natal",
+      "Seasonal Collection": "Koleksi Musiman",
+      "Featured Collection": "Koleksi Pilihan",
+      "Collections": "Koleksi"
+    };
+    return directMap[text] || text;
+  }
+
   function translateCommonHeader() {
     Array.from(document.querySelectorAll(".contact-quick-trigger,.header-contact")).forEach((node) => {
       setText(node, t("Contact Us", "Hubungi Kami"));
@@ -550,17 +676,80 @@
     });
     Array.from(document.querySelectorAll(".menu-link")).forEach((node) => {
       if (!(node instanceof HTMLElement)) return;
+      if (node.dataset.seasonalManaged === "true") {
+        setText(node, localizeSeasonalCollectionLabel(node.dataset.seasonalLabel || node.textContent || ""));
+        return;
+      }
+      const visitType = node.getAttribute("data-visit-link") || "";
+      if (visitType === "boutique") {
+        setText(node, t("Florist Boutique", "Butik Florist"));
+        return;
+      }
+      if (visitType === "supplies") {
+        setText(node, t("Supplies Shop", "Toko Perlengkapan"));
+        return;
+      }
       const href = node.getAttribute("href") || "";
       if (href === "about.html" || href === "#about") setText(node, t("About", "Tentang"));
-      if (href.includes("#services")) setText(node, t("Services", "Layanan"));
+      if (href.includes("#services") || href.includes("services.html")) setText(node, t("Services", "Layanan"));
+      if (href.includes("custom-arrangements.html")) setText(node, t("Custom Arrangements", "Rangkaian Kustom"));
+      if (href.includes("journals.html")) setText(node, t("The Journals", "Jurnal"));
       if (href.includes("#reviews")) setText(node, t("Reviews", "Ulasan"));
-      if (href.includes("#featured")) setText(node, t("Featured", "Unggulan"));
+      if ((href.includes("#featured") || href.includes("featured.html")) && node.dataset.seasonalManaged !== "true") {
+        setText(node, t("Collections", "Koleksi"));
+      }
+      if (href.includes("gallery.html?category=")) {
+        const category = new URL(node instanceof HTMLAnchorElement ? node.href : href, window.location.href).searchParams.get("category") || "";
+        setText(node, localizeCategory(category));
+      }
       if (href.includes("gallery.html?category=By%20Request") || href.includes("gallery.html?category=by-request")) {
         setText(node, t("By Request", "Sesuai Permintaan"));
       }
     });
+    Array.from(document.querySelectorAll('[data-menu-open="featured"]')).forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      if (node.dataset.seasonalManaged === "true") return;
+      setText(node, t("Collections", "Koleksi"));
+    });
+    Array.from(document.querySelectorAll('[data-menu-open="visit"], [data-visit-entry="true"]')).forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      setText(node, t("Visit Us", "Kunjungi Kami"));
+    });
+    Array.from(document.querySelectorAll('[data-menu-open="services"], [data-service-entry="true"]')).forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      setText(node, t("Services", "Layanan"));
+    });
+    Array.from(document.querySelectorAll('[data-menu-open="about"], [data-about-entry="true"]')).forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      setText(node, t("About", "Tentang"));
+    });
     Array.from(document.querySelectorAll(".menu-link-contact")).forEach((node) => {
       setText(node, t("Contact Us", "Hubungi Kami"));
+    });
+    Array.from(document.querySelectorAll("[data-service-link]")).forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      const key = String(node.getAttribute("data-service-link") || "").trim();
+      if (key === "all") setText(node, t("View All Services", "Lihat Semua Layanan"));
+      if (key === "consultation") setText(node, t("Consultation", "Konsultasi"));
+      if (key === "custom-arrangements") setText(node, t("Custom Arrangements", "Rangkaian Kustom"));
+      if (key === "personal-message") setText(node, t("Message Cards", "Kartu Pesan"));
+      if (key === "delivery-setup") setText(node, t("Delivery & Setup", "Pengiriman & Penataan"));
+      if (key === "collection-pickup") setText(node, t("Pickup & Handover", "Pickup & Serah Terima"));
+    });
+    Array.from(document.querySelectorAll("[data-visit-link]")).forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      const key = String(node.getAttribute("data-visit-link") || "").trim();
+      if (key === "boutique") setText(node, t("Florist Boutique", "Florist Boutique"));
+      if (key === "supplies") setText(node, t("Supplies Shop", "Toko Perlengkapan"));
+    });
+    Array.from(document.querySelectorAll("[data-about-link]")).forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      const key = String(node.getAttribute("data-about-link") || "").trim();
+      if (key === "overview") setText(node, t("View About", "Lihat Tentang"));
+      if (key === "journey") setText(node, t("Our Journey", "Perjalanan Kami"));
+      if (key === "craft") setText(node, t("Our Craft", "Karya Kami"));
+      if (key === "batam") setText(node, t("Rooted in Batam", "Berakar di Batam"));
+      if (key === "signature") setText(node, t("Signature Story", "Kisah Khas Kami"));
     });
   }
 
@@ -608,11 +797,18 @@
     Array.from(scope.querySelectorAll(".footer-link")).forEach((link) => {
       if (!(link instanceof HTMLAnchorElement)) return;
       const href = link.getAttribute("href") || "";
-      if (href.includes("#services")) setText(link, t("Contact Us", "Hubungi Kami"));
+      if (link.dataset.seasonalManaged === "true") {
+        setText(link, localizeSeasonalCollectionLabel(link.dataset.seasonalLabel || link.textContent || ""));
+      }
+      if (href.includes("#services") || href.includes("services.html#consultation")) setText(link, t("Contact Us", "Hubungi Kami"));
+      if (href.includes("custom-arrangements.html")) setText(link, t("Custom Arrangements", "Rangkaian Kustom"));
+      if (href.includes("journals.html")) setText(link, t("The Journals", "Jurnal"));
       if (href.includes("privacy-policy.html")) setText(link, t("Privacy", "Privasi"));
       if (href.includes("terms-conditions.html")) setText(link, t("Terms", "Ketentuan"));
       if (href.includes("faq.html")) setText(link, t("FAQ", "FAQ"));
-      if (href.includes("#featured")) setText(link, t("Featured", "Unggulan"));
+      if ((href.includes("#featured") || href.includes("featured.html")) && link.dataset.seasonalManaged !== "true") {
+        setText(link, t("Collections", "Koleksi"));
+      }
       if (href.includes("gallery.html?category=")) {
         const category = new URL(link.href, window.location.href).searchParams.get("category") || "";
         setText(link, localizeCategory(category));
@@ -620,6 +816,10 @@
       if (href.includes("about.html#journey") || href === "#journey") setText(link, t("Our Journey", "Perjalanan Kami"));
       if (href.includes("about.html#craft") || href === "#craft") setText(link, t("Our Craft", "Karya Kami"));
       if (href.includes("about.html#team") || href === "#team") setText(link, t("Our Team", "Tim Kami"));
+      if (href.includes("about.html#foundation") || href === "#foundation") setText(link, t("Our Journey", "Perjalanan Kami"));
+      if (href.includes("about.html#philosophy") || href === "#philosophy") setText(link, t("Our Craft", "Karya Kami"));
+      if (href.includes("about.html#batam") || href === "#batam") setText(link, t("Rooted in Batam", "Berakar di Batam"));
+      if (href.includes("about.html#signature") || href === "#signature") setText(link, t("Signature Story", "Kisah Khas Kami"));
     });
 
     Array.from(scope.querySelectorAll(".footer-about-link")).forEach((link) => {
@@ -657,15 +857,28 @@
 
   function translateIndexPage() {
     setDocumentMeta("home");
-    setSelectorText(".collection-promo-link", t("Featured Collection - Explore the arrangements", "Koleksi Unggulan - Jelajahi rangkaian"));
+    const seasonalPromoLink = document.querySelector(".collection-promo-link");
+    const seasonalKicker = document.getElementById("featured-kicker");
+    const seasonalTitle = document.getElementById("featured-title");
+    const seasonalLead = document.getElementById("featured-lead");
+    const preserveSeasonalContent = [
+      seasonalPromoLink,
+      seasonalKicker,
+      seasonalTitle,
+      seasonalLead
+    ].some((node) => node instanceof HTMLElement && node.dataset.seasonalManaged === "true");
+
+    if (!preserveSeasonalContent) {
+      setSelectorText(".collection-promo-link", t("Collections - Explore the arrangements", "Koleksi - Jelajahi rangkaian"));
+      setSelectorText("#featured-kicker", t("Seasonal Collection", "Koleksi Musiman"));
+      setSelectorText("#featured-title", t("Collections", "Koleksi"));
+      setSelectorText("#featured-lead", t("Each arrangement is custom-made. Final details and pricing are confirmed during consultation.", "Setiap rangkaian dibuat khusus. Detail akhir dan harga dikonfirmasi saat konsultasi."));
+    }
     setSelectorText(".home-hero-link", t("Discover the Collection", "Jelajahi Koleksi"));
     setSelectorText(".home-quote-cta", t("View the creations", "Lihat karya kami"));
-    setSelectorText("#featured-kicker", t("Seasonal Collection", "Koleksi Musiman"));
-    setSelectorText("#featured-title", t("Featured Collection", "Koleksi Unggulan"));
-    setSelectorText("#featured-lead", t("Each arrangement is custom-made. Final details and pricing are confirmed during consultation.", "Setiap rangkaian dibuat khusus. Detail akhir dan harga dikonfirmasi saat konsultasi."));
-    setSelectorText("#portfolio-kicker", t("OUR WORK", "KARYA KAMI"));
-    setSelectorText("#portfolio-heading", t("The Portfolio", "Portofolio"));
-    setSelectorText("#portfolio-lead", t("A study of form, texture, and composition", "Sebuah studi tentang bentuk, tekstur, dan komposisi"));
+    setSelectorText("#portfolio-kicker", t("Portfolio", "Portofolio"));
+    setSelectorText("#portfolio-heading", t("Explore a Selection of Our Creations", "Jelajahi Pilihan dari Kreasi Kami"));
+    setSelectorText("#portfolio-lead", t("A broader view of our work across categories and occasions.", "Tinjauan yang lebih luas atas karya kami di berbagai kategori dan momen."));
     setSelectorText("#portfolio-request-note", t("Looking for something else?", "Mencari sesuatu yang lain?"));
     setSelectorText("#portfolio-request-btn", t("Request a custom arrangement", "Ajukan rangkaian kustom"));
 
@@ -694,7 +907,7 @@
 
     setSelectorText(".contact-title-strong", t("Our Services", "Layanan Kami"));
     setSelectorText(".contact-title-mobile", t("Our Services", "Layanan Kami"));
-    setSelectorText(".contact-slogan", t("An array of thoughtfully tailored floral services, designed for every moment and setting.", "Rangkaian layanan bunga yang disesuaikan untuk setiap momen, ruang, dan kebutuhan Anda."));
+    setSelectorText(".contact-slogan", t("Consultation-led services shaped for custom arrangements, delivery, and pickup.", "Layanan berbasis konsultasi untuk rangkaian kustom, pengiriman, dan pickup."));
 
     Array.from(document.querySelectorAll("#services .service-kicker")).forEach((node) => {
       setText(node, t("Service", "Layanan"));
@@ -702,19 +915,19 @@
 
     const serviceCards = Array.from(document.querySelectorAll("#services .service-card"));
     if (serviceCards[0] instanceof HTMLElement) {
-      setSelectorText(".service-title", t("Book an Appointment", "Jadwalkan Konsultasi"), serviceCards[0]);
-      setSelectorText(".service-desc", t("Enjoy priority access to our boutique at the time that fits you. Our florist will guide you through tailored options for your occasion.", "Dapatkan akses prioritas ke butik kami di waktu yang paling sesuai. Florist kami akan membantu menyiapkan pilihan terbaik untuk momen Anda."), serviceCards[0]);
-      setSelectorText(".service-link", t("Book an In-Store Appointment", "Buat Janji Kunjungan"), serviceCards[0]);
+      setSelectorText(".service-title", t("Consultation", "Konsultasi"), serviceCards[0]);
+      setSelectorText(".service-desc", t("Most orders begin with a conversation. We discuss the occasion, tone, scale, timing, and budget before anything is prepared.", "Sebagian besar pesanan dimulai dari percakapan. Kami membahas momen, nuansa, skala, waktu, dan anggaran sebelum apa pun disiapkan."), serviceCards[0]);
+      setSelectorText(".service-link", t("Start Consultation", "Mulai Konsultasi"), serviceCards[0]);
     }
     if (serviceCards[1] instanceof HTMLElement) {
-      setSelectorText(".service-title", t("Personalization", "Personalisasi"), serviceCards[1]);
-      setSelectorText(".service-desc", t("Refine bouquet style, wrapping, cards, and finishing details to create a gift that feels personal and memorable.", "Sesuaikan gaya buket, wrapping, kartu, dan detail akhir agar hadiah terasa lebih personal dan berkesan."), serviceCards[1]);
-      setSelectorText(".service-link", t("Discuss Personalization", "Diskusikan Personalisasi"), serviceCards[1]);
+      setSelectorText(".service-title", t("Custom Arrangements", "Rangkaian Kustom"), serviceCards[1]);
+      setSelectorText(".service-desc", t("Some requests begin with references, others begin with only the moment. We shape the final arrangement around color, scale, wrapping, and mood.", "Sebagian permintaan dimulai dari referensi, sebagian lainnya hanya dari momennya. Kami membentuk rangkaian akhir berdasarkan warna, skala, wrapping, dan suasana yang diinginkan."), serviceCards[1]);
+      setSelectorText(".service-link", t("View Custom Work", "Lihat Karya Kustom"), serviceCards[1]);
     }
     if (serviceCards[2] instanceof HTMLElement) {
-      setSelectorText(".service-title", t("Collect In Store", "Ambil di Toko"), serviceCards[2]);
-      setSelectorText(".service-desc", t("Order ahead and collect directly from our Batam location with timing coordinated by our team for a smooth pickup.", "Pesan terlebih dahulu dan ambil langsung di lokasi kami di Batam dengan waktu pengambilan yang diatur bersama tim kami."), serviceCards[2]);
-      setSelectorText(".service-link", t("Get Store Directions", "Lihat Arah Toko"), serviceCards[2]);
+      setSelectorText(".service-title", t("Delivery & Pickup", "Pengiriman & Pickup"), serviceCards[2]);
+      setSelectorText(".service-desc", t("We coordinate timing, handover, and handling after consultation so delivery or collection stays aligned with the request.", "Kami mengatur waktu, penyerahan, dan penanganan setelah konsultasi agar pengiriman maupun pengambilan tetap sesuai dengan kebutuhan pesanan."), serviceCards[2]);
+      setSelectorText(".service-link", t("See Delivery Options", "Lihat Opsi Pengiriman"), serviceCards[2]);
     }
 
     setSelectorText(".reviews-rating-line", currentLanguage === "id"
@@ -739,14 +952,17 @@
       const count = countMatch ? countMatch[1] : "0";
       productsTab.textContent = `${t("Products", "Produk")} (${count})`;
     }
-    setSelectorText("#search-query-filter", t("Filter", "Filter"));
+    setSelectorText("#search-query-filter .search-query-filter-label", t("Filter", "Filter"));
     setSelectorText("#search-keywords-heading", t("Related Searches", "Pencarian Terkait"));
     setSelectorText("#search-products-heading", t("Recommended Products", "Produk Rekomendasi"));
     const featuredHeading = document.getElementById("search-featured-heading");
     if (featuredHeading instanceof HTMLElement) {
       const raw = featuredHeading.textContent || "";
-      if (!raw.trim() || /ramadan|eid|koleksi/i.test(raw)) {
-        featuredHeading.textContent = t("Ramadan & Eid Collection", "Koleksi Ramadan & Eid");
+      if (featuredHeading.dataset.seasonalManaged === "true") {
+        featuredHeading.textContent = localizeSeasonalCollectionLabel(featuredHeading.dataset.seasonalLabel || raw);
+      }
+      if (featuredHeading.dataset.seasonalManaged !== "true" && !raw.trim()) {
+        featuredHeading.textContent = t("Featured Collection", "Koleksi Pilihan");
       }
     }
     const searchSupport = document.querySelector(".search-support-note");
@@ -761,80 +977,890 @@
   function translateAboutPage() {
     setDocumentMeta("about");
     setSelectorText(".search-label", t("Search", "Cari"));
-    const breadcrumb = document.querySelector(".breadcrumb");
-    if (breadcrumb instanceof HTMLElement) {
-      const nodes = breadcrumb.querySelectorAll("span");
-      setText(nodes[0], t("About", "Tentang"));
-    }
-    setSelectorText(".hero h1", t("About Marvell Florist", "Tentang Marvell Florist"));
-    setSelectorText(".hero-lead", t("Since 2006 we have served Batam with custom floral work built on consistency, detail, and trust.", "Sejak 2006 kami melayani Batam dengan karya floral kustom yang dibangun atas konsistensi, detail, dan kepercayaan."));
-    setSelectorText("#journey h2", t("Our Journey", "Perjalanan Kami"));
-    setSelectorHtml("#journey p", currentLanguage === "id"
-      ? '<span class="lede-sentence">Marvell Florist dimulai sebagai usaha keluarga pada tahun 2006.</span>Kami terus berkembang lewat berbagai renovasi, perpindahan lokasi, dan pengalaman yang kami jalani dari waktu ke waktu. Hari ini, Marvell Florist menjadi tempat yang banyak dipilih untuk berbagai momen, mulai dari perayaan, belasungkawa, sampai kebutuhan sehari-hari. Bagi kami, bunga adalah cara sederhana untuk menyampaikan makna, dan itu yang terus kami pegang sampai sekarang.'
-      : '<span class="lede-sentence">Marvell Florist began as a small family business in 2006.</span>Over the years the shop has grown slowly through renovation, relocation, and continuous learning. What started as a neighborhood florist gradually became a place people return to for celebrations, condolences, and everyday gestures. Flowers remain a quiet way for people to express meaning, and that is the role we continue to serve today.');
-    setSelectorText("#craft h2", t("Our Craft", "Karya Kami"));
-    setSelectorHtml("#craft p", currentLanguage === "id"
-      ? '<span class="lede-sentence">Sebagian besar rangkaian di Marvell Florist dibuat khusus untuk setiap pelanggan.</span>Kami fokus pada warna, bentuk, dan keseimbangan supaya setiap buket terlihat rapi dan terasa pas. Pengalaman dan pelatihan yang kami jalani membentuk cara kami bekerja sampai hari ini. Setiap rangkaian disusun dengan teliti agar hasil akhirnya terasa utuh dan bermakna.'
-      : '<span class="lede-sentence">Most arrangements at Marvell Florist are designed specifically for each customer.</span>Instead of following fixed templates, we focus on balance, color, and movement so every bouquet feels intentional and natural. Years of experience and professional training have shaped the way we approach floral work, allowing each arrangement to be assembled carefully with attention to detail.');
-    setSelectorText("#team h2", t("Our Team", "Tim Kami"));
-    setSelectorHtml("#team p", currentLanguage === "id"
-      ? '<span class="lede-sentence">Marvell Florist dijalankan oleh tim kecil yang sudah berpengalaman dan bekerja bersama selama bertahun-tahun.</span>Beberapa anggota tim sudah bersama kami sejak lama, jadi cara kerja dan kualitasnya tetap konsisten. Setiap rangkaian disiapkan dengan perhatian, supaya bunga yang diterima terasa tulus, rapi, dan enak dilihat.'
-      : '<span class="lede-sentence">Marvell Florist is supported by a small and experienced team that has worked together for many years.</span>Some members have been part of the shop since the early days, contributing to the consistency and character of the store. Every arrangement is prepared with care so customers receive flowers that feel thoughtful, balanced, and meaningful.');
+    setSelectorText("#about-hero-kicker", t("About Marvell Florist", "Tentang Marvell Florist"));
+    setSelectorText("#about-hero-title", t("About Marvell Florist", "Tentang Marvell Florist"));
+    setSelectorText("#about-hero-subtitle", t("Rooted in thoughtful composition and restrained elegance, Marvell Florist approaches floral design as an experience. Layers of tone, movement, and texture are carefully assembled, allowing fresh, preserved, and artificial blooms to coexist in quiet harmony. From intimate bouquets to large-scale arrangements, each piece is tailored to its moment, reflecting the sentiment behind the gesture while maintaining a consistent language of softness, balance, and understated refinement.", "Marvell Florist berakar pada komposisi yang dipikirkan dengan saksama dan keanggunan yang tertahan, memandang desain floral sebagai sebuah pengalaman. Lapisan warna, gerak, dan tekstur dirangkai dengan hati-hati, memungkinkan bunga segar, preserved, dan artifisial hadir bersama dalam harmoni yang tenang. Dari buket yang intim hingga rangkaian berskala besar, setiap karya disesuaikan dengan momennya, mencerminkan perasaan di balik gestur tersebut sambil menjaga bahasa visual yang lembut, seimbang, dan anggun secara halus."));
+
+    setSelectorText("#about-foundation-kicker", t("A family foundation", "Awal mula keluarga"));
+    setSelectorText("#about-foundation-title", t("Since 2006, a family florist shaped by patience, change, and continuity.", "Sejak 2006, toko bunga keluarga yang dibentuk oleh kesabaran, perubahan, dan kesinambungan."));
+    setSelectorText("#about-foundation-copy-1", t("Marvell Florist began as a family business in 2006. The name itself came from the founder's first-born child, and that sense of love has remained part of the brand from the beginning. Over time, the store has grown through relocation, renovation, and the quiet work of learning what customers need from flowers in real life.", "Marvell Florist dimulai sebagai usaha keluarga pada tahun 2006. Nama Marvell sendiri berasal dari anak pertama dari pendirinya, dan rasa kasih itu sudah menjadi bagian dari merek ini sejak awal. Seiring waktu, toko ini bertumbuh melalui perpindahan lokasi, renovasi, dan proses belajar yang tenang tentang apa yang benar-benar dibutuhkan pelanggan dari bunga dalam kehidupan sehari-hari."));
+    setSelectorText("#about-foundation-copy-2", t("What has remained constant is the way arrangements are approached: with patience, consistency, and respect for the meaning they are meant to carry. That same affection behind the name continues to translate into the work itself, in pieces made to feel personal, considered, and lasting.", "Yang tetap sama adalah cara setiap rangkaian didekati: dengan kesabaran, konsistensi, dan penghormatan pada makna yang ingin disampaikan. Kasih yang menjadi asal nama itu juga terus diterjemahkan ke dalam karya, lewat rangkaian yang terasa personal, dipikirkan dengan matang, dan dibuat untuk meninggalkan kesan yang bertahan."));
+
+    setSelectorText("#about-everyday-kicker", t("A florist shaped by everyday moments", "Toko bunga yang dibentuk oleh momen sehari-hari"));
+    setSelectorText("#about-everyday-title", t("Celebrations, condolences, and the quieter gestures in between.", "Perayaan, belasungkawa, dan gestur yang lebih sunyi di antaranya."));
+    setSelectorText("#about-everyday-copy-1", t("The work at Marvell moves between ceremony and daily life: bouquets for graduation and birthdays, standing flowers for openings and condolences, parcels, table pieces, and arrangements prepared simply because someone wishes to send something thoughtful.", "Pekerjaan di Marvell bergerak antara upacara dan kehidupan sehari-hari: buket untuk wisuda dan ulang tahun, standing flower untuk pembukaan dan belasungkawa, parcel, rangkaian meja, dan pesanan yang dibuat hanya karena seseorang ingin mengirim sesuatu yang berarti."));
+    setSelectorText("#about-everyday-copy-2", t("People return not because every order follows a fixed formula, but because the store understands that flowers often speak in place of words. That role in Batam’s everyday life is what gives the work its real continuity.", "Orang-orang kembali bukan karena setiap pesanan mengikuti formula yang tetap, melainkan karena toko ini memahami bahwa bunga sering berbicara menggantikan kata-kata. Peran itulah yang membuat Marvell tetap dekat dengan keseharian Batam."));
+
+    setSelectorText("#about-philosophy-kicker", t("Form, colour, and composition", "Bentuk, warna, dan komposisi"));
+    setSelectorText("#about-philosophy-title", t("Crafted with balance and intention.", "Dirangkai dengan keseimbangan dan niat."));
+    setSelectorText("#about-philosophy-copy-1", t("Custom work sits at the centre of the practice. Rather than relying only on fixed templates, arrangements are shaped through proportion, movement, colour, and the mood of the occasion.", "Pekerjaan kustom berada di pusat cara kami berkarya. Alih-alih hanya mengandalkan template tetap, setiap rangkaian dibentuk melalui proporsi, gerak, warna, dan suasana dari momennya."));
+    setSelectorText("#about-philosophy-copy-2", t("Years of experience and training continue to inform how each stem is placed, how each palette is softened, and how a piece comes together as a whole. The result is not just variety, but a recognisable sense of balance.", "Pengalaman dan pelatihan terus membentuk cara setiap tangkai ditempatkan, bagaimana palet warna dilembutkan, dan bagaimana keseluruhan rangkaian terasa utuh. Hasilnya bukan sekadar variasi, tetapi rasa keseimbangan yang mudah dikenali."));
+    setSelectorText("#about-philosophy-label-1", t("Bouquets", "Buket"));
+    setSelectorText("#about-philosophy-label-2", t("Standing flowers", "Standing flower"));
+    setSelectorText("#about-philosophy-label-3", t("Flower boards", "Papan bunga"));
+    setSelectorText("#about-philosophy-label-4", t("Parcels", "Parcel"));
+    setSelectorText("#about-philosophy-label-5", t("Artificial flowers", "Bunga artifisial"));
+
+    setSelectorText("#about-team-kicker", t("Craft, care, and the people behind it", "Karya, perhatian, dan orang-orang di baliknya"));
+    setSelectorText("#about-team-title", t("A team shaped by experience.", "Tim yang dibentuk oleh pengalaman."));
+    setSelectorText("#about-team-copy-1", t("Marvell is supported by a small team whose familiarity shows in the work. Some have been part of the store for years, and that consistency matters. It means orders are handled with attention, preparation feels steady rather than rushed, and customers receive arrangements that feel considered.", "Marvell didukung oleh tim kecil yang kedekatannya terasa dalam hasil kerja. Beberapa telah menjadi bagian dari toko selama bertahun-tahun, dan konsistensi itu penting. Artinya pesanan ditangani dengan perhatian, persiapan terasa mantap, dan pelanggan menerima rangkaian yang benar-benar dipikirkan."));
+    setSelectorText("#about-team-copy-2", t("Behind each finished piece is a sequence of practical gestures: preparing stems, checking materials, wrapping, adjusting colour, and refining proportion. Care comes not from scale, but from people who know the rhythm of the store well.", "Di balik setiap rangkaian jadi ada rangkaian gestur yang praktis: menyiapkan batang, memeriksa material, membungkus, menyesuaikan warna, dan menyempurnakan proporsi. Perhatian itu hadir bukan karena skala yang besar, tetapi karena orang-orang yang memahami ritme toko dengan baik."));
+
+    setSelectorText("#about-batam-kicker", t("Rooted in Batam", "Berakar di Batam"));
+    setSelectorText("#about-batam-title", t("From our store in Batam.", "Dari toko kami di Batam."));
+    setSelectorText("#about-batam-copy-1", t("Marvell remains grounded in the city it serves. Customers can visit the store, consult through WhatsApp, arrange collection, or coordinate local delivery depending on the occasion. The experience is personal and direct, shaped by conversation rather than a distant checkout flow.", "Marvell tetap berakar pada kota yang dilayaninya. Pelanggan dapat datang ke toko, berkonsultasi melalui WhatsApp, mengatur pengambilan, atau mengoordinasikan pengiriman lokal sesuai kebutuhan momennya. Pengalamannya bersifat personal dan langsung, dibentuk oleh percakapan, bukan alur checkout yang terasa jauh."));
+    setSelectorText("#about-batam-copy-2", t("That local presence matters. It means arrangements are made with knowledge of the people, events, and everyday rhythms of Batam, while still leaving room for each order to feel individual.", "Kehadiran lokal itu penting. Artinya setiap rangkaian dibuat dengan pemahaman tentang orang-orang, acara, dan ritme sehari-hari di Batam, sambil tetap memberi ruang agar setiap pesanan terasa individual."));
+
+    setSelectorText("#about-signature-kicker", t("The final note", "Nada penutup"));
+    setSelectorText("#about-signature-title", t("The quieter image behind Marvell.", "Gambaran yang lebih sunyi di balik Marvell."));
+    setSelectorText("#about-signature-copy", t("Beyond the practical work of stems, ribbons, deliveries, and timing, Marvell is also shaped by memory, atmosphere, and the gentle drama that flowers can hold. This final section gathers those quieter ideas into one place.", "Di luar pekerjaan praktis seperti batang, pita, pengiriman, dan waktu, Marvell juga dibentuk oleh ingatan, suasana, dan drama lembut yang dapat dibawa oleh bunga. Bagian terakhir ini mengumpulkan gagasan-gagasan yang lebih tenang itu ke dalam satu ruang."));
+    setSelectorText("#signature-instruction", t("Hover or tap the figures to reveal each story.", "Arahkan kursor atau ketuk figur untuk membuka tiap kisah."));
+    setSelectorText("#signature-card-title-journey", t("The years that shaped us", "Tahun-tahun yang membentuk kami"));
+    setSelectorText("#signature-card-copy-journey-1", t("Marvell grew through ordinary changes rather than sudden scale: moving spaces, renovating, learning, and continuing to show up for customers through different seasons of the city.", "Marvell tumbuh lewat perubahan-perubahan yang biasa, bukan ledakan yang besar: berpindah ruang, merenovasi, belajar, dan terus hadir untuk pelanggan melalui musim-musim kota yang berbeda."));
+    setSelectorText("#signature-card-copy-journey-2", t("That slow continuity is part of the brand’s character. It gives the store a sense of familiarity that customers can feel, even when each order is made for a different moment.", "Kesinambungan yang lambat itu menjadi bagian dari karakter merek ini. Di situlah rasa akrab itu muncul, bahkan ketika setiap pesanan dibuat untuk momen yang berbeda."));
+    setSelectorText("#signature-card-title-craft", t("The way we compose", "Cara kami menyusun"));
+    setSelectorText("#signature-card-copy-craft-1", t("Every arrangement asks for judgement: how much softness to leave in a colour story, how much movement to give a bouquet, how to make a formal piece feel dignified without becoming stiff.", "Setiap rangkaian membutuhkan pertimbangan: seberapa lembut sebuah palet warna perlu ditahan, seberapa banyak gerak yang dibutuhkan buket, dan bagaimana sebuah karya formal tetap terasa anggun tanpa menjadi kaku."));
+    setSelectorText("#signature-card-copy-craft-2", t("That is where composition matters most. Flowers are not only selected; they are arranged so the whole carries a mood that feels settled, balanced, and alive.", "Di situlah komposisi menjadi penting. Bunga tidak hanya dipilih; bunga disusun agar keseluruhannya membawa suasana yang terasa tenang, seimbang, dan hidup."));
+    setSelectorText("#signature-card-title-team", t("The people who keep it personal", "Orang-orang yang membuatnya tetap personal"));
+    setSelectorText("#signature-card-copy-team-1", t("Customers do not only remember the flowers. They remember the feeling of being guided, listened to, and helped with care, especially when the order carries emotional weight.", "Pelanggan tidak hanya mengingat bunganya. Mereka mengingat rasa dibimbing, didengarkan, dan dibantu dengan perhatian, terutama ketika pesanannya membawa beban emosional."));
+    setSelectorText("#signature-card-copy-team-2", t("That human attention remains one of Marvell’s most important qualities. It is what keeps the store from feeling anonymous, even as the work continues to evolve.", "Perhatian manusiawi itu tetap menjadi salah satu kualitas terpenting Marvell. Itulah yang membuat toko ini tidak pernah terasa anonim, bahkan ketika pekerjaannya terus berkembang."));
     translateFooter(document);
+  }
+
+  function ensureLegalCluster(activePage) {
+    const main = document.querySelector("main");
+    if (!(main instanceof HTMLElement)) return;
+    let cluster = main.querySelector(".legal-suite");
+    if (!(cluster instanceof HTMLElement)) {
+      cluster = document.createElement("section");
+      cluster.className = "legal-suite";
+      main.prepend(cluster);
+    }
+    const faqHref = buildLocalizedHref("faq.html", currentLanguage);
+    const privacyHref = buildLocalizedHref("privacy-policy.html", currentLanguage);
+    const termsHref = buildLocalizedHref("terms-conditions.html", currentLanguage);
+    const contactHref = buildLocalizedHref("contact.html", currentLanguage);
+    cluster.innerHTML = `
+      <p class="legal-suite-label">${t("Customer Information", "Informasi Pelanggan")}</p>
+      <nav class="legal-suite-nav" aria-label="${t("Customer information pages", "Halaman informasi pelanggan")}">
+        <a class="legal-suite-link ${activePage === "faq" ? "is-active" : ""}" href="${faqHref}" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">${t("FAQ", "FAQ")}</a>
+        <a class="legal-suite-link ${activePage === "privacy" ? "is-active" : ""}" href="${privacyHref}" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">${t("Privacy", "Privasi")}</a>
+        <a class="legal-suite-link ${activePage === "terms" ? "is-active" : ""}" href="${termsHref}" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">${t("Terms", "Ketentuan")}</a>
+        <a class="legal-suite-link ${activePage === "contact" ? "is-active" : ""}" href="${contactHref}" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">${t("Contact", "Kontak")}</a>
+      </nav>
+    `;
+  }
+
+  let legalNavigationBound = false;
+  function scrollToLegalTarget(targetId, attempt = 0) {
+    const section = document.getElementById(targetId);
+    if (!(section instanceof HTMLElement)) {
+      if (attempt < 8) {
+        window.setTimeout(() => scrollToLegalTarget(targetId, attempt + 1), 80);
+        return;
+      }
+      window.location.hash = `#${targetId}`;
+      return;
+    }
+    const top = Math.max(0, section.getBoundingClientRect().top + window.scrollY - 96);
+    if (window.location.hash !== `#${targetId}`) {
+      window.history.replaceState(null, "", `#${targetId}`);
+    }
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+
+  function bindLegalNavigation() {
+    if (legalNavigationBound) return;
+    legalNavigationBound = true;
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest(".legal-suite-link, .legal-toc-link");
+      if (!(link instanceof HTMLAnchorElement)) return;
+      if (event.defaultPrevented) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const href = link.getAttribute("href") || "";
+      if (!href) return;
+
+      if (href.startsWith("#")) {
+        const targetId = href.slice(1);
+        event.preventDefault();
+        scrollToLegalTarget(targetId);
+        return;
+      }
+
+      const destination = new URL(link.href, window.location.href);
+      if (
+        destination.origin === window.location.origin
+        && destination.pathname === window.location.pathname
+        && destination.hash
+      ) {
+        event.preventDefault();
+        scrollToLegalTarget(destination.hash.slice(1));
+        return;
+      }
+      if (destination.href === window.location.href) return;
+      event.preventDefault();
+      window.location.assign(destination.href);
+    }, true);
+  }
+
+  function renderLegalRichPage(config) {
+    const page = document.querySelector(".legal-page");
+    if (!(page instanceof HTMLElement)) return false;
+    const title = page.querySelector(".legal-intro h1");
+    const lead = page.querySelector(".legal-intro .lead");
+    const content = page.querySelector(".legal-content");
+    const toc = page.querySelector(".legal-toc");
+    const tocLabel = page.querySelector(".legal-toc-label");
+    const tocNav = page.querySelector(".legal-toc-nav");
+    if (!(title instanceof HTMLElement) || !(lead instanceof HTMLElement) || !(content instanceof HTMLElement) || !(toc instanceof HTMLElement) || !(tocLabel instanceof HTMLElement) || !(tocNav instanceof HTMLElement)) {
+      return false;
+    }
+    setText(title, config.title);
+    setText(lead, config.lead);
+    content.innerHTML = `
+      <section class="legal-summary" aria-label="${config.summaryAria}">
+        <p>${config.summary}</p>
+      </section>
+      ${config.sections.map((section, index) => `
+        <section class="legal-card" id="${section.id}">
+          <div class="legal-card-head">
+            <p class="legal-card-index">${String(index + 1).padStart(2, "0")}</p>
+            <h2 class="legal-card-title">${section.title}</h2>
+          </div>
+          <div class="legal-card-body">
+            ${(section.paragraphs || []).map((paragraph) => `<p>${paragraph}</p>`).join("")}
+            ${section.list && section.list.length ? `<ul>${section.list.map((item) => `<li>${item}</li>`).join("")}</ul>` : ""}
+          </div>
+        </section>
+      `).join("")}
+    `;
+    toc.setAttribute("aria-label", config.tocAria);
+    setText(tocLabel, config.tocLabel);
+    tocNav.innerHTML = config.sections.map((section, index) => `
+      <a class="legal-toc-link" href="#${section.id}" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('${section.id}', event) : true;">${String(index + 1).padStart(2, "0")}. ${section.tocTitle || section.title}</a>
+    `).join("");
+    return true;
   }
 
   function translateFaqPage() {
     setDocumentMeta("faq");
+    ensureLegalCluster("faq");
+    bindLegalNavigation();
+    if (renderLegalRichPage({
+      title: t("Frequently Asked Questions", "Pertanyaan yang Sering Diajukan"),
+      lead: t(
+        "Short answers to the questions customers usually ask before placing an order, arranging delivery, or requesting something custom.",
+        "Jawaban singkat untuk hal-hal yang paling sering ditanyakan sebelum memesan, mengatur pengiriman, atau meminta sesuatu yang lebih personal."
+      ),
+      summary: t(
+        "Every Marvell order begins with a conversation. These notes are here to make the process easier to understand before you message us.",
+        "Setiap pesanan di Marvell dimulai dari percakapan. Catatan ini dibuat agar prosesnya terasa lebih jelas sebelum Anda menghubungi kami."
+      ),
+      summaryAria: t("FAQ summary", "Ringkasan FAQ"),
+      tocAria: t("FAQ contents", "Daftar isi FAQ"),
+      tocLabel: t("Contents", "Daftar Isi"),
+      sections: currentLanguage === "id"
+        ? [
+            {
+              id: "faq-01",
+              title: "Bagaimana pesanan dimulai?",
+              tocTitle: "Bagaimana pesanan dimulai",
+              paragraphs: [
+                "Pesanan dimulai melalui konsultasi, biasanya lewat WhatsApp. Kami akan mengonfirmasi momen, jenis rangkaian, referensi, waktu, perkiraan harga, dan detail pengiriman sebelum apa pun disiapkan."
+              ]
+            },
+            {
+              id: "faq-02",
+              title: "Seberapa cepat rangkaian bisa disiapkan?",
+              tocTitle: "Waktu persiapan",
+              paragraphs: [
+                "Waktu persiapan bergantung pada jenis rangkaian. Karya yang lebih sederhana sering kali dapat disiapkan lebih cepat, sementara pekerjaan yang lebih besar atau rinci membutuhkan waktu tambahan.",
+                "Permintaan mendesak tetap kami tinjau per kasus."
+              ]
+            },
+            {
+              id: "faq-03",
+              title: "Apakah tersedia pengiriman di hari yang sama?",
+              tocTitle: "Pengiriman hari yang sama",
+              paragraphs: [
+                "Ya, pengiriman di hari yang sama bisa saja memungkinkan di Batam tergantung desain, ketersediaan bunga, waktu kurir, dan seberapa cepat permintaannya masuk."
+              ]
+            },
+            {
+              id: "faq-04",
+              title: "Bisakah saya meminta desain kustom atau mengirim referensi?",
+              tocTitle: "Permintaan kustom",
+              paragraphs: [
+                "Bisa. Anda dapat mengirim gambar inspirasi, warna yang diinginkan, atau arahan gaya. Pekerjaan kustom adalah bagian dari proses dan akan dikonfirmasi melalui konsultasi."
+              ]
+            },
+            {
+              id: "faq-05",
+              title: "Apakah hasilnya akan sama persis dengan referensi?",
+              tocTitle: "Kesesuaian referensi",
+              paragraphs: [
+                "Tidak sepenuhnya sama. Setiap rangkaian dibuat dengan tangan, dan ketersediaan bunga berubah mengikuti musim, stok, dan kondisi material. Jika perlu ada substitusi, karakter keseluruhan dan kualitas karya tetap kami jaga."
+              ]
+            },
+            {
+              id: "faq-06",
+              title: "Bagaimana sistem pembayarannya?",
+              tocTitle: "Pembayaran",
+              paragraphs: [
+                "Pembayaran diatur setelah konsultasi dan diperlukan sebelum pesanan dikonfirmasi. Website ini tidak menggunakan checkout mandiri, jadi produksi baru dimulai setelah detail pesanan disetujui dan pembayaran diterima."
+              ]
+            },
+            {
+              id: "faq-07",
+              title: "Bisakah pesanan diubah atau dibatalkan?",
+              tocTitle: "Perubahan dan pembatalan",
+              paragraphs: [
+                "Perubahan biasanya masih memungkinkan sebelum produksi dimulai. Pembatalan umumnya hanya bisa dilakukan sebelum tahap persiapan berjalan, tergantung posisi pesanannya."
+              ]
+            },
+            {
+              id: "faq-08",
+              title: "Bagaimana cara menghubungi Marvell Florist?",
+              tocTitle: "Kontak",
+              paragraphs: [
+                "WhatsApp adalah cara tercepat untuk memulai. Anda juga dapat menghubungi kami melalui Instagram atau email untuk pertanyaan lanjutan."
+              ],
+              list: [
+                "WhatsApp: +62 812 7501 7456",
+                "Email: floristmarvell@gmail.com"
+              ]
+            }
+          ]
+        : [
+            {
+              id: "faq-01",
+              title: "How do orders begin?",
+              tocTitle: "How orders begin",
+              paragraphs: [
+                "Orders begin through consultation, usually on WhatsApp. We confirm the occasion, arrangement type, reference, timing, approximate pricing, and delivery details before anything is prepared."
+              ]
+            },
+            {
+              id: "faq-02",
+              title: "How quickly can an arrangement be prepared?",
+              tocTitle: "Preparation timing",
+              paragraphs: [
+                "Preparation time depends on the type of arrangement. Simpler pieces can often be prepared quickly, while larger or more detailed work needs more time.",
+                "Urgent requests are reviewed case by case."
+              ]
+            },
+            {
+              id: "faq-03",
+              title: "Do you offer same-day delivery?",
+              tocTitle: "Same-day delivery",
+              paragraphs: [
+                "Yes, same-day delivery may be possible in Batam depending on the design, flower availability, courier timing, and how soon the request comes in."
+              ]
+            },
+            {
+              id: "faq-04",
+              title: "Can I request a custom design or send a reference?",
+              tocTitle: "Custom requests",
+              paragraphs: [
+                "Yes. Customers may send inspiration images, preferred colors, or style directions. Custom work is part of the process and is confirmed through consultation."
+              ]
+            },
+            {
+              id: "faq-05",
+              title: "Will the flowers match the reference exactly?",
+              tocTitle: "Reference accuracy",
+              paragraphs: [
+                "Not exactly. Each arrangement is made by hand, and availability changes with season, stock, and material conditions. When substitutions are needed, we keep the overall character and quality of the arrangement."
+              ]
+            },
+            {
+              id: "faq-06",
+              title: "How is payment handled?",
+              tocTitle: "Payment",
+              paragraphs: [
+                "Payment is arranged after consultation and is required before the order is confirmed. The website does not use a self-serve checkout, so production only begins after the order has been approved and payment has been received."
+              ]
+            },
+            {
+              id: "faq-07",
+              title: "Can I change or cancel an order?",
+              tocTitle: "Changes and cancellations",
+              paragraphs: [
+                "Changes may be possible before production starts. Cancellations are usually only possible before preparation begins, depending on the stage of the order."
+              ]
+            },
+            {
+              id: "faq-08",
+              title: "How do I contact Marvell Florist?",
+              tocTitle: "Contact",
+              paragraphs: [
+                "WhatsApp is the fastest way to begin. You can also reach us through Instagram or email for follow-up questions."
+              ],
+              list: [
+                "WhatsApp: +62 812 7501 7456",
+                "Email: floristmarvell@gmail.com"
+              ]
+            }
+          ]
+    })) return;
     setSelectorText("main h1", t("Frequently Asked Questions", "Pertanyaan yang Sering Diajukan"));
     setSelectorText("main .lead", t("Find quick answers to the questions customers ask most often before placing an order.", "Temukan jawaban singkat untuk pertanyaan yang paling sering diajukan sebelum melakukan pemesanan."));
     const wrap = document.getElementById("faq-wrap");
     if (!(wrap instanceof HTMLElement)) return;
     const items = FAQ_ITEMS[currentLanguage];
-    wrap.innerHTML = items.map((item) => `
-      <article class="faq-item">
-        <button class="faq-toggle" type="button" aria-expanded="false">
-          <strong>${item.question}</strong>
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-panel">
-          <p class="faq-content">${item.answer}</p>
-        </div>
-      </article>
-    `).join("");
-    const faqItems = Array.from(wrap.querySelectorAll(".faq-item"));
-    faqItems.forEach((item) => {
-      const toggle = item.querySelector(".faq-toggle");
-      const panel = item.querySelector(".faq-panel");
-      if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
-      toggle.addEventListener("click", () => {
-        const shouldOpen = !item.classList.contains("is-open");
-        faqItems.forEach((other) => {
-          other.classList.remove("is-open");
-          const otherToggle = other.querySelector(".faq-toggle");
-          const otherPanel = other.querySelector(".faq-panel");
-          if (otherToggle instanceof HTMLButtonElement) otherToggle.setAttribute("aria-expanded", "false");
-          if (otherPanel instanceof HTMLElement) otherPanel.style.maxHeight = "0px";
-        });
-        if (!shouldOpen) return;
-        item.classList.add("is-open");
-        toggle.setAttribute("aria-expanded", "true");
-        panel.style.maxHeight = `${panel.scrollHeight}px`;
+    const shouldRenderFaq = wrap.dataset.faqRenderedLanguage !== currentLanguage || !wrap.querySelector(".faq-item");
+    if (shouldRenderFaq) {
+      wrap.innerHTML = items.map((item, index) => `
+        <article class="faq-item" id="faq-item-${index + 1}" data-faq-index="${index + 1}">
+          <button class="faq-toggle" type="button" aria-expanded="false">
+            <strong>${item.question}</strong>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-panel">
+            <p class="faq-content">${item.answer}</p>
+          </div>
+        </article>
+      `).join("");
+      wrap.dataset.faqRenderedLanguage = currentLanguage;
+    }
+    const getFaqItems = () => Array.from(wrap.querySelectorAll(".faq-item"));
+    const buildFaqStateUrl = (itemIndex = null) => {
+      const params = new URLSearchParams(window.location.search || "");
+      params.delete("open");
+      const query = params.toString();
+      const hash = Number.isInteger(itemIndex) && itemIndex >= 0 ? `#faq-item-${itemIndex + 1}` : "";
+      return `${window.location.pathname}${query ? `?${query}` : ""}${hash}`;
+    };
+    const closeAllFaqItems = () => {
+      const faqItems = getFaqItems();
+      faqItems.forEach((item) => {
+        item.classList.remove("is-open");
+        const toggle = item.querySelector(".faq-toggle");
+        const panel = item.querySelector(".faq-panel");
+        if (toggle instanceof HTMLButtonElement) toggle.setAttribute("aria-expanded", "false");
+        if (panel instanceof HTMLElement) panel.style.maxHeight = "0px";
       });
-    });
+    };
+    const openFaqItem = (targetIndex, shouldScroll = true) => {
+      const faqItems = getFaqItems();
+      const targetItem = faqItems[targetIndex];
+      if (!(targetItem instanceof HTMLElement)) return;
+      const targetToggle = targetItem.querySelector(".faq-toggle");
+      const targetPanel = targetItem.querySelector(".faq-panel");
+      if (!(targetToggle instanceof HTMLButtonElement) || !(targetPanel instanceof HTMLElement)) return;
+      closeAllFaqItems();
+      targetItem.classList.add("is-open");
+      targetToggle.setAttribute("aria-expanded", "true");
+      targetPanel.style.maxHeight = `${targetPanel.scrollHeight}px`;
+      if (shouldScroll) {
+        window.requestAnimationFrame(() => {
+          const sharedHeader = document.querySelector("header");
+          const headerOffset = sharedHeader instanceof HTMLElement ? sharedHeader.offsetHeight + 18 : 90;
+          const targetTop = targetToggle.getBoundingClientRect().top + window.scrollY - headerOffset;
+          window.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: "smooth"
+          });
+        });
+      }
+    };
+    if (!wrap.dataset.faqBound) {
+      wrap.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const toggle = target.closest(".faq-toggle");
+        if (!(toggle instanceof HTMLButtonElement) || !wrap.contains(toggle)) return;
+        const item = toggle.closest(".faq-item");
+        if (!(item instanceof HTMLElement)) return;
+        const currentFaqItems = Array.from(wrap.querySelectorAll(".faq-item"));
+        const itemIndex = currentFaqItems.indexOf(item);
+        if (itemIndex < 0) return;
+        const shouldOpen = !item.classList.contains("is-open");
+        if (!shouldOpen) {
+          closeAllFaqItems();
+          history.replaceState(null, "", buildFaqStateUrl());
+          return;
+        }
+        openFaqItem(itemIndex, false);
+        history.replaceState(null, "", buildFaqStateUrl(itemIndex));
+      });
+      wrap.dataset.faqBound = "true";
+    }
+    const searchParams = new URLSearchParams(window.location.search);
+    const openParam = Number(searchParams.get("open"));
+    const faqItems = getFaqItems();
+    const hashMatch = window.location.hash.match(/faq-item-(\d+)/i);
+    const targetIndex = Number.isInteger(openParam) && openParam >= 1 && openParam <= faqItems.length
+      ? openParam - 1
+      : (hashMatch ? Number(hashMatch[1]) - 1 : -1);
+    if (Number.isInteger(targetIndex) && targetIndex >= 0 && targetIndex < faqItems.length) {
+      const currentOpenIndex = faqItems.findIndex((item) => item.classList.contains("is-open"));
+      if (currentOpenIndex !== targetIndex) {
+        window.requestAnimationFrame(() => openFaqItem(targetIndex));
+      }
+    }
   }
 
   function translatePrivacyPage() {
     setDocumentMeta("privacy");
+    ensureLegalCluster("privacy");
+    bindLegalNavigation();
+    if (renderLegalRichPage({
+      title: t("Privacy Policy", "Kebijakan Privasi"),
+      lead: t(
+        "A clearer summary of what information may be collected, why it is used, how it is handled, and how customers can contact us about privacy-related requests.",
+        "Ringkasan yang lebih jelas tentang informasi apa yang dapat dikumpulkan, mengapa digunakan, bagaimana ditangani, dan bagaimana Anda dapat menghubungi kami terkait privasi."
+      ),
+      summary: t(
+        "At Marvell Florist, discretion is part of the experience. We only collect the information needed to guide each arrangement with care, precision, and personal attention.",
+        "Di Marvell Florist, kerahasiaan adalah bagian dari pengalaman. Kami hanya mengumpulkan informasi yang diperlukan untuk menangani setiap rangkaian dengan perhatian, ketelitian, dan sentuhan personal."
+      ),
+      summaryAria: t("Privacy summary", "Ringkasan privasi"),
+      tocAria: t("Privacy contents", "Daftar isi privasi"),
+      tocLabel: t("Contents", "Daftar Isi"),
+      sections: currentLanguage === "id"
+        ? [
+            {
+              id: "privacy-01",
+              title: "Gambaran umum",
+              tocTitle: "Gambaran umum",
+              paragraphs: [
+                "Kebijakan ini menjelaskan bagaimana Marvell Florist menangani informasi pelanggan ketika Anda menelusuri website, menghubungi kami, atau melakukan pemesanan."
+              ]
+            },
+            {
+              id: "privacy-02",
+              title: "Mengapa kami mengumpulkan informasi",
+              tocTitle: "Mengapa kami mengumpulkan informasi",
+              paragraphs: [
+                "Informasi Anda membantu kami merespons dengan tepat, mengatur waktu dan pengiriman, mendukung konsultasi, membagikan pembaruan pesanan, dan memahami bagaimana website digunakan."
+              ]
+            },
+            {
+              id: "privacy-03",
+              title: "Informasi yang dapat kami kumpulkan",
+              tocTitle: "Informasi yang kami kumpulkan",
+              paragraphs: [
+                "Kami dapat mengumpulkan detail kontak seperti nama, nomor telepon, alamat email, atau preferensi komunikasi.",
+                "Kami juga dapat mengumpulkan detail pesanan seperti jenis rangkaian, momen, catatan personalisasi, preferensi warna, informasi penerima, dan instruksi pengiriman.",
+                "Saat Anda menelusuri website, data teknis seperti perangkat, browser, halaman yang dikunjungi, klik, dan pengaturan preferensi di perangkat juga dapat tersimpan atau tercatat.",
+                "Ini mencakup preferensi yang disimpan di browser seperti bahasa, wishlist, penanda intro atau popup musiman, serta pengaturan tampilan tertentu."
+              ]
+            },
+            {
+              id: "privacy-04",
+              title: "Bagaimana informasi dikumpulkan",
+              tocTitle: "Bagaimana informasi dikumpulkan",
+              paragraphs: [
+                "Sebagian besar informasi pribadi diberikan langsung oleh Anda saat menghubungi kami, meminta konsultasi, atau melakukan pemesanan melalui WhatsApp, Instagram, atau saluran lain.",
+                "Sebagian data teknis dikumpulkan secara otomatis melalui penyimpanan browser dan Google Analytics.",
+                "Website ini juga mencatat interaksi tertentu, termasuk klik pada tautan WhatsApp, untuk memahami jalur kontak yang paling sering digunakan."
+              ]
+            },
+            {
+              id: "privacy-05",
+              title: "Pembagian informasi",
+              tocTitle: "Pembagian informasi",
+              paragraphs: [
+                "Kami tidak menjual informasi pribadi.",
+                "Informasi hanya dapat dibagikan bila diperlukan untuk menyelesaikan atau mendukung pesanan Anda, misalnya kepada pihak pengiriman atau koordinasi acara atas permintaan Anda.",
+                "Layanan pihak ketiga seperti WhatsApp, Instagram, penyedia email, Google Analytics, Shopee, atau Tokopedia dapat memproses informasi sesuai kebijakan mereka sendiri saat Anda menggunakan layanan tersebut."
+              ]
+            },
+            {
+              id: "privacy-06",
+              title: "Penyimpanan dan retensi",
+              tocTitle: "Penyimpanan dan retensi",
+              paragraphs: [
+                "Informasi yang dibagikan langsung kepada kami disimpan hanya selama diperlukan untuk menyelesaikan pesanan, memberikan dukungan lanjutan, atau menjaga catatan layanan jika memang diperlukan.",
+                "Data preferensi yang tersimpan di browser Anda, seperti pengaturan bahasa, wishlist, intro, popup musiman, atau pengaturan tampilan, dapat tetap berada di sana sampai Anda menghapusnya sendiri."
+              ]
+            },
+            {
+              id: "privacy-07",
+              title: "Pilihan Anda",
+              tocTitle: "Pilihan Anda",
+              paragraphs: [
+                "Anda dapat meminta akses, koreksi, atau penghapusan atas informasi yang telah Anda bagikan langsung kepada kami, dan Anda dapat memilih berhenti menerima komunikasi kapan saja dengan menghubungi kami."
+              ]
+            },
+            {
+              id: "privacy-08",
+              title: "Keamanan",
+              tocTitle: "Keamanan",
+              paragraphs: [
+                "Kami mengambil langkah yang wajar untuk melindungi informasi melalui akses internal yang terbatas, penanganan pesanan yang terkontrol, dan saluran komunikasi aman yang disediakan oleh layanan yang kami gunakan."
+              ]
+            },
+            {
+              id: "privacy-09",
+              title: "Kontak",
+              tocTitle: "Kontak",
+              paragraphs: [
+                "Untuk permintaan terkait privasi, silakan hubungi Marvell Florist di Batam, Indonesia."
+              ],
+              list: [
+                "WhatsApp: +62 812 7501 7456",
+                "Email: floristmarvell@gmail.com"
+              ]
+            }
+          ]
+        : [
+            {
+              id: "privacy-01",
+              title: "Overview",
+              tocTitle: "Overview",
+              paragraphs: [
+                "This policy explains how Marvell Florist handles customer information when you browse the website, contact us, or place an order."
+              ]
+            },
+            {
+              id: "privacy-02",
+              title: "Why we collect information",
+              tocTitle: "Why we collect information",
+              paragraphs: [
+                "Your information helps us respond properly, coordinate timing and delivery, support consultation, share order updates, and understand how the website is used."
+              ]
+            },
+            {
+              id: "privacy-03",
+              title: "What we may collect",
+              tocTitle: "What we may collect",
+              paragraphs: [
+                "We may collect contact details such as your name, phone number, email address, or messaging preference.",
+                "We may also collect order-related details such as arrangement type, occasion, personalization notes, color preference, recipient information, and delivery instructions.",
+                "When you browse the site, technical data such as device, browser, page visits, clicks, and on-device preference settings may also be stored or recorded.",
+                "This includes browser-side preferences such as language, wishlist items, intro or seasonal-popup dismissal state, and certain display settings."
+              ]
+            },
+            {
+              id: "privacy-04",
+              title: "How information is collected",
+              tocTitle: "How information is collected",
+              paragraphs: [
+                "Most personal information is provided directly by you when you message us, request consultation, or place an order through WhatsApp, Instagram, or other contact channels.",
+                "Some technical information is collected automatically through browser storage and Google Analytics.",
+                "The website also records certain interaction events, including clicks on WhatsApp links, to understand which contact paths are being used."
+              ]
+            },
+            {
+              id: "privacy-05",
+              title: "Sharing information",
+              tocTitle: "Sharing information",
+              paragraphs: [
+                "We do not sell personal information.",
+                "Information may be shared only when needed to complete or support your order, such as with delivery support or event coordination at your request.",
+                "Third-party services such as WhatsApp, Instagram, email providers, Google Analytics, Shopee, or Tokopedia may process information according to their own policies when you use those services."
+              ]
+            },
+            {
+              id: "privacy-06",
+              title: "Storage and retention",
+              tocTitle: "Storage and retention",
+              paragraphs: [
+                "Information shared directly with us is kept only as long as needed to complete your order, provide follow-up support, or maintain service records where appropriate.",
+                "Preference data stored in your browser, such as language, wishlist, intro, seasonal-popup, or display settings, may remain until you clear them yourself."
+              ]
+            },
+            {
+              id: "privacy-07",
+              title: "Your choices",
+              tocTitle: "Your choices",
+              paragraphs: [
+                "You may request access to, correction of, or deletion of the information you have shared directly with us, and you may opt out of future communication at any time by contacting us."
+              ]
+            },
+            {
+              id: "privacy-08",
+              title: "Security",
+              tocTitle: "Security",
+              paragraphs: [
+                "We take reasonable steps to protect information through limited internal access, controlled order handling, and the secure communication channels provided by the services we use."
+              ]
+            },
+            {
+              id: "privacy-09",
+              title: "Contact",
+              tocTitle: "Contact",
+              paragraphs: [
+                "For privacy-related requests, please contact Marvell Florist in Batam, Indonesia."
+              ],
+              list: [
+                "WhatsApp: +62 812 7501 7456",
+                "Email: floristmarvell@gmail.com"
+              ]
+            }
+          ]
+    })) return;
     const stack = document.querySelector(".stack");
     if (!(stack instanceof HTMLElement)) return;
     setSelectorText("main h1", t("Privacy Policy", "Kebijakan Privasi"));
     stack.innerHTML = currentLanguage === "id"
-      ? '<p>Marvell Florist menghormati privasi Anda.</p><p>Situs ini tidak secara langsung mengumpulkan data pribadi. Namun, ketika Anda menghubungi kami melalui WhatsApp atau platform lain, kami dapat menerima informasi seperti nama dan detail kontak Anda.</p><p>Informasi tersebut hanya digunakan untuk:</p><ul><li>menanggapi pertanyaan</li><li>memberikan layanan dan menyiapkan rangkaian</li></ul><p>Kami tidak menjual, membagikan, atau mendistribusikan informasi pribadi Anda kepada pihak ketiga.</p><p>Beberapa data teknis dasar, seperti alamat IP atau jenis browser, dapat diproses secara otomatis untuk memastikan situs berfungsi dengan baik.</p><p>Jika Anda memiliki pertanyaan, Anda dapat menghubungi kami melalui WhatsApp.</p>'
-      : '<p>Marvell Florist respects your privacy.</p><p>This website does not directly collect personal data. However, when you contact us through WhatsApp or other platforms, we may receive information such as your name and contact details.</p><p>This information is used solely to:</p><ul><li>respond to inquiries</li><li>provide services and arrangements</li></ul><p>We do not sell, share, or distribute your personal information to third parties.</p><p>Some basic technical data, such as IP address or browser type, may be processed automatically to ensure the website functions properly.</p><p>If you have any questions, you may contact us through WhatsApp.</p>';
+      ? `<section class="section">
+          <p>Di Marvell Florist, kerahasiaan adalah bagian dari pengalaman.</p>
+          <p>Kami hanya mengumpulkan informasi yang diperlukan untuk menangani setiap rangkaian dengan perhatian, ketelitian, dan sentuhan personal.</p>
+        </section>
+        <section class="section">
+          <h2>Mengapa kami mengumpulkan informasi</h2>
+          <p>Informasi Anda membantu kami merespons dengan tepat, mengatur pengiriman dan waktu, memberikan dukungan konsultasi, membagikan pembaruan pesanan, dan meningkatkan performa pengalaman website.</p>
+        </section>
+        <section class="section">
+          <h2>Informasi yang dapat kami kumpulkan</h2>
+          <p>Tergantung pada cara Anda berinteraksi dengan Marvell Florist, kami dapat mengumpulkan detail kontak seperti nama, nomor telepon, alamat email, atau preferensi komunikasi.</p>
+          <p>Kami juga dapat mengumpulkan detail pesanan seperti jenis rangkaian, momen, preferensi warna, catatan personalisasi, dan instruksi pengiriman.</p>
+          <p>Saat Anda menelusuri website, kami dapat mengumpulkan data teknis dan interaksi seperti halaman yang dikunjungi, klik, pola penggunaan secara umum, informasi perangkat atau browser, serta preferensi yang tersimpan di browser Anda.</p>
+        </section>
+        <section class="section">
+          <h2>Bagaimana informasi dikumpulkan</h2>
+          <p>Sebagian besar informasi pribadi diberikan langsung oleh Anda saat menghubungi kami, meminta konsultasi, melakukan pemesanan, atau mengirim pesan melalui WhatsApp maupun Instagram.</p>
+          <p>Beberapa data teknis dan penggunaan dikumpulkan secara otomatis melalui alat website seperti penyimpanan browser, analitik, dan pelacakan interaksi.</p>
+        </section>
+        <section class="section">
+          <h2>Pembagian informasi</h2>
+          <p>Kami tidak menjual informasi pribadi.</p>
+          <p>Informasi hanya dapat dibagikan bila diperlukan untuk menyelesaikan atau mendukung pesanan Anda, termasuk kepada mitra pengiriman, penyedia pembayaran, atau koordinator acara sesuai permintaan Anda.</p>
+          <p>Platform pihak ketiga seperti WhatsApp, Instagram, penyedia email, dan Google Analytics juga dapat memproses informasi sesuai kebijakan mereka sendiri ketika Anda menggunakan layanan tersebut.</p>
+        </section>
+        <section class="section">
+          <h2>Penyimpanan dan retensi</h2>
+          <p>Informasi yang Anda bagikan langsung kepada kami disimpan hanya selama diperlukan untuk menyelesaikan pesanan, memberikan layanan lanjutan, atau menyimpan catatan layanan yang relevan.</p>
+          <p>Preferensi di perangkat seperti pilihan bahasa, item wishlist, status pop-up, dan pengaturan pengalaman serupa dapat tetap tersimpan di browser Anda sampai dihapus.</p>
+        </section>
+        <section class="section">
+          <h2>Pilihan Anda</h2>
+          <p>Anda dapat meminta akses, koreksi, atau penghapusan atas informasi yang Anda bagikan langsung kepada kami, dan Anda dapat memilih berhenti menerima komunikasi kapan saja dengan menghubungi kami.</p>
+        </section>
+        <section class="section">
+          <h2>Keamanan</h2>
+          <p>Kami mengambil langkah yang wajar untuk melindungi informasi melalui akses internal yang terbatas, penanganan pesanan yang terkontrol, dan saluran aman yang disediakan oleh layanan yang kami gunakan.</p>
+        </section>
+        <section class="section">
+          <h2>Kontak</h2>
+          <p>Untuk permintaan terkait privasi, silakan hubungi Marvell Florist di Batam, Indonesia.</p>
+          <p>WhatsApp: +62 812 7501 7456</p>
+          <p>Email: floristmarvell@gmail.com</p>
+        </section>`
+      : `<section class="section">
+          <p>At Marvell Florist, discretion is part of the experience.</p>
+          <p>We collect only the information needed to guide each arrangement with care, precision, and personal attention.</p>
+        </section>
+        <section class="section">
+          <h2>Why we collect information</h2>
+          <p>Your information helps us respond thoughtfully, coordinate delivery and timing, provide consultation support, share order updates, and improve how the website performs.</p>
+        </section>
+        <section class="section">
+          <h2>What we may collect</h2>
+          <p>Depending on how you interact with Marvell Florist, we may collect contact details such as your name, phone number, email address, or messaging preferences.</p>
+          <p>We may also collect order details such as arrangement type, occasion, color preferences, personalization notes, and delivery instructions.</p>
+          <p>When you browse the website, we may collect technical and interaction data such as pages visited, clicks, approximate usage patterns, device or browser information, and preference data stored in your browser.</p>
+        </section>
+        <section class="section">
+          <h2>How information is collected</h2>
+          <p>Most personal information is provided directly by you when you contact us, request a consultation, place an order, or message us through WhatsApp or Instagram.</p>
+          <p>Some technical and usage information is collected automatically through website tools such as browser storage, analytics, and interaction tracking.</p>
+        </section>
+        <section class="section">
+          <h2>Sharing information</h2>
+          <p>We do not sell personal information.</p>
+          <p>Information may be shared only when needed to complete or support your order, including with delivery partners, payment providers, or event coordinators at your request.</p>
+          <p>Third-party platforms such as WhatsApp, Instagram, email providers, and Google Analytics may also process information according to their own policies when you use those services.</p>
+        </section>
+        <section class="section">
+          <h2>Storage and retention</h2>
+          <p>Information shared directly with us is kept only as long as needed to complete your order, provide follow-up support, or maintain service records where appropriate.</p>
+          <p>Certain on-device preferences such as language selection, wishlist items, popup dismissals, and similar experience settings may remain in your browser until cleared.</p>
+        </section>
+        <section class="section">
+          <h2>Your choices</h2>
+          <p>You may request access to, correction of, or deletion of information you have shared directly with us, and you may opt out of future communications at any time by contacting us.</p>
+        </section>
+        <section class="section">
+          <h2>Security</h2>
+          <p>We take reasonable steps to protect information through limited internal access, controlled order handling, and the secure channels provided by the services we use.</p>
+        </section>
+        <section class="section">
+          <h2>Contact</h2>
+          <p>For any privacy-related request, please contact Marvell Florist in Batam, Indonesia.</p>
+          <p>WhatsApp: +62 812 7501 7456</p>
+          <p>Email: floristmarvell@gmail.com</p>
+        </section>`;
   }
 
   function translateTermsPage() {
     setDocumentMeta("terms");
+    ensureLegalCluster("terms");
+    bindLegalNavigation();
+    if (renderLegalRichPage({
+      title: t("Terms & Conditions", "Syarat & Ketentuan"),
+      lead: t(
+        "A clearer outline of how Marvell Florist handles orders, payment, customization, delivery, timing, and after-order issues.",
+        "Gambaran yang lebih jelas tentang bagaimana Marvell Florist menangani pesanan, pembayaran, kustomisasi, pengiriman, waktu, dan hal-hal setelah pesanan berjalan."
+      ),
+      summary: t(
+        "Every arrangement is prepared by hand and confirmed through consultation. These terms are here to make the order process easier to understand before payment and production begin.",
+        "Setiap rangkaian disiapkan dengan tangan dan dikonfirmasi melalui konsultasi. Ketentuan ini dibuat agar proses pemesanan lebih mudah dipahami sebelum pembayaran dan produksi dimulai."
+      ),
+      summaryAria: t("Terms summary", "Ringkasan ketentuan"),
+      tocAria: t("Terms contents", "Daftar isi ketentuan"),
+      tocLabel: t("Contents", "Daftar Isi"),
+      sections: currentLanguage === "id"
+        ? [
+            {
+              id: "terms-01",
+              title: "Pesanan dan konfirmasi",
+              tocTitle: "Pesanan dan konfirmasi",
+              paragraphs: [
+                "Semua pesanan dimulai dari konsultasi. Desain, waktu, ketersediaan, kisaran harga, dan detail pengiriman dibahas terlebih dahulu sebelum rangkaian disiapkan.",
+                "Pesanan hanya dianggap terkonfirmasi setelah pembayaran diterima."
+              ]
+            },
+            {
+              id: "terms-02",
+              title: "Pembayaran",
+              tocTitle: "Pembayaran",
+              paragraphs: [
+                "Pembayaran penuh diperlukan untuk mengonfirmasi pesanan.",
+                "Pembayaran dilakukan melalui metode yang disepakati saat konsultasi. Website ini tidak menyediakan checkout mandiri, dan produksi baru dimulai setelah pembayaran selesai."
+              ]
+            },
+            {
+              id: "terms-03",
+              title: "Kustomisasi dan kesesuaian produk",
+              tocTitle: "Kustomisasi dan kesesuaian",
+              paragraphs: [
+                "Setiap rangkaian dibuat secara khusus.",
+                "Pelanggan dapat meminta warna, gaya, atau referensi tertentu, tetapi hasil yang persis sama tidak selalu dapat dijamin karena ketersediaan bunga, material, dan musim dapat berubah.",
+                "Jika substitusi diperlukan, tampilan dan kualitas keseluruhan karya tetap menjadi prioritas.",
+                "Foto, kategori, dan harga yang ditampilkan di website bersifat referensial sampai detail akhirnya dikonfirmasi melalui konsultasi."
+              ]
+            },
+            {
+              id: "terms-04",
+              title: "Pengiriman",
+              tocTitle: "Pengiriman",
+              paragraphs: [
+                "Pengiriman tersedia di seluruh Batam.",
+                "Waktu pengiriman dapat berubah tergantung volume pesanan, jarak, ketersediaan kurir, dan waktu persiapan. Pengiriman di hari yang sama hanya mungkin jika sudah dikonfirmasi.",
+                "Jika penerima tidak tersedia, kami akan menghubungi pelanggan untuk menentukan langkah berikutnya. Setelah pesanan berhasil dikirim, tanggung jawab pengiriman kami dianggap selesai."
+              ]
+            },
+            {
+              id: "terms-05",
+              title: "Perubahan dan pembatalan",
+              tocTitle: "Perubahan dan pembatalan",
+              paragraphs: [
+                "Perubahan masih dapat diminta sebelum produksi dimulai, tergantung pada kelayakan dan waktunya.",
+                "Pembatalan dapat diterima sebelum tahap persiapan berjalan. Setelah rangkaian sedang diproses atau selesai, pembatalan mungkin tidak lagi memungkinkan."
+              ]
+            },
+            {
+              id: "terms-06",
+              title: "Refund",
+              tocTitle: "Refund",
+              paragraphs: [
+                "Refund ditinjau per kasus.",
+                "Jika masalah terjadi dari pihak kami, kami akan meninjaunya dan menyelesaikannya dengan tepat. Refund umumnya tidak berlaku untuk perubahan preferensi, ketidakhadiran penerima, atau keadaan di luar kendali kami."
+              ]
+            },
+            {
+              id: "terms-07",
+              title: "Waktu dan pesanan mendesak",
+              tocTitle: "Waktu dan pesanan mendesak",
+              paragraphs: [
+                "Rangkaian standar sering kali dapat disiapkan dalam waktu singkat, tergantung desainnya.",
+                "Permintaan mendesak atau di hari yang sama bergantung pada ketersediaan material, beban kerja, dan jadwal. Kelayakannya selalu kami konfirmasi terlebih dahulu."
+              ]
+            },
+            {
+              id: "terms-08",
+              title: "Catatan akhir",
+              tocTitle: "Catatan akhir",
+              paragraphs: [
+                "Dengan melakukan pemesanan, pelanggan memahami bahwa semua rangkaian dibuat dengan tangan dan dapat memiliki sedikit variasi alami. Tujuan kami adalah menghadirkan setiap karya dengan perhatian, konsistensi, dan hasil yang tetap terasa sesuai dengan permintaan."
+              ]
+            }
+          ]
+        : [
+            {
+              id: "terms-01",
+              title: "Orders and confirmation",
+              tocTitle: "Orders and confirmation",
+              paragraphs: [
+                "All orders begin as a consultation. Design, timing, availability, approximate pricing, and delivery details are discussed before any arrangement is prepared.",
+                "An order is only considered confirmed once payment has been received."
+              ]
+            },
+            {
+              id: "terms-02",
+              title: "Payment",
+              tocTitle: "Payment",
+              paragraphs: [
+                "Full payment is required to confirm an order.",
+                "Payment is made through the method agreed during consultation. The website does not provide a self-serve checkout, and production begins only after payment is completed."
+              ]
+            },
+            {
+              id: "terms-03",
+              title: "Customization and product accuracy",
+              tocTitle: "Customization and accuracy",
+              paragraphs: [
+                "Each arrangement is custom-made.",
+                "Customers may request specific colors, styles, or references, but exact replication cannot be guaranteed because flower availability, materials, and seasonality vary.",
+                "When substitutions are necessary, the overall look and quality of the arrangement remain the priority.",
+                "Images, categories, and listed prices on the website are provided as reference until the final details are confirmed through consultation."
+              ]
+            },
+            {
+              id: "terms-04",
+              title: "Delivery",
+              tocTitle: "Delivery",
+              paragraphs: [
+                "Delivery is available across Batam.",
+                "Delivery timing may vary depending on order volume, distance, courier availability, and preparation time. Same-day delivery is possible only when confirmed.",
+                "If the recipient is unavailable, we will contact the customer to decide the next step. Once the order has been successfully delivered, our delivery responsibility is considered fulfilled."
+              ]
+            },
+            {
+              id: "terms-05",
+              title: "Changes and cancellations",
+              tocTitle: "Changes and cancellations",
+              paragraphs: [
+                "Changes may be requested before production begins, depending on feasibility and timing.",
+                "Cancellations may be accepted before preparation starts. Once the arrangement is in progress or completed, cancellation may no longer be possible."
+              ]
+            },
+            {
+              id: "terms-06",
+              title: "Refunds",
+              tocTitle: "Refunds",
+              paragraphs: [
+                "Refunds are reviewed case by case.",
+                "If an issue arises from our side, we will review it and resolve it appropriately. Refunds are not generally applicable for preference changes, recipient unavailability, or circumstances outside our control."
+              ]
+            },
+            {
+              id: "terms-07",
+              title: "Timing and urgent orders",
+              tocTitle: "Timing and urgent orders",
+              paragraphs: [
+                "Standard arrangements can often be prepared within a short timeframe, depending on the design.",
+                "Urgent or same-day requests depend on material availability, current workload, and scheduling. Feasibility is always confirmed first."
+              ]
+            },
+            {
+              id: "terms-08",
+              title: "Final note",
+              tocTitle: "Final note",
+              paragraphs: [
+                "By placing an order, customers acknowledge that all arrangements are handcrafted and may include slight natural variation. Our aim is to deliver each piece with care, consistency, and a result that still feels true to the request."
+              ]
+            }
+          ]
+    })) return;
     const main = document.querySelector("main");
     if (!(main instanceof HTMLElement)) return;
     main.innerHTML = currentLanguage === "id"
@@ -874,6 +1900,7 @@
       <section class="section"><h2>Timing &amp; Urgent Orders</h2><p>Standard orders can typically be prepared within a short timeframe, depending on the design.</p><p>Urgent or same-day requests are subject to availability of materials, workload, and timing. We will always confirm feasibility before proceeding.</p></section>
       <div class="divider"></div>
       <section class="section"><h2>Final Note</h2><p>By placing an order, customers acknowledge that all arrangements are handcrafted and may involve slight variations. We aim to deliver each piece as intended, with care and consistency.</p></section>`;
+    ensureLegalCluster("terms");
   }
 
   function translateGalleryDynamicText() {
@@ -884,7 +1911,8 @@
     );
     setSelectorText(".mobile-category-title", t("Categories", "Kategori"));
     setSelectorText("#gallery-portfolio-note", t("Most pieces are made to order, so availability and flower selection should be confirmed first.", "Sebagian besar karya dibuat khusus, jadi ketersediaan dan pilihan bunga perlu dikonfirmasi terlebih dahulu."));
-    setSelectorText("#collection-hook", t("Not every arrangement begins in a catalog. Some start with a conversation.", "Tidak semua rangkaian berawal dari katalog. Sebagiannya dimulai dari percakapan."));
+    setSelectorText("#collection-hook-copy", "");
+    setSelectorText("#custom-arrangements-link", "");
     setSelectorText("#consult-collection", t("Consult This Collection", "Konsultasikan Koleksi Ini"));
     Array.from(document.querySelectorAll(".filters-trigger-label")).forEach((node) => {
       setText(node, t("Filter", "Filter"));
@@ -930,7 +1958,7 @@
       }
     });
 
-    Array.from(document.querySelectorAll(".filter-group-title,.filter-option span,.filter-range-note,.filter-clear,.filters-count,#products-grid p,.collection-cta,.search-query-tab,.search-query-count")).forEach((node) => {
+    Array.from(document.querySelectorAll(".filter-group-title,.filter-option:not(.filter-option--color) .filter-option-label,.filter-color-text,.filter-range-note,.filter-clear,.filters-count,#products-grid p,.collection-cta,.search-query-tab,.search-query-count")).forEach((node) => {
       if (!(node instanceof HTMLElement)) return;
       const raw = node.textContent || "";
       let next = localizeSimpleLabel(raw);
@@ -957,6 +1985,10 @@
 
   function translateGalleryPage() {
     setDocumentMeta("gallery", { skipTitle: true, skipDescription: true });
+    const seasonalPromoLink = document.querySelector(".collection-promo-link");
+    if (!(seasonalPromoLink instanceof HTMLElement) || seasonalPromoLink.dataset.seasonalManaged !== "true") {
+      setSelectorText(".collection-promo-link", t("Collections - Explore the arrangements", "Koleksi - Jelajahi rangkaian"));
+    }
     translateGalleryDynamicText();
     if (typeof window.syncGallerySeoMeta === "function") window.syncGallerySeoMeta();
     translateFooter(document);
@@ -965,6 +1997,8 @@
   function translateProductPage() {
     setDocumentMeta("product");
     setSelectorText("#product-whatsapp", t("Consult via WhatsApp", "Konsultasi via WhatsApp"));
+    setSelectorText("#product-order-title", t("How to order", "Cara memesan"));
+    setSelectorText("#product-order-copy", t("Use this page as a reference, then continue on WhatsApp to confirm design details, availability, delivery timing, and final pricing before we prepare your arrangement.", "Gunakan halaman ini sebagai referensi, lalu lanjutkan di WhatsApp untuk mengonfirmasi detail desain, ketersediaan, waktu pengiriman, dan harga akhir sebelum kami menyiapkan rangkaiannya."));
     setSelectorText(".product-faq-label", t("Frequently Asked Questions", "FAQ"));
     setSelectorText(".related-products h2", t("You May Also Like", "Anda Mungkin Suka"));
 
@@ -998,30 +2032,340 @@
 
   function translateFeaturedPage() {
     setDocumentMeta("featured");
-    setSelectorText("#featured-title", t("Featured Collection", "Koleksi Unggulan"));
-    setSelectorText("#featured-lead", t("The active campaign collection is shown below.", "Koleksi kampanye aktif ditampilkan di bawah ini."));
+    const seasonalKicker = document.getElementById("featured-kicker");
+    const seasonalCollectionCurrent = document.getElementById("featured-collection-current");
+    const seasonalCollectionLabel = seasonalCollectionCurrent instanceof HTMLElement
+      ? seasonalCollectionCurrent.querySelector("[data-featured-collection-label]")
+      : null;
+    const seasonalCollectionMenuTitle = document.querySelector("[data-featured-collection-menu-title]");
+    const seasonalCollectionKicker = seasonalCollectionMenuTitle instanceof HTMLElement
+      ? seasonalCollectionMenuTitle
+      : null;
+    const seasonalTitle = document.getElementById("featured-title");
+    const seasonalLead = document.getElementById("featured-lead");
+    if (!(seasonalKicker instanceof HTMLElement) || seasonalKicker.dataset.seasonalManaged !== "true") {
+      setSelectorText("#featured-kicker", t("Seasonal Collection", "Koleksi Musiman"));
+    }
+    if (seasonalCollectionKicker instanceof HTMLElement) {
+      seasonalCollectionKicker.textContent = t("Seasonal Collection", "Koleksi Musiman");
+    }
+    if (!(seasonalCollectionCurrent instanceof HTMLElement) || seasonalCollectionCurrent.dataset.seasonalManaged !== "true") {
+      if (seasonalCollectionLabel instanceof HTMLElement) {
+        seasonalCollectionLabel.textContent = t("Collections", "Koleksi");
+      } else {
+        setSelectorText("#featured-collection-current", t("Collections", "Koleksi"));
+      }
+    } else {
+      const localizedLabel = localizeSeasonalCollectionLabel(seasonalCollectionCurrent.dataset.seasonalLabel || seasonalCollectionCurrent.textContent || "");
+      if (seasonalCollectionLabel instanceof HTMLElement) seasonalCollectionLabel.textContent = localizedLabel;
+      else seasonalCollectionCurrent.textContent = localizedLabel;
+    }
+    if (!(seasonalTitle instanceof HTMLElement) || seasonalTitle.dataset.seasonalManaged !== "true") {
+      setSelectorText("#featured-title", t("Collections", "Koleksi"));
+    } else {
+      seasonalTitle.textContent = localizeSeasonalCollectionLabel(seasonalTitle.dataset.seasonalLabel || seasonalTitle.textContent || "");
+    }
+    if (!(seasonalLead instanceof HTMLElement) || seasonalLead.dataset.seasonalManaged !== "true") {
+      setSelectorText("#featured-lead", t("The active campaign collection is shown below.", "Koleksi kampanye aktif ditampilkan di bawah ini."));
+    }
     Array.from(document.querySelectorAll(".featured-consult-btn,.featured-collection-btn")).forEach((node) => {
       if (!(node instanceof HTMLElement)) return;
       const raw = node.textContent || "";
-      if (/view all/i.test(raw)) setText(node, t("View All Products", "Lihat Semua Produk"));
+      if (/discover/i.test(raw) || /collection/i.test(raw) || /view all/i.test(raw)) {
+        setText(node, t("Discover the Collection", "Jelajahi Koleksi"));
+      }
       else if (/consult/i.test(raw)) setText(node, t("Consult", "Konsultasi"));
     });
-    Array.from(document.querySelectorAll(".featured-warning")).forEach((node) => {
-      setText(node, t("Prices and availability may vary based on seasonal flowers.", "Harga dan ketersediaan dapat berubah sesuai bunga musiman."));
-    });
+    if (!/\/featured\.html(?:$|\?)/i.test(String(window.location.pathname || ""))) {
+      Array.from(document.querySelectorAll(".featured-warning")).forEach((node) => {
+        setText(node, t("Prices and availability may vary based on seasonal flowers.", "Harga dan ketersediaan dapat berubah sesuai bunga musiman."));
+      });
+    }
+    setSelectorText(".whatsapp-float-label", t("Chat with us", "Chat dengan kami"));
   }
 
   function translateContactPage() {
     setDocumentMeta("contact");
-    Array.from(document.querySelectorAll(".nav-links a")).forEach((link) => {
+    setSelectorText(".contact-hero h1", t("Contact Us", "Hubungi Kami"));
+    setSelectorText(".contact-lead", t(
+      "Choose the most direct way to reach us for floral orders, custom requests, store visits, or a faster answer before you place an arrangement.",
+      "Pilih cara paling langsung untuk menghubungi kami terkait pesanan bunga, permintaan kustom, kunjungan toko, atau jawaban yang lebih cepat sebelum Anda memesan."
+    ));
+    setSelectorText(".contact-summary p", t(
+      "Reach Marvell Florist directly for consultations, custom arrangements, delivery timing, and store visits across Batam.",
+      "Hubungi Marvell Florist secara langsung untuk konsultasi, rangkaian kustom, penjadwalan pengiriman, dan kunjungan toko di Batam."
+    ));
+    setSelectorText(".legal-suite-label", t("Customer Information", "Informasi Pelanggan"));
+    setSelectorText(".legal-toc-label", t("Contents", "Daftar Isi"));
+    Array.from(document.querySelectorAll(".legal-suite-link")).forEach((link) => {
       if (!(link instanceof HTMLAnchorElement)) return;
       const href = link.getAttribute("href") || "";
-      if (href === "index.html") setText(link, t("Home", "Beranda"));
-      if (href === "about.html") setText(link, t("About", "Tentang"));
-      if (href === "contact.html") setText(link, t("Contact", "Kontak"));
+      if (href.includes("faq.html")) setText(link, t("FAQ", "FAQ"));
+      if (href.includes("privacy-policy.html")) setText(link, t("Privacy", "Privasi"));
+      if (href.includes("terms-conditions.html")) setText(link, t("Terms", "Ketentuan"));
+      if (href.includes("contact.html")) setText(link, t("Contact", "Kontak"));
     });
-    setSelectorText(".nav-links a.active", t("Contact", "Kontak"));
-    setSelectorText(".page-header h1", t("Contact Us", "Hubungi Kami"));
+    Array.from(document.querySelectorAll(".legal-toc-link")).forEach((link) => {
+      if (!(link instanceof HTMLAnchorElement)) return;
+      const href = link.getAttribute("href") || "";
+      if (href === "#contact-message") setText(link, t("01. Message us", "01. Kirim pesan"));
+      if (href === "#contact-social") setText(link, t("02. Email and social", "02. Email dan sosial"));
+      if (href === "#contact-visit") setText(link, t("03. Visit us", "03. Kunjungi kami"));
+      if (href === "#contact-services") setText(link, t("04. Service details", "04. Detail layanan"));
+    });
+    setSelectorText("#contact-message .contact-section-title", t("Message Us", "Kirim Pesan"));
+    const messageParagraphs = Array.from(document.querySelectorAll("#contact-message .contact-section-body p"));
+    setText(messageParagraphs[0], t("Monday to Saturday: 8am to 6pm WIB.", "Senin hingga Sabtu: 8 pagi sampai 6 sore WIB."));
+    setText(messageParagraphs[1], t(
+      "Use the line that best matches your request so the conversation starts in the right place.",
+      "Gunakan jalur yang paling sesuai dengan kebutuhan Anda agar percakapan langsung dimulai di tempat yang tepat."
+    ));
+    const messageLinks = Array.from(document.querySelectorAll("#contact-message .contact-link"));
+    setText(messageLinks[0], t("Floral Orders", "Pesanan Bunga"));
+    setText(messageLinks[1], t("Custom Requests", "Permintaan Kustom"));
+    setText(messageLinks[2], t("Supplies", "Perlengkapan"));
+
+    setSelectorText("#contact-social .contact-section-title", t("Email & Social", "Email & Sosial"));
+    const socialParagraphs = Array.from(document.querySelectorAll("#contact-social .contact-section-body p"));
+    setText(socialParagraphs[0], t(
+      "For documents, event briefs, or requests that are easier to explain in writing, email keeps everything in one place.",
+      "Untuk dokumen, brief, atau permintaan yang lebih mudah dijelaskan secara tertulis, email membantu semuanya tetap rapi dalam satu tempat."
+    ));
+    const socialLinks = Array.from(document.querySelectorAll("#contact-social .contact-link"));
+    setText(socialLinks[0], t("Send an Email", "Kirim Email"));
+    setText(socialLinks[1], t("View Instagram", "Lihat Instagram"));
+    setText(socialLinks[2], t("View Facebook", "Lihat Facebook"));
+
+    setSelectorText("#contact-visit .contact-section-title", t("Visit Us", "Kunjungi Kami"));
+    const visitParagraphs = Array.from(document.querySelectorAll("#contact-visit .contact-section-body p"));
+    setText(visitParagraphs[0], t(
+      "Choose the location that fits your visit best, whether you are coming for the florist boutique or the supplies shop.",
+      "Pilih lokasi yang paling sesuai untuk kunjungan Anda, baik ke butik florist maupun toko perlengkapan."
+    ));
+    const visitLinks = Array.from(document.querySelectorAll("#contact-visit .contact-link"));
+    setText(visitLinks[0], t("Florist Boutique", "Butik Florist"));
+    setText(visitLinks[1], t("Supplies Shop", "Toko Perlengkapan"));
+
+    setSelectorText("#contact-services .contact-section-title", t("Need care or service details?", "Butuh detail layanan?"));
+    const serviceParagraphs = Array.from(document.querySelectorAll("#contact-services .contact-section-body p"));
+    setText(serviceParagraphs[0], t(
+      "For consultations, custom arrangements, delivery coordination, and pickup, the services page gives a more complete view of how Marvell handles each request.",
+      "Untuk konsultasi, rangkaian kustom, koordinasi pengiriman, dan pickup, halaman layanan memberi gambaran yang lebih lengkap tentang bagaimana Marvell menangani setiap kebutuhan."
+    ));
+    const serviceLinks = Array.from(document.querySelectorAll("#contact-services .contact-link"));
+    setText(serviceLinks[0], t("Explore Services", "Jelajahi Layanan"));
+  }
+
+  function translateServicesPage() {
+    setDocumentMeta("services");
+    setSelectorText(".services-hero-kicker", t("Our Services", "Layanan Kami"));
+    setSelectorText(".services-hero-title", t("Marvell Florist Services", "Layanan Marvell Florist"));
+    setSelectorText(".services-hero-copy", t(
+      "Consultation-led floral help for orders, custom work, timing, and the details around them.",
+      "Bantuan floral berbasis konsultasi untuk pesanan, karya kustom, penentuan waktu, dan detail di sekitarnya."
+    ));
+    setSelectorText(".services-hero-copy-secondary", t(
+      "A shorter guide to how we work.",
+      "Panduan yang lebih singkat tentang cara kami bekerja."
+    ));
+
+    setSelectorText("#consultation .services-accordion-title", t("Consultation", "Konsultasi"));
+    const consultationParagraphs = Array.from(document.querySelectorAll("#consultation .services-accordion-copy"));
+    setText(consultationParagraphs[0], t(
+      "Most requests begin with a conversation. We clarify the occasion, the recipient, the tone, the palette, and the budget before the work starts so the order feels intentional from the outset.",
+      "Sebagian besar permintaan dimulai lewat percakapan. Kami memperjelas momennya, penerimanya, tone, palet warna, dan anggarannya sebelum pengerjaan dimulai agar pesanan terasa sengaja sejak awal."
+    ));
+    setText(consultationParagraphs[1], t(
+      "That first exchange also helps us recommend the most suitable format, whether it belongs in a ready collection or needs a more tailored direction.",
+      "Percakapan awal itu juga membantu kami menyarankan format yang paling sesuai, apakah kebutuhan tersebut cocok dengan koleksi siap pilih atau memerlukan arahan yang lebih tailored."
+    ));
+    const consultationLinks = Array.from(document.querySelectorAll("#consultation .services-accordion-link"));
+    setText(consultationLinks[0], t("Contact page", "Halaman kontak"));
+    setText(consultationLinks[1], t("WhatsApp", "WhatsApp"));
+
+    setSelectorText("#custom-arrangements .services-accordion-title", t("Custom Arrangements", "Rangkaian Kustom"));
+    const customParagraphs = Array.from(document.querySelectorAll("#custom-arrangements .services-accordion-copy"));
+    setText(customParagraphs[0], t(
+      "Some pieces start with a reference image, a wrapping idea, or a very specific silhouette. Others begin with only a mood and a setting. This is where that more directed work belongs.",
+      "Beberapa karya dimulai dari gambar referensi, ide wrapping, atau siluet yang sangat spesifik. Yang lain dimulai hanya dari mood dan setting. Di sinilah karya yang lebih terarah seperti itu berada."
+    ));
+    setText(customParagraphs[1], t(
+      "We shape the final piece around your references, available flowers, scale, and intended setting rather than forcing it into a standard category.",
+      "Kami membentuk karya akhirnya berdasarkan referensi Anda, ketersediaan bunga, skala, dan setting yang dituju, bukan memaksanya masuk ke kategori standar."
+    ));
+    setSelectorText("#custom-arrangements .services-accordion-link", t("Start consultation on WhatsApp", "Mulai konsultasi di WhatsApp"));
+
+    setSelectorText("#personal-message .services-accordion-title", t("Message Cards", "Kartu Pesan"));
+    const messageParagraphs = Array.from(document.querySelectorAll("#personal-message .services-accordion-copy"));
+    setText(messageParagraphs[0], t(
+      "A message card often finishes the arrangement properly. It gives the flowers context when the gesture is personal, ceremonial, grateful, or quietly private.",
+      "Kartu pesan sering kali menyelesaikan rangkaian dengan lebih tepat. Ia memberi konteks ketika gesturnya bersifat personal, seremonial, penuh terima kasih, atau lebih private."
+    ));
+    setText(messageParagraphs[1], t(
+      "If needed, we can help keep the wording clean, warm, and appropriate to the tone of the arrangement.",
+      "Jika diperlukan, kami dapat membantu menjaga kalimatnya tetap rapi, hangat, dan sesuai dengan tone rangkaiannya."
+    ));
+    setSelectorText("#personal-message .services-accordion-link", t("Ask about message cards", "Tanya soal kartu pesan"));
+
+    setSelectorText("#delivery-setup .services-accordion-title", t("Delivery Coordination", "Koordinasi Pengiriman"));
+    const deliveryParagraphs = Array.from(document.querySelectorAll("#delivery-setup .services-accordion-copy"));
+    setText(deliveryParagraphs[0], t(
+      "Timing, recipient details, and handling are confirmed directly before dispatch. For more delicate orders, we discuss placement and condition in advance rather than relying on a generic courier flow.",
+      "Waktu, detail penerima, dan penanganan dikonfirmasi langsung sebelum pengiriman. Untuk pesanan yang lebih sensitif, kami membahas penempatan dan kondisinya lebih dulu daripada mengandalkan alur kurir yang generik."
+    ));
+    setText(deliveryParagraphs[1], t(
+      "This is especially useful when the arrangement has a tighter delivery window or needs careful arrival handling.",
+      "Ini sangat membantu ketika rangkaiannya memiliki jendela pengiriman yang lebih ketat atau membutuhkan penanganan kedatangan yang lebih hati-hati."
+    ));
+    setSelectorText("#delivery-setup .services-accordion-link", t("Discuss timing", "Bahas waktunya"));
+
+    setSelectorText("#collection-pickup .services-accordion-title", t("Collection & Handover", "Pengambilan & Serah Terima"));
+    const pickupParagraphs = Array.from(document.querySelectorAll("#collection-pickup .services-accordion-copy"));
+    setText(pickupParagraphs[0], t(
+      "Orders can also be prepared for store pickup in Batam. We coordinate the pickup window in advance so the arrangement is ready, checked, and finished when you arrive.",
+      "Pesanan juga dapat disiapkan untuk diambil langsung di toko Batam. Kami mengatur jendela pengambilannya lebih dulu agar rangkaian sudah siap, dicek, dan selesai saat Anda datang."
+    ));
+    setText(pickupParagraphs[1], t(
+      "For surprises and timed handovers, we can also help align the final pickup with the moment you need.",
+      "Untuk kejutan dan serah terima yang sensitif terhadap waktu, kami juga dapat membantu menyelaraskan pengambilan akhirnya dengan momen yang Anda butuhkan."
+    ));
+    setSelectorText("#collection-pickup .services-accordion-link", t("Get store directions", "Lihat lokasi toko"));
+
+    setSelectorText("#floral-styling .services-accordion-title", t("Floral Styling", "Floral Styling"));
+    const stylingParagraphs = Array.from(document.querySelectorAll("#floral-styling .services-accordion-copy"));
+    setText(stylingParagraphs[0], t(
+      "Some requests are less about a gift and more about how flowers sit inside a space, a table, an opening, or a vehicle. We handle those with more attention to placement, proportion, and setting.",
+      "Beberapa permintaan bukan terutama tentang hadiah, melainkan tentang bagaimana bunga hadir di dalam ruang, di meja, pada pembukaan, atau pada kendaraan. Kami menanganinya dengan perhatian lebih pada penempatan, proporsi, dan setting."
+    ));
+    setText(stylingParagraphs[1], t(
+      "That includes lighter styling help, event-adjacent floral moments, and requests that need a more spatial point of view.",
+      "Itu mencakup bantuan styling yang lebih ringan, momen floral yang berkaitan dengan acara, dan permintaan yang membutuhkan sudut pandang yang lebih spasial."
+    ));
+    setSelectorText("#floral-styling .services-accordion-link", t("See custom work", "Lihat karya kustom"));
+  }
+
+  function translateCustomPage() {
+    setDocumentMeta("custom");
+    setSelectorText(".custom-kicker", t("Marvell Florist Services", "Layanan Marvell Florist"));
+    setSelectorText(".custom-title", t("Custom Arrangements", "Rangkaian Kustom"));
+    setSelectorText(".custom-subline", t(
+      "For requests shaped by references, placement, ribbons, vehicle details, and one-off floral directions that do not belong in a fixed collection.",
+      "Untuk permintaan yang dibentuk oleh referensi, penempatan, pita, detail kendaraan, dan arah floral satu kali yang tidak cocok masuk ke koleksi tetap."
+    ));
+
+    Array.from(document.querySelectorAll(".custom-subnav-link")).forEach((link) => {
+      if (!(link instanceof HTMLAnchorElement)) return;
+      const href = link.getAttribute("href") || "";
+      if (href === "#custom-categories") setText(link, t("Custom Work", "Karya Kustom"));
+      if (href === "#custom-process") setText(link, t("The Process", "Prosesnya"));
+      if (href === "#custom-fit") setText(link, t("Where It Fits", "Posisi Kebutuhan"));
+    });
+
+    const categoriesSection = document.getElementById("custom-categories");
+    if (categoriesSection instanceof HTMLElement) {
+      setSelectorText(".section-title", t("Selected Custom Work", "Pilihan Karya Kustom"), categoriesSection);
+      setSelectorText(".section-copy", t(
+        "Instead of treating custom work as one broad category, this page breaks it into the kinds of requests that tend to need a more specific hand.",
+        "Alih-alih memperlakukan karya kustom sebagai satu kategori besar, halaman ini membaginya ke dalam jenis permintaan yang biasanya membutuhkan tangan yang lebih spesifik."
+      ), categoriesSection);
+      const scopeCards = Array.from(categoriesSection.querySelectorAll(".custom-scope-card"));
+      const scopeData = currentLanguage === "id"
+        ? [
+            ["Detail Garnish & Meja", "Momen floral yang lebih kecil untuk meja makan, welcome table, permukaan yang ditata, atau detail dekoratif yang lebih tenang tetapi tetap membutuhkan proporsi dan finishing."],
+            ["Pita Pembukaan", "Karya berbasis pita untuk momen pembukaan yang membutuhkan format seremonial yang lebih rapi, dengan perhatian pada skala, posisi pesan, dan bagaimana tampilannya di ruang tersebut."],
+            ["Dekorasi Mobil", "Permintaan floral untuk kendaraan yang membutuhkan lebih banyak perencanaan dalam pemasangan, pergerakan, keseimbangan, dan bagaimana bunganya bertahan saat mobil benar-benar digunakan."],
+            ["Dan Banyak Lagi", "Jika permintaannya berada di luar koleksi tetap tetapi sudah punya referensi, setting, atau arah visual yang jelas, kami membentuknya dari situ alih-alih memaksanya ke kategori yang salah."]
+          ]
+        : [
+            ["Garnishes & Table Details", "Smaller floral moments for a meal, a welcome table, a styled surface, or a quieter decorative detail that still needs proportion and finish."],
+            ["Opening Ribbons", "Ribbon-based opening work that needs a cleaner ceremonial format, with attention to scale, message placement, and how the piece reads in the room."],
+            ["Car Decorations", "Vehicle-based floral requests that need more planning for attachment, movement, balance, and how the flowers hold together once the car is actually in use."],
+            ["And Much More", "If the request sits outside a fixed collection but already has a reference, a setting, or a clear visual direction, we shape it from there rather than forcing it into the wrong category."]
+          ];
+      scopeCards.forEach((card, index) => {
+        const [title, copy] = scopeData[index] || [];
+        setSelectorText("h3", title, card);
+        setSelectorText("p", copy, card);
+      });
+    }
+
+    const processSection = document.getElementById("custom-process");
+    if (processSection instanceof HTMLElement) {
+      setSelectorText(".section-title", t("How a Custom Request Takes Shape", "Bagaimana Permintaan Kustom Mulai Terbentuk"), processSection);
+      setSelectorText(".section-copy", t(
+        "The process stays direct, but custom work needs a little more context than a ready-made order so the final piece feels deliberate instead of improvised.",
+        "Prosesnya tetap langsung, tetapi karya kustom membutuhkan sedikit lebih banyak konteks daripada pesanan siap pilih agar hasil akhirnya terasa sengaja, bukan improvisasi."
+      ), processSection);
+      const processCards = Array.from(processSection.querySelectorAll(".process-card"));
+      const processData = currentLanguage === "id"
+        ? [
+            ["Langkah 01", "Referensi", "Kirimkan momennya, setting-nya, dan gambar, ide wrapping, format pita, atau referensi visual kasar apa pun yang sudah Anda pikirkan."],
+            ["Langkah 02", "Arah", "Kami menyaring permintaan tersebut berdasarkan skala, ketersediaan bunga, waktu, dan bagaimana rangkaiannya harus terasa saat benar-benar ditempatkan."],
+            ["Langkah 03", "Konfirmasi", "Setelah arahnya jelas, kami mengonfirmasi harga, waktu, dan detail pengiriman atau pengambilan sebelum karya masuk ke tahap persiapan."]
+          ]
+        : [
+            ["Step 01", "Reference", "Send the occasion, the setting, and any image, wrapping idea, ribbon format, or rough visual reference you already have in mind."],
+            ["Step 02", "Direction", "We refine the request around scale, flower availability, timing, and how the arrangement should feel once it is actually placed."],
+            ["Step 03", "Confirmation", "Once the direction is clear, we confirm pricing, timing, and delivery or pickup details before the piece moves into preparation."]
+          ];
+      processCards.forEach((card, index) => {
+        const [step, title, copy] = processData[index] || [];
+        setSelectorText(".process-card-step", step, card);
+        setSelectorText("h3", title, card);
+        setSelectorText("p:last-of-type", copy, card);
+      });
+    }
+
+    const fitSection = document.getElementById("custom-fit");
+    if (fitSection instanceof HTMLElement) {
+      setSelectorText(".section-title", t("Where Custom Work Fits", "Di Mana Karya Kustom Terasa Tepat"), fitSection);
+      setSelectorText(".section-copy", t(
+        "This page no longer treats gifting as its own custom category. The better split is based on what is leading the request.",
+        "Halaman ini tidak lagi memperlakukan gifting sebagai kategori kustom tersendiri. Pembagian yang lebih tepat adalah berdasarkan apa yang memimpin permintaannya."
+      ), fitSection);
+      const fitCards = Array.from(fitSection.querySelectorAll(".custom-fit-card"));
+      const fitData = currentLanguage === "id"
+        ? [
+            ["Permintaan Berbasis Referensi", "Jika Anda sudah punya gambar, arah bouquet, ide wrapping, atau visual yang disimpan, kami menggunakannya sebagai titik awal lalu menyesuaikannya dengan ketersediaan bunga, skala, dan finishing."],
+            ["Karya Berbasis Ruang", "Beberapa kebutuhan lebih dibentuk oleh ruangan, meja, storefront, atau kendaraan daripada referensi bouquet. Kebutuhan seperti ini membutuhkan proporsi, penempatan, dan keseimbangan visual terlebih dulu."],
+            ["Instalasi Berbasis Momen", "Pita pembukaan, setup seremonial, dan momen floral satu kali pakai sering kali membutuhkan struktur praktis lebih dulu dan styling bunga sesudahnya agar benar-benar bekerja di setting nyata."]
+          ]
+        : [
+            ["Reference-Led Requests", "If you already have an image, bouquet direction, wrapping idea, or saved visual, we use that as the starting point and adapt it to flower availability, scale, and finish."],
+            ["Space-Led Pieces", "Some requests are shaped more by the room, table, storefront, or vehicle than by a bouquet reference. Those need proportion, placement, and visual balance first."],
+            ["Moment-Led Installations", "Ribbon openings, ceremonial setups, and one-off floral moments often need a practical structure first and floral styling second so the piece works in the real setting."]
+          ];
+      fitCards.forEach((card, index) => {
+        const [title, copy] = fitData[index] || [];
+        setSelectorText("h3", title, card);
+        setSelectorText("p", copy, card);
+      });
+    }
+
+    const closingSection = document.querySelector(".closing-panel");
+    if (closingSection instanceof HTMLElement) {
+      setSelectorText(".section-title", t("If You Already Have an Image in Mind, Send It", "Jika Anda Sudah Punya Gambar di Kepala, Kirimkan Saja"), closingSection);
+      setSelectorText(".section-copy", t(
+        "A custom request does not need a polished brief. One image, one saved reference, or one rough description is enough for us to start shaping the right piece with you.",
+        "Permintaan kustom tidak membutuhkan brief yang rapi. Satu gambar, satu referensi tersimpan, atau satu deskripsi kasar sudah cukup bagi kami untuk mulai membentuk karya yang tepat bersama Anda."
+      ), closingSection);
+      setSelectorText(".custom-primary", t("Share a Reference", "Kirim Referensi"), closingSection);
+      setSelectorText(".custom-secondary", t("Back to Services", "Kembali ke Layanan"), closingSection);
+    }
+  }
+
+  function translateStoriesPage() {
+    setDocumentMeta("stories");
+    setSelectorText(".stories-empty-title", t("No Journals Yet", "Belum Ada Jurnal"));
+    setSelectorText(".stories-empty-copy", t("Add journals from the CMS to fill this page.", "Tambahkan jurnal dari CMS untuk mengisi halaman ini."));
+  }
+
+  function translateStoryPage() {
+    setDocumentMeta("story");
+    setSelectorText(".story-empty-title", t("Journal Not Found", "Jurnal Tidak Ditemukan"));
+    setSelectorText(".story-empty-copy", t("Choose a journal from The Journals page.", "Pilih sebuah jurnal dari halaman The Journals."));
+    setSelectorText(".related-journals-kicker", t("More to Read", "Baca Juga"));
+    setSelectorText(".related-journals-title", t("Related Journals", "Jurnal Terkait"));
   }
 
   function applyPageTranslations() {
@@ -1037,6 +2381,11 @@
     if (pageName === "product") translateProductPage();
     if (pageName === "featured") translateFeaturedPage();
     if (pageName === "contact") translateContactPage();
+    if (pageName === "services") translateServicesPage();
+    if (pageName === "custom") translateCustomPage();
+    if (pageName === "stories") translateStoriesPage();
+    if (pageName === "story") translateStoryPage();
+    translateFooter(document);
     decorateInternalLinks();
     Array.from(document.querySelectorAll(".language-switcher__button")).forEach((button) => {
       if (!(button instanceof HTMLButtonElement)) return;
@@ -1090,6 +2439,8 @@
 
   function initializeAnalytics() {
     if (analyticsInitialized || !GA_MEASUREMENT_ID) return;
+    applyAnalyticsDisabledFlag();
+    if (window[`ga-disable-${GA_MEASUREMENT_ID}`]) return;
     analyticsInitialized = true;
 
     const existingScript = document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"]`);

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<body>
+<iframe id="f" style="width:1440px;height:1400px;border:0"></iframe>
+<pre id="out"></pre>
+<script>
+const params = new URLSearchParams(location.search);
+const target = params.get("target");
+const iframe = document.getElementById("f");
+const out = document.getElementById("out");
+iframe.src = target;
+iframe.onload = () => {
+  const doc = iframe.contentDocument;
+  const win = iframe.contentWindow;
+  const q = (s) => doc.querySelector(s);
+  const menuToggle = q("#menu-toggle") || q(".menu-toggle");
+  const panel = q("#menu-panel");
+  const services = q('[data-menu-open="services"]');
+  const report = (phase) => {
+    const menuHead = q(".menu-head");
+    const close = q("#menu-close");
+    const mainLeft = q(".menu-main-left");
+    const quickPane = q("[data-menu-quickpane]");
+    const servicesQuick = q('[data-quick-panel="services"]');
+    const csPanel = panel ? win.getComputedStyle(panel) : null;
+    const csHead = menuHead ? win.getComputedStyle(menuHead) : null;
+    const csClose = close ? win.getComputedStyle(close) : null;
+    const csMainLeft = mainLeft ? win.getComputedStyle(mainLeft) : null;
+    const csQuickPane = quickPane ? win.getComputedStyle(quickPane) : null;
+    const csServicesQuick = servicesQuick ? win.getComputedStyle(servicesQuick) : null;
+    out.textContent += JSON.stringify({
+      phase,
+      panelOpen: panel ? panel.classList.contains("is-open") : null,
+      panelRect: panel ? panel.getBoundingClientRect().toJSON() : null,
+      panelLeft: csPanel ? csPanel.left : null,
+      panelRight: csPanel ? csPanel.right : null,
+      panelTransform: csPanel ? csPanel.transform : null,
+      panelWidth: csPanel ? csPanel.width : null,
+      panelGridCols: csPanel ? csPanel.gridTemplateColumns : null,
+      menuHeadJustify: csHead ? csHead.justifyContent : null,
+      menuHeadPadding: csHead ? csHead.padding : null,
+      closeRect: close ? close.getBoundingClientRect().toJSON() : null,
+      closeMarginLeft: csClose ? csClose.marginLeft : null,
+      mainLeftPadding: csMainLeft ? csMainLeft.padding : null,
+      quickActive: panel ? panel.getAttribute("data-menu-quick-active") : null,
+      quickCurrent: quickPane ? quickPane.getAttribute("data-quick-current") : null,
+      quickPaneRect: quickPane ? quickPane.getBoundingClientRect().toJSON() : null,
+      quickPaneOpacity: csQuickPane ? csQuickPane.opacity : null,
+      quickPaneTransform: csQuickPane ? csQuickPane.transform : null,
+      quickPanePointer: csQuickPane ? csQuickPane.pointerEvents : null,
+      servicesQuickOpacity: csServicesQuick ? csServicesQuick.opacity : null,
+      servicesQuickTransform: csServicesQuick ? csServicesQuick.transform : null,
+      servicesQuickPadding: csServicesQuick ? csServicesQuick.padding : null
+    }, null, 2) + "\n---\n";
+  };
+  report("loaded");
+  if (menuToggle) menuToggle.click();
+  setTimeout(() => {
+    report("after-menu-click");
+    if (services) services.click();
+    setTimeout(() => {
+      report("after-services-click");
+    }, 900);
+  }, 900);
+};
+</script>
+</body>
+</html>

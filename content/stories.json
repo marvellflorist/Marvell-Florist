@@ -1,0 +1,24 @@
+{
+  "pageTitle": "The Journals",
+  "entries": [
+    {
+      "slug": "grad-26",
+      "title": "Reflection",
+      "monthYear": "April 2026",
+      "coverImage": "/assets/uploads/img_4322.webp",
+      "images": [
+        "/assets/uploads/img_4327.webp",
+        "/assets/uploads/img_4316.webp",
+        "/assets/uploads/img_4527.webp",
+        "/assets/uploads/img_4523.webp",
+        "/assets/uploads/img_4472.webp",
+        "/assets/uploads/img_4371.webp",
+        "/assets/uploads/img_4415.webp",
+        "/assets/uploads/img_4375.webp",
+        "/assets/uploads/img_4364.webp",
+        "/assets/uploads/img_4337.webp",
+        "/assets/uploads/img_4503.webp"
+      ]
+    }
+  ]
+}

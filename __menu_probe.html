@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Probe</title>
+  <style>
+    body { margin: 0; font: 14px/1.4 sans-serif; }
+    pre { margin: 0; padding: 16px; white-space: pre-wrap; }
+    iframe { position: fixed; inset: 0; width: 430px; height: 1200px; border: 0; opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <pre id="output">Loading…</pre>
+  <iframe id="frame" src="/index.html"></iframe>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page") || "index.html";
+    const frame = document.getElementById("frame");
+    const output = document.getElementById("output");
+    frame.src = "/" + page.replace(/^\//, "");
+
+    const readRect = (node) => {
+      if (!(node instanceof Element)) return null;
+      const rect = node.getBoundingClientRect();
+      return {
+        left: Math.round(rect.left),
+        right: Math.round(rect.right),
+        top: Math.round(rect.top),
+        bottom: Math.round(rect.bottom),
+        width: Math.round(rect.width),
+        height: Math.round(rect.height)
+      };
+    };
+
+    const readChevronMetrics = (doc, win, row) => {
+      const style = win.getComputedStyle(row, "::after");
+      const rect = row.getBoundingClientRect();
+      const rightInset = parseFloat(style.right || "0") || 0;
+      const marginLeft = parseFloat(style.marginLeft || "0") || 0;
+      return {
+        content: style.content,
+        display: style.display,
+        position: style.position,
+        width: style.width,
+        justifySelf: style.justifySelf,
+        rowRight: Math.round(rect.right),
+        estimatedChevronCenter: Math.round(rect.right - rightInset - 10 - marginLeft)
+      };
+    };
+
+    const capture = () => {
+      try {
+        const doc = frame.contentDocument;
+        const win = frame.contentWindow;
+        if (!doc || !win) {
+          output.textContent = "Missing iframe document";
+          return false;
+        }
+        const toggle = doc.querySelector(".menu-toggle");
+        if (!(toggle instanceof HTMLElement)) {
+          output.textContent = "Missing menu toggle";
+          return false;
+        }
+        const panel = doc.getElementById("menu-panel");
+        const close = doc.getElementById("menu-close");
+        if (!(panel instanceof HTMLElement) || !(close instanceof HTMLElement)) {
+          output.textContent = "Missing menu panel or close button";
+          return false;
+        }
+        toggle.click();
+        win.setTimeout(() => {
+          const rows = Array.from(doc.querySelectorAll('.menu-panel .menu-view[data-menu-view="main"] .menu-main-secondary .menu-link, .menu-panel .menu-view[data-menu-view="main"] .menu-main-secondary .menu-link-button'));
+          const report = {
+            page,
+            sharedManaged: panel.getAttribute("data-shared-managed"),
+            panel: readRect(panel),
+            close: readRect(close),
+            rows: rows.map((row) => ({
+              text: row.textContent.trim(),
+              row: readRect(row),
+              chevron: readChevronMetrics(doc, win, row)
+            }))
+          };
+          output.textContent = JSON.stringify(report, null, 2);
+        }, 1600);
+        return true;
+      } catch (error) {
+        output.textContent = String(error && error.stack || error);
+        return true;
+      }
+    };
+
+    const waitForReady = () => {
+      const start = Date.now();
+      const timer = setInterval(() => {
+        const doc = frame.contentDocument;
+        if (doc && doc.querySelector(".menu-toggle")) {
+          clearInterval(timer);
+          capture();
+          return;
+        }
+        if (Date.now() - start > 12000) {
+          clearInterval(timer);
+          output.textContent = "Timed out waiting for menu toggle";
+        }
+      }, 250);
+    };
+
+    frame.addEventListener("load", waitForReady);
+  </script>
+</body>
+</html>

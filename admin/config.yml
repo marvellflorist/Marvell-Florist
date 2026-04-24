@@ -15,117 +15,31 @@ slug:
 
 collections:
   - name: "site_sections"
-    label: "Teks Halaman"
-    description: "Kelola copy untuk header portofolio di home dan catatan halaman gallery tanpa edit HTML."
+    label: "Home Page"
+    description: "Kelola home hero tanpa edit HTML."
     editor:
       preview: false
     files:
-      - label: "Teks Section Website"
+      - label: "Home Page"
         name: "site_sections_file"
         file: "content/site-sections.json"
         format: "json"
         fields:
-          - label: "Home Portfolio"
-            name: "homePortfolio"
+          - label: "Home Hero"
+            name: "homeHero"
             widget: "object"
             fields:
-              - { label: "Kicker", name: "kicker", widget: "string", required: false }
-              - { label: "Heading", name: "heading", widget: "string", required: false }
-              - { label: "Lead", name: "lead", widget: "text", required: false }
-              - { label: "Catatan Request", name: "requestNote", widget: "string", required: false }
-              - { label: "Teks Tombol Request", name: "requestButtonLabel", widget: "string", required: false }
-          - label: "Gallery Page"
-            name: "galleryPage"
-            widget: "object"
-            fields:
-              - { label: "Catatan Katalog", name: "note", widget: "text", required: false }
-              - { label: "Teks Hook By Request", name: "byRequestHook", widget: "text", required: false }
-              - { label: "Teks Tombol Konsultasi", name: "consultButtonLabel", widget: "string", required: false }
-
-  - name: "portfolio_categories"
-    label: "Home Portfolio"
-    description: "Kelola kategori portfolio untuk kartu di home page dan header hero di gallery page."
-    editor:
-      preview: false
-    files:
-      - label: "Home Portfolio Categories"
-        name: "portfolio_category_settings"
-        file: "content/portfolio-categories.json"
-        format: "json"
-        fields:
-          - label: "Daftar Kategori"
-            name: "categories"
-            widget: "list"
-            summary: "{{fields.name}}"
-            collapsed: true
-            default: []
-            allow_add: true
-            allow_delete: true
-            fields:
-              - { label: "ID Kategori", name: "key", widget: "string", hint: "ID internal. Jangan diubah kecuali diminta developer.", required: true }
-              - { label: "Nama Kategori", name: "name", widget: "string", required: true }
-              - { label: "Gambar Cover Kategori", name: "coverImage", widget: "image", required: true }
-              - { label: "Deskripsi Singkat", name: "subtitle", widget: "text", required: false }
-              - { label: "Nomor WhatsApp", name: "phone", widget: "string", required: false, hint: "Contoh: 6281275017456" }
-              - label: "Nama Alternatif"
-                name: "aliases"
-                widget: "list"
+              - { label: "Home Hero Image", name: "image", widget: "image", required: false }
+              - { label: "Top Text", name: "eyebrow", widget: "string", required: false }
+              - { label: "Main Title", name: "heading", widget: "string", required: false }
+              - { label: "CTA Label", name: "ctaLabel", widget: "string", required: false }
+              - label: "Tujuan Link"
+                name: "ctaTarget"
+                widget: "select"
                 required: false
-                default: []
-                summary: "{{fields.value}}"
-                allow_add: true
-                fields:
-                  - { label: "Alias", name: "value", widget: "string" }
-              - label: "Kata Kunci Mapping (Legacy)"
-                name: "matchCategories"
-                widget: "list"
-                required: false
-                default: []
-                summary: "{{fields.value}}"
-                allow_add: true
-                fields:
-                  - { label: "Kata Kunci", name: "value", widget: "string" }
-              - label: "Struktur Filter Kategori"
-                name: "filterGroups"
-                widget: "list"
-                required: false
-                summary: "{{fields.label}}"
-                collapsed: true
-                default: []
-                allow_add: true
-                allow_delete: true
-                fields:
-                  - label: "ID Grup Filter"
-                    name: "id"
-                    widget: "select"
-                    required: true
-                    options:
-                      - { label: "Warna", value: "color" }
-                      - { label: "Tipe", value: "type" }
-                      - { label: "Tipe Bunga", value: "flower-condition" }
-                      - { label: "Jenis Bunga", value: "flower-type" }
-                      - { label: "Momen", value: "occasion" }
-                      - { label: "Material", value: "material" }
-                      - { label: "Ukuran", value: "size" }
-                  - { label: "Nama Grup Filter", name: "label", widget: "string", required: true }
-                  - label: "Pilihan Filter"
-                    name: "options"
-                    widget: "list"
-                    required: true
-                    summary: "{{fields.label}}"
-                    collapsed: true
-                    default: []
-                    allow_add: true
-                    allow_delete: true
-                    fields:
-                      - { label: "ID Opsi", name: "id", widget: "string", required: true, hint: "Gunakan huruf kecil + dash. Contoh: bloom-box" }
-                      - { label: "Label Opsi", name: "label", widget: "string", required: true }
-              - { label: "Aktifkan Filter Harga", name: "enablePriceFilter", widget: "boolean", default: false, required: false, hint: "Jika aktif, kategori ini menampilkan slider rentang harga di halaman portofolio." }
-              - { label: "Harga Minimum Default", name: "priceMin", widget: "number", value_type: "int", min: 0, required: false, hint: "Batas bawah kategori. Dipakai sebagai awal slider harga meskipun produk di dalamnya belum lengkap." }
-              - { label: "Harga Maksimum Default", name: "priceMax", widget: "number", value_type: "int", min: 0, required: false, hint: "Batas atas kategori untuk slider harga." }
-              - { label: "Tampilkan di Home", name: "showOnHome", widget: "boolean", default: true, required: false }
-              - { label: "Tampilkan di Halaman Portofolio", name: "showInGallery", widget: "boolean", default: true, required: false }
-              - { label: "Urutan Tampil", name: "order", widget: "number", value_type: "int", min: 1, required: false }
+                options:
+                  - { label: "Gallery Entry Page", value: "gallery-entry" }
+                  - { label: "Primary Featured Collection", value: "featured-primary" }
 
   - name: "portfolio_products"
     label: "Product Portfolio"
@@ -158,6 +72,26 @@ collections:
                 fields:
                   - { label: "Kategori Internal", name: "category", widget: "string", required: false, hint: "Biarkan sama dengan kategori induk agar routing produk tetap stabil." }
                   - { label: "1) Upload Gambar", name: "image", widget: "image", required: true }
+                  - label: "1b) Gambar Tambahan"
+                    name: "additionalImages"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.image}}"
+                    hint: "Gambar tambahan untuk hover desktop dan carousel di halaman produk."
+                    fields:
+                      - { label: "Upload Gambar Tambahan", name: "image", widget: "image", required: true }
+                      - label: "Dipakai Untuk"
+                        name: "usage"
+                        widget: "select"
+                        required: false
+                        default: "both"
+                        options:
+                          - { label: "Hover + Carousel", value: "both" }
+                          - { label: "Hover Saja", value: "hover" }
+                          - { label: "Carousel Saja", value: "carousel" }
+                      - { label: "Posisi Hover Desktop", name: "hoverPosition", widget: "string", required: false, hint: "Contoh: center center, 40% center, center 30%." }
+                      - { label: "Posisi Carousel / Scroll", name: "scrollPosition", widget: "string", required: false, hint: "Contoh: left top, center center, 35% center." }
                   - { label: "2) Nama / Judul Produk", name: "title", widget: "string", required: true, hint: "Boleh ketik biasa. Sistem akan menampilkan dalam format Title Case." }
                   - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, required: false, hint: "Contoh input: 15000 (otomatis tampil sebagai Rp15.000)." }
                   - label: "4) Filter Produk"
@@ -179,6 +113,9 @@ collections:
                           - { label: "Biru", value: "blue" }
                           - { label: "Kuning", value: "yellow" }
                           - { label: "Oranye", value: "orange" }
+                          - { label: "Peach", value: "peach" }
+                          - { label: "Cokelat", value: "brown" }
+                          - { label: "Abu-abu", value: "gray" }
                           - { label: "Hijau", value: "green" }
                           - { label: "Hitam", value: "black" }
                           - { label: "Emas", value: "gold" }
@@ -253,7 +190,7 @@ collections:
                           - { label: "2 Papan", value: "2-papan" }
 
   - name: "seasonal_collections"
-    label: "Galaksi Musiman"
+    label: "Featured Categories"
     description: "Kelola judul koleksi, gambar hero, produk, jadwal aktif, dan teks promo strip."
     editor:
       preview: false
@@ -276,14 +213,19 @@ collections:
               - { label: "Paksa Aktif", name: "forceActive", widget: "boolean", default: false, required: false, hint: "Jika aktif, event ini langsung tampil meskipun di luar jadwal tanggal." }
               - { label: "Tanggal Mulai (MM-DD)", name: "start", widget: "string", required: false, hint: "Contoh: 03-07" }
               - { label: "Tanggal Selesai (MM-DD)", name: "end", widget: "string", required: false, hint: "Contoh: 04-15" }
-              - { label: "Prioritas", name: "priority", widget: "number", value_type: "int", required: false, hint: "Semakin besar, semakin diprioritaskan jika overlap." }
+              - { label: "Prioritas Urutan", name: "priority", widget: "number", value_type: "int", required: false, hint: "Angka lebih besar tampil lebih dulu. Jika ada beberapa koleksi aktif sekaligus, prioritas tertinggi dipakai lebih dulu di menu dan tampilan utama." }
               - { label: "Kicker", name: "kicker", widget: "string", required: false }
               - { label: "Judul Koleksi", name: "title", widget: "string", required: true }
               - { label: "Teks Promo Strip", name: "promoText", widget: "string", required: false }
               - { label: "Gambar Hero", name: "heroImage", widget: "image", required: false }
               - { label: "Lead Header", name: "lead", widget: "text", required: false, hint: "Copy pendek di bawah judul seasonal collection." }
+              - { label: "Gambar Footer Koleksi", name: "footerImage", widget: "image", required: false, hint: "Gambar editorial besar yang tampil di bagian penutup halaman featured." }
+              - { label: "Slogan Footer Koleksi", name: "footerSlogan", widget: "text", required: false, hint: "Copy pendek di bawah gambar footer halaman featured." }
               - { label: "Catatan Bawah Produk", name: "warningText", widget: "text", required: false, hint: "Teks kecil di bawah grid produk seasonal." }
               - { label: "Label Tombol Konsultasi", name: "consultLabel", widget: "string", required: false, hint: "Contoh: Consult Ramadan & Eid Collection" }
+              - { label: "Aktifkan Filter Harga", name: "enablePriceFilter", widget: "boolean", default: true, required: false, hint: "Untuk UI filter featured: tampilkan slider harga berdasarkan produk di event ini." }
+              - { label: "Harga Minimum Slider", name: "priceMin", widget: "number", value_type: "int", min: 0, required: false, hint: "Opsional. Pakai jika ingin batas bawah slider tetap meski belum semua produk diisi." }
+              - { label: "Harga Maksimum Slider", name: "priceMax", widget: "number", value_type: "int", min: 0, required: false, hint: "Opsional. Pakai jika ingin batas atas slider tetap." }
               - label: "Produk Musiman"
                 name: "products"
                 widget: "list"
@@ -293,5 +235,123 @@ collections:
                 allow_delete: true
                 fields:
                   - { label: "1) Upload Gambar", name: "src", widget: "image", required: true }
+                  - label: "1b) Gambar Tambahan"
+                    name: "additionalImages"
+                    widget: "list"
+                    required: false
+                    collapsed: true
+                    summary: "{{fields.image}}"
+                    hint: "Gambar tambahan untuk hover desktop dan carousel di halaman produk."
+                    fields:
+                      - { label: "Upload Gambar Tambahan", name: "image", widget: "image", required: true }
+                      - label: "Dipakai Untuk"
+                        name: "usage"
+                        widget: "select"
+                        required: false
+                        default: "both"
+                        options:
+                          - { label: "Hover + Carousel", value: "both" }
+                          - { label: "Hover Saja", value: "hover" }
+                          - { label: "Carousel Saja", value: "carousel" }
+                      - { label: "Posisi Hover Desktop", name: "hoverPosition", widget: "string", required: false, hint: "Contoh: center center, 40% center, center 30%." }
+                      - { label: "Posisi Carousel / Scroll", name: "scrollPosition", widget: "string", required: false, hint: "Contoh: left top, center center, 35% center." }
                   - { label: "2) Nama / Judul Produk", name: "name", widget: "string", required: true }
                   - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, required: false, hint: "Contoh input: 15000 (otomatis tampil sebagai Rp15.000)." }
+                  - label: "4) Filter Produk Unggulan"
+                    name: "filters"
+                    widget: "object"
+                    required: false
+                    collapsed: true
+                    hint: "Dipakai untuk filter featured/search. Isi seperlunya saja."
+                    fields:
+                      - label: "Jenis Produk"
+                        name: "type"
+                        widget: "select"
+                        required: false
+                        options:
+                          - { label: "Bouquet", value: "bouquet" }
+                          - { label: "Table Arrangements", value: "artificial" }
+                          - { label: "Standing Flowers", value: "standing" }
+                          - { label: "Parcel", value: "parcel" }
+                          - { label: "Papan Bunga", value: "papan" }
+                          - { label: "Bloom Box", value: "bloom-box" }
+                          - { label: "Pot", value: "pot" }
+                          - { label: "Basket", value: "basket" }
+                      - label: "Skema Warna"
+                        name: "colors"
+                        widget: "select"
+                        required: false
+                        multiple: true
+                        options:
+                          - { label: "Putih", value: "white" }
+                          - { label: "Merah", value: "red" }
+                          - { label: "Pink", value: "pink" }
+                          - { label: "Ungu", value: "purple" }
+                          - { label: "Biru", value: "blue" }
+                          - { label: "Kuning", value: "yellow" }
+                          - { label: "Oranye", value: "orange" }
+                          - { label: "Peach", value: "peach" }
+                          - { label: "Cokelat", value: "brown" }
+                          - { label: "Abu-abu", value: "gray" }
+                          - { label: "Hijau", value: "green" }
+                          - { label: "Hitam", value: "black" }
+                          - { label: "Emas", value: "gold" }
+                          - { label: "Mixed", value: "mixed" }
+                      - label: "Tipe Bunga"
+                        name: "flowerCondition"
+                        widget: "select"
+                        required: false
+                        options:
+                          - { label: "Artificial", value: "artificial" }
+                          - { label: "Fresh", value: "fresh" }
+                          - { label: "Preserved", value: "preserved" }
+                      - label: "Jenis Bunga"
+                        name: "flowerTypes"
+                        widget: "select"
+                        required: false
+                        multiple: true
+                        options:
+                          - { label: "Mawar", value: "mawar" }
+                          - { label: "Tulip", value: "tulip" }
+                          - { label: "Anggrek", value: "anggrek" }
+                          - { label: "Lily", value: "lily" }
+                          - { label: "Baby's Breath", value: "babys-breath" }
+                          - { label: "Aster", value: "aster" }
+                          - { label: "Sunflower", value: "sunflower" }
+                          - { label: "Carnation", value: "carnation" }
+                          - { label: "Hydrangea", value: "hydrangea" }
+                          - { label: "Peony", value: "peony" }
+                          - { label: "Gerbera", value: "gerbera" }
+                          - { label: "Krisan", value: "chrysanthemum" }
+
+  - name: "stories"
+    label: "The Journals"
+    description: "Kelola halaman The Journals / lookbook: judul halaman, cover image, judul journal, dan semua gambar di dalamnya."
+    editor:
+      preview: false
+    files:
+      - label: "The Journals Page"
+        name: "stories_page_file"
+        file: "content/stories.json"
+        format: "json"
+        fields:
+          - { label: "Judul Halaman", name: "pageTitle", widget: "string", required: true }
+          - label: "Daftar Journal"
+            name: "entries"
+            widget: "list"
+            summary: "{{fields.title}} — {{fields.monthYear}}"
+            collapsed: true
+            allow_add: true
+            allow_delete: true
+            fields:
+              - { label: "Slug / URL", name: "slug", widget: "string", required: true, hint: "Contoh: wedding-direction. Gunakan huruf kecil dan dash." }
+              - { label: "Judul Journal", name: "title", widget: "string", required: true }
+              - { label: "Month & Year", name: "monthYear", widget: "string", required: true, hint: "Contoh: April 2026" }
+              - { label: "Cover Image", name: "coverImage", widget: "image", required: true }
+              - label: "Images"
+                name: "images"
+                widget: "list"
+                collapsed: true
+                allow_add: true
+                allow_delete: true
+                field: { label: "Upload Image", name: "image", widget: "image", required: true }

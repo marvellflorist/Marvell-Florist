@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About | Marvell Florist</title>
-<meta name="description" content="Learn about Marvell Florist: our journey, our craft, and our team.">
+<meta name="description" content="Learn about Marvell Florist: our history, our craft, and the people behind the arrangements.">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#f8f6f1">
 <link rel="canonical" href="https://marvellflorist.com/about.html">
@@ -12,18 +12,50 @@
 <meta property="og:site_name" content="Marvell Florist">
 <meta property="og:url" content="https://marvellflorist.com/about.html">
 <meta property="og:title" content="About | Marvell Florist">
-<meta property="og:description" content="Learn about Marvell Florist: our journey, our craft, and our team.">
-<meta property="og:image" content="https://marvellflorist.com/assets/preview.png">
-<meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png">
+<meta property="og:description" content="Learn about Marvell Florist: our history, our craft, and the people behind the arrangements.">
+<meta property="og:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta property="og:image:url" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png?v=2">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Marvell Florist website preview">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="About | Marvell Florist">
-<meta name="twitter:description" content="Learn about Marvell Florist: our journey, our craft, and our team.">
-<meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png">
-<script src="assets/site-language.js"></script>
+<meta name="twitter:description" content="Learn about Marvell Florist: our history, our craft, and the people behind the arrangements.">
+<meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
+<meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
+<link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
+<script defer src="assets/site-loader.js?v=20260424d"></script>
+<script src="assets/site-language.js?v=20260424a"></script>
+  <script src="assets/header-template.js?v=20260424b"></script>
+<script>
+(() => {
+  const legacyHashMap = {
+    "#journey": "#foundation",
+    "#craft": "#philosophy"
+  };
+
+  const syncLegacyAboutHash = () => {
+    const targetHash = legacyHashMap[window.location.hash];
+    if (!targetHash) return;
+    const target = document.querySelector(targetHash);
+    if (!(target instanceof HTMLElement)) return;
+    history.replaceState(null, "", `${window.location.pathname}${window.location.search}${targetHash}`);
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({ block: "start", behavior: "auto" });
+    });
+  };
+
+  window.addEventListener("hashchange", syncLegacyAboutHash);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", syncLegacyAboutHash, { once: true });
+  } else {
+    syncLegacyAboutHash();
+  }
+})();
+</script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -31,7 +63,7 @@
 <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 @font-face {
@@ -52,13 +84,17 @@
 }
 :root {
   --cream: #f8f6f1;
+  --cream-deep: #eee6da;
   --ink: #2f2923;
   --muted: rgba(47, 41, 35, 0.72);
   --line: rgba(63, 54, 45, 0.16);
+  --soft-line: rgba(63, 54, 45, 0.1);
+  --panel: #fbf8f3;
+  --shadow: rgba(19, 13, 10, 0.08);
 }
 html { scroll-behavior: smooth; background: var(--cream); }
 body {
-  font-family: "Fraunces", serif;
+  font-family: "Inter Tight", sans-serif;
   color: var(--ink);
   background: var(--cream);
 }
@@ -79,8 +115,10 @@ header::before {
   position: fixed;
   inset: 0 0 auto;
   height: 72px;
-  background: var(--cream);
+  background: rgba(248, 246, 241, 0.92);
   border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   z-index: 1;
 }
 .header-bar {
@@ -141,12 +179,11 @@ header::before {
   line-height: 1;
   transform: translateY(-0.5px);
 }
-.search-toggle {
-  margin-left: auto;
-}
-.search-toggle svg {
-  width: 18px;
-  height: 18px;
+.search-toggle { margin-left: auto; }
+.search-toggle svg,
+.menu-icon svg {
+  width: 20px;
+  height: 20px;
   display: block;
   stroke: currentColor;
   fill: none;
@@ -154,89 +191,520 @@ header::before {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.menu-toggle {
-  gap: 10px;
-}
+.menu-toggle { gap: 10px; }
 .menu-icon {
   display: inline-flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  justify-content: center;
 }
-.menu-icon span {
+main { padding-top: 72px; }
+.about-page {
+  width: 100%;
+  background: var(--cream);
+}
+.about-hero {
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  background: transparent;
+}
+.about-hero-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #d9d0c4;
+}
+.about-hero-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(16, 11, 8, 0.58) 0%, rgba(16, 11, 8, 0.26) 26%, rgba(16, 11, 8, 0.08) 48%, rgba(16, 11, 8, 0) 72%),
+    linear-gradient(180deg, rgba(16, 11, 8, 0.08) 0%, rgba(16, 11, 8, 0) 28%, rgba(16, 11, 8, 0) 68%, rgba(16, 11, 8, 0.24) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+.about-hero-media img,
+.about-hero-media video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+.about-hero-copy {
+  position: absolute;
+  bottom: clamp(28px, 4vw, 42px);
+  left: clamp(28px, 3.2vw, 42px);
+  transform: none;
+  z-index: 2;
+  width: min(540px, calc(100vw - 84px));
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  text-align: left;
+  color: #f6efe6;
+}
+.about-hero-kicker {
+  display: none;
+}
+.about-hero-title {
+  max-width: 420px;
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: clamp(24px, 3.1vw, 38px);
+  line-height: 0.92;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.about-hero-subtitle {
+  max-width: 520px;
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(13px, 1.08vw, 16px);
+  line-height: 1.72;
+  color: rgba(246, 239, 230, 0.9);
+}
+.about-hero-controls {
+  position: absolute;
+  right: clamp(18px, 2.4vw, 34px);
+  bottom: clamp(18px, 2.4vw, 30px);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.about-hero-control {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: rgba(246, 239, 230, 0.96);
   width: 18px;
-  height: 2px;
-  background: rgba(42, 33, 24, 0.72);
+  height: 18px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+.about-hero-control:hover,
+.about-hero-control:focus-visible {
+  opacity: 0.72;
+  outline: none;
+}
+.about-hero-control svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.about-hero-control .icon-state {
+  display: none;
+}
+.about-hero-control.is-muted .icon-state-muted,
+.about-hero-control.is-paused .icon-state-play,
+.about-hero-control:not(.is-muted) .icon-state-sound,
+.about-hero-control:not(.is-paused) .icon-state-pause {
   display: block;
 }
-.about-story {
-  width: min(820px, 90vw);
+.about-shell {
+  width: min(1240px, calc(100vw - 56px));
   margin: 0 auto;
-  padding: 108px 0 88px;
+  padding: 90px 0 116px;
+  display: grid;
+  gap: clamp(72px, 8.6vw, 118px);
 }
-.breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.03em;
-  color: var(--muted);
+.editorial-block {
+  display: grid;
+  gap: 24px;
 }
-.breadcrumb a {
-  color: var(--muted);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+.editorial-block--narrow {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  text-align: center;
 }
-.breadcrumb span[aria-current="page"] { color: var(--ink); text-decoration: none; }
-.hero { margin-top: 28px; }
-.hero h1 {
+.editorial-block--center {
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: center;
+}
+.section-kicker {
+  display: none;
+}
+.section-title {
   font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-  font-size: clamp(52px, 12.6vw, 108px);
-  line-height: 0.88;
+  font-size: clamp(30px, 3.2vw, 50px);
+  line-height: 1.02;
   font-weight: 400;
-  color: #3a3128;
+  color: #2f2923;
+  letter-spacing: 0.01em;
 }
-.hero-lead {
-  margin-top: 18px;
-  max-width: 700px;
-  font-family: "Fraunces", serif;
-  font-size: clamp(20px, 4.4vw, 30px);
-  line-height: 1.45;
-  color: #4a4035;
+.section-copy,
+.section-copy p {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px;
+  line-height: 1.82;
+  color: rgba(47, 41, 35, 0.78);
 }
-.story-image {
+.about-scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 880ms cubic-bezier(0.22, 1, 0.36, 1) var(--about-reveal-delay, 0ms),
+    transform 880ms cubic-bezier(0.22, 1, 0.36, 1) var(--about-reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.about-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section-copy {
+  display: grid;
+  gap: 14px;
+  width: min(720px, 100%);
+}
+.editorial-block--center .section-copy,
+.editorial-block--narrow .section-copy,
+.signature-intro .section-copy {
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--soft-line);
+}
+.editorial-visual {
   width: 100%;
   display: block;
-  margin: 74px 0 0;
-  border: 0;
-  border-radius: 0;
+  overflow: hidden;
+  background: #e7ddd1;
+  border: 1px solid var(--soft-line);
+}
+.editorial-visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
   object-fit: cover;
-  background: #e8e1d8;
 }
-.story-section {
-  margin-top: 72px;
+.editorial-breakout {
+  width: min(1120px, 100%);
+  margin-left: auto;
+  margin-right: auto;
 }
-.story-section h2 {
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-  font-size: clamp(36px, 7.4vw, 64px);
-  font-weight: 400;
-  line-height: 0.92;
-  letter-spacing: 0.01em;
-  color: #352d25;
+.editorial-visual--wide {
+  aspect-ratio: 16 / 9;
 }
-.story-section p {
-  margin-top: 20px;
-  font-size: clamp(17px, 4.1vw, 21px);
+.editorial-visual--large {
+  aspect-ratio: 16 / 8.6;
+}
+.editorial-visual--portrait {
+  aspect-ratio: 4 / 5;
+}
+.editorial-visual--square {
+  aspect-ratio: 1 / 1;
+}
+.about-portfolio-carousel {
+  width: 100%;
+  margin: 12px auto 0;
+  display: grid;
+  gap: 18px;
+}
+.about-portfolio-carousel-head {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+.about-portfolio-progress {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.64);
+}
+.about-portfolio-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.about-portfolio-arrow {
+  border: 0;
+  background: transparent;
+  color: #26201a;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.84;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.about-portfolio-arrow:hover,
+.about-portfolio-arrow:focus-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.about-portfolio-arrow:disabled {
+  opacity: 0.26;
+  cursor: default;
+}
+.about-portfolio-arrow svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.about-portfolio-viewport {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+}
+.about-portfolio-viewport::-webkit-scrollbar {
+  display: none;
+}
+.about-portfolio-track {
+  display: flex;
+  gap: clamp(12px, 1.4vw, 18px);
+  width: max-content;
+  min-width: 100%;
+}
+.about-portfolio-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  flex: 0 0 clamp(280px, 28vw, 360px);
+  scroll-snap-align: start;
+}
+.about-portfolio-card.is-clone {
+  pointer-events: none;
+}
+.about-portfolio-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: #f1f1f1;
+  border: 1px solid rgba(18, 14, 10, 0.08);
+  overflow: hidden;
+}
+.about-portfolio-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.about-portfolio-card:hover .about-portfolio-thumb img,
+.about-portfolio-card:focus-visible .about-portfolio-thumb img {
+  transform: scale(1.12);
+}
+.about-portfolio-title {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: #2f2a25;
+  text-transform: uppercase;
+  text-align: center;
+}
+.about-two-up {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: min(1120px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+.about-presence-note {
+  display: grid;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--soft-line);
+}
+.about-presence-note p {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 14px;
   line-height: 1.8;
-  color: #3f372f;
+  color: rgba(47, 41, 35, 0.76);
 }
-.lede-sentence {
-  font-size: 1em;
-  line-height: inherit;
+#foundation {
+  padding-top: 12px;
 }
-.story-section .story-image {
-  margin-top: 32px;
+#everyday,
+#team,
+#batam,
+#philosophy {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  text-align: center;
+}
+#everyday .section-title,
+#team .section-title,
+#batam .section-title,
+#philosophy .section-title,
+.signature-intro .section-title {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#everyday .section-title,
+#everyday .section-copy {
+  margin-left: auto;
+  margin-right: auto;
+}
+#everyday .editorial-visual,
+#team .about-two-up,
+#batam .about-two-up {
+  margin-top: 8px;
+}
+#everyday .editorial-visual img {
+  object-position: center center;
+}
+#team .editorial-visual img {
+  object-position: center;
+}
+#team .editorial-visual img.is-greyscale {
+  filter: grayscale(1);
+}
+#batam .editorial-visual img {
+  object-position: center;
+}
+.about-image-rotate-90 {
+  transform: rotate(-90deg) scale(1.28);
+  transform-origin: center;
+}
+.signature-section {
+  display: grid;
+  gap: 34px;
+  padding-top: 18px;
+  border-top: 1px solid var(--soft-line);
+}
+.signature-intro {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+.signature-intro .section-title {
+  max-width: 620px;
+  font-size: clamp(30px, 3.2vw, 50px);
+  line-height: 1.02;
+}
+.signature-intro .section-copy {
+  width: min(560px, 100%);
+  margin: 18px auto 0;
+}
+.signature-instruction {
+  margin-top: 4px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(47, 41, 35, 0.6);
+}
+.signature-canvas {
+  position: relative;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+.signature-artboard {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2046 / 1360;
+  overflow: hidden;
+  background: #eee8df;
+  border: 1px solid var(--soft-line);
+}
+.signature-bg,
+.signature-figure {
+  position: absolute;
+  inset: 0;
+}
+.signature-bg {
+  background: #eee8df url("assets/scene2-bg.webp") right center / cover no-repeat;
+  z-index: 1;
+}
+.signature-figure {
+  z-index: 2;
+}
+.signature-figure--fg1 { z-index: 2; }
+.signature-figure--fg2 { z-index: 3; }
+.signature-figure--fg3 { z-index: 4; }
+.signature-figure-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: right center;
+  transform: translateY(0) scale(1);
+  transform-origin: center;
+  opacity: 0.92;
+  filter: saturate(1.02);
+  transition: transform 280ms ease, opacity 280ms ease, filter 280ms ease;
+  pointer-events: none;
+}
+.signature-section.is-active .signature-figure-image {
+  opacity: 0.42;
+}
+.signature-figure.is-active .signature-figure-image,
+.signature-figure.is-hovered .signature-figure-image {
+  opacity: 1;
+  transform: translateY(-6px) scale(1.02);
+  filter: brightness(0.94);
+}
+.signature-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(860px, calc(100% - 32px));
+  z-index: 8;
+  pointer-events: none;
+}
+.signature-card {
+  display: none;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px 24px 22px;
+  background: rgba(22, 17, 14, 0.26);
+  border: 1px solid rgba(244, 238, 228, 0.2);
+  box-shadow: 0 0 0 1px rgba(191, 163, 128, 0.16), 0 12px 28px rgba(13, 10, 8, 0.16);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.signature-card.is-active {
+  display: block;
+}
+.signature-card h3 {
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 400;
+  color: #f4eee4;
+}
+.signature-card p {
+  margin-top: 10px;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  line-height: 1.82;
+  color: rgba(244, 238, 228, 0.94);
 }
 #site-footer {
   position: relative;
@@ -250,6 +718,25 @@ header::before {
   margin: 0 auto;
   display: grid;
   gap: 24px;
+}
+#site-footer .footer-closing {
+  text-align: center;
+  margin: 0 auto 6px;
+}
+#site-footer .footer-closing-quote {
+  margin: 0;
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-size: clamp(38px, 5vw, 70px);
+  line-height: 0.94;
+  color: rgba(248, 240, 232, 0.96);
+}
+#site-footer .footer-closing-author {
+  margin: 10px 0 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
 }
 #site-footer .footer-grid {
   display: grid;
@@ -310,7 +797,7 @@ header::before {
   text-decoration: underline;
   text-underline-offset: 2px;
   text-decoration-thickness: 1px;
-  font-family: "Fraunces", serif;
+  font-family: "Inter Tight", sans-serif;
   font-size: 14px;
   line-height: 1.04;
   letter-spacing: 0;
@@ -379,17 +866,6 @@ header::before {
 }
 @media (min-width: 900px) {
   header { padding: 0 24px; }
-  .about-story {
-    width: min(980px, 88vw);
-    padding: 118px 0 110px;
-  }
-  .hero-lead { max-width: 780px; }
-  .story-section {
-    margin-top: 88px;
-  }
-  .story-section .story-image {
-    margin-top: 40px;
-  }
   #site-footer {
     padding: 72px 0 84px;
   }
@@ -440,18 +916,15 @@ header::before {
     line-height: 0.85;
   }
 }
+@media (max-width: 1024px) {
+  .about-shell {
+    gap: 80px;
+  }
+  .signature-panel {
+    width: min(92vw, 760px);
+  }
+}
 @media (max-width: 899px) {
-  header {
-    padding: 0 14px;
-    height: 62px;
-  }
-  header::before,
-  .header-bar {
-    height: 62px;
-  }
-  .header-logo-text {
-    font-size: 28px;
-  }
   .header-contact {
     display: none;
   }
@@ -459,139 +932,372 @@ header::before {
   .menu-toggle {
     gap: 0;
   }
+  .menu-toggle {
+    padding: 0;
+  }
   .search-toggle .search-label,
   .menu-toggle .menu-label {
     display: none;
   }
-  .about-story {
-    padding-top: 94px;
+  .about-hero {
+    display: grid;
+    grid-template-areas:
+      "media"
+      "copy";
+    gap: 0;
   }
-  .hero-lead {
-    display: none;
+  .about-hero-media {
+    grid-area: media;
   }
-  .lede-sentence {
-    display: block;
-    font-size: 1.22em;
-    line-height: 1.55;
-    margin-bottom: 10px;
+  .about-hero-copy {
+    grid-area: copy;
+    position: static;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: none;
+    padding: 18px 14px 0;
+    gap: 10px;
+    background: var(--cream);
+    color: var(--ink);
+  }
+  .about-hero-media {
+    aspect-ratio: 4 / 5.65;
+  }
+  .about-hero-media::after {
+    background: linear-gradient(180deg, rgba(16, 11, 8, 0) 0%, rgba(16, 11, 8, 0.04) 62%, rgba(16, 11, 8, 0.22) 100%);
+  }
+  .about-hero-title {
+    font-size: clamp(22px, 7.4vw, 32px);
+    max-width: none;
+  }
+  .about-hero-subtitle {
+    font-size: 13px;
+    line-height: 1.62;
+    max-width: none;
+    color: rgba(47, 41, 35, 0.76);
+  }
+  .about-hero-controls {
+    grid-area: media;
+    position: relative;
+    justify-self: end;
+    align-self: end;
+    right: auto;
+    bottom: auto;
+    margin: 0 14px 14px 0;
+    gap: 12px;
+  }
+  .about-shell {
+    width: min(100vw - 28px, 760px);
+    padding: 58px 0 68px;
+    gap: 48px;
+  }
+  .section-title {
+    font-size: clamp(26px, 8vw, 36px);
+    line-height: 1.04;
+  }
+  .section-copy,
+  .section-copy p {
+    font-size: 14px;
+    line-height: 1.72;
+  }
+  .about-portfolio-carousel {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 14px;
+  }
+  .about-portfolio-carousel-head {
+    width: 100%;
+    margin: 0;
+    justify-content: space-between;
+  }
+  .about-portfolio-card {
+    flex-basis: min(68vw, 294px);
+    scroll-snap-align: center;
+  }
+  .about-portfolio-viewport {
+    scroll-snap-type: x mandatory;
+  }
+  .about-two-up {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .editorial-breakout,
+  .about-two-up {
+    width: 100%;
+  }
+  .signature-section {
+    gap: 22px;
+  }
+  .signature-intro {
+    max-width: 640px;
+  }
+  .signature-intro .section-title {
+    font-size: clamp(28px, 8.4vw, 38px);
+  }
+  .signature-intro .section-copy {
+    width: min(100%, 520px);
+  }
+  .signature-instruction {
+    font-size: 11px;
+  }
+  .signature-artboard {
+    aspect-ratio: 4 / 3.45;
+  }
+  .signature-panel {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: auto;
+    bottom: 14px;
+    transform: none;
+    width: auto;
+    margin-top: 0;
+    pointer-events: none;
+  }
+  .signature-card {
+    margin: 0;
+    padding: 14px 14px 16px;
+    background: rgba(18, 14, 11, 0.18);
+    border: 1px solid rgba(244, 238, 228, 0.16);
+    box-shadow: 0 10px 24px rgba(19, 13, 10, 0.14);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  .signature-card h3 {
+    font-size: 21px;
+    color: #f4eee4;
+  }
+  .signature-card p {
+    font-size: 14px;
+    line-height: 1.72;
+    color: rgba(244, 238, 228, 0.92);
   }
 }
 </style>
-<style>
-.search-toggle { display: none !important; }
-.menu-toggle { margin-left: auto !important; }
-</style>
 </head>
 <body>
-  <header>
-    <div class="header-bar">
-      <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Hubungi Kami</a>
-      <a class="header-logo" href="index.html#home" aria-label="Go to home page">
-        <span class="header-logo-text">Marvell Florist</span>
-      </a>
-      <a class="search-toggle" href="index.html?search" aria-label="Open search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
-        <span class="search-label">Cari</span>
-      </a>
-      <a class="menu-toggle" href="index.html#home" aria-label="Go to home">
-        <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span class="menu-label">Menu</span>
-      </a>
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="index.html#home" aria-label="Go to home page">
+      <span class="header-logo-text">Marvell Florist</span>
+    </a>
+    <a class="search-toggle" href="index.html?search" aria-label="Open search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open menu">
+      <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg></span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+<main class="about-page">
+  <section class="about-hero" aria-label="About Marvell Florist">
+    <div class="about-hero-media">
+      <video class="about-hero-video" autoplay muted loop playsinline preload="metadata" aria-label="About Marvell Florist hero video">
+        <source src="assets/about.mp4" type="video/mp4">
+      </video>
     </div>
-  </header>
-
-  <main class="about-story">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="index.html#home">Home</a>
-      <span>/</span>
-      <span>Tentang</span>
-      <span>/</span>
-      <span aria-current="page">Marvell Florist</span>
-    </nav>
-
-    <section class="hero" aria-label="About introduction">
-      <h1>Tentang Marvell Florist</h1>
-      <p class="hero-lead">Since 2006 we have served Batam with custom floral work built on consistency, detail, and trust.</p>
-      <img class="story-image" src="assets/service1.webp" alt="Editorial image of floral craft at Marvell Florist" loading="eager" decoding="async" fetchpriority="high">
-    </section>
-
-    <section class="story-section" id="journey" aria-label="Our Journey">
-      <h2>Our Journey</h2>
-      <p><span class="lede-sentence">Marvell Florist began as a small family business in 2006.</span>Over the years the shop has grown slowly through renovation, relocation, and continuous learning. What started as a neighborhood florist gradually became a place people return to for celebrations, condolences, and everyday gestures. Flowers remain a quiet way for people to express meaning, and that is the role we continue to serve today.</p>
-      <img class="story-image" src="assets/service2.webp" alt="Storefront and floral display representing the journey of Marvell Florist" loading="lazy" decoding="async">
-    </section>
-
-    <section class="story-section" id="craft" aria-label="Our Craft">
-      <h2>Our Craft</h2>
-      <p><span class="lede-sentence">Most arrangements at Marvell Florist are designed specifically for each customer.</span>Instead of following fixed templates, we focus on balance, color, and movement so every bouquet feels intentional and natural. Years of experience and professional training have shaped the way we approach floral work, allowing each arrangement to be assembled carefully with attention to detail.</p>
-      <img class="story-image" src="assets/service3.webp" alt="Editorial floral image representing craft and design detail" loading="lazy" decoding="async">
-    </section>
-
-    <section class="story-section" id="team" aria-label="Our Team">
-      <h2>Our Team</h2>
-      <p><span class="lede-sentence">Marvell Florist is supported by a small and experienced team that has worked together for many years.</span>Some members have been part of the shop since the early days, contributing to the consistency and character of the store. Every arrangement is prepared with care so customers receive flowers that feel thoughtful, balanced, and meaningful.</p>
-    </section>
-  </main>
-
-  <footer id="site-footer">
-    <div class="footer-inner">
-      <div class="footer-closing">
-        <p class="footer-closing-quote">&ldquo;I must have flowers, always and always.&rdquo;</p>
-        <p class="footer-closing-author">Claude Monet</p>
-      </div>
-
-      <div class="footer-grid">
-        <section class="footer-col" aria-label="Connect links">
-          <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-connect">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
-          <div class="footer-accordion-panel" id="footer-panel-connect">
-            <div class="footer-links">
-              <a class="footer-link" href="index.html#services">Hubungi Kami</a>
-              <a class="footer-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer"><span class="footer-link-icon footer-link-icon-whatsapp" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.52 3.48A11.86 11.86 0 0 0 12.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.14 1.6 5.93L0 24l6.33-1.67a11.77 11.77 0 0 0 5.73 1.47h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42zm-8.45 18.3h-.01a9.92 9.92 0 0 1-5.05-1.38l-.36-.21-3.76.99 1-3.66-.23-.38a9.9 9.9 0 0 1 8.4-15.16c5.48 0 9.93 4.46 9.93 9.94s-4.45 9.86-9.92 9.86zm5.44-7.45c-.3-.15-1.77-.88-2.04-.98s-.46-.15-.65.15-.75.98-.92 1.18-.34.23-.64.08a8.03 8.03 0 0 1-2.37-1.46 8.86 8.86 0 0 1-1.64-2.03c-.17-.3-.02-.46.13-.6.13-.13.3-.34.45-.5.15-.17.2-.3.3-.5.1-.2.05-.38-.02-.53s-.65-1.57-.89-2.15c-.23-.55-.47-.48-.65-.49h-.56c-.2 0-.53.08-.8.38s-1.05 1.03-1.05 2.52 1.08 2.92 1.23 3.12 2.12 3.24 5.14 4.54c.72.31 1.29.5 1.73.63.73.23 1.4.2 1.93.12.59-.09 1.77-.72 2.02-1.43.25-.7.25-1.3.18-1.43-.07-.12-.27-.2-.57-.35z"/></svg></span>WhatsApp</a>
-              <a class="footer-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer"><span class="footer-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.75a4 4 0 0 0-4 4v8.5a4 4 0 0 0 4 4h8.5a4 4 0 0 0 4-4v-8.5a4 4 0 0 0-4-4h-8.5zm8.94 1.31a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM12 6.5A5.5 5.5 0 1 1 6.5 12 5.5 5.5 0 0 1 12 6.5zm0 1.75A3.75 3.75 0 1 0 15.75 12 3.75 3.75 0 0 0 12 8.25z"/></svg></span>Instagram</a>
-              <a class="footer-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"><span class="footer-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.87.24-1.46 1.48-1.46h1.58V4.97A21.4 21.4 0 0 0 14.2 4c-2.28 0-3.84 1.39-3.84 3.95V11H7.8v3h2.56v8h3.14z"/></svg></span>Facebook</a>
-              <a class="footer-link" href="mailto:floristmarvell@gmail.com"><span class="footer-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm0 2v.2l9 5.9 9-5.9V7l-9 5.9L3 7zm0 2.6V17h18V9.6l-8.45 5.54a1 1 0 0 1-1.1 0L3 9.6z"/></svg></span>Email</a>
-            </div>
-            <div class="footer-descriptor" aria-label="Contact details">
-              <p>Email: floristmarvell@gmail.com</p>
-              <p>Whatsapp: 0811-6667-457</p>
-              <p>Alamat: Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah Blok C11, Teluk Tering, Batam Kota, Batam City, Riau Islands 29444</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="footer-col" id="footer-about-links" aria-label="About links">
-          <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-about">Tentang <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
-          <div class="footer-accordion-panel" id="footer-panel-about">
-            <ul class="footer-list">
-              <li><a class="footer-link" href="#journey">Perjalanan Kami</a></li>
-              <li><a class="footer-link" href="#craft">Karya Kami</a></li>
-              <li><a class="footer-link" href="#team">Tim Kami</a></li>
-            </ul>
-          </div>
-        </section>
-
-        <section class="footer-col" aria-label="Category links">
-          <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories">Kategori <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
-          <div class="footer-accordion-panel" id="footer-panel-categories">
-            <div class="footer-links">
-              <a class="footer-link" href="gallery.html?category=Parcels">Parcels</a>
-              <a class="footer-link" href="gallery.html?category=Bouquets">Bouquets</a>
-              <a class="footer-link" href="gallery.html?category=Standing%20Flowers">Standing Flowers</a>
-              <a class="footer-link" href="gallery.html?category=Papan%20Bunga">Papan Bunga</a>
-              <a class="footer-link" href="gallery.html?category=Artificial%20Flowers">Artificial Flowers</a>
-              <a class="footer-link" href="gallery.html?category=Funerals">Funerals</a>
-              <a class="footer-link" href="gallery.html?category=By%20Request">Pesanan Kustom</a>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="footer-bottom">
-        <p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privasi</a> · <a class="footer-legal-link" href="terms-conditions.html">Ketentuan</a> · © 2006–2026 Marvell Florist</p>
-      </div>
-      <div class="footer-brand" aria-hidden="true">Marvell Florist</div>
+    <div class="about-hero-copy">
+      <p class="about-hero-kicker" id="about-hero-kicker">About Marvell Florist</p>
+      <h1 class="about-hero-title" id="about-hero-title">About Marvell Florist</h1>
+      <p class="about-hero-subtitle" id="about-hero-subtitle">Rooted in thoughtful composition and restrained elegance, Marvell Florist approaches floral design as an experience. Layers of tone, movement, and texture are carefully assembled, allowing fresh, preserved, and artificial blooms to coexist in quiet harmony. From intimate bouquets to large-scale arrangements, each piece is tailored to its moment, reflecting the sentiment behind the gesture while maintaining a consistent language of softness, balance, and understated refinement.</p>
     </div>
-  </footer>
+    <div class="about-hero-controls" aria-label="Video controls">
+      <button class="about-hero-control about-hero-control--playback" type="button" data-about-hero-playback aria-label="Pause video">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <g class="icon-state icon-state-pause">
+            <path d="M9 6v12"></path>
+            <path d="M15 6v12"></path>
+          </g>
+          <path class="icon-state icon-state-play" d="m9 7 8 5-8 5z"></path>
+        </svg>
+      </button>
+      <button class="about-hero-control about-hero-control--sound is-muted" type="button" data-about-hero-sound aria-label="Unmute video">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <g class="icon-state icon-state-sound">
+            <path d="M11 5 6 9H3v6h3l5 4z"></path>
+            <path d="M15.5 9.5a4.5 4.5 0 0 1 0 5"></path>
+          </g>
+          <g class="icon-state icon-state-muted">
+            <path d="M11 5 6 9H3v6h3l5 4z"></path>
+            <path d="m15 9 5 6"></path>
+            <path d="m20 9-5 6"></path>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <div class="about-shell">
+    <section class="editorial-block editorial-block--center" id="foundation" aria-labelledby="about-foundation-title">
+      <p class="section-kicker" id="about-foundation-kicker">A family foundation</p>
+      <h2 class="section-title" id="about-foundation-title">Since 2006, a family florist shaped by patience, change, and continuity.</h2>
+      <div class="section-copy">
+        <p id="about-foundation-copy-1">Marvell Florist began as a family business in 2006. The name itself came from the founder's first-born child, and that sense of love has remained part of the brand from the beginning. Over time, the store has grown through relocation, renovation, and the quiet work of learning what customers need from flowers in real life.</p>
+        <p id="about-foundation-copy-2">What has remained constant is the way arrangements are approached: with patience, consistency, and respect for the meaning they are meant to carry. That same affection behind the name continues to translate into the work itself, in pieces made to feel personal, considered, and lasting.</p>
+      </div>
+      <div class="section-divider" aria-hidden="true"></div>
+    </section>
+
+    <section class="editorial-block editorial-block--narrow" id="everyday" aria-labelledby="about-everyday-title">
+      <p class="section-kicker" id="about-everyday-kicker">A florist shaped by everyday moments</p>
+      <h2 class="section-title" id="about-everyday-title">Celebrations, condolences, and the quieter gestures in between.</h2>
+      <div class="section-copy">
+        <p id="about-everyday-copy-1">The work at Marvell moves between ceremony and daily life: bouquets for graduation and birthdays, standing flowers for openings and condolences, parcels, table pieces, and arrangements prepared simply because someone wishes to send something thoughtful.</p>
+        <p id="about-everyday-copy-2">People return not because every order follows a fixed formula, but because the store understands that flowers often speak in place of words. That role in Batam’s everyday life is what gives the work its real continuity.</p>
+      </div>
+      <figure class="editorial-breakout editorial-visual editorial-visual--large">
+        <img src="assets/portfolio.webp" alt="A curated interior view of different floral arrangements in the Marvell Florist store" loading="lazy" decoding="async">
+      </figure>
+    </section>
+
+    <section class="editorial-block editorial-block--center" id="philosophy" aria-labelledby="about-philosophy-title">
+      <p class="section-kicker" id="about-philosophy-kicker">Form, colour, and composition</p>
+      <h2 class="section-title" id="about-philosophy-title">Crafted with balance and intention.</h2>
+      <div class="section-copy">
+        <p id="about-philosophy-copy-1">Custom work sits at the centre of the practice. Rather than relying only on fixed templates, arrangements are shaped through proportion, movement, colour, and the mood of the occasion.</p>
+        <p id="about-philosophy-copy-2">Years of experience and training continue to inform how each stem is placed, how each palette is softened, and how a piece comes together as a whole. The result is not just variety, but a recognisable sense of balance.</p>
+      </div>
+      <div class="about-portfolio-carousel" aria-label="Range of arrangement styles at Marvell Florist">
+        <div class="about-portfolio-carousel-head">
+          <div class="about-portfolio-progress" data-about-portfolio-progress>01 / 06</div>
+          <div class="about-portfolio-nav" aria-label="Portfolio carousel controls">
+            <button class="about-portfolio-arrow" type="button" data-about-portfolio-prev aria-label="Scroll portfolio categories left">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18 9 12l6-6"></path></svg>
+            </button>
+            <button class="about-portfolio-arrow" type="button" data-about-portfolio-next aria-label="Scroll portfolio categories right">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+            </button>
+          </div>
+        </div>
+        <div class="about-portfolio-viewport" data-about-portfolio-viewport>
+          <div class="about-portfolio-track">
+            <a class="about-portfolio-card" href="gallery.html?category=artificial-flowers" aria-label="Open Table Arrangements portfolio">
+              <div class="about-portfolio-thumb">
+                <img src="assets/artificialcover.webp" alt="Table Arrangements portfolio cover" loading="lazy" decoding="async">
+              </div>
+              <span class="about-portfolio-title" id="about-philosophy-label-5">Table arrangements</span>
+            </a>
+            <a class="about-portfolio-card" href="gallery.html?category=bouquets" aria-label="Open Bouquets portfolio">
+              <div class="about-portfolio-thumb">
+                <img src="assets/bouquetcover.webp" alt="Bouquets portfolio cover" loading="lazy" decoding="async">
+              </div>
+              <span class="about-portfolio-title" id="about-philosophy-label-1">Bouquets</span>
+            </a>
+            <a class="about-portfolio-card" href="gallery.html?category=papan-bunga" aria-label="Open Flower Boards portfolio">
+              <div class="about-portfolio-thumb">
+                <img src="assets/papancover.webp" alt="Flower Boards portfolio cover" loading="lazy" decoding="async">
+              </div>
+              <span class="about-portfolio-title" id="about-philosophy-label-3">Flower boards</span>
+            </a>
+            <a class="about-portfolio-card" href="gallery.html?category=parcels" aria-label="Open Parcels portfolio">
+              <div class="about-portfolio-thumb">
+                <img src="assets/parcelcover.webp" alt="Parcels portfolio cover" loading="lazy" decoding="async">
+              </div>
+              <span class="about-portfolio-title" id="about-philosophy-label-4">Parcels</span>
+            </a>
+            <a class="about-portfolio-card" href="gallery.html?category=funerals" aria-label="Open Funerals portfolio">
+              <div class="about-portfolio-thumb">
+                <img src="assets/funeral.webp" alt="Funerals portfolio cover" loading="lazy" decoding="async">
+              </div>
+              <span class="about-portfolio-title">Funerals</span>
+            </a>
+            <a class="about-portfolio-card" href="gallery.html?category=standing-flowers" aria-label="Open Standing Flowers portfolio">
+              <div class="about-portfolio-thumb">
+                <img src="assets/standingcover.webp" alt="Standing Flowers portfolio cover" loading="lazy" decoding="async">
+              </div>
+              <span class="about-portfolio-title" id="about-philosophy-label-2">Standing flowers</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="editorial-block editorial-block--narrow" id="team" aria-labelledby="about-team-title">
+      <p class="section-kicker" id="about-team-kicker">Craft, care, and the people behind it</p>
+      <h2 class="section-title" id="about-team-title">A team shaped by experience.</h2>
+      <div class="section-copy">
+        <p id="about-team-copy-1">Marvell is supported by a small team whose familiarity shows in the work. Some have been part of the store for years, and that consistency matters. It means orders are handled with attention, preparation feels steady rather than rushed, and customers receive arrangements that feel considered.</p>
+        <p id="about-team-copy-2">Behind each finished piece is a sequence of practical gestures: preparing stems, checking materials, wrapping, adjusting colour, and refining proportion. Care comes not from scale, but from people who know the rhythm of the store well.</p>
+      </div>
+      <div class="about-two-up">
+        <figure class="editorial-visual editorial-visual--portrait">
+          <img class="is-greyscale" src="assets/aboutteam.webp" alt="A florist preparing and holding a wrapped bouquet inside the store" loading="lazy" decoding="async">
+        </figure>
+        <figure class="editorial-visual editorial-visual--portrait">
+          <img class="about-image-rotate-90 is-greyscale" src="assets/aboutotherflower.webp" alt="A close-up of a bouquet being finished with ribbon and wrapping" loading="lazy" decoding="async">
+        </figure>
+      </div>
+    </section>
+
+    <section class="editorial-block editorial-block--narrow" id="batam" aria-labelledby="about-batam-title">
+      <p class="section-kicker" id="about-batam-kicker">Rooted in Batam</p>
+      <h2 class="section-title" id="about-batam-title">From our store in Batam.</h2>
+      <div class="section-copy">
+        <p id="about-batam-copy-1">Marvell remains grounded in the city it serves. Customers can visit the store, consult through WhatsApp, arrange collection, or coordinate local delivery depending on the occasion. The experience is personal and direct, shaped by conversation rather than a distant checkout flow.</p>
+        <div class="about-presence-note">
+          <p id="about-batam-copy-2">That local presence matters. It means arrangements are made with knowledge of the people, events, and everyday rhythms of Batam, while still leaving room for each order to feel individual.</p>
+        </div>
+      </div>
+      <div class="about-two-up">
+        <figure class="editorial-visual editorial-visual--portrait">
+          <img src="assets/service2.webp" alt="Exterior of the Marvell Florist storefront in Batam" loading="lazy" decoding="async">
+        </figure>
+        <figure class="editorial-visual editorial-visual--portrait">
+          <img src="assets/service3.webp" alt="Interior floral shelving inside Marvell Florist in Batam" loading="lazy" decoding="async">
+        </figure>
+      </div>
+    </section>
+
+    <section class="signature-section" id="signature" aria-labelledby="about-signature-title">
+      <div class="signature-intro">
+        <p class="section-kicker" id="about-signature-kicker">The final note</p>
+        <h2 class="section-title" id="about-signature-title">The quieter image behind Marvell.</h2>
+        <div class="section-copy">
+          <p id="about-signature-copy">Beyond the practical work of stems, ribbons, deliveries, and timing, Marvell is also shaped by memory, atmosphere, and the gentle drama that flowers can hold. This final section gathers those quieter ideas into one place.</p>
+        </div>
+        <p class="signature-instruction" id="signature-instruction">Hover or tap the figures to reveal each story.</p>
+      </div>
+      <div class="signature-canvas">
+        <div class="signature-artboard" aria-label="Interactive story scene inspired by Monet">
+          <div class="signature-bg" aria-hidden="true"></div>
+          <div class="signature-figure signature-figure--fg1" data-signature-target="fg1">
+            <img class="signature-figure-image" src="assets/scene2-fg1.webp" alt="Figure representing the people behind Marvell Florist" loading="lazy" decoding="async">
+          </div>
+          <div class="signature-figure signature-figure--fg2" data-signature-target="fg2">
+            <img class="signature-figure-image" src="assets/scene2-fg2.webp" alt="Figure representing the years that shaped Marvell Florist" loading="lazy" decoding="async">
+          </div>
+          <div class="signature-figure signature-figure--fg3" data-signature-target="fg3">
+            <img class="signature-figure-image" src="assets/scene2-fg3.webp" alt="Figure representing the way Marvell Florist composes arrangements" loading="lazy" decoding="async">
+          </div>
+          <div class="signature-panel" aria-live="polite">
+            <article class="signature-card" data-signature-card="fg2">
+              <h3 id="signature-card-title-journey">The years that shaped us</h3>
+              <p id="signature-card-copy-journey-1">Marvell grew through ordinary changes rather than sudden scale: moving spaces, renovating, learning, and continuing to show up for customers through different seasons of the city.</p>
+              <p id="signature-card-copy-journey-2">That slow continuity is part of the brand’s character. It gives the store a sense of familiarity that customers can feel, even when each order is made for a different moment.</p>
+            </article>
+            <article class="signature-card" data-signature-card="fg3">
+              <h3 id="signature-card-title-craft">The way we compose</h3>
+              <p id="signature-card-copy-craft-1">Every arrangement asks for judgement: how much softness to leave in a colour story, how much movement to give a bouquet, how to make a formal piece feel dignified without becoming stiff.</p>
+              <p id="signature-card-copy-craft-2">That is where composition matters most. Flowers are not only selected; they are arranged so the whole carries a mood that feels settled, balanced, and alive.</p>
+            </article>
+            <article class="signature-card" data-signature-card="fg1">
+              <h3 id="signature-card-title-team">The people who keep it personal</h3>
+              <p id="signature-card-copy-team-1">Customers do not only remember the flowers. They remember the feeling of being guided, listened to, and helped with care, especially when the order carries emotional weight.</p>
+              <p id="signature-card-copy-team-2">That human attention remains one of Marvell’s most important qualities. It is what keeps the store from feeling anonymous, even as the work continues to evolve.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
 
 <script>
 const footerColumns = Array.from(document.querySelectorAll("#site-footer .footer-col"));
@@ -601,9 +1307,7 @@ function refreshFooterAccordionState() {
   const isMobile = window.matchMedia("(max-width: 899px)").matches;
   footerColumns.forEach((column) => {
     if (!(column instanceof HTMLElement)) return;
-    if (!isMobile) {
-      column.classList.remove("is-open");
-    }
+    if (!isMobile) column.classList.remove("is-open");
   });
   footerToggles.forEach((toggle) => {
     if (!(toggle instanceof HTMLButtonElement)) return;
@@ -617,65 +1321,352 @@ footerToggles.forEach((toggle) => {
   if (!(toggle instanceof HTMLButtonElement)) return;
   toggle.addEventListener("click", () => {
     if (!window.matchMedia("(max-width: 899px)").matches) return;
-    const owner = toggle.closest(".footer-col");
-    if (!(owner instanceof HTMLElement)) return;
-    const shouldOpen = !owner.classList.contains("is-open");
-    footerColumns.forEach((column) => {
-      if (!(column instanceof HTMLElement)) return;
-      column.classList.remove("is-open");
-    });
-    if (shouldOpen) owner.classList.add("is-open");
+    const parent = toggle.closest(".footer-col");
+    if (!(parent instanceof HTMLElement)) return;
+    const willOpen = !parent.classList.contains("is-open");
+    footerColumns.forEach((column) => column.classList.remove("is-open"));
+    parent.classList.toggle("is-open", willOpen);
     refreshFooterAccordionState();
   });
 });
 
-window.addEventListener("resize", refreshFooterAccordionState, { passive: true });
-window.addEventListener("orientationchange", refreshFooterAccordionState, { passive: true });
+window.addEventListener("resize", refreshFooterAccordionState);
 refreshFooterAccordionState();
 
-function setupEarlyLazyImageWarmup() {
-  const bindLazyImage = (img, observer) => {
-    if (!(img instanceof HTMLImageElement)) return;
-    if (img.dataset.lazyWarmupBound === "1") return;
-    if ((img.getAttribute("loading") || "").toLowerCase() !== "lazy") return;
-    img.dataset.lazyWarmupBound = "1";
-    img.loading = "eager";
-    img.decoding = "async";
-    warmImage(img);
-    if (observer) observer.observe(img);
-  };
+const signatureSection = document.getElementById("signature");
+const signatureArtboard = signatureSection ? signatureSection.querySelector(".signature-artboard") : null;
+const signatureFigures = signatureSection ? Array.from(signatureSection.querySelectorAll(".signature-figure[data-signature-target]")) : [];
+const signatureCards = signatureSection ? Array.from(signatureSection.querySelectorAll(".signature-card[data-signature-card]")) : [];
+const signaturePixelSamplers = new WeakMap();
+const signatureHoverOrder = ["fg3", "fg2", "fg1"];
+const aboutRevealTargets = Array.from(document.querySelectorAll([
+  ".about-shell .section-copy p",
+  ".about-shell .editorial-breakout",
+  ".about-shell .about-two-up",
+  ".about-shell .about-portfolio-carousel",
+  ".signature-intro .section-copy p",
+  ".signature-instruction",
+  ".signature-canvas"
+].join(",")));
+const aboutPortfolioViewport = document.querySelector("[data-about-portfolio-viewport]");
+const aboutPortfolioCards = Array.from(document.querySelectorAll(".about-portfolio-card"));
+const aboutPortfolioPrev = document.querySelector("[data-about-portfolio-prev]");
+const aboutPortfolioNext = document.querySelector("[data-about-portfolio-next]");
+const aboutPortfolioProgress = document.querySelector("[data-about-portfolio-progress]");
+const aboutHeroVideo = document.querySelector(".about-hero-video");
+const aboutHeroPlaybackControl = document.querySelector("[data-about-hero-playback]");
+const aboutHeroSoundControl = document.querySelector("[data-about-hero-sound]");
 
-  const warmImage = (img) => {
-    if (!(img instanceof HTMLImageElement)) return;
-    img.loading = "eager";
-    img.decoding = "async";
-    const source = img.currentSrc || img.src;
-    if (!source) return;
-    const preloader = new Image();
-    preloader.decoding = "async";
-    preloader.src = source;
-  };
+aboutRevealTargets.forEach((target, index) => {
+  if (!(target instanceof HTMLElement)) return;
+  target.classList.add("about-scroll-reveal");
+  target.style.setProperty("--about-reveal-delay", `${(index % 4) * 70}ms`);
+});
 
-  const preloadMargin = window.matchMedia("(max-width: 768px)").matches ? 2600 : 3200;
-  const lazyObserver = typeof IntersectionObserver === "function"
-    ? new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const img = entry.target;
-        if (img instanceof HTMLImageElement) warmImage(img);
-        observer.unobserve(entry.target);
-      });
-    }, {
-      root: null,
-      rootMargin: `${preloadMargin}px 0px ${preloadMargin}px 0px`,
-      threshold: 0
-    })
-    : null;
+if ("IntersectionObserver" in window && aboutRevealTargets.length) {
+  const aboutRevealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      if (entry.target instanceof HTMLElement) {
+        entry.target.classList.add("is-visible");
+      }
+      observer.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.16,
+    rootMargin: "0px 0px -8% 0px"
+  });
 
-  document.querySelectorAll('img[loading="lazy"]').forEach((img) => bindLazyImage(img, lazyObserver));
+  aboutRevealTargets.forEach((target) => aboutRevealObserver.observe(target));
+} else {
+  aboutRevealTargets.forEach((target) => target.classList.add("is-visible"));
 }
 
-setupEarlyLazyImageWarmup();
+function updateAboutHeroControls() {
+  if (!(aboutHeroVideo instanceof HTMLVideoElement)) return;
+  if (aboutHeroPlaybackControl instanceof HTMLButtonElement) {
+    aboutHeroPlaybackControl.classList.toggle("is-paused", aboutHeroVideo.paused);
+    aboutHeroPlaybackControl.setAttribute("aria-label", aboutHeroVideo.paused ? "Play video" : "Pause video");
+  }
+  if (aboutHeroSoundControl instanceof HTMLButtonElement) {
+    const muted = aboutHeroVideo.muted || aboutHeroVideo.volume === 0;
+    aboutHeroSoundControl.classList.toggle("is-muted", muted);
+    aboutHeroSoundControl.setAttribute("aria-label", muted ? "Unmute video" : "Mute video");
+  }
+}
+
+if (aboutHeroVideo instanceof HTMLVideoElement) {
+  updateAboutHeroControls();
+  aboutHeroVideo.addEventListener("play", updateAboutHeroControls);
+  aboutHeroVideo.addEventListener("pause", updateAboutHeroControls);
+  aboutHeroVideo.addEventListener("volumechange", updateAboutHeroControls);
+}
+
+if (aboutHeroPlaybackControl instanceof HTMLButtonElement && aboutHeroVideo instanceof HTMLVideoElement) {
+  aboutHeroPlaybackControl.addEventListener("click", () => {
+    if (aboutHeroVideo.paused) {
+      aboutHeroVideo.play().catch(() => {});
+    } else {
+      aboutHeroVideo.pause();
+    }
+    updateAboutHeroControls();
+  });
+}
+
+if (aboutHeroSoundControl instanceof HTMLButtonElement && aboutHeroVideo instanceof HTMLVideoElement) {
+  aboutHeroSoundControl.addEventListener("click", () => {
+    aboutHeroVideo.muted = !aboutHeroVideo.muted;
+    if (!aboutHeroVideo.paused) {
+      aboutHeroVideo.play().catch(() => {});
+    }
+    updateAboutHeroControls();
+  });
+}
+
+function updateAboutPortfolioCarousel() {
+  if (!(aboutPortfolioViewport instanceof HTMLElement) || !aboutPortfolioCards.length) return;
+  const viewportCenter = aboutPortfolioViewport.scrollLeft + (aboutPortfolioViewport.clientWidth / 2);
+  let activeIndex = 0;
+  let closestDistance = Number.POSITIVE_INFINITY;
+
+  aboutPortfolioCards.forEach((card, index) => {
+    const distance = Math.abs((card.offsetLeft + (card.offsetWidth / 2)) - viewportCenter);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      activeIndex = index;
+    }
+  });
+
+  if (aboutPortfolioProgress) {
+    const current = String(activeIndex + 1).padStart(2, "0");
+    const total = String(aboutPortfolioCards.length).padStart(2, "0");
+    aboutPortfolioProgress.textContent = `${current} / ${total}`;
+  }
+
+  if (aboutPortfolioPrev instanceof HTMLButtonElement) {
+    aboutPortfolioPrev.disabled = false;
+  }
+  if (aboutPortfolioNext instanceof HTMLButtonElement) {
+    aboutPortfolioNext.disabled = false;
+  }
+}
+
+function getAboutPortfolioCards(currentViewport = aboutPortfolioViewport) {
+  if (!(currentViewport instanceof HTMLElement)) return [];
+  return Array.from(currentViewport.querySelectorAll(".about-portfolio-card"));
+}
+
+function getActiveAboutPortfolioCard(currentViewport = aboutPortfolioViewport) {
+  const cards = getAboutPortfolioCards(currentViewport);
+  if (!(currentViewport instanceof HTMLElement) || !cards.length) return null;
+  const viewportCenter = currentViewport.scrollLeft + (currentViewport.clientWidth / 2);
+  let activeCard = cards[0];
+  let closestDistance = Number.POSITIVE_INFINITY;
+  cards.forEach((card) => {
+    const distance = Math.abs((card.offsetLeft + (card.offsetWidth / 2)) - viewportCenter);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      activeCard = card;
+    }
+  });
+  return activeCard;
+}
+
+function centerAboutPortfolioCard(card, behavior = "smooth") {
+  if (!(aboutPortfolioViewport instanceof HTMLElement) || !(card instanceof HTMLElement)) return;
+  const targetLeft = card.offsetLeft - Math.max((aboutPortfolioViewport.clientWidth - card.offsetWidth) / 2, 0);
+  aboutPortfolioViewport.scrollTo({
+    left: Math.max(0, targetLeft),
+    behavior
+  });
+}
+
+function normalizeAboutPortfolioLoopPosition() {
+  if (!(aboutPortfolioViewport instanceof HTMLElement)) return;
+  const activeCard = getActiveAboutPortfolioCard(aboutPortfolioViewport);
+  if (!(activeCard instanceof HTMLElement) || activeCard.dataset.aboutPortfolioClone !== "true") return;
+  const targetKey = activeCard.dataset.aboutPortfolioSource || "";
+  if (!targetKey) return;
+  const realCard = aboutPortfolioCards.find((card) => card.dataset.aboutPortfolioKey === targetKey);
+  if (!(realCard instanceof HTMLElement)) return;
+  centerAboutPortfolioCard(realCard, "auto");
+}
+
+function scrollAboutPortfolio(direction) {
+  if (!(aboutPortfolioViewport instanceof HTMLElement) || !aboutPortfolioCards.length) return;
+  const cards = getAboutPortfolioCards(aboutPortfolioViewport);
+  const activeCard = getActiveAboutPortfolioCard(aboutPortfolioViewport);
+  if (!(activeCard instanceof HTMLElement) || !cards.length) return;
+  const activeIndex = cards.indexOf(activeCard);
+  const nextIndex = activeIndex + direction;
+  const fallbackIndex = direction > 0 ? 1 : cards.length - 2;
+  const targetCard = cards[nextIndex] || cards[fallbackIndex] || cards[0];
+  centerAboutPortfolioCard(targetCard, "smooth");
+}
+
+if (aboutPortfolioViewport instanceof HTMLElement && aboutPortfolioCards.length) {
+  aboutPortfolioCards.forEach((card, index) => {
+    card.dataset.aboutPortfolioKey = String(index);
+  });
+  const firstCardClone = aboutPortfolioCards[0].cloneNode(true);
+  const lastCardClone = aboutPortfolioCards[aboutPortfolioCards.length - 1].cloneNode(true);
+  if (firstCardClone instanceof HTMLElement && lastCardClone instanceof HTMLElement) {
+    [firstCardClone, lastCardClone].forEach((clone) => {
+      if (clone.id) clone.removeAttribute("id");
+      clone.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
+    });
+    firstCardClone.classList.add("is-clone");
+    lastCardClone.classList.add("is-clone");
+    firstCardClone.dataset.aboutPortfolioClone = "true";
+    lastCardClone.dataset.aboutPortfolioClone = "true";
+    firstCardClone.dataset.aboutPortfolioSource = aboutPortfolioCards[0].dataset.aboutPortfolioKey || "0";
+    lastCardClone.dataset.aboutPortfolioSource = aboutPortfolioCards[aboutPortfolioCards.length - 1].dataset.aboutPortfolioKey || String(aboutPortfolioCards.length - 1);
+    const track = aboutPortfolioViewport.querySelector(".about-portfolio-track");
+    if (track instanceof HTMLElement) {
+      track.insertBefore(lastCardClone, track.firstChild);
+      track.appendChild(firstCardClone);
+    }
+  }
+
+  updateAboutPortfolioCarousel();
+  let aboutPortfolioLoopTimer = 0;
+  const syncAboutPortfolioStart = () => {
+    if (!(aboutPortfolioCards[0] instanceof HTMLElement)) return;
+    centerAboutPortfolioCard(aboutPortfolioCards[0], "auto");
+    updateAboutPortfolioCarousel();
+  };
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(syncAboutPortfolioStart);
+  });
+  aboutPortfolioViewport.addEventListener("scroll", () => {
+    updateAboutPortfolioCarousel();
+    window.clearTimeout(aboutPortfolioLoopTimer);
+    aboutPortfolioLoopTimer = window.setTimeout(() => {
+      normalizeAboutPortfolioLoopPosition();
+      updateAboutPortfolioCarousel();
+    }, 140);
+  }, { passive: true });
+  window.addEventListener("resize", () => {
+    normalizeAboutPortfolioLoopPosition();
+    updateAboutPortfolioCarousel();
+  });
+  aboutPortfolioPrev?.addEventListener("click", () => scrollAboutPortfolio(-1));
+  aboutPortfolioNext?.addEventListener("click", () => scrollAboutPortfolio(1));
+}
+
+function setSignatureActive(targetKey, force = false) {
+  if (!signatureSection) return;
+  const currentKey = signatureSection.dataset.activeSignature || "";
+  const nextKey = force ? targetKey : (currentKey === targetKey ? "" : targetKey);
+  signatureSection.dataset.activeSignature = nextKey;
+  signatureSection.classList.toggle("is-active", Boolean(nextKey));
+
+  signatureFigures.forEach((figure) => {
+    const isActive = figure.dataset.signatureTarget === nextKey;
+    figure.classList.toggle("is-active", isActive);
+    figure.classList.toggle("is-hovered", isActive);
+  });
+
+  signatureCards.forEach((card) => {
+    card.classList.toggle("is-active", card.dataset.signatureCard === nextKey);
+  });
+}
+
+function prepareSignatureSampler(figure) {
+  const image = figure.querySelector(".signature-figure-image");
+  if (!(image instanceof HTMLImageElement)) return;
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return;
+  const source = new Image();
+  let ready = false;
+
+  source.src = image.currentSrc || image.src;
+  source.onload = () => {
+    canvas.width = source.naturalWidth || source.width;
+    canvas.height = source.naturalHeight || source.height;
+    if (!canvas.width || !canvas.height) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(source, 0, 0);
+    ready = true;
+  };
+
+  const sampler = (clientX, clientY) => {
+    if (!ready || !(signatureArtboard instanceof HTMLElement)) return 0;
+    const rect = signatureArtboard.getBoundingClientRect();
+    const localX = clientX - rect.left;
+    const localY = clientY - rect.top;
+    if (localX < 0 || localY < 0 || localX > rect.width || localY > rect.height) return 0;
+    const srcX = Math.floor((localX / rect.width) * canvas.width);
+    const srcY = Math.floor((localY / rect.height) * canvas.height);
+    if (srcX < 0 || srcY < 0 || srcX >= canvas.width || srcY >= canvas.height) return 0;
+    return ctx.getImageData(srcX, srcY, 1, 1).data[3];
+  };
+
+  signaturePixelSamplers.set(figure, sampler);
+}
+
+function getTopSignatureFigureAt(clientX, clientY) {
+  const ordered = signatureHoverOrder
+    .map((target) => signatureFigures.find((figure) => figure.dataset.signatureTarget === target))
+    .filter(Boolean);
+  for (const figure of ordered) {
+    const sample = signaturePixelSamplers.get(figure);
+    if (!sample) continue;
+    if (sample(clientX, clientY) > 10) return figure;
+  }
+  return null;
+}
+
+if (signatureSection && signatureArtboard) {
+  signatureFigures.forEach((figure) => prepareSignatureSampler(figure));
+
+  const isDesktopPointer = () => window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 1025px)").matches;
+  let lastSignatureTouchAt = 0;
+  const toggleSignatureTarget = (targetKey) => {
+    if (!targetKey) {
+      setSignatureActive("", true);
+      return;
+    }
+    setSignatureActive(targetKey, false);
+  };
+
+  signatureSection.addEventListener("mousemove", (event) => {
+    if (!isDesktopPointer()) return;
+    const activeFigure = getTopSignatureFigureAt(event.clientX, event.clientY);
+    const targetKey = activeFigure ? activeFigure.dataset.signatureTarget || "" : "";
+    setSignatureActive(targetKey, true);
+    signatureSection.style.cursor = targetKey ? "pointer" : "default";
+  });
+
+  signatureSection.addEventListener("mouseleave", () => {
+    if (!isDesktopPointer()) return;
+    setSignatureActive("", true);
+    signatureSection.style.cursor = "default";
+  });
+
+  signatureSection.addEventListener("click", (event) => {
+    if (isDesktopPointer()) return;
+    if (Date.now() - lastSignatureTouchAt < 520) return;
+    const activeFigure = getTopSignatureFigureAt(event.clientX, event.clientY);
+    const targetKey = activeFigure ? activeFigure.dataset.signatureTarget || "" : "";
+    toggleSignatureTarget(targetKey);
+  });
+
+  signatureSection.addEventListener("touchend", (event) => {
+    if (isDesktopPointer()) return;
+    lastSignatureTouchAt = Date.now();
+    const touch = event.changedTouches && event.changedTouches[0];
+    if (!touch) return;
+    const activeFigure = getTopSignatureFigureAt(touch.clientX, touch.clientY);
+    const targetKey = activeFigure ? activeFigure.dataset.signatureTarget || "" : "";
+    toggleSignatureTarget(targetKey);
+  }, { passive: true });
+}
 </script>
+<script src="assets/shared-contact.js?v=20260414g"></script>
+<script src="assets/shared-footer.js?v=20260423j"></script>
+<script src="assets/favorites.js?v=20260422b"></script>
+<script src="assets/secondary-menu.js?v=20260424e"></script>
 </body>
 </html>

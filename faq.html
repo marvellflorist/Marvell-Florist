@@ -13,8 +13,9 @@
   <meta property="og:url" content="https://marvellflorist.com/faq.html">
   <meta property="og:title" content="FAQ | Marvell Florist">
   <meta property="og:description" content="Frequently asked questions for Marvell Florist.">
-  <meta property="og:image" content="https://marvellflorist.com/assets/preview.png">
-  <meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png">
+  <meta property="og:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta property="og:image:url" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta property="og:image:secure_url" content="https://marvellflorist.com/assets/preview.png?v=2">
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,8 +23,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="FAQ | Marvell Florist">
   <meta name="twitter:description" content="Frequently asked questions for Marvell Florist.">
-  <meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png">
-  <script src="assets/site-language.js"></script>
+  <meta name="twitter:image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
+  <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
+<script src="assets/site-language.js?v=20260424a"></script>
+  <script src="assets/header-template.js?v=20260424b"></script>
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -31,7 +36,7 @@
   <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     @font-face {
       font-family: "Relationship of Melodrame";
@@ -46,6 +51,9 @@
       --ink: #2f2923;
       --muted: rgba(47, 41, 35, 0.74);
       --line: rgba(63, 54, 45, 0.16);
+      --legal-sidebar-width: clamp(168px, 15vw, 188px);
+      --legal-gap: clamp(18px, 2.8vw, 30px);
+      --legal-content-width: 760px;
     }
     * { box-sizing: border-box; }
     html {
@@ -55,7 +63,7 @@
       margin: 0;
       background: var(--bg);
       color: var(--ink);
-      font-family: "Fraunces", serif;
+      font-family: "Inter Tight", sans-serif;
     }
     header {
       position: fixed;
@@ -125,8 +133,8 @@
       margin-left: auto;
     }
     .search-toggle svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       display: block;
       stroke: currentColor;
       fill: none;
@@ -139,104 +147,232 @@
     }
     .menu-icon {
       display: inline-flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      justify-content: center;
     }
-    .menu-icon span {
-      width: 18px;
-      height: 2px;
-      background: rgba(42, 33, 24, 0.72);
+    .menu-icon svg {
+      width: 20px;
+      height: 20px;
       display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    html {
+      scroll-behavior: smooth;
     }
     main {
-      width: min(960px, 92vw);
+      width: min(1080px, calc(100vw - 32px));
       margin: 0 auto;
-      padding: 106px 0 64px;
+      padding: 106px 0 72px;
+    }
+    .legal-page {
       display: grid;
-      gap: 18px;
+      gap: 32px;
+      align-items: start;
+    }
+    .legal-intro {
+      display: grid;
+      gap: 0;
+      width: min(100%, var(--legal-content-width));
+      margin-left: calc(var(--legal-sidebar-width) + var(--legal-gap));
+      justify-items: center;
+      text-align: center;
     }
     h1 {
       margin: 0;
-      font-family: "Relationship of Melodrame", "Imperial Script", cursive;
-      font-size: clamp(42px, 8vw, 74px);
-      line-height: 0.9;
+      font-family: "Relationship of Melodrame", serif;
+      font-size: clamp(48px, 7vw, 88px);
+      line-height: 0.94;
       font-weight: 400;
+      letter-spacing: 0;
     }
     .lead {
-      margin: 0;
-      font-size: clamp(16px, 2vw, 19px);
-      line-height: 1.72;
-      color: var(--muted);
-      max-width: 70ch;
+      display: none;
     }
-    .faq-wrap {
-      margin-top: 4px;
-      border-top: 1px solid var(--line);
+    .legal-layout {
+      display: grid;
+      grid-template-columns: minmax(0, var(--legal-sidebar-width)) minmax(0, 1fr);
+      column-gap: var(--legal-gap);
+      justify-content: center;
+      align-items: start;
+    }
+    .legal-content {
+      grid-column: 2;
+      grid-row: 1;
+      display: grid;
+      gap: 26px;
+      min-width: 0;
+      width: 100%;
+      max-width: var(--legal-content-width);
+    }
+    .legal-summary,
+    .legal-card,
+    .legal-suite,
+    .legal-toc {
+      border: 0;
       background: transparent;
     }
-    .faq-item {
-      border-bottom: 1px solid var(--line);
+    .legal-summary {
+      padding: 0 0 2px;
+      display: grid;
+      gap: 8px;
     }
-    .faq-item:last-child {
-      border-bottom: 0;
+    .legal-summary p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.78;
+      color: var(--muted);
     }
-    .faq-toggle {
-      width: 100%;
-      border: 0;
-      background: none;
-      padding: 19px 2px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      text-align: left;
-      cursor: pointer;
+    .legal-card {
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      scroll-margin-top: 92px;
+    }
+    .legal-card + .legal-card {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+    .legal-card-head {
+      display: grid;
+      gap: 6px;
+      align-items: start;
+    }
+    .legal-card-index {
+      margin: 0;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(47, 41, 35, 0.52);
+    }
+    .legal-card-title {
+      margin: 0;
       font-family: "Inter Tight", sans-serif;
       font-size: 15px;
-      letter-spacing: 0.01em;
-      line-height: 1.35;
-      color: rgba(42, 33, 24, 0.94);
+      line-height: 1.45;
       font-weight: 600;
+      color: var(--ink);
     }
-    .faq-icon {
-      font-size: 18px;
-      line-height: 1;
-      color: rgba(42, 33, 24, 0.66);
-      transition: transform 0.24s ease;
-      flex: 0 0 auto;
+    .legal-card-body {
+      display: grid;
+      gap: 10px;
     }
-    .faq-panel {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 320ms ease, opacity 220ms ease;
-    }
-    .faq-item.is-open .faq-panel {
-      opacity: 1;
-    }
-    .faq-item.is-open .faq-icon {
-      transform: rotate(45deg);
-    }
-    .faq-content {
-      padding: 0 2px 22px;
-      font-family: "Fraunces", serif;
-      font-size: clamp(16px, 2vw, 18px);
-      line-height: 1.72;
-      color: var(--muted);
+    .legal-card-body p,
+    .legal-card-body li {
       margin: 0;
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--muted);
     }
-    @media (max-width: 768px) {
-      header {
-        height: 62px;
-        padding: 0 14px;
+    .legal-card-body ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+    }
+    .legal-sidebar {
+      grid-column: 1;
+      grid-row: 1;
+      width: 100%;
+      position: sticky;
+      top: 96px;
+      align-self: start;
+      display: grid;
+      gap: 18px;
+      padding-top: 6px;
+      min-width: 0;
+      z-index: 2;
+    }
+    .legal-suite,
+    .legal-toc {
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+    .legal-suite {
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .legal-suite-label,
+    .legal-toc-label {
+      margin: 0;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(47, 41, 35, 0.58);
+    }
+    .legal-suite-nav,
+    .legal-toc-nav {
+      display: grid;
+      gap: 8px;
+    }
+    .legal-suite-link,
+    .legal-toc-link {
+      display: block;
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: rgba(42, 33, 24, 0.82);
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 1.45;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      overflow-wrap: anywhere;
+    }
+    .legal-suite-link.is-active {
+      color: rgba(42, 33, 24, 0.98);
+    }
+    .legal-suite-link:hover,
+    .legal-suite-link:focus-visible,
+    .legal-toc-link:hover,
+    .legal-toc-link:focus-visible {
+      text-decoration: underline;
+      text-underline-offset: 0.1em;
+      outline: none;
+    }
+    .legal-toc-link {
+      color: rgba(47, 41, 35, 0.76);
+    }
+    @media (max-width: 920px) {
+      .legal-intro {
+        width: 100%;
+        margin-left: 0;
       }
-      header::before,
-      .header-bar {
-        height: 62px;
+      .legal-page {
+        gap: 16px;
       }
-      .header-logo-text {
-        font-size: 28px;
+      .legal-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        justify-content: stretch;
       }
+      .legal-content,
+      .legal-sidebar {
+        grid-column: 1;
+        grid-row: auto;
+        position: static;
+        width: auto;
+        padding-top: 0;
+      }
+      .legal-sidebar {
+        order: 1;
+      }
+      .legal-content {
+        order: 2;
+      }
+      .legal-toc {
+        order: 1;
+      }
+      .legal-suite {
+        order: 2;
+      }
+    }
+    @media (max-width: 899px) {
       .header-contact {
         display: none;
       }
@@ -244,18 +380,40 @@
       .menu-toggle {
         gap: 0;
       }
+      .menu-toggle {
+        padding: 0;
+      }
       .search-toggle .search-label,
       .menu-toggle .menu-label {
         display: none;
       }
+    }
+    @media (max-width: 768px) {
       main {
-        padding-top: 92px;
+        width: min(100vw - 24px, 760px);
+        padding-top: 102px;
+        padding-bottom: 56px;
+      }
+      h1 {
+        font-size: clamp(42px, 15vw, 64px);
+      }
+      .legal-card-head {
+        gap: 10px;
+      }
+      .legal-card-title {
+        font-size: 14px;
+      }
+      .legal-card-body p,
+      .legal-card-body li,
+      .legal-summary p,
+      .lead {
+        font-size: 12px;
+      }
+      .legal-suite-link,
+      .legal-toc-link {
+        font-size: 11px;
       }
     }
-</style>
-<style>
-.search-toggle { display: none !important; }
-.menu-toggle { margin-left: auto !important; }
 </style>
 </head>
 <body>
@@ -266,102 +424,208 @@
         <span class="header-logo-text">Marvell Florist</span>
       </a>
       <a class="search-toggle" href="index.html?search" aria-label="Open search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="16.65" y1="16.65" x2="21" y2="21"></line></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
         <span class="search-label">Cari</span>
       </a>
-      <a class="menu-toggle" href="index.html#home" aria-label="Go to home">
-        <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+      <button class="menu-toggle" type="button" aria-label="Open menu">
+        <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg></span>
         <span class="menu-label">Menu</span>
-      </a>
+      </button>
     </div>
   </header>
   <main>
-    <h1>Pertanyaan yang Sering Diajukan</h1>
-    <p class="lead">Temukan jawaban singkat untuk pertanyaan yang paling sering diajukan sebelum melakukan pemesanan.</p>
-    <section class="faq-wrap" id="faq-wrap" aria-label="Frequently asked questions"></section>
+    <div class="legal-page">
+      <div class="legal-intro">
+        <h1>Frequently Asked Questions</h1>
+        <p class="lead">Short answers to the questions customers usually ask before placing an order, arranging delivery, or requesting something custom.</p>
+      </div>
+      <div class="legal-layout">
+        <div class="legal-content">
+          <section class="legal-summary" aria-label="FAQ summary">
+            <p>Every Marvell order begins with a conversation. These notes are here to make the process easier to understand before you message us.</p>
+          </section>
+
+          <section class="legal-card" id="faq-01">
+            <div class="legal-card-head">
+              <p class="legal-card-index">01</p>
+              <h2 class="legal-card-title">How do orders begin?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Orders begin through consultation, usually on WhatsApp. We confirm the occasion, arrangement type, reference, timing, approximate pricing, and delivery details before anything is prepared.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="faq-02">
+            <div class="legal-card-head">
+              <p class="legal-card-index">02</p>
+              <h2 class="legal-card-title">How quickly can an arrangement be prepared?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Preparation time depends on the type of arrangement. Simpler pieces can often be prepared quickly, while larger or more detailed work needs more time.</p>
+              <p>Urgent requests are reviewed case by case.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="faq-03">
+            <div class="legal-card-head">
+              <p class="legal-card-index">03</p>
+              <h2 class="legal-card-title">Do you offer same-day delivery?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Yes, same-day delivery may be possible in Batam depending on the design, flower availability, courier timing, and how soon the request comes in.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="faq-04">
+            <div class="legal-card-head">
+              <p class="legal-card-index">04</p>
+              <h2 class="legal-card-title">Can I request a custom design or send a reference?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Yes. Customers may send inspiration images, preferred colors, or style directions. Custom work is part of the process and is confirmed through consultation.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="faq-05">
+            <div class="legal-card-head">
+              <p class="legal-card-index">05</p>
+              <h2 class="legal-card-title">Will the flowers match the reference exactly?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Not exactly. Each arrangement is made by hand, and availability changes with season, stock, and material conditions. When substitutions are needed, we keep the overall character and quality of the arrangement.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="faq-06">
+            <div class="legal-card-head">
+              <p class="legal-card-index">06</p>
+              <h2 class="legal-card-title">How is payment handled?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Payment is arranged after consultation and is required before the order is confirmed. The website does not use a self-serve checkout, so production only begins after the order has been approved and payment has been received.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="faq-07">
+            <div class="legal-card-head">
+              <p class="legal-card-index">07</p>
+              <h2 class="legal-card-title">Can I change or cancel an order?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>Changes may be possible before production starts. Cancellations are usually only possible before preparation begins, depending on the stage of the order.</p>
+            </div>
+          </section>
+
+          <section class="legal-card" id="faq-08">
+            <div class="legal-card-head">
+              <p class="legal-card-index">08</p>
+              <h2 class="legal-card-title">How do I contact Marvell Florist?</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>WhatsApp is the fastest way to begin. You can also reach us through Instagram or email for follow-up questions.</p>
+              <ul>
+                <li>WhatsApp: +62 812 7501 7456</li>
+                <li>Email: floristmarvell@gmail.com</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <aside class="legal-sidebar">
+          <section class="legal-suite">
+            <p class="legal-suite-label">Customer Information</p>
+            <nav class="legal-suite-nav" aria-label="Customer information pages">
+              <a class="legal-suite-link is-active" href="faq.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">FAQ</a>
+              <a class="legal-suite-link" href="privacy-policy.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">Privacy</a>
+              <a class="legal-suite-link" href="terms-conditions.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">Terms</a>
+              <a class="legal-suite-link" href="contact.html?lang=en" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">Contact</a>
+            </nav>
+          </section>
+          <section class="legal-toc" aria-label="FAQ contents">
+            <p class="legal-toc-label">Contents</p>
+            <nav class="legal-toc-nav">
+              <a class="legal-toc-link" href="#faq-01" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-01', event) : true;">01. How orders begin</a>
+              <a class="legal-toc-link" href="#faq-02" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-02', event) : true;">02. Preparation timing</a>
+              <a class="legal-toc-link" href="#faq-03" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-03', event) : true;">03. Same-day delivery</a>
+              <a class="legal-toc-link" href="#faq-04" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-04', event) : true;">04. Custom requests</a>
+              <a class="legal-toc-link" href="#faq-05" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-05', event) : true;">05. Reference accuracy</a>
+              <a class="legal-toc-link" href="#faq-06" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-06', event) : true;">06. Payment</a>
+              <a class="legal-toc-link" href="#faq-07" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-07', event) : true;">07. Changes and cancellations</a>
+              <a class="legal-toc-link" href="#faq-08" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-08', event) : true;">08. Contact</a>
+            </nav>
+          </section>
+        </aside>
+      </div>
+    </div>
   </main>
 
+  <script src="assets/shared-contact.js?v=20260414g"></script>
+  <script src="assets/shared-footer.js?v=20260423j"></script>
+<script src="assets/favorites.js?v=20260422b"></script>
+<script src="assets/secondary-menu.js?v=20260424e"></script>
   <script>
-    const FAQ_ITEMS = [
-      {
-        question: "Bagaimana cara melakukan pemesanan?",
-        answer: "Seluruh pesanan dilakukan melalui konsultasi. Anda dapat menghubungi kami melalui WhatsApp untuk mendiskusikan kebutuhan, preferensi desain, serta detail pesanan Anda."
-      },
-      {
-        question: "Mengapa sebagian produk tidak memiliki harga tetap?",
-        answer: "Sebagian besar rangkaian kami dibuat secara khusus. Harga akhir akan disesuaikan dengan pilihan bunga, ukuran, serta tingkat kompleksitas desain."
-      },
-      {
-        question: "Apakah tersedia daftar harga bunga segar?",
-        answer: "Ya, kami menyediakan daftar harga untuk bunga potong segar. Namun, ketersediaan dan harga dapat berubah mengikuti kondisi pasar dan stok."
-      },
-      {
-        question: "Apakah semua produk selalu tersedia?",
-        answer: "Ketersediaan bunga dan rangkaian dapat berbeda tergantung musim dan stok. Kami menyarankan untuk melakukan konfirmasi terlebih dahulu sebelum melakukan pemesanan."
-      },
-      {
-        question: "Apakah saya dapat memesan desain khusus?",
-        answer: "Tentu. Kami menerima pesanan khusus yang dirancang sesuai dengan kebutuhan, tema, dan momen yang ingin Anda rayakan."
-      },
-      {
-        question: "Apakah tersedia layanan pengiriman?",
-        answer: "Kami menyediakan layanan pengiriman untuk area Batam. Biaya pengiriman akan disesuaikan dengan lokasi tujuan."
-      },
-      {
-        question: "Apakah memungkinkan untuk pemesanan di hari yang sama?",
-        answer: "Pemesanan di hari yang sama dapat dilakukan tergantung pada ketersediaan dan kompleksitas pesanan. Silakan hubungi kami untuk konfirmasi lebih lanjut."
-      },
-      {
-        question: "Metode pembayaran apa yang tersedia?",
-        answer: "Kami menerima pembayaran melalui transfer bank, tunai, serta metode pembayaran lain yang tersedia."
-      },
-      {
-        question: "Kapan pesanan saya dianggap selesai dikonfirmasi?",
-        answer: "Pesanan akan diproses setelah detail desain disepakati dan pembayaran telah diterima."
-      },
-      {
-        question: "Apakah pesanan dapat diubah atau dibatalkan?",
-        answer: "Perubahan atau pembatalan dapat dilakukan selama pesanan belum memasuki tahap produksi. Silakan hubungi kami sesegera mungkin untuk bantuan lebih lanjut."
+    (function () {
+      window.MarvellLegalNav = window.MarvellLegalNav || {
+        go: function (href, event) {
+          if (event) event.preventDefault();
+          window.location.href = href;
+          return false;
+        },
+        jump: function (id, event) {
+          if (event) event.preventDefault();
+          var target = document.getElementById(id);
+          if (!(target instanceof HTMLElement)) return false;
+          var top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
+          window.history.replaceState(null, "", "#" + id);
+          window.scrollTo({ top: top, behavior: "smooth" });
+          return false;
+        }
+      };
+
+      function bindLegalLinks() {
+        document.addEventListener("click", function (event) {
+          var link = event.target && event.target.closest ? event.target.closest(".legal-suite-link, .legal-toc-link") : null;
+          if (!(link instanceof HTMLAnchorElement)) return;
+          if (event.defaultPrevented) return;
+          if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+          var href = link.getAttribute("href") || "";
+          if (!href) return;
+
+          if (href.charAt(0) === "#") {
+            var target = document.getElementById(href.slice(1));
+            if (!(target instanceof HTMLElement)) return;
+            event.preventDefault();
+            var top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
+            window.history.replaceState(null, "", href);
+            window.scrollTo({ top: top, behavior: "smooth" });
+            return;
+          }
+
+          try {
+            var destination = new URL(link.href, window.location.href);
+            if (destination.origin === window.location.origin && destination.pathname === window.location.pathname && destination.hash) {
+              var hashTarget = document.getElementById(destination.hash.slice(1));
+              if (!(hashTarget instanceof HTMLElement)) return;
+              event.preventDefault();
+              var hashTop = Math.max(0, hashTarget.getBoundingClientRect().top + window.scrollY - 96);
+              window.history.replaceState(null, "", destination.hash);
+              window.scrollTo({ top: hashTop, behavior: "smooth" });
+              return;
+            }
+          } catch (_error) {}
+
+          event.preventDefault();
+          window.location.href = link.href;
+        }, true);
       }
-    ];
 
-    const faqWrap = document.getElementById("faq-wrap");
-    if (faqWrap) {
-      faqWrap.innerHTML = FAQ_ITEMS.map((item) => `
-        <article class="faq-item">
-          <button class="faq-toggle" type="button" aria-expanded="false">
-            <strong>${item.question}</strong>
-            <span class="faq-icon" aria-hidden="true">+</span>
-          </button>
-          <div class="faq-panel">
-            <p class="faq-content">${item.answer}</p>
-          </div>
-        </article>
-      `).join("");
-
-      const items = Array.from(faqWrap.querySelectorAll(".faq-item"));
-      items.forEach((item) => {
-        const toggle = item.querySelector(".faq-toggle");
-        const panel = item.querySelector(".faq-panel");
-        if (!(toggle instanceof HTMLButtonElement) || !(panel instanceof HTMLElement)) return;
-
-        toggle.addEventListener("click", () => {
-          const shouldOpen = !item.classList.contains("is-open");
-          items.forEach((other) => {
-            const otherToggle = other.querySelector(".faq-toggle");
-            const otherPanel = other.querySelector(".faq-panel");
-            if (otherToggle instanceof HTMLButtonElement) otherToggle.setAttribute("aria-expanded", "false");
-            if (otherPanel instanceof HTMLElement) otherPanel.style.maxHeight = "0px";
-            other.classList.remove("is-open");
-          });
-
-          if (!shouldOpen) return;
-          item.classList.add("is-open");
-          toggle.setAttribute("aria-expanded", "true");
-          panel.style.maxHeight = `${panel.scrollHeight}px`;
-        });
-      });
-    }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", bindLegalLinks, { once: true });
+      } else {
+        bindLegalLinks();
+      }
+    })();
   </script>
 </body>
 </html>
