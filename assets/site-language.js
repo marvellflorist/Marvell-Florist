@@ -448,6 +448,55 @@
     return "";
   }
 
+  function resolveHrefUrl(value) {
+    try {
+      return new URL(String(value || ""), window.location.href);
+    } catch (_error) {
+      return null;
+    }
+  }
+
+  function normalizePathname(pathname) {
+    const normalized = String(pathname || "").trim().replace(/\/+$/, "").toLowerCase();
+    return normalized || "/";
+  }
+
+  function hrefPathname(value) {
+    const url = resolveHrefUrl(value);
+    if (url) return normalizePathname(url.pathname);
+    const raw = String(value || "").trim();
+    if (!raw || raw.startsWith("#")) return "";
+    const path = raw.split("#")[0].split("?")[0].replace(/^\/+/, "");
+    return normalizePathname(`/${path}`);
+  }
+
+  function hrefHash(value) {
+    const url = resolveHrefUrl(value);
+    if (url) return String(url.hash || "").toLowerCase();
+    const raw = String(value || "");
+    const hashIndex = raw.indexOf("#");
+    return hashIndex >= 0 ? raw.slice(hashIndex).toLowerCase() : "";
+  }
+
+  function hrefTargetsPage(value, page) {
+    const pathname = hrefPathname(value);
+    return pathname === `/${page}` || pathname === `/${page}.html`;
+  }
+
+  function hrefTargetsHome(value) {
+    const pathname = hrefPathname(value);
+    return pathname === "/" || pathname === "/index.html";
+  }
+
+  function hrefSearchParam(value, key) {
+    const url = resolveHrefUrl(value);
+    return url ? String(url.searchParams.get(key) || "") : "";
+  }
+
+  function isGalleryCategoryHref(value) {
+    return hrefTargetsPage(value, "gallery") && Boolean(hrefSearchParam(value, "category"));
+  }
+
   function normalizeKey(value) {
     return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
   }
@@ -690,19 +739,20 @@
         return;
       }
       const href = node.getAttribute("href") || "";
-      if (href === "about.html" || href === "#about") setText(node, t("About", "Tentang"));
-      if (href.includes("#services") || href.includes("services.html")) setText(node, t("Services", "Layanan"));
-      if (href.includes("custom-arrangements.html")) setText(node, t("Custom Arrangements", "Rangkaian Kustom"));
-      if (href.includes("journals.html")) setText(node, t("The Journals", "Jurnal"));
+      if (hrefTargetsPage(href, "about") || hrefHash(href) === "#about") setText(node, t("About", "Tentang"));
+      if (hrefHash(href) === "#services" || hrefTargetsPage(href, "services")) setText(node, t("Services", "Layanan"));
+      if (hrefTargetsPage(href, "custom-arrangements")) setText(node, t("Custom Arrangements", "Rangkaian Kustom"));
+      if (hrefTargetsPage(href, "journals")) setText(node, t("The Journals", "Jurnal"));
       if (href.includes("#reviews")) setText(node, t("Reviews", "Ulasan"));
-      if ((href.includes("#featured") || href.includes("featured.html")) && node.dataset.seasonalManaged !== "true") {
+      if ((hrefHash(href) === "#featured" || hrefTargetsPage(href, "featured")) && node.dataset.seasonalManaged !== "true") {
         setText(node, t("Collections", "Koleksi"));
       }
-      if (href.includes("gallery.html?category=")) {
-        const category = new URL(node instanceof HTMLAnchorElement ? node.href : href, window.location.href).searchParams.get("category") || "";
+      if (isGalleryCategoryHref(href)) {
+        const category = hrefSearchParam(node instanceof HTMLAnchorElement ? node.href : href, "category");
         setText(node, localizeCategory(category));
       }
-      if (href.includes("gallery.html?category=By%20Request") || href.includes("gallery.html?category=by-request")) {
+      const categoryParam = hrefSearchParam(node instanceof HTMLAnchorElement ? node.href : href, "category").toLowerCase();
+      if (categoryParam === "by request" || categoryParam === "by-request") {
         setText(node, t("By Request", "Sesuai Permintaan"));
       }
     });
@@ -800,26 +850,26 @@
       if (link.dataset.seasonalManaged === "true") {
         setText(link, localizeSeasonalCollectionLabel(link.dataset.seasonalLabel || link.textContent || ""));
       }
-      if (href.includes("#services") || href.includes("services.html#consultation")) setText(link, t("Contact Us", "Hubungi Kami"));
-      if (href.includes("custom-arrangements.html")) setText(link, t("Custom Arrangements", "Rangkaian Kustom"));
-      if (href.includes("journals.html")) setText(link, t("The Journals", "Jurnal"));
-      if (href.includes("privacy-policy.html")) setText(link, t("Privacy", "Privasi"));
-      if (href.includes("terms-conditions.html")) setText(link, t("Terms", "Ketentuan"));
-      if (href.includes("faq.html")) setText(link, t("FAQ", "FAQ"));
-      if ((href.includes("#featured") || href.includes("featured.html")) && link.dataset.seasonalManaged !== "true") {
+      if (hrefHash(href) === "#services" || (hrefTargetsPage(href, "services") && hrefHash(href) === "#consultation")) setText(link, t("Contact Us", "Hubungi Kami"));
+      if (hrefTargetsPage(href, "custom-arrangements")) setText(link, t("Custom Arrangements", "Rangkaian Kustom"));
+      if (hrefTargetsPage(href, "journals")) setText(link, t("The Journals", "Jurnal"));
+      if (hrefTargetsPage(href, "privacy-policy")) setText(link, t("Privacy", "Privasi"));
+      if (hrefTargetsPage(href, "terms-conditions")) setText(link, t("Terms", "Ketentuan"));
+      if (hrefTargetsPage(href, "faq")) setText(link, t("FAQ", "FAQ"));
+      if ((hrefHash(href) === "#featured" || hrefTargetsPage(href, "featured")) && link.dataset.seasonalManaged !== "true") {
         setText(link, t("Collections", "Koleksi"));
       }
-      if (href.includes("gallery.html?category=")) {
-        const category = new URL(link.href, window.location.href).searchParams.get("category") || "";
+      if (isGalleryCategoryHref(href)) {
+        const category = hrefSearchParam(link.href, "category");
         setText(link, localizeCategory(category));
       }
-      if (href.includes("about.html#journey") || href === "#journey") setText(link, t("Our Journey", "Perjalanan Kami"));
-      if (href.includes("about.html#craft") || href === "#craft") setText(link, t("Our Craft", "Karya Kami"));
-      if (href.includes("about.html#team") || href === "#team") setText(link, t("Our Team", "Tim Kami"));
-      if (href.includes("about.html#foundation") || href === "#foundation") setText(link, t("Our Journey", "Perjalanan Kami"));
-      if (href.includes("about.html#philosophy") || href === "#philosophy") setText(link, t("Our Craft", "Karya Kami"));
-      if (href.includes("about.html#batam") || href === "#batam") setText(link, t("Rooted in Batam", "Berakar di Batam"));
-      if (href.includes("about.html#signature") || href === "#signature") setText(link, t("Signature Story", "Kisah Khas Kami"));
+      if ((hrefTargetsPage(href, "about") && hrefHash(href) === "#journey") || href === "#journey") setText(link, t("Our Journey", "Perjalanan Kami"));
+      if ((hrefTargetsPage(href, "about") && hrefHash(href) === "#craft") || href === "#craft") setText(link, t("Our Craft", "Karya Kami"));
+      if ((hrefTargetsPage(href, "about") && hrefHash(href) === "#team") || href === "#team") setText(link, t("Our Team", "Tim Kami"));
+      if ((hrefTargetsPage(href, "about") && hrefHash(href) === "#foundation") || href === "#foundation") setText(link, t("Our Journey", "Perjalanan Kami"));
+      if ((hrefTargetsPage(href, "about") && hrefHash(href) === "#philosophy") || href === "#philosophy") setText(link, t("Our Craft", "Karya Kami"));
+      if ((hrefTargetsPage(href, "about") && hrefHash(href) === "#batam") || href === "#batam") setText(link, t("Rooted in Batam", "Berakar di Batam"));
+      if ((hrefTargetsPage(href, "about") && hrefHash(href) === "#signature") || href === "#signature") setText(link, t("Signature Story", "Kisah Khas Kami"));
     });
 
     Array.from(scope.querySelectorAll(".footer-about-link")).forEach((link) => {
@@ -835,9 +885,9 @@
       Array.from(footerBottom.querySelectorAll(".footer-legal-link")).forEach((link) => {
         if (!(link instanceof HTMLAnchorElement)) return;
         const href = link.getAttribute("href") || "";
-        if (href.includes("privacy-policy.html")) setText(link, t("Privacy", "Privasi"));
-        if (href.includes("terms-conditions.html")) setText(link, t("Terms", "Ketentuan"));
-        if (href.includes("faq.html")) setText(link, t("FAQ", "FAQ"));
+        if (hrefTargetsPage(href, "privacy-policy")) setText(link, t("Privacy", "Privasi"));
+        if (hrefTargetsPage(href, "terms-conditions")) setText(link, t("Terms", "Ketentuan"));
+        if (hrefTargetsPage(href, "faq")) setText(link, t("FAQ", "FAQ"));
       });
     }
 
@@ -884,8 +934,8 @@
 
     Array.from(document.querySelectorAll(".portfolio-card")).forEach((card) => {
       const href = card.getAttribute("href") || "";
-      if (!href.includes("gallery.html?category=")) return;
-      const category = new URL(card.href, window.location.href).searchParams.get("category") || "";
+      if (!isGalleryCategoryHref(href)) return;
+      const category = hrefSearchParam(card.href, "category");
       const label = card.querySelector(".portfolio-title");
       setText(label, localizeCategory(category));
     });
@@ -2007,11 +2057,11 @@
       Array.from(breadcrumb.querySelectorAll("a")).forEach((link) => {
         if (!(link instanceof HTMLAnchorElement)) return;
         const href = link.getAttribute("href") || "";
-        if (href === "index.html" || href === "index.html?lang=en" || href === "index.html?lang=id") setText(link, "Home");
-        if (href.startsWith("gallery.html")) {
-          if (href === "gallery.html" || href.startsWith("gallery.html?lang=")) setText(link, t("Portfolio", "Portofolio"));
-          if (href.includes("category=")) {
-            const category = new URL(link.href, window.location.href).searchParams.get("category") || link.textContent || "";
+        if (hrefTargetsHome(href)) setText(link, "Home");
+        if (hrefTargetsPage(href, "gallery")) {
+          if (!hrefSearchParam(link.href, "category")) setText(link, t("Portfolio", "Portofolio"));
+          if (hrefSearchParam(link.href, "category")) {
+            const category = hrefSearchParam(link.href, "category") || link.textContent || "";
             setText(link, localizeCategory(category));
           }
         }
@@ -2076,7 +2126,7 @@
       }
       else if (/consult/i.test(raw)) setText(node, t("Consult", "Konsultasi"));
     });
-    if (!/\/featured\.html(?:$|\?)/i.test(String(window.location.pathname || ""))) {
+    if (pageNameFromPathname(window.location.pathname) !== "featured") {
       Array.from(document.querySelectorAll(".featured-warning")).forEach((node) => {
         setText(node, t("Prices and availability may vary based on seasonal flowers.", "Harga dan ketersediaan dapat berubah sesuai bunga musiman."));
       });
@@ -2100,10 +2150,10 @@
     Array.from(document.querySelectorAll(".legal-suite-link")).forEach((link) => {
       if (!(link instanceof HTMLAnchorElement)) return;
       const href = link.getAttribute("href") || "";
-      if (href.includes("faq.html")) setText(link, t("FAQ", "FAQ"));
-      if (href.includes("privacy-policy.html")) setText(link, t("Privacy", "Privasi"));
-      if (href.includes("terms-conditions.html")) setText(link, t("Terms", "Ketentuan"));
-      if (href.includes("contact.html")) setText(link, t("Contact", "Kontak"));
+      if (hrefTargetsPage(href, "faq")) setText(link, t("FAQ", "FAQ"));
+      if (hrefTargetsPage(href, "privacy-policy")) setText(link, t("Privacy", "Privasi"));
+      if (hrefTargetsPage(href, "terms-conditions")) setText(link, t("Terms", "Ketentuan"));
+      if (hrefTargetsPage(href, "contact")) setText(link, t("Contact", "Kontak"));
     });
     Array.from(document.querySelectorAll(".legal-toc-link")).forEach((link) => {
       if (!(link instanceof HTMLAnchorElement)) return;

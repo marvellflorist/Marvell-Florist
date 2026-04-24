@@ -35,7 +35,6 @@
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
   <link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
   <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
-  <link rel="preload" as="image" href="/assets/ramadhan.webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1808,8 +1807,9 @@
     <section id="featured">
       <div class="featured-campaign-hero">
         <button class="hero-priority-hit" id="featured-hero-click" type="button" aria-label="Explore featured products"></button>
-        <img id="featured-hero-image" src="/assets/ramadhan.webp" alt="Collections campaign cover" loading="eager" decoding="async" fetchpriority="high">
+        <img id="featured-hero-image" alt="Collections campaign cover" loading="eager" decoding="async" hidden>
         <div class="featured-title-block">
+          <p class="featured-kicker" id="featured-kicker">Seasonal Collection</p>
           <h1 id="featured-title">Collections</h1>
           <p class="featured-lead" id="featured-lead">Koleksi kampanye aktif ditampilkan di bawah ini.</p>
         </div>

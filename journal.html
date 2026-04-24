@@ -647,7 +647,7 @@ function setupDesktopStoryScroll() {
   section.hidden = false;
   track.innerHTML = entry.images.map((image, index) => `
     <figure class="story-figure">
-      <img src="${image}" alt="${entry.title} image ${index + 1}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
+      <img src="${image}" alt="${entry.title} image ${index + 1}" loading="lazy" decoding="async">
     </figure>
   `).join("");
   renderRelatedJournals(entries, entry.slug);

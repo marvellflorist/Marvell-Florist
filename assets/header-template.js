@@ -612,6 +612,23 @@
         overflow: hidden !important;
       }
       @media (max-width: 899px) {
+        .menu-panel {
+          left: 0 !important;
+          right: 0 !important;
+          width: 100vw !important;
+          max-width: none !important;
+          height: 100dvh !important;
+          min-height: 100dvh !important;
+          border-right: 0 !important;
+        }
+        .contact-quick-panel {
+          left: 0 !important;
+          right: 0 !important;
+          width: 100vw !important;
+          max-width: none !important;
+          height: 100dvh !important;
+          min-height: 100dvh !important;
+        }
         header {
           padding: 0 12px !important;
           justify-content: flex-start !important;
@@ -708,7 +725,7 @@
           display: none !important;
         }
         .menu-head {
-          padding: 18px 18px 0 !important;
+          padding: calc(env(safe-area-inset-top, 0px) + 18px) max(18px, env(safe-area-inset-right, 0px)) 0 max(18px, env(safe-area-inset-left, 0px)) !important;
         }
         .collection-promo-track {
           gap: 12px !important;
@@ -723,7 +740,7 @@
           right: 6px !important;
         }
         .menu-view {
-          inset: 18px 34px 32px 34px !important;
+          inset: calc(env(safe-area-inset-top, 0px) + 18px) max(24px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 32px) max(24px, env(safe-area-inset-left, 0px)) !important;
           gap: 18px !important;
         }
         .menu-main-secondary {
@@ -746,6 +763,12 @@
         }
         .menu-link-contact {
           display: inline-flex !important;
+        }
+        #contact-quick-panel .contact-quick-head {
+          padding: calc(env(safe-area-inset-top, 0px) + 20px) max(20px, env(safe-area-inset-right, 0px)) 8px max(20px, env(safe-area-inset-left, 0px)) !important;
+        }
+        #contact-quick-panel .contact-quick-body {
+          padding: 18px max(24px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 34px) max(24px, env(safe-area-inset-left, 0px)) !important;
         }
       }
     `;

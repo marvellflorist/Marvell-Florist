@@ -4234,7 +4234,7 @@ function renderPortfolioGateway() {
       return `
         <article class="portfolio-gateway-card portfolio-gateway-card--intro is-current" aria-label="${escapeHTML(item.title)}" style="${sharedStyle}">
           <div class="portfolio-gateway-card-media">
-            ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.title)} cover" loading="eager" decoding="async">` : ""}
+            ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.title)} cover" loading="lazy" decoding="async">` : ""}
           </div>
           <div class="portfolio-gateway-card-copy">
             <p class="portfolio-gateway-card-kicker">${escapeHTML(item.kicker)}</p>
@@ -4248,7 +4248,7 @@ function renderPortfolioGateway() {
       return `
         <a class="portfolio-gateway-card portfolio-gateway-card--prompt" href="${escapeHTML(item.href)}" aria-label="${escapeHTML(item.title)}" style="${sharedStyle}">
           <div class="portfolio-gateway-card-media">
-            ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.title)} cover" loading="eager" decoding="async">` : ""}
+            ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.title)} cover" loading="lazy" decoding="async">` : ""}
           </div>
           <div class="portfolio-gateway-card-copy">
             <p class="portfolio-gateway-card-kicker">${escapeHTML(item.kicker)}</p>
@@ -4261,7 +4261,7 @@ function renderPortfolioGateway() {
     return `
       <a class="portfolio-gateway-card" href="gallery.html?category=${encodeURIComponent(item.key)}" data-category-key="${escapeHTML(item.key)}" aria-label="Enter ${escapeHTML(item.name)} collection" style="${sharedStyle}">
         <div class="portfolio-gateway-card-media">
-          ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.name)} cover" loading="eager" decoding="async">` : ""}
+          ${item.coverImage ? `<img src="${escapeHTML(item.coverImage)}" alt="${escapeHTML(item.name)} cover" loading="lazy" decoding="async">` : ""}
         </div>
         <div class="portfolio-gateway-card-copy">
           <p class="portfolio-gateway-card-kicker">${escapeHTML(item.kicker)}</p>

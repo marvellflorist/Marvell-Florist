@@ -1602,14 +1602,14 @@ async function initDetail() {
   if (desktopMedia instanceof HTMLElement) {
     desktopMedia.innerHTML = safeMedia.map((entry, index) => `
       <div class="product-detail-stack-item ${index === 0 ? "product-detail-stack-item--primary" : "product-detail-stack-item--secondary"}">
-        <img class="product-detail-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(index === 0 ? title : `${title} image ${index + 1}`)}" loading="eager" decoding="async" fetchpriority="${index === 0 ? "high" : "auto"}" style="--product-detail-position:${escapeHtml(entry.scrollPosition || "left top")};">
+        <img class="product-detail-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(index === 0 ? title : `${title} image ${index + 1}`)}" loading="lazy" decoding="async" fetchpriority="auto" style="--product-detail-position:${escapeHtml(entry.scrollPosition || "left top")};">
       </div>
     `).join("");
   }
   if (mobileTrack instanceof HTMLElement) {
     mobileTrack.innerHTML = safeMedia.map((entry, index) => `
       <div class="product-detail-mobile-slide" data-product-mobile-slide="${index}">
-        <img class="product-detail-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(index === 0 ? title : `${title} image ${index + 1}`)}" loading="eager" decoding="async" fetchpriority="${index === 0 ? "high" : "auto"}" style="--product-detail-position:${escapeHtml(entry.scrollPosition || "left top")};">
+        <img class="product-detail-image" src="${escapeHtml(entry.image)}" alt="${escapeHtml(index === 0 ? title : `${title} image ${index + 1}`)}" loading="lazy" decoding="async" fetchpriority="auto" style="--product-detail-position:${escapeHtml(entry.scrollPosition || "left top")};">
       </div>
     `).join("");
   }

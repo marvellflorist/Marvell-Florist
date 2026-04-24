@@ -2,7 +2,7 @@
   "defaultKicker": "SEASONAL COLLECTION",
   "events": [
     {
-      "heroImage": "/assets/ramadhan.webp",
+      "heroImage": "/assets/seasonal/eid/eidfloralarrange.webp",
       "start": "03-07",
       "products": [
         {
@@ -98,6 +98,7 @@
       "footerImage": "/assets/uploads/img_4410.webp",
       "heroImage": "/assets/uploads/img_4376-2-.webp",
       "start": "04-16",
+      "journalSlug": "grad-26",
       "products": [
         {
           "src": "/assets/uploads/img_4280.webp",
@@ -455,8 +456,7 @@
       "forceActive": true,
       "kicker": "SEASONAL COLLECTION",
       "title": "Graduation Collection",
-      "footerSlogan": "For Brighter Days Ahead.",
-      "journalSlug": "grad-26",
+      "footerSlogan": "For Brighter Days Ahead.\n",
       "end": "04-30",
       "id": "graduation",
       "promoText": "Graduation Collection - Celebrate the moment",

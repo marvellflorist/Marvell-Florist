@@ -8,9 +8,8 @@ const PROMO_COPY_BY_EVENT_ID = {
   cny_mid: "Chinese New Year Collection — Discover the arrangements",
   christmas: "Christmas Collection — Explore the arrangements"
 };
-const FEATURED_HERO_FALLBACK = "/assets/ramadhan.webp";
 const FEATURED_HERO_ALIASES = {
-  "/assets/featured.png": FEATURED_HERO_FALLBACK,
+  "/assets/featured.png": "/assets/seasonal/eid/eidfloralarrange.webp",
   "/assets/valentines.jpeg": "/assets/valentine.webp",
   "/assets/mothersday.jpeg": "/assets/popupmothersday.webp",
   "/assets/christmas.jpeg": "/assets/popupchristmas.webp"
@@ -106,9 +105,22 @@ function setSeasonalAvailabilityState(isActive) {
     detail: { isActive: Boolean(isActive) }
   }));
 
-  const featuredAnchors = Array.from(document.querySelectorAll(
-    '[data-seasonal-featured-link], a[href="#featured"], a[href="#featured-showcase"], a[href="index.html#featured-showcase"], a[href="featured.html"]'
-  ));
+  const featuredAnchors = Array.from(document.querySelectorAll('[data-seasonal-featured-link], a[href]')).filter((anchor) => {
+    if (!(anchor instanceof HTMLElement)) return false;
+    if (anchor.hasAttribute("data-seasonal-featured-link")) return true;
+    if (!(anchor instanceof HTMLAnchorElement)) return false;
+    const rawHref = String(anchor.getAttribute("href") || "").trim();
+    if (rawHref === "#featured" || rawHref === "#featured-showcase" || rawHref === "index.html#featured-showcase") {
+      return true;
+    }
+    try {
+      const url = new URL(anchor.href, window.location.href);
+      const pathname = String(url.pathname || "").replace(/\/+$/, "").toLowerCase();
+      return pathname === "/featured" || pathname === "/featured.html";
+    } catch (_error) {
+      return false;
+    }
+  });
   featuredAnchors.forEach((anchor) => {
     if (!(anchor instanceof HTMLElement)) return;
     anchor.hidden = !isActive;
@@ -278,7 +290,7 @@ function buildFeaturedCardSlides(item) {
 
 function resolveFeaturedHeroImage(value) {
   const normalized = normalizeAssetPath(value);
-  if (!normalized) return FEATURED_HERO_FALLBACK;
+  if (!normalized) return "";
   return FEATURED_HERO_ALIASES[normalized] || normalized;
 }
 
@@ -295,6 +307,12 @@ function preloadPriorityHeroAsset(src, scope = "seasonal") {
     document.head.appendChild(preload);
   }
   if (preload.href !== new URL(normalized, window.location.href).href) preload.href = normalized;
+}
+
+function clearPriorityHeroAsset(scope = "seasonal") {
+  if (typeof document === "undefined") return;
+  const preload = document.head.querySelector(`link[data-priority-hero="${scope}"]`);
+  if (preload instanceof HTMLLinkElement) preload.remove();
 }
 
 async function loadFeaturedCatalog(forceRefresh = false) {
@@ -398,8 +416,11 @@ function getRequestedFeaturedEventId() {
 
 function isDedicatedFeaturedPage() {
   if (typeof window === "undefined") return false;
-  const pathname = String(window.location.pathname || "").toLowerCase();
-  return pathname.endsWith("/featured.html") || pathname === "/featured.html" || pathname.endsWith("featured.html");
+  const pathname = String(window.location.pathname || "").toLowerCase().replace(/\/+$/, "");
+  return pathname === "/featured"
+    || pathname === "/featured.html"
+    || pathname.endsWith("/featured")
+    || pathname.endsWith("/featured.html");
 }
 
 function resolvePrimaryFeaturedEvent(events = []) {
@@ -432,11 +453,19 @@ function getActiveUiLanguage() {
 }
 
 function buildLocalizedFeaturedHref(eventId = "") {
-  const href = eventId
-    ? `featured.html?event=${encodeURIComponent(eventId)}`
-    : "featured.html";
+  const params = eventId ? { event: eventId } : {};
+  return buildLocalizedPageHref("featured.html", params);
+}
+
+function buildLocalizedPageHref(pathname = "", params = {}) {
+  const href = String(pathname || "").trim() || "index.html";
   if (typeof window === "undefined") return href;
   const url = new URL(href, window.location.href);
+  Object.entries(params || {}).forEach(([key, value]) => {
+    const normalizedValue = String(value ?? "").trim();
+    if (!key || !normalizedValue) return;
+    url.searchParams.set(key, normalizedValue);
+  });
   const activeLanguage = getActiveUiLanguage();
   if (activeLanguage === "en" || activeLanguage === "id") {
     url.searchParams.set("lang", activeLanguage);
@@ -460,6 +489,38 @@ function localizeSeasonalCollectionTitle(title = "", language = getActiveUiLangu
     "Seasonal Collection": "Koleksi Musiman"
   };
   return map[raw] || raw;
+}
+
+function getLocalizedSeasonalLabel(englishValue, indonesianValue, language = getActiveUiLanguage()) {
+  return language === "id" ? indonesianValue : englishValue;
+}
+
+function getLocalizedEventField(eventConfig, fieldName, fallback = "") {
+  const language = getActiveUiLanguage();
+  const explicitLocalizedValue = language === "id"
+    ? String(eventConfig?.[`${fieldName}Id`] || eventConfig?.[`${fieldName}_id`] || "").trim()
+    : "";
+  if (explicitLocalizedValue) return explicitLocalizedValue;
+
+  const rawValue = String(eventConfig?.[fieldName] || fallback).trim();
+  if (!rawValue || language !== "id") return rawValue;
+
+  const sharedMap = {
+    "Seasonal Collection": "Koleksi Musiman",
+    "SEASONAL COLLECTION": "KOLEKSI MUSIMAN",
+    "Each season brings a moment. We give it form.": "Setiap musim membawa sebuah momen. Kami memberinya bentuk.",
+    "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.": "Setiap rangkaian dibuat khusus. Detail akhir dan harga dikonfirmasi saat konsultasi.",
+    "For Brighter Days Ahead.": "Untuk hari-hari cerah yang menanti.",
+    "Ramadan & Eid Collection - Explore the arrangements": "Koleksi Ramadan & Idul Fitri - Jelajahi rangkaian",
+    "Valentine's Collection - Discover the bouquets": "Koleksi Valentine - Temukan buketnya",
+    "Graduation Collection - Celebrate the moment": "Koleksi Wisuda - Rayakan momennya",
+    "Mother's Day Collection - Explore the arrangements": "Koleksi Hari Ibu - Jelajahi rangkaian",
+    "Chinese New Year Collection - Discover the arrangements": "Koleksi Tahun Baru Imlek - Temukan rangkaiannya",
+    "Christmas Collection - Explore the arrangements": "Koleksi Natal - Jelajahi rangkaian"
+  };
+
+  if (fieldName === "title") return localizeSeasonalCollectionTitle(rawValue, language);
+  return sharedMap[rawValue] || rawValue;
 }
 
 function syncFeaturedMenuTriggers(events = []) {
@@ -1077,12 +1138,20 @@ function renderFeaturedCard(eventTitle, eventKey, imagePath, productName, produc
     ? imagePath
     : { src: imagePath, name: productName, price: productPrice };
   const primaryImage = normalizeAssetPath(productRecord?.src || imagePath || "");
-  const detailHref = `product.html?category=${encodeURIComponent(eventTitle || "Featured Collection")}&title=${encodeURIComponent(displayName)}&image=${encodeURIComponent(primaryImage || "")}${priceLabel ? `&price=${encodeURIComponent(priceLabel)}` : ""}`;
+  const detailHref = buildLocalizedPageHref("product.html", {
+    category: eventTitle || "Featured Collection",
+    title: displayName,
+    image: primaryImage || "",
+    price: priceLabel || ""
+  });
   const { slides: carouselMedia, hoverIndex } = buildFeaturedCardSlides(productRecord);
   const safeSlides = carouselMedia.length ? carouselMedia : [{ image: normalizeAssetPath(imagePath || ""), scrollPosition: "center center" }];
   const hoverPreviewSlide = hoverIndex > 0 && hoverIndex < safeSlides.length ? safeSlides[hoverIndex] : null;
   const hasSingleFullPreview = !hoverPreviewSlide && safeSlides.length === 1 && !!safeSlides[0]?.image;
   const previewSlide = hoverPreviewSlide || (hasSingleFullPreview ? safeSlides[0] : null);
+  const previousImageLabel = getLocalizedSeasonalLabel("Previous image", "Gambar sebelumnya");
+  const nextImageLabel = getLocalizedSeasonalLabel("Next image", "Gambar berikutnya");
+  const saveProductLabel = getLocalizedSeasonalLabel(`Save ${displayName}`, `Simpan ${displayName}`);
   const hoverPreviewMarkup = previewSlide && previewSlide.image ? `
           <div class="featured-hover-preview" data-featured-hover-preview aria-hidden="true">
             <img class="featured-hover-preview-image${hasSingleFullPreview ? " is-full-preview" : ""}" src="${escapeHTML(previewSlide.image)}" alt="" loading="lazy" decoding="async" style="object-position:${escapeHTML(previewSlide.scrollPosition || "center center")};">
@@ -1111,14 +1180,14 @@ function renderFeaturedCard(eventTitle, eventKey, imagePath, productName, produc
             </div>
           </div>
           ${hoverPreviewMarkup}
-          <button class="featured-nav-btn featured-nav-btn--prev" type="button" aria-label="Previous image" data-featured-card-prev>&#8249;</button>
-          <button class="featured-nav-btn featured-nav-btn--next" type="button" aria-label="Next image" data-featured-card-next>&#8250;</button>
+          <button class="featured-nav-btn featured-nav-btn--prev" type="button" aria-label="${escapeHTML(previousImageLabel)}" data-featured-card-prev>&#8249;</button>
+          <button class="featured-nav-btn featured-nav-btn--next" type="button" aria-label="${escapeHTML(nextImageLabel)}" data-featured-card-next>&#8250;</button>
           <div class="featured-carousel-meta" aria-hidden="true">
             <div class="featured-carousel-counter" data-featured-card-counter>1 / ${safeSlides.length}</div>
             <div class="featured-carousel-progress"><span class="featured-carousel-progress-fill" data-featured-card-progress-fill></span></div>
           </div>
         </div>
-        <button class="favorite-toggle" type="button" data-favorite-toggle data-favorite-id="${escapeHTML(favoriteId)}" data-favorite-title="${escapeHTML(displayName)}" data-favorite-image="${escapeHTML(primaryImage)}" data-favorite-href="${escapeHTML(detailHref)}" data-favorite-price="${escapeHTML(priceLabel)}" data-favorite-category="${escapeHTML(eventTitle || "Collections")}" data-favorite-source="featured" aria-label="Save ${escapeHTML(displayName)}" onclick="return window.MarvellFavorites && window.MarvellFavorites.handleToggleClick ? window.MarvellFavorites.handleToggleClick(event, this) : false;">
+        <button class="favorite-toggle" type="button" data-favorite-toggle data-favorite-id="${escapeHTML(favoriteId)}" data-favorite-title="${escapeHTML(displayName)}" data-favorite-image="${escapeHTML(primaryImage)}" data-favorite-href="${escapeHTML(detailHref)}" data-favorite-price="${escapeHTML(priceLabel)}" data-favorite-category="${escapeHTML(eventTitle || "Collections")}" data-favorite-source="featured" aria-label="${escapeHTML(saveProductLabel)}" onclick="return window.MarvellFavorites && window.MarvellFavorites.handleToggleClick ? window.MarvellFavorites.handleToggleClick(event, this) : false;">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5 4.9 13.74a4.79 4.79 0 0 1 0-6.98 5.18 5.18 0 0 1 7.1 0L12 7.77l.01-.01a5.18 5.18 0 0 1 7.1 0 4.79 4.79 0 0 1 0 6.98L12 20.5Z"/></svg>
         </button>
       </div>
@@ -1145,22 +1214,21 @@ function renderFeaturedGrid(eventTitle, eventKey, images, options = {}) {
 
 function buildFeaturedCollectionHref(eventConfig) {
   const eventId = String(eventConfig?.id || "").trim();
-  return eventId
-    ? `featured.html?event=${encodeURIComponent(eventId)}`
-    : "featured.html";
+  return buildLocalizedFeaturedHref(eventId);
 }
 
 function buildFeaturedJournalHref(eventConfig) {
   const journalSlug = String(eventConfig?.journalSlug || "").trim();
-  return journalSlug ? `journal.html?journal=${encodeURIComponent(journalSlug)}` : "";
+  return journalSlug ? buildLocalizedPageHref("journal.html", { journal: journalSlug }) : "";
 }
 
 function renderFeaturedCollectionCta(eventConfig) {
   if (isDedicatedFeaturedPage()) return "";
+  const ctaLabel = getLocalizedSeasonalLabel("Discover the Collection", "Jelajahi Koleksi");
   return `
     <div class="featured-consult-row">
       <a class="featured-collection-btn" href="${escapeHTML(buildFeaturedCollectionHref(eventConfig))}">
-        Discover the Collection
+        ${escapeHTML(ctaLabel)}
       </a>
     </div>
   `;
@@ -1169,21 +1237,34 @@ function renderFeaturedCollectionCta(eventConfig) {
 function renderFeaturedEndcap(eventConfig) {
   if (!isDedicatedFeaturedPage()) return "";
   const footerImage = normalizeAssetPath(eventConfig?.footerImage || "");
-  const footerSlogan = String(eventConfig?.footerSlogan || "").trim();
+  const footerSlogan = getLocalizedEventField(eventConfig, "footerSlogan");
   const journalHref = buildFeaturedJournalHref(eventConfig);
   if (!footerImage && !footerSlogan) return "";
+  const resolvedTitle = getLocalizedEventField(eventConfig, "title", "Collections") || "Collections";
+  const footerSectionLabel = getLocalizedSeasonalLabel(
+    `${resolvedTitle} editorial footer`,
+    `Footer editorial ${resolvedTitle}`
+  );
+  const openJournalLabel = getLocalizedSeasonalLabel(
+    `Open ${resolvedTitle} journal`,
+    `Buka jurnal ${resolvedTitle}`
+  );
+  const editorialImageAlt = getLocalizedSeasonalLabel(
+    `${resolvedTitle} editorial image`,
+    `Gambar editorial ${resolvedTitle}`
+  );
   return `
-    <section class="featured-endcap" aria-label="${escapeHTML(String(eventConfig?.title || "Collection"))} editorial footer">
+    <section class="featured-endcap" aria-label="${escapeHTML(footerSectionLabel)}">
       ${footerImage ? `
         ${journalHref
           ? `
-        <a class="featured-endcap-media" href="${escapeHTML(journalHref)}" aria-label="Open ${escapeHTML(String(eventConfig?.title || "Collection"))} journal">
-          <img src="${escapeHTML(footerImage)}" alt="${escapeHTML(String(eventConfig?.title || "Collection"))} editorial image" loading="lazy" decoding="async">
+        <a class="featured-endcap-media" href="${escapeHTML(journalHref)}" aria-label="${escapeHTML(openJournalLabel)}">
+          <img src="${escapeHTML(footerImage)}" alt="${escapeHTML(editorialImageAlt)}" loading="lazy" decoding="async">
         </a>
       `
           : `
         <div class="featured-endcap-media">
-          <img src="${escapeHTML(footerImage)}" alt="${escapeHTML(String(eventConfig?.title || "Collection"))} editorial image" loading="lazy" decoding="async">
+          <img src="${escapeHTML(footerImage)}" alt="${escapeHTML(editorialImageAlt)}" loading="lazy" decoding="async">
         </div>
       `}
       ` : ""}
@@ -1196,10 +1277,11 @@ function renderFeaturedEventSection(eventConfig, index, defaultKicker, options =
   const includeHeroImage = options?.includeHeroImage === true;
   const forceHeader = options?.forceHeader === true;
   const sectionVariantClass = options?.splitPage === true ? " featured-event-block--split" : "";
-  const resolvedTitle = String(eventConfig?.title || "").trim() || "Collections";
-  const resolvedKicker = String(eventConfig?.kicker || "").trim() || String(defaultKicker || "").trim() || "Seasonal Collection";
-  const resolvedLead = String(eventConfig?.lead || "").trim();
-  const warningText = String(eventConfig?.warningText || "").trim() || "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.";
+  const resolvedTitle = getLocalizedEventField(eventConfig, "title", "Collections") || "Collections";
+  const resolvedKicker = getLocalizedEventField(eventConfig, "kicker", String(defaultKicker || "").trim() || "Seasonal Collection") || "Seasonal Collection";
+  const resolvedLead = getLocalizedEventField(eventConfig, "lead");
+  const warningText = getLocalizedEventField(eventConfig, "warningText", "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.") || "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.";
+  const jumpToCollectionLabel = getLocalizedSeasonalLabel(`Jump to ${resolvedTitle} collection`, `Lompat ke koleksi ${resolvedTitle}`);
   const warningMarkup = isDedicatedFeaturedPage()
     ? ""
     : `<p class="featured-warning">${escapeHTML(warningText)}</p>`;
@@ -1214,7 +1296,7 @@ function renderFeaturedEventSection(eventConfig, index, defaultKicker, options =
     <section class="featured-event-block${showHeader ? "" : " featured-event-block--primary"}${sectionVariantClass}" data-featured-event-id="${escapeHTML(String(eventConfig?.id || resolvedTitle))}">
       ${includeHeroImage ? `
         <div class="featured-event-hero">
-          <button class="hero-priority-hit featured-event-hero-hit" type="button" aria-label="Jump to ${escapeHTML(resolvedTitle)} collection" data-featured-event-jump></button>
+          <button class="hero-priority-hit featured-event-hero-hit" type="button" aria-label="${escapeHTML(jumpToCollectionLabel)}" data-featured-event-jump></button>
           <img src="${escapeHTML(resolveFeaturedHeroImage(eventConfig?.heroImage))}" alt="${escapeHTML(resolvedTitle)} campaign cover" loading="lazy" decoding="async">
         </div>
       ` : ""}
@@ -1236,9 +1318,10 @@ function renderFeaturedEventSection(eventConfig, index, defaultKicker, options =
 }
 
 function renderFeaturedHomeFollowupSection(eventConfig, defaultKicker) {
-  const resolvedTitle = String(eventConfig?.title || "").trim() || "Collections";
-  const resolvedKicker = String(eventConfig?.kicker || "").trim() || String(defaultKicker || "").trim() || "Seasonal Collection";
-  const warningText = String(eventConfig?.warningText || "").trim() || "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.";
+  const resolvedTitle = getLocalizedEventField(eventConfig, "title", "Collections") || "Collections";
+  const resolvedKicker = getLocalizedEventField(eventConfig, "kicker", String(defaultKicker || "").trim() || "Seasonal Collection") || "Seasonal Collection";
+  const warningText = getLocalizedEventField(eventConfig, "warningText", "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.") || "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.";
+  const jumpToCollectionLabel = getLocalizedSeasonalLabel(`Jump to ${resolvedTitle} collection`, `Lompat ke koleksi ${resolvedTitle}`);
   const eventProducts = Array.isArray(eventConfig?.products) ? eventConfig.products : [];
   const validImages = eventProducts.filter((item) => String(item?.src || "").trim().length > 0);
   const homepageLimit = 4;
@@ -1247,7 +1330,7 @@ function renderFeaturedHomeFollowupSection(eventConfig, defaultKicker) {
   return `
     <section class="featured-home-followup" data-featured-event-id="${escapeHTML(String(eventConfig?.id || resolvedTitle))}">
       <div class="featured-home-followup-hero">
-        <button class="hero-priority-hit featured-event-hero-hit" type="button" aria-label="Jump to ${escapeHTML(resolvedTitle)} collection" data-featured-event-jump></button>
+        <button class="hero-priority-hit featured-event-hero-hit" type="button" aria-label="${escapeHTML(jumpToCollectionLabel)}" data-featured-event-jump></button>
         <img src="${escapeHTML(resolveFeaturedHeroImage(eventConfig?.heroImage))}" alt="${escapeHTML(resolvedTitle)} campaign cover" loading="lazy" decoding="async">
       </div>
       <div class="featured-home-followup-inner">
@@ -1552,7 +1635,7 @@ async function renderSeasonalPromotionStrip() {
   }
   setSeasonalAvailabilityState(true);
 
-  const promoCopy = String(topEvent?.promoText || PROMO_COPY_BY_EVENT_ID[topEvent.id] || "").trim();
+  const promoCopy = getLocalizedEventField(topEvent, "promoText", PROMO_COPY_BY_EVENT_ID[topEvent.id] || "");
   if (!promoCopy) {
     setSeasonalAvailabilityState(false);
     markSeasonalManagedContent(false);
@@ -1618,8 +1701,28 @@ async function renderSeasonalPage() {
   const homeHeroBackground = document.querySelector("#home .layer-depth-bg .layer-bg");
   if (!target) return;
   const featuredTitle = document.getElementById("featured-title");
-  const buildCuratedLead = () => "Each season brings a moment. We give it form.";
-  const buildWarningText = () => "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.";
+  const buildCuratedLead = () => getLocalizedSeasonalLabel(
+    "Each season brings a moment. We give it form.",
+    "Setiap musim membawa sebuah momen. Kami memberinya bentuk."
+  );
+  const buildWarningText = () => getLocalizedSeasonalLabel(
+    "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.",
+    "Setiap rangkaian dibuat khusus. Detail akhir dan harga dikonfirmasi saat konsultasi."
+  );
+  const setFeaturedHeroMedia = (src, altText = "Featured seasonal campaign cover") => {
+    if (!(featuredHeroImage instanceof HTMLImageElement)) return;
+    const resolvedSrc = resolveFeaturedHeroImage(src);
+    featuredHeroImage.alt = altText;
+    if (!resolvedSrc) {
+      featuredHeroImage.hidden = true;
+      featuredHeroImage.removeAttribute("src");
+      clearPriorityHeroAsset();
+      return;
+    }
+    featuredHeroImage.hidden = false;
+    if (featuredHeroImage.getAttribute("src") !== resolvedSrc) featuredHeroImage.src = resolvedSrc;
+    preloadPriorityHeroAsset(resolvedSrc);
+  };
   const setFeaturedCollectionCurrentText = (rawLabel, localizedLabel) => {
     if (!(featuredCollectionCurrent instanceof HTMLElement)) return;
     const targetNode = featuredCollectionLabel instanceof HTMLElement ? featuredCollectionLabel : featuredCollectionCurrent;
@@ -1692,7 +1795,7 @@ async function renderSeasonalPage() {
     if (targetMode === "featured-primary" && eventConfig) {
       return buildLocalizedFeaturedHref(String(eventConfig?.id || "").trim());
     }
-    return "gallery.html?entry=home-hero";
+    return buildLocalizedPageHref("gallery.html", { entry: "home-hero" });
   };
   const setHomeHeroCopy = (eventConfig, options = {}) => {
     if (!(homeHeroTitle instanceof HTMLElement) || !(homeHeroSubtitle instanceof HTMLElement)) return;
@@ -1731,7 +1834,7 @@ async function renderSeasonalPage() {
     }
     const rawTitle = String(eventConfig.title || "").trim() || "Collections";
     homeHeroTitle.textContent = localizeSeasonalCollectionTitle(rawTitle);
-    homeHeroSubtitle.textContent = "Seasonal Collection";
+    homeHeroSubtitle.textContent = getLocalizedSeasonalLabel("Seasonal Collection", "Koleksi Musiman");
     homeHeroTitle.dataset.seasonalManaged = "true";
     homeHeroTitle.dataset.seasonalLabel = rawTitle;
     if (homeHeroButton instanceof HTMLElement) {
@@ -1854,15 +1957,21 @@ async function renderSeasonalPage() {
     if (!(featuredHeroImage instanceof HTMLImageElement)) return;
     featuredHeroImage.loading = "eager";
     featuredHeroImage.decoding = "async";
-    featuredHeroImage.fetchPriority = "high";
-    preloadPriorityHeroAsset(featuredHeroImage.getAttribute("src") || FEATURED_HERO_FALLBACK);
+    const currentSrc = String(featuredHeroImage.getAttribute("src") || "").trim();
+    if (currentSrc) {
+      featuredHeroImage.fetchPriority = "high";
+      preloadPriorityHeroAsset(currentSrc);
+    } else {
+      featuredHeroImage.removeAttribute("fetchpriority");
+      clearPriorityHeroAsset();
+    }
     if (featuredHeroImage.dataset.fallbackBound === "1") return;
     featuredHeroImage.dataset.fallbackBound = "1";
     featuredHeroImage.addEventListener("error", () => {
-      if (featuredHeroImage.src.endsWith(FEATURED_HERO_FALLBACK)) return;
-      preloadPriorityHeroAsset(FEATURED_HERO_FALLBACK);
-      featuredHeroImage.src = FEATURED_HERO_FALLBACK;
+      featuredHeroImage.hidden = true;
+      featuredHeroImage.removeAttribute("src");
       featuredHeroImage.alt = "Featured seasonal campaign cover";
+      clearPriorityHeroAsset();
     });
   };
 
@@ -1926,15 +2035,14 @@ async function renderSeasonalPage() {
       if (featuredCollectionOptions instanceof HTMLElement) featuredCollectionOptions.innerHTML = "";
     }
     if (featuredTitle) featuredTitle.textContent = "Collections";
-    if (featuredKicker instanceof HTMLElement) featuredKicker.textContent = "Seasonal Collection";
+    if (featuredKicker instanceof HTMLElement) featuredKicker.textContent = getLocalizedSeasonalLabel("Seasonal Collection", "Koleksi Musiman");
     if (featuredLead instanceof HTMLElement) {
       featuredLead.textContent = buildCuratedLead();
       featuredLead.hidden = false;
     }
     if (featuredHeroImage instanceof HTMLImageElement) {
       ensureCampaignCoverEagerLoad();
-      featuredHeroImage.src = FEATURED_HERO_FALLBACK;
-      featuredHeroImage.alt = "Featured seasonal campaign cover";
+      setFeaturedHeroMedia("", "Featured seasonal campaign cover");
     }
     if (featuredCollectionBar instanceof HTMLElement) {
       featuredCollectionBar.hidden = true;
@@ -1960,25 +2068,22 @@ async function renderSeasonalPage() {
     featuredTitle.dataset.seasonalLabel = rawCollectionTitle;
   }
   if (featuredKicker instanceof HTMLElement) {
-    featuredKicker.textContent = primaryEvent.kicker || featuredCatalog?.defaultKicker || "Seasonal Collection";
+    featuredKicker.textContent = getLocalizedEventField(primaryEvent, "kicker", featuredCatalog?.defaultKicker || "Seasonal Collection");
   }
   if (featuredLead instanceof HTMLElement) {
     if (isHomePage) {
       featuredLead.textContent = "";
       featuredLead.hidden = true;
     } else {
-      const resolvedLead = String(primaryEvent.lead || "").trim() || buildCuratedLead();
+      const resolvedLead = getLocalizedEventField(primaryEvent, "lead", buildCuratedLead()) || buildCuratedLead();
       featuredLead.textContent = resolvedLead;
       featuredLead.hidden = false;
     }
   }
   if (featuredHeroImage instanceof HTMLImageElement) {
     ensureCampaignCoverEagerLoad();
-    const headerImage = resolveFeaturedHeroImage(primaryEvent.heroImage);
-    preloadPriorityHeroAsset(headerImage);
-    featuredHeroImage.src = headerImage;
-    featuredHeroImage.alt = `${primaryEvent.title || "Collections"} campaign cover`;
-    applySeasonalFeaturedHeroPosition(featuredHeroImage, primaryEvent);
+    setFeaturedHeroMedia(primaryEvent.heroImage, `${primaryEvent.title || "Collections"} campaign cover`);
+    if (featuredHeroImage.getAttribute("src")) applySeasonalFeaturedHeroPosition(featuredHeroImage, primaryEvent);
   }
 
   const requestedEventId = getRequestedFeaturedEventId();
@@ -2009,13 +2114,17 @@ async function renderSeasonalPage() {
     renderedProducts = validImages;
     const warningMarkup = isDedicatedFeaturedPage()
       ? ""
-      : `<p class="featured-warning">${escapeHTML(String(primaryEvent.warningText || "").trim() || buildWarningText())}</p>`;
+      : `<p class="featured-warning">${escapeHTML(getLocalizedEventField(primaryEvent, "warningText", buildWarningText()) || buildWarningText())}</p>`;
     target.innerHTML = `
       ${renderFeaturedGrid(primaryEvent.title, String(primaryEvent.id || primaryEvent.title || "featured"), validImages)}
       ${warningMarkup}
       ${renderFeaturedCollectionCta(primaryEvent)}
       ${renderFeaturedEndcap(primaryEvent)}
     `;
+  }
+
+  if (window.MarvellLanguage && typeof window.MarvellLanguage.decorateInternalLinks === "function") {
+    window.MarvellLanguage.decorateInternalLinks(target);
   }
 
   const renderedImages = target.querySelectorAll(".featured-product-image");

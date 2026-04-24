@@ -182,6 +182,20 @@
         overflow: hidden;
       }
       @media (max-width: 768px) {
+        .contact-quick-panel {
+          left: 0;
+          right: 0;
+          width: 100vw;
+          max-width: none;
+          height: 100dvh;
+          min-height: 100dvh;
+        }
+        #contact-quick-panel .contact-quick-head {
+          padding: calc(env(safe-area-inset-top, 0px) + 20px) max(20px, env(safe-area-inset-right, 0px)) 8px max(20px, env(safe-area-inset-left, 0px));
+        }
+        #contact-quick-panel .contact-quick-body {
+          padding: 18px max(24px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 34px) max(24px, env(safe-area-inset-left, 0px));
+        }
         .header-contact,
         .contact-quick-trigger {
           gap: 0 !important;
