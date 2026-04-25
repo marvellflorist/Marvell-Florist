@@ -40,6 +40,13 @@
       }
       body {
         --promo-strip-height: 44px;
+        --shared-header-top: 0px;
+      }
+      body.has-promo-strip {
+        --shared-header-top: var(--promo-strip-height);
+      }
+      body.promo-strip-closing {
+        --shared-header-top: 0px;
       }
       .collection-promo-strip {
         position: fixed !important;

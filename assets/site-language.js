@@ -10,6 +10,15 @@
   let themeFaviconBound = false;
   let analyticsInitialized = false;
   let whatsappTrackingBound = false;
+  let touchLinkFallbackBound = false;
+  let touchButtonFallbackBound = false;
+  let tapDebugScheduled = false;
+  let activeTouchLinkState = null;
+  let activeTouchButtonState = null;
+  let recentTouchNavigationAt = 0;
+  let recentSyntheticButtonClickAt = 0;
+  let recentSyntheticButtonTarget = null;
+  let dispatchingSyntheticButtonClick = false;
 
   function syncAnalyticsPreferenceFromUrl() {
     try {
@@ -2544,6 +2553,384 @@
     }, { capture: true });
   }
 
+  function shouldUseTouchLinkFallback() {
+    if (typeof window.matchMedia === "function") {
+      if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return true;
+      if (window.matchMedia("(hover: none)").matches && window.matchMedia("(pointer: coarse)").matches) return true;
+    }
+    return Number(navigator.maxTouchPoints || 0) > 0 || "ontouchstart" in window;
+  }
+
+  function isTapNavigationFallbackCandidate(link) {
+    if (!(link instanceof HTMLAnchorElement)) return false;
+    const rawHref = String(link.getAttribute("href") || "").trim();
+    if (!rawHref || rawHref === "#" || rawHref.startsWith("#")) return false;
+    if (/^(?:javascript:|mailto:|tel:)/i.test(rawHref)) return false;
+    if (link.hasAttribute("download")) return false;
+    if ((link.getAttribute("role") || "").trim().toLowerCase() === "button") return false;
+    if (
+      link.matches(".contact-quick-trigger, .header-contact, .footer-contact-trigger")
+      || link.matches(".legal-suite-link, .legal-toc-link")
+    ) {
+      return false;
+    }
+    const target = String(link.getAttribute("target") || "").trim().toLowerCase();
+    if (target && target !== "_self") return false;
+    return true;
+  }
+
+  function isTouchNavigationFallbackCandidate(link) {
+    if (!(link instanceof HTMLAnchorElement)) return false;
+    const rawHref = String(link.getAttribute("href") || "").trim();
+    if (!rawHref || rawHref === "#") return false;
+    if (/^(?:javascript:|mailto:|tel:)/i.test(rawHref)) return false;
+    if (link.hasAttribute("download")) return false;
+    if ((link.getAttribute("role") || "").trim().toLowerCase() === "button") return false;
+    if (link.matches(".contact-quick-trigger, .header-contact, .footer-contact-trigger")) return false;
+    return true;
+  }
+
+  function runTouchNavigationFallback(link) {
+    if (!(link instanceof HTMLAnchorElement)) return false;
+    const rawHref = String(link.getAttribute("href") || "").trim();
+    if (!rawHref) return false;
+
+    if (link.matches(".legal-toc-link")) {
+      const hash = rawHref.startsWith("#")
+        ? rawHref.slice(1)
+        : (() => {
+            try {
+              return new URL(link.href, window.location.href).hash.replace(/^#/, "");
+            } catch (_error) {
+              return "";
+            }
+          })();
+      if (hash && window.MarvellLegalNav && typeof window.MarvellLegalNav.jump === "function") {
+        window.MarvellLegalNav.jump(hash);
+        return true;
+      }
+    }
+
+    if (link.matches(".legal-suite-link") && window.MarvellLegalNav && typeof window.MarvellLegalNav.go === "function") {
+      window.MarvellLegalNav.go(link.href);
+      return true;
+    }
+
+    if (rawHref.startsWith("#")) {
+      const target = document.getElementById(rawHref.slice(1));
+      if (target instanceof HTMLElement) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        return true;
+      }
+      return false;
+    }
+
+    try {
+      const destination = new URL(link.href, window.location.href);
+      if (destination.href === window.location.href) return false;
+      const target = String(link.getAttribute("target") || "").trim();
+      const normalizedTarget = target.toLowerCase();
+      if (normalizedTarget && normalizedTarget !== "_self") {
+        const rel = String(link.getAttribute("rel") || "").trim().toLowerCase();
+        const features = rel.includes("noreferrer") ? "noreferrer" : "noopener";
+        const opened = window.open(destination.href, target, features);
+        if (!opened) window.location.assign(destination.href);
+        return true;
+      }
+      window.location.assign(destination.href);
+      return true;
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function getTouchButtonFallbackTarget(node) {
+    if (!(node instanceof Element)) return null;
+    const button = node.closest("button, [role='button'], [data-favorite-toggle]");
+    if (!(button instanceof HTMLElement)) return null;
+    if (button instanceof HTMLInputElement || button instanceof HTMLTextAreaElement || button instanceof HTMLSelectElement) return null;
+    if (button.hasAttribute("disabled")) return null;
+    if (String(button.getAttribute("aria-disabled") || "").trim().toLowerCase() === "true") return null;
+    return button;
+  }
+
+  function bindTouchButtonFallback() {
+    if (touchButtonFallbackBound) return;
+    touchButtonFallbackBound = true;
+
+    document.addEventListener("touchstart", (event) => {
+      if (!shouldUseTouchLinkFallback()) return;
+      const target = getTouchButtonFallbackTarget(event.target);
+      if (!(target instanceof HTMLElement)) {
+        activeTouchButtonState = null;
+        return;
+      }
+      const touch = event.changedTouches && event.changedTouches[0];
+      activeTouchButtonState = {
+        target,
+        startedAt: Date.now(),
+        startX: touch ? touch.clientX : 0,
+        startY: touch ? touch.clientY : 0,
+        moved: false
+      };
+    }, { passive: true });
+
+    document.addEventListener("touchmove", (event) => {
+      if (!activeTouchButtonState) return;
+      const touch = event.changedTouches && event.changedTouches[0];
+      if (!touch) {
+        activeTouchButtonState.moved = true;
+        return;
+      }
+      const movedX = Math.abs(touch.clientX - activeTouchButtonState.startX);
+      const movedY = Math.abs(touch.clientY - activeTouchButtonState.startY);
+      if (movedX > 12 || movedY > 12) activeTouchButtonState.moved = true;
+    }, { passive: true });
+
+    document.addEventListener("touchcancel", () => {
+      activeTouchButtonState = null;
+    }, { passive: true });
+
+    document.addEventListener("touchend", (event) => {
+      if (!shouldUseTouchLinkFallback() || !activeTouchButtonState) return;
+      const state = activeTouchButtonState;
+      activeTouchButtonState = null;
+      if (state.moved) return;
+      if (Date.now() - state.startedAt > 550) return;
+
+      const target = getTouchButtonFallbackTarget(event.target);
+      if (!(target instanceof HTMLElement) || target !== state.target) return;
+
+      event.preventDefault();
+      dispatchingSyntheticButtonClick = true;
+      try {
+        target.click();
+      } finally {
+        dispatchingSyntheticButtonClick = false;
+        recentSyntheticButtonClickAt = Date.now();
+        recentSyntheticButtonTarget = target;
+      }
+    }, { passive: false });
+
+    document.addEventListener("click", (event) => {
+      if (!shouldUseTouchLinkFallback() || dispatchingSyntheticButtonClick) return;
+      if (Date.now() - recentSyntheticButtonClickAt > 900) return;
+      const target = getTouchButtonFallbackTarget(event.target);
+      if (!(target instanceof HTMLElement) || target !== recentSyntheticButtonTarget) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
+      recentSyntheticButtonTarget = null;
+    }, true);
+  }
+
+  function bindTouchLinkFallback() {
+    if (touchLinkFallbackBound) return;
+    touchLinkFallbackBound = true;
+
+    document.addEventListener("touchstart", (event) => {
+      if (!shouldUseTouchLinkFallback()) return;
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest("a[href]");
+      if (!isTouchNavigationFallbackCandidate(link)) {
+        activeTouchLinkState = null;
+        return;
+      }
+      const touch = event.changedTouches && event.changedTouches[0];
+      activeTouchLinkState = {
+        link,
+        startedAt: Date.now(),
+        startX: touch ? touch.clientX : 0,
+        startY: touch ? touch.clientY : 0,
+        moved: false
+      };
+    }, { passive: true });
+
+    document.addEventListener("touchmove", (event) => {
+      if (!activeTouchLinkState) return;
+      const touch = event.changedTouches && event.changedTouches[0];
+      if (!touch) {
+        activeTouchLinkState.moved = true;
+        return;
+      }
+      const movedX = Math.abs(touch.clientX - activeTouchLinkState.startX);
+      const movedY = Math.abs(touch.clientY - activeTouchLinkState.startY);
+      if (movedX > 12 || movedY > 12) activeTouchLinkState.moved = true;
+    }, { passive: true });
+
+    document.addEventListener("touchcancel", () => {
+      activeTouchLinkState = null;
+    }, { passive: true });
+
+    document.addEventListener("touchend", (event) => {
+      if (!shouldUseTouchLinkFallback() || !activeTouchLinkState) return;
+      const state = activeTouchLinkState;
+      activeTouchLinkState = null;
+      if (state.moved) return;
+      if (Date.now() - state.startedAt > 550) return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const endedLink = target.closest("a[href]");
+      if (!(endedLink instanceof HTMLAnchorElement) || endedLink !== state.link) return;
+
+      event.preventDefault();
+      const navigated = runTouchNavigationFallback(state.link);
+      if (navigated) recentTouchNavigationAt = Date.now();
+    }, { passive: false });
+
+    document.addEventListener("click", (event) => {
+      if (!shouldUseTouchLinkFallback()) return;
+      if (Date.now() - recentTouchNavigationAt < 900) return;
+      if (event.defaultPrevented) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest("a[href]");
+      if (!isTapNavigationFallbackCandidate(link)) return;
+
+      const currentHref = window.location.href;
+      let destination;
+      try {
+        destination = new URL(link.href, currentHref);
+      } catch (_error) {
+        return;
+      }
+
+      const currentUrl = new URL(currentHref);
+      const isSameDocumentHashJump =
+        destination.origin === currentUrl.origin
+        && destination.pathname === currentUrl.pathname
+        && destination.search === currentUrl.search
+        && !!destination.hash;
+      if (isSameDocumentHashJump || destination.href === currentHref) return;
+
+      window.setTimeout(() => {
+        if (document.visibilityState === "hidden") return;
+        if (window.location.href !== currentHref) return;
+        window.location.assign(destination.href);
+      }, 80);
+    });
+  }
+
+  function isTapDebugEnabled() {
+    try {
+      return new URLSearchParams(window.location.search || "").get("tap_debug") === "1";
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function collectTapDebugReport() {
+    const anchors = Array.from(document.querySelectorAll("a[href]"));
+    const visibleAnchors = anchors.filter((anchor) => {
+      if (!(anchor instanceof HTMLAnchorElement)) return false;
+      const rect = anchor.getBoundingClientRect();
+      const style = window.getComputedStyle(anchor);
+      return (
+        rect.width >= 8
+        && rect.height >= 8
+        && rect.bottom >= 0
+        && rect.top <= window.innerHeight
+        && style.display !== "none"
+        && style.visibility !== "hidden"
+      );
+    }).slice(0, 12);
+
+    const fixedElements = Array.from(document.querySelectorAll("body *")).filter((node) => {
+      if (!(node instanceof HTMLElement)) return false;
+      const style = window.getComputedStyle(node);
+      if (!["fixed", "sticky"].includes(style.position)) return false;
+      if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false;
+      if (style.pointerEvents === "none") return false;
+      const rect = node.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < window.innerHeight;
+    }).slice(0, 40).map((node) => {
+      const style = window.getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return {
+        node: `${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ""}${node.className && typeof node.className === "string" ? `.${node.className.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(".")}` : ""}`,
+        position: style.position,
+        pointerEvents: style.pointerEvents,
+        zIndex: style.zIndex,
+        rect: {
+          x: Math.round(rect.left),
+          y: Math.round(rect.top),
+          w: Math.round(rect.width),
+          h: Math.round(rect.height)
+        }
+      };
+    });
+
+    const linkReports = visibleAnchors.map((anchor) => {
+      const rect = anchor.getBoundingClientRect();
+      const centerX = Math.max(1, Math.min(window.innerWidth - 1, rect.left + (rect.width / 2)));
+      const centerY = Math.max(1, Math.min(window.innerHeight - 1, rect.top + (rect.height / 2)));
+      const stack = Array.from(document.elementsFromPoint(centerX, centerY)).slice(0, 6);
+      const top = stack[0] || null;
+      const style = window.getComputedStyle(anchor);
+      return {
+        text: (anchor.textContent || anchor.getAttribute("aria-label") || "").trim().replace(/\s+/g, " ").slice(0, 120),
+        href: anchor.getAttribute("href") || "",
+        pointerEvents: style.pointerEvents,
+        rect: {
+          x: Math.round(rect.left),
+          y: Math.round(rect.top),
+          w: Math.round(rect.width),
+          h: Math.round(rect.height)
+        },
+        topElement: top instanceof Element
+          ? `${top.tagName.toLowerCase()}${top.id ? `#${top.id}` : ""}${top.className && typeof top.className === "string" ? `.${top.className.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(".")}` : ""}`
+          : "(none)",
+        topMatches: !!top && (top === anchor || anchor.contains(top) || top.contains(anchor)),
+        stack: stack.map((node) => {
+          if (!(node instanceof Element)) return "(none)";
+          const nodeStyle = window.getComputedStyle(node);
+          return `${node.tagName.toLowerCase()}${node.id ? `#${node.id}` : ""}${node.className && typeof node.className === "string" ? `.${node.className.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(".")}` : ""} [pos:${nodeStyle.position}; pe:${nodeStyle.pointerEvents}; z:${nodeStyle.zIndex}]`;
+        })
+      };
+    });
+
+    return {
+      page: window.location.pathname + window.location.search,
+      viewport: { width: window.innerWidth, height: window.innerHeight },
+      bodyClasses: document.body.className,
+      visibleAnchorCount: visibleAnchors.length,
+      linkReports,
+      fixedElements
+    };
+  }
+
+  function renderTapDebugReport() {
+    if (!isTapDebugEnabled()) return;
+    const existing = document.getElementById("tap-debug-report");
+    if (existing) existing.remove();
+    const reportNode = document.createElement("pre");
+    reportNode.id = "tap-debug-report";
+    reportNode.style.position = "fixed";
+    reportNode.style.inset = "0";
+    reportNode.style.zIndex = "2147483647";
+    reportNode.style.margin = "0";
+    reportNode.style.padding = "16px";
+    reportNode.style.background = "rgba(255,255,255,0.96)";
+    reportNode.style.color = "#111";
+    reportNode.style.overflow = "auto";
+    reportNode.style.font = "12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace";
+    reportNode.textContent = JSON.stringify(collectTapDebugReport(), null, 2);
+    document.body.appendChild(reportNode);
+  }
+
+  function scheduleTapDebugReport() {
+    if (!isTapDebugEnabled() || tapDebugScheduled) return;
+    tapDebugScheduled = true;
+    window.setTimeout(() => {
+      tapDebugScheduled = false;
+      renderTapDebugReport();
+    }, 2600);
+  }
+
   let translationScheduled = false;
   function scheduleTranslationPass() {
     if (translationScheduled) return;
@@ -2574,11 +2961,14 @@
   document.addEventListener("DOMContentLoaded", () => {
     initializeAnalytics();
     bindWhatsAppTracking();
+    bindTouchLinkFallback();
+    bindTouchButtonFallback();
     initializeThemeFavicon();
     ensureLanguageStyles();
     injectLanguageSwitcher();
     window.addEventListener("resize", injectLanguageSwitcher);
     applyPageTranslations();
+    scheduleTapDebugReport();
     startObserver();
   });
 }());

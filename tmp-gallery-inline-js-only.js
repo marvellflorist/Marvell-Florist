@@ -1618,23 +1618,6 @@ document.addEventListener("keydown", (event) => {
   setCategoryPickerOpen(false);
 });
 
-let touchStartY = 0;
-window.addEventListener("wheel", (event) => {
-  if (window.scrollY <= 0 && event.deltaY < 0) {
-    event.preventDefault();
-  }
-}, { passive: false });
-window.addEventListener("touchstart", (event) => {
-  touchStartY = event.touches[0]?.clientY || 0;
-}, { passive: true });
-window.addEventListener("touchmove", (event) => {
-  const currentY = event.touches[0]?.clientY || 0;
-  const pullingDown = currentY > touchStartY;
-  if (window.scrollY <= 0 && pullingDown) {
-    event.preventDefault();
-  }
-}, { passive: false });
-
 async function initialize() {
   await hydrateCategoryMetaFromContent();
   setupCategoryNavigation();
