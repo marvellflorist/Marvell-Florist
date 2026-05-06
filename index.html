@@ -9600,7 +9600,7 @@ body.seasonal-popup-open {
   }
   section { min-height: 130vh; }
   }
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 769px) and (max-width: 768px) {
   .section-rail {
     position: fixed;
     left: 50%;
@@ -10068,7 +10068,7 @@ body.seasonal-popup-open {
 #services .services-carousel-dots {
   display: none !important;
 }
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   #services {
     padding: 88px 0 82px !important;
   }
@@ -10158,7 +10158,7 @@ body.seasonal-popup-open {
     letter-spacing: 0.11em !important;
   }
 }
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .gallery-products-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
@@ -10977,7 +10977,7 @@ const EDITION_CLASSES = EDITIONS.map((edition) => edition.id);
 const cursorHalo = document.getElementById("cursor-halo");
 const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 const DEVICE_CLASSES = ["device-mobile", "device-desktop", "platform-android"];
-const TABLET_VIEWPORT_QUERY = "(min-width: 769px) and (max-width: 1024px)";
+const TABLET_VIEWPORT_QUERY = "(min-width: 769px) and (max-width: 768px)";
 
 function isTabletViewport() {
   return window.matchMedia(TABLET_VIEWPORT_QUERY).matches;
@@ -10987,8 +10987,7 @@ function applyDeviceClasses() {
   const ua = navigator.userAgent || "";
   const isAndroid = /\bAndroid\b/i.test(ua);
   const isMobileViewport = window.matchMedia("(max-width: 768px)").matches;
-  const isAndroidHandset = isAndroid && window.matchMedia("(max-width: 1024px)").matches;
-  const isMobile = isMobileViewport || isAndroidHandset;
+  const isMobile = isMobileViewport;
   const isDesktop = !isMobile;
 
   document.body.classList.remove(...DEVICE_CLASSES);
