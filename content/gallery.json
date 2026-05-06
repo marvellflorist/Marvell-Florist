@@ -199,158 +199,440 @@
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-bigpink.webp",
-          "price": null,
-          "title": "Bouquet No. 01"
+          "price": 650000,
+          "title": "The Aurora Collective",
+          "filters": {
+            "colors": [
+              "peach",
+              "pink"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "carnation",
+              "babys-breath"
+            ],
+            "size": "large"
+          },
+          "description": "A sophisticated exploration of tonal layering, The Aurora Collective is designed for those who appreciate the nuance of color and form. This arrangement features a lush gradient of premium roses, transitioning from deep coral to soft porcelain pink, interspersed with delicate aster and seasonal greenery to create a rich, textural landscape."
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-goldblackredpink.webp",
-          "price": null,
-          "title": "Bouquet No. 02"
+          "price": 450000,
+          "title": "The Midnight Rose",
+          "filters": {
+            "colors": [
+              "black",
+              "gold",
+              "red",
+              "white",
+              "purple",
+              "yellow"
+            ],
+            "flowerCondition": "preserved",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath",
+              "hydrangea"
+            ],
+            "size": "medium"
+          },
+          "description": "A bold statement of artisanal elegance, The Midnight Rose is a masterclass in high-contrast floral design. This arrangement features velvety crimson roses set against a rich tapestry of preserved textures, including deep lavender hydrangeas, architectural gold-toned fillers, and soft cotton accents that provide a tactile, multidimensional feel."
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-(graduation)blackgoldsimplered.webp",
-          "price": null,
-          "title": "Bouquet No. 03"
-        },
-        {
-          "category": "Bouquets",
-          "image": "/assets/uploads/bou-pinkhbltc.webp",
-          "price": 200000,
-          "title": "Bouquet No. 04"
+          "price": 350001,
+          "title": "The Valedictorian",
+          "description": "A classic tribute to achievement, The Valedictorian pairs the timeless elegance of deep crimson roses with the playful charm of a commemorative plush. This arrangement features a core of velvety red blooms nested in a cloud of delicate white baby’s breath and vibrant hypericum berries, creating a festive yet sophisticated contrast.",
+          "filters": {
+            "colors": [
+              "black",
+              "gold",
+              "red",
+              "white"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ],
+            "occasion": "wisuda",
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-holoprettypink.webp",
-          "price": null,
-          "title": "Bouquet No. 05"
+          "price": 500000,
+          "title": "The Etheria Bloom",
+          "description": "A whimsical exploration of light and texture, The Etheria Bloom is designed for the modern dreamer. This arrangement showcases a delicate harmony of soft lavender roses, blush gerberas, and a statement pink lily, accented by spray carnations and fresh eucalyptus for a lush, garden-inspired feel. \n\nThe presentation features an avant-garde mix of iridescent holographic film and matte pastel pink paper, creating a shifting play of color that mirrors the beauty of a sunset. Anchored by a pleated white mesh base and finished with our signature Marvell Florist satin ribbon, this bouquet embodies a youthful yet sophisticated \"Atelier\" aesthetic. It is a luminous choice for those seeking a floral expression that is as unique as it is graceful.",
+          "filters": {
+            "colors": [
+              "pink",
+              "white",
+              "green",
+              "peach"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "lily",
+              "mawar",
+              "gerbera",
+              "babys-breath"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-holoredgold.webp",
-          "price": null,
-          "title": "Bouquet No. 06"
+          "price": 500000,
+          "title": "The Velvet Prism",
+          "filters": {
+            "colors": [
+              "red",
+              "gold",
+              "pink",
+              "white"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "lily",
+              "hydrangea",
+              "mawar",
+              "babys-breath"
+            ],
+            "size": "medium"
+          },
+          "description": "A bold, cinematic evolution of our holographic series, The Velvet Prism is a study in high-contrast luxury. This arrangement centers on deep, velvety crimson roses and striking scarlet gerberas, juxtaposed against the soft architectural curves of blush Oriental lilies. Sprays of white baby’s breath and fresh eucalyptus provide a garden-inspired texture that grounds the vibrant floral core."
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-moneyblueround.webp",
-          "price": null,
-          "title": "Bouquet No. 07"
+          "price": 450000,
+          "title": "The Azure Peacock",
+          "description": "A masterpiece of technical precision and cultural artistry, The Azure Peacock is a high-impact statement piece that redefines the concept of a \"Money Bouquet.\" At its heart lies a stunning circular fan of banknotes, meticulously arranged to mirror the regal plumage of a peacock. This intricate currency fan is centered around a hand-applied peacock illustration, creating a seamless blend of monetary value and artisanal design.",
+          "filters": {
+            "colors": [
+              "blue",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "carnation",
+              "hydrangea"
+            ],
+            "size": "large"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-moneypinkred.webp",
-          "price": null,
-          "title": "Bouquet No. 08"
+          "price": 750000,
+          "title": "The Crimson Prosperity",
+          "description": "A grand expression of abundance and affection, The Crimson Prosperity is a masterful heart-shaped composition designed to make an indelible impression. This high-end money bouquet features dozens of 100,000 IDR banknotes, meticulously folded and tiered to form a lush, sculptural heart. At its core lies a trio of velvety deep-red roses, nestled in a delicate bed of white baby’s breath to provide a romantic, organic focal point.",
+          "filters": {
+            "colors": [
+              "pink",
+              "red",
+              "white"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ],
+            "size": "large"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-pink.webp",
-          "price": null,
-          "title": "Bouquet No. 09"
-        },
-        {
-          "category": "Bouquets",
-          "image": "/assets/uploads/bou-pinklight.webp",
-          "price": null,
-          "title": "Bouquet No. 10"
+          "price": 400000,
+          "title": "The Seraphic Bloom",
+          "description": "A delicate study in ethereal textures, The Seraphic Bloom is designed to evoke a sense of weightless elegance. This arrangement features a soft core of porcelain-pink roses, gracefully surrounded by airy stems of limonium and feathered dried accents that create a hazy, romantic silhouette.",
+          "filters": {
+            "colors": [
+              "pink",
+              "purple",
+              "peach"
+            ],
+            "flowerCondition": "preserved",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-pinkpastel.webp",
-          "price": null,
-          "title": "Bouquet No. 11"
-        },
-        {
-          "category": "Bouquets",
-          "image": "/assets/uploads/bou-pinkpurplesimple.webp",
-          "price": null,
-          "title": "Bouquet No. 12"
+          "price": 300000,
+          "title": "The Rosé Ruffle",
+          "description": "A celebration of soft textures and romantic layering, The Rosé Ruffle is designed to capture the essence of a blossoming garden. This arrangement features premium long-stemmed pink roses nestled within a generous cloud of tinted gypsophila and delicate greenery, creating a lush, voluminous heart.",
+          "filters": {
+            "colors": [
+              "pink",
+              "peach"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ],
+            "size": "large"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-pinkredbigroses.webp",
-          "price": null,
-          "title": "Bouquet No. 13"
+          "price": 450000,
+          "title": "The Scarlet Muse",
+          "description": "A vivid expression of timeless romance, The Scarlet Muse is designed to be the ultimate centerpiece of any high-end collection. This arrangement features a lush core of premium, velvety red roses, punctuated by delicate white baby’s breath and fresh eucalyptus sprigs to create a sophisticated, garden-inspired contrast.",
+          "filters": {
+            "colors": [
+              "white",
+              "pink",
+              "red"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ],
+            "size": "large"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-pinkredroundbig.webp",
-          "price": null,
-          "title": "Bouquet No. 14"
+          "price": 1500000,
+          "title": "The Pearl Ombré",
+          "description": "A sophisticated exercise in color theory and artisanal adornment, The Pearl Ombré is a centerpiece designed for ultimate elegance. This arrangement features a meticulously curated gradient of premium roses, transitioning from a deep velvet crimson at the peak to soft porcelain pink, and finally a vibrant magenta base. This floral dome is encircled by a delicate halo of white gypsophila, adding an ethereal, airy texture to the dense bloom composition.",
+          "filters": {
+            "colors": [
+              "pink",
+              "red",
+              "white"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar"
+            ],
+            "size": "large"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-pinkwithredroses.webp",
-          "price": null,
-          "title": "Bouquet No. 15"
+          "price": 320000,
+          "title": "The Amour Bloom",
+          "description": "A classic expression of romantic elegance, The Amour Bloom is a curated study in tonal contrast and textural depth. This arrangement features a core of premium, velvety crimson roses, nestled within a lush cloud of ethereal baby’s breath and delicate purple asters. Structural greenery and vertical sprigs add a sense of natural movement, creating a garden-inspired silhouette that is both timeless and modern.",
+          "filters": {
+            "colors": [
+              "pink",
+              "red",
+              "white"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath",
+              "carnation"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-pinkywithgreen.webp",
-          "price": null,
-          "title": "Bouquet No. 16"
+          "price": 365000,
+          "title": "The Roselle Muse",
+          "description": "A vibrant celebration of artisanal craftsmanship, The Roselle Muse is designed for those who appreciate an editorial, high-end aesthetic. This arrangement features a core of premium fuchsia roses, accented by delicate white chamomile-style blooms and lush eucalyptus sprigs that provide a modern, garden-inspired texture.",
+          "filters": {
+            "colors": [
+              "white",
+              "pink",
+              "peach"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-purp.webp",
-          "price": null,
-          "title": "Bouquet No. 17"
+          "price": 300000,
+          "title": "The Lavender Haze",
+          "description": "A serene journey through cool-toned textures, The Lavender Haze is an editorial study in floral layering. This arrangement features a dreamlike core of sky-blue hydrangeas and premium lavender roses, accented by deep plum-toned poms for a striking, tonal contrast. Ethereal white baby’s breath and architectural greenery provide a soft, hazy frame that gives the bouquet its signature garden-inspired depth.",
+          "filters": {
+            "colors": [
+              "purple",
+              "white",
+              "blue"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "hydrangea",
+              "babys-breath",
+              "chrysanthemum"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-redpink.webp",
-          "price": null,
-          "title": "Bouquet No. 18"
+          "price": 450000,
+          "title": "The Monochrome Muse",
+          "description": "A sophisticated exercise in high-contrast layering, The Monochrome Muse is designed for those who appreciate an editorial, high-end aesthetic. This arrangement features a core of premium crimson roses and delicate blush carnations, nestled within a cloud of ethereal baby’s breath. Structural eucalyptus sprigs provide a modern, garden-inspired texture that adds depth and movement to the composition.",
+          "filters": {
+            "colors": [
+              "pink",
+              "white",
+              "red"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath",
+              "carnation"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-redpinkblank.webp",
-          "price": null,
-          "title": "Bouquet No. 19"
-        },
-        {
-          "category": "Bouquets",
-          "image": "/assets/uploads/bou-smallpinkred.webp",
-          "price": null,
-          "title": "Bouquet No. 20"
+          "price": 1750000,
+          "title": "Noir et Rouge",
+          "description": "A powerful statement of unyielding romance, this arrangement is a study in high-contrast luxury. At its core, a dense, architectural dome of 50 premium crimson roses creates a deep saturated focal point, encircled by a delicate halo of white baby’s breath that adds a touch of ethereal light.",
+          "filters": {
+            "colors": [
+              "pink",
+              "white",
+              "black",
+              "red"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ],
+            "size": "large"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-yellowblackwhitewithredrosesandbabysbreath.webp",
-          "price": null,
-          "title": "Bouquet No. 21"
-        },
-        {
-          "category": "Bouquets",
-          "image": "/assets/uploads/bou-yellowredblack.webp",
-          "price": null,
-          "title": "Bouquet No. 22"
+          "price": 750000,
+          "title": "The Grand Crimson Lily",
+          "description": "This arrangement is a celebration of vibrant textures and classic beauty, designed with a focus on high-end editorial aesthetics. At the heart of the composition is a singular, pristine white lily, serving as a luminous focal point. It is surrounded by a lush collection of premium red roses and delicate pink spray carnations, creating a rich, multi-tonal floral landscape. A misty cloud of white baby’s breath and architectural greenery adds a sense of natural movement and garden-inspired depth to the bouquet.",
+          "filters": {
+            "colors": [
+              "yellow",
+              "white",
+              "green",
+              "red"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath",
+              "lily"
+            ],
+            "size": "large"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bou-yellowwhite.webp",
-          "price": null,
-          "title": "Bouquet No. 23"
+          "price": 349999,
+          "title": "The Solar Atelier",
+          "description": "This arrangement is a luminous exploration of texture and warmth, designed to capture a sun-drenched, editorial aesthetic. The composition centers on a radiant mix of buttery yellow roses and golden poms, balanced by the serene presence of ivory chrysanthemums. A cloud of ethereal white baby’s breath and fresh greenery adds garden-inspired movement and depth, creating a bouquet that feels both organic and meticulously curated.",
+          "filters": {
+            "colors": [
+              "yellow",
+              "white",
+              "gold"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "aster",
+              "babys-breath"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/boupinkred.webp",
-          "price": null,
-          "title": "Bouquet No. 24"
+          "price": 320000,
+          "title": "The Blushing Velvet",
+          "description": "This composition serves as a romantic dialogue between power and softness, curated for an editorial Atelier aesthetic. The arrangement features a lush core of premium crimson and vibrant pink roses, creating a rich, tonal gradient that feels both classic and avant-garde. Nestled among these are delicate clusters of white gypsophila and architectural greenery, adding a layer of misty, garden-inspired texture.",
+          "filters": {
+            "colors": [
+              "pink",
+              "red",
+              "white"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/bouquetpurplewithroses.webp",
-          "price": null,
-          "title": "Bouquet No. 25"
+          "price": 425000,
+          "title": "The Iridescent Charm",
+          "description": "This arrangement is an exercise in playful texture and light, curated for a high-end Atelier aesthetic. The composition features a bold core of premium crimson roses, interspersed with the ruffled, bicolored petals of carnations and delicate purple asters. A misty cloud of baby’s breath and architectural evergreens adds a layer of garden-inspired depth, creating a bouquet that feels both vibrant and meticulously curated.",
+          "filters": {
+            "colors": [
+              "purple",
+              "red",
+              "pink"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath",
+              "carnation"
+            ],
+            "size": "medium"
+          }
         },
         {
           "category": "Bouquets",
           "image": "/assets/uploads/Bouquetspink.webp",
-          "price": null,
-          "title": "Bouquet No. 26"
+          "price": 650000,
+          "title": "The Pastel Atelier",
+          "description": "A delicate study in tonal harmony and soft textures, this arrangement is curated to reflect a high-end, editorial identity. The composition centers on a lush blend of porcelain-pink and ivory roses, creating a serene, multi-dimensional core. Nestled among these are vibrant pink spray carnations and a misty cloud of ethereal white gypsophila, which add layers of garden-inspired movement and depth.",
+          "filters": {
+            "colors": [
+              "pink",
+              "white",
+              "peach"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath",
+              "carnation"
+            ],
+            "size": "large"
+          }
         }
       ]
     },

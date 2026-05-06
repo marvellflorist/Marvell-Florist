@@ -73,10 +73,11 @@
       .contact-quick-panel {
         position: fixed;
         top: 0;
+        bottom: auto;
         right: 0;
         width: min(92vw, 600px);
         height: 100vh;
-        background: var(--footer-offwhite, #f8f6f1);
+        background: var(--footer-offwhite, #fff);
         color: #151210;
         transform: translateX(100%);
         transition: transform 0.5s ease-in-out;
@@ -87,7 +88,7 @@
       }
       .contact-quick-panel.is-open {
         transform: translateX(0);
-        box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
+        box-shadow: -20px 0 36px rgba(10, 12, 18, 0.18);
       }
       #contact-quick-panel .contact-quick-head {
         display: flex;
@@ -185,10 +186,17 @@
         .contact-quick-panel {
           left: 0;
           right: 0;
+          top: auto;
+          bottom: 0;
           width: 100vw;
           max-width: none;
           height: 100dvh;
           min-height: 100dvh;
+          transform: translateY(100%);
+        }
+        .contact-quick-panel.is-open {
+          transform: translateY(0);
+          box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18);
         }
         #contact-quick-panel .contact-quick-head {
           padding: calc(env(safe-area-inset-top, 0px) + 20px) max(20px, env(safe-area-inset-right, 0px)) 8px max(20px, env(safe-area-inset-left, 0px));

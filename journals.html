@@ -19,8 +19,8 @@
 <meta name="twitter:description" content="Browse The Journals by Marvell Florist: small visual lookbooks shaped through images and titles only.">
 <meta name="twitter:image" content="https://marvellflorist.com/assets/uploads/img_4322.webp">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260425d"></script>
-<script src="assets/header-template.js?v=20260425c"></script>
+<script src="assets/site-language.js?v=20260505a"></script>
+<script src="assets/header-template.js?v=20260505j"></script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -367,13 +367,20 @@ body[data-journal-theme="mono"] #site-footer .footer-col {
     <div class="stories-header">
       <h1 class="stories-title" id="stories-page-title">The Journals</h1>
     </div>
-    <section class="stories-grid stories-grid--single" id="stories-grid" aria-label="The Journals">
+    <section class="stories-grid" id="stories-grid" aria-label="The Journals">
       <a class="story-card" href="journal.html?journal=grad-26" aria-label="Reflection">
         <div class="story-card-media">
           <img src="/assets/uploads/img_4322.webp" alt="Reflection" loading="lazy" decoding="async">
         </div>
         <p class="story-card-title">Reflection</p>
         <p class="story-card-meta">April 2026</p>
+      </a>
+      <a class="story-card" href="journal.html?journal=mothers-day-2026" aria-label="Origins and Arrivals">
+        <div class="story-card-media">
+          <img src="/assets/uploads/untitled168_20260504184434-1-.webp" alt="Origins and Arrivals" loading="lazy" decoding="async">
+        </div>
+        <p class="story-card-title">Origins and Arrivals</p>
+        <p class="story-card-meta">May 2026</p>
       </a>
     </section>
     <div class="stories-empty" id="stories-empty" hidden style="display:none;">
@@ -405,6 +412,19 @@ body[data-journal-theme="mono"] #site-footer .footer-col {
         "/assets/uploads/img_4337.webp",
         "/assets/uploads/img_4503.webp"
       ]
+    },
+    {
+      "slug": "mothers-day-2026",
+      "monthYear": "May 2026",
+      "coverImage": "/assets/uploads/untitled168_20260504184434-1-.webp",
+      "images": [
+        "/assets/uploads/img_4664.webp",
+        "/assets/uploads/img_4659.webp",
+        "/assets/uploads/img_4657.webp",
+        "/assets/uploads/img_4649.webp",
+        "/assets/uploads/img_4642.webp"
+      ],
+      "title": "Origins and Arrivals"
     }
   ]
 }
@@ -438,6 +458,19 @@ function normalizeStoryImage(entry) {
   if (typeof entry === "string") return entry.trim();
   if (typeof entry === "object" && typeof entry.image === "string") return entry.image.trim();
   return "";
+}
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeAttr(value) {
+  return escapeHTML(value);
 }
 
 async function fetchStoriesPayload() {
@@ -496,12 +529,12 @@ function renderStoriesPage(data) {
   emptyState.hidden = true;
   emptyState.style.display = "none";
   grid.innerHTML = data.entries.map((entry) => `
-    <a class="story-card" href="journal.html?journal=${encodeURIComponent(entry.slug)}" aria-label="${entry.title}">
+    <a class="story-card" href="journal.html?journal=${encodeURIComponent(entry.slug)}" aria-label="${escapeAttr(entry.title)}">
       <div class="story-card-media">
-        <img src="${entry.coverImage}" alt="${entry.title}" loading="lazy" decoding="async">
+        <img src="${escapeAttr(entry.coverImage)}" alt="${escapeAttr(entry.title)}" loading="lazy" decoding="async">
       </div>
-      <p class="story-card-title">${entry.title}</p>
-      ${entry.monthYear ? `<p class="story-card-meta">${entry.monthYear}</p>` : ""}
+      <p class="story-card-title">${escapeHTML(entry.title)}</p>
+      ${entry.monthYear ? `<p class="story-card-meta">${escapeHTML(entry.monthYear)}</p>` : ""}
     </a>
   `).join("");
 }
@@ -511,9 +544,9 @@ function renderStoriesPage(data) {
   renderStoriesPage(normalizeStoriesEntries(payload || {}));
 })();
 </script>
-<script src="assets/shared-contact.js?v=20260414g"></script>
-<script src="assets/favorites.js?v=20260422b"></script>
-<script src="assets/secondary-menu.js?v=20260424e"></script>
-<script src="assets/shared-footer.js?v=20260423j"></script>
+<script src="assets/shared-contact.js?v=20260505b"></script>
+<script src="assets/favorites.js?v=20260505a"></script>
+<script src="assets/secondary-menu.js?v=20260505c"></script>
+<script src="assets/shared-footer.js?v=20260505a"></script>
 </body>
 </html>

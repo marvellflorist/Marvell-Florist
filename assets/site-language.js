@@ -12,13 +12,21 @@
   let whatsappTrackingBound = false;
   let touchLinkFallbackBound = false;
   let touchButtonFallbackBound = false;
+  let touchChoiceFallbackBound = false;
+  let touchFieldFocusFallbackBound = false;
   let tapDebugScheduled = false;
   let activeTouchLinkState = null;
   let activeTouchButtonState = null;
+  let activeTouchChoiceState = null;
+  let activeTouchFieldState = null;
   let recentTouchNavigationAt = 0;
+  let recentTouchLinkClickAt = 0;
+  let recentTouchLinkClickTarget = null;
   let recentSyntheticButtonClickAt = 0;
   let recentSyntheticButtonTarget = null;
   let dispatchingSyntheticButtonClick = false;
+  let pendingTouchNavigationTimer = 0;
+  let pendingTouchChoiceTimer = 0;
 
   function syncAnalyticsPreferenceFromUrl() {
     try {
@@ -342,7 +350,7 @@
     "Search arrangements": "Cari rangkaian",
     "Reviews": "Ulasan",
     "Filter": "Filter",
-    "Filters": "Filter",
+    "Filters": "Filters",
     "Color": "Warna",
     "Type": "Jenis",
     "Flower Type": "Jenis Bunga",
@@ -730,10 +738,11 @@
     const mobileTriggerLabel = document.querySelector("#search-mobile-trigger span:last-child");
     setText(mobileTriggerLabel, t("Search arrangements", "Cari rangkaian"));
     Array.from(document.querySelectorAll(".menu-back")).forEach((node) => {
-      setText(node, t("\u2190 Back", "\u2190 Kembali"));
+      setText(node, t("Back", "Kembali"));
     });
     Array.from(document.querySelectorAll(".menu-link")).forEach((node) => {
       if (!(node instanceof HTMLElement)) return;
+      if (node.classList.contains("menu-back") || node.hasAttribute("data-menu-back")) return;
       if (node.dataset.seasonalManaged === "true") {
         setText(node, localizeSeasonalCollectionLabel(node.dataset.seasonalLabel || node.textContent || ""));
         return;
@@ -933,7 +942,10 @@
       setSelectorText("#featured-title", t("Collections", "Koleksi"));
       setSelectorText("#featured-lead", t("Each arrangement is custom-made. Final details and pricing are confirmed during consultation.", "Setiap rangkaian dibuat khusus. Detail akhir dan harga dikonfirmasi saat konsultasi."));
     }
-    setSelectorText(".home-hero-link", t("Discover the Collection", "Jelajahi Koleksi"));
+    const homeHeroLink = document.getElementById("home-hero-link");
+    if (!(homeHeroLink instanceof HTMLElement) || homeHeroLink.dataset.siteSectionsManaged !== "true") {
+      setSelectorText(".home-hero-link", t("Discover the Collection", "Jelajahi Koleksi"));
+    }
     setSelectorText(".home-quote-cta", t("View the creations", "Lihat karya kami"));
     setSelectorText("#portfolio-kicker", t("Portfolio", "Portofolio"));
     setSelectorText("#portfolio-heading", t("Explore a Selection of Our Creations", "Jelajahi Pilihan dari Kreasi Kami"));
@@ -1011,7 +1023,7 @@
       const count = countMatch ? countMatch[1] : "0";
       productsTab.textContent = `${t("Products", "Produk")} (${count})`;
     }
-    setSelectorText("#search-query-filter .search-query-filter-label", t("Filter", "Filter"));
+    setSelectorText("#search-query-filter .search-query-filter-label", t("Filters", "Filters"));
     setSelectorText("#search-keywords-heading", t("Related Searches", "Pencarian Terkait"));
     setSelectorText("#search-products-heading", t("Recommended Products", "Produk Rekomendasi"));
     const featuredHeading = document.getElementById("search-featured-heading");
@@ -1974,9 +1986,9 @@
     setSelectorText("#custom-arrangements-link", "");
     setSelectorText("#consult-collection", t("Consult This Collection", "Konsultasikan Koleksi Ini"));
     Array.from(document.querySelectorAll(".filters-trigger-label")).forEach((node) => {
-      setText(node, t("Filter", "Filter"));
+      setText(node, t("Filters", "Filters"));
     });
-    setSelectorText("#filters-panel h3", t("Filter", "Filter"));
+    setSelectorText("#filters-panel h3", t("Filters", "Filters"));
 
     const heroTitle = document.getElementById("hero-title");
     if (heroTitle instanceof HTMLElement) heroTitle.textContent = localizeCategory(heroTitle.textContent);
@@ -2082,7 +2094,7 @@
       setText(node, localizeSimpleLabel(node.textContent || ""));
     });
 
-    Array.from(document.querySelectorAll("#related-grid p")).forEach((node) => {
+    Array.from(document.querySelectorAll("#related-grid .related-empty")).forEach((node) => {
       setText(node, t("No additional items in this category yet.", "Belum ada item tambahan di kategori ini."));
     });
 
@@ -2654,6 +2666,36 @@
     return button;
   }
 
+  function getTouchChoiceFallbackTarget(node) {
+    if (!(node instanceof Element)) return null;
+    const label = node.closest("label");
+    if (!(label instanceof HTMLLabelElement)) return null;
+    const control = label.control || label.querySelector("input[type='checkbox'], input[type='radio']");
+    if (!(control instanceof HTMLInputElement)) return null;
+    if (control.type !== "checkbox" && control.type !== "radio") return null;
+    if (control.disabled) return null;
+    if (String(label.getAttribute("aria-disabled") || "").trim().toLowerCase() === "true") return null;
+    return { label, control };
+  }
+
+  function getTouchFieldFocusTarget(node) {
+    if (!(node instanceof Element)) return null;
+    const target = node.closest("input, textarea, [contenteditable='true']");
+    if (!(target instanceof HTMLElement)) return null;
+    if (target instanceof HTMLInputElement) {
+      const type = String(target.type || "text").trim().toLowerCase();
+      if (["button", "checkbox", "color", "file", "hidden", "image", "radio", "range", "reset", "submit"].includes(type)) return null;
+      if (target.disabled || target.readOnly) return null;
+      return target;
+    }
+    if (target instanceof HTMLTextAreaElement) {
+      if (target.disabled || target.readOnly) return null;
+      return target;
+    }
+    if (String(target.getAttribute("contenteditable") || "").trim().toLowerCase() === "true") return target;
+    return null;
+  }
+
   function bindTouchButtonFallback() {
     if (touchButtonFallbackBound) return;
     touchButtonFallbackBound = true;
@@ -2724,12 +2766,150 @@
     }, true);
   }
 
+  function bindTouchChoiceFallback() {
+    if (touchChoiceFallbackBound) return;
+    touchChoiceFallbackBound = true;
+
+    const clearPendingTouchChoice = () => {
+      if (!pendingTouchChoiceTimer) return;
+      window.clearTimeout(pendingTouchChoiceTimer);
+      pendingTouchChoiceTimer = 0;
+    };
+
+    document.addEventListener("touchstart", (event) => {
+      if (!shouldUseTouchLinkFallback()) return;
+      clearPendingTouchChoice();
+      const target = getTouchChoiceFallbackTarget(event.target);
+      if (!target) {
+        activeTouchChoiceState = null;
+        return;
+      }
+      const touch = event.changedTouches && event.changedTouches[0];
+      activeTouchChoiceState = {
+        label: target.label,
+        control: target.control,
+        checked: target.control.checked,
+        startedAt: Date.now(),
+        startX: touch ? touch.clientX : 0,
+        startY: touch ? touch.clientY : 0,
+        moved: false
+      };
+    }, { passive: true });
+
+    document.addEventListener("touchmove", (event) => {
+      if (!activeTouchChoiceState) return;
+      const touch = event.changedTouches && event.changedTouches[0];
+      if (!touch) {
+        activeTouchChoiceState.moved = true;
+        return;
+      }
+      const movedX = Math.abs(touch.clientX - activeTouchChoiceState.startX);
+      const movedY = Math.abs(touch.clientY - activeTouchChoiceState.startY);
+      if (movedX > 12 || movedY > 12) activeTouchChoiceState.moved = true;
+    }, { passive: true });
+
+    document.addEventListener("touchcancel", () => {
+      activeTouchChoiceState = null;
+      clearPendingTouchChoice();
+    }, { passive: true });
+
+    document.addEventListener("touchend", (event) => {
+      if (!shouldUseTouchLinkFallback() || !activeTouchChoiceState) return;
+      const state = activeTouchChoiceState;
+      activeTouchChoiceState = null;
+      if (state.moved) return;
+      if (Date.now() - state.startedAt > 550) return;
+
+      const target = getTouchChoiceFallbackTarget(event.target);
+      if (!target || target.label !== state.label || target.control !== state.control) return;
+
+      clearPendingTouchChoice();
+      pendingTouchChoiceTimer = window.setTimeout(() => {
+        pendingTouchChoiceTimer = 0;
+        if (document.visibilityState === "hidden") return;
+        if (state.control.disabled) return;
+        if (state.control.checked !== state.checked) return;
+        state.control.click();
+      }, 180);
+    }, { passive: true });
+  }
+
+  function bindTouchFieldFocusFallback() {
+    if (touchFieldFocusFallbackBound) return;
+    touchFieldFocusFallbackBound = true;
+
+    document.addEventListener("touchstart", (event) => {
+      if (!shouldUseTouchLinkFallback()) return;
+      const target = getTouchFieldFocusTarget(event.target);
+      if (!(target instanceof HTMLElement)) {
+        activeTouchFieldState = null;
+        return;
+      }
+      const touch = event.changedTouches && event.changedTouches[0];
+      activeTouchFieldState = {
+        target,
+        startedAt: Date.now(),
+        startX: touch ? touch.clientX : 0,
+        startY: touch ? touch.clientY : 0,
+        moved: false
+      };
+    }, { passive: true });
+
+    document.addEventListener("touchmove", (event) => {
+      if (!activeTouchFieldState) return;
+      const touch = event.changedTouches && event.changedTouches[0];
+      if (!touch) {
+        activeTouchFieldState.moved = true;
+        return;
+      }
+      const movedX = Math.abs(touch.clientX - activeTouchFieldState.startX);
+      const movedY = Math.abs(touch.clientY - activeTouchFieldState.startY);
+      if (movedX > 12 || movedY > 12) activeTouchFieldState.moved = true;
+    }, { passive: true });
+
+    document.addEventListener("touchcancel", () => {
+      activeTouchFieldState = null;
+    }, { passive: true });
+
+    document.addEventListener("touchend", (event) => {
+      if (!shouldUseTouchLinkFallback() || !activeTouchFieldState) return;
+      const state = activeTouchFieldState;
+      activeTouchFieldState = null;
+      if (state.moved) return;
+      if (Date.now() - state.startedAt > 550) return;
+
+      const target = state.target;
+      if (!(target instanceof HTMLElement) || !target.isConnected) return;
+      if (document.activeElement === target) return;
+      try {
+        target.focus({ preventScroll: true });
+      } catch (_error) {
+        target.focus();
+      }
+      window.setTimeout(() => {
+        if (!target.isConnected || document.activeElement === target) return;
+        try {
+          target.focus({ preventScroll: true });
+        } catch (_error) {
+          target.focus();
+        }
+      }, 80);
+    }, { passive: true });
+  }
+
   function bindTouchLinkFallback() {
     if (touchLinkFallbackBound) return;
     touchLinkFallbackBound = true;
 
+    const clearPendingTouchNavigation = () => {
+      if (!pendingTouchNavigationTimer) return;
+      window.clearTimeout(pendingTouchNavigationTimer);
+      pendingTouchNavigationTimer = 0;
+    };
+
     document.addEventListener("touchstart", (event) => {
       if (!shouldUseTouchLinkFallback()) return;
+      clearPendingTouchNavigation();
       const target = event.target;
       if (!(target instanceof Element)) return;
       const link = target.closest("a[href]");
@@ -2761,6 +2941,7 @@
 
     document.addEventListener("touchcancel", () => {
       activeTouchLinkState = null;
+      clearPendingTouchNavigation();
     }, { passive: true });
 
     document.addEventListener("touchend", (event) => {
@@ -2775,10 +2956,30 @@
       const endedLink = target.closest("a[href]");
       if (!(endedLink instanceof HTMLAnchorElement) || endedLink !== state.link) return;
 
-      event.preventDefault();
-      const navigated = runTouchNavigationFallback(state.link);
-      if (navigated) recentTouchNavigationAt = Date.now();
+      const link = state.link;
+      const startedFallbackAt = Date.now();
+      const startHref = window.location.href;
+      clearPendingTouchNavigation();
+      pendingTouchNavigationTimer = window.setTimeout(() => {
+        pendingTouchNavigationTimer = 0;
+        if (document.visibilityState === "hidden") return;
+        if (window.location.href !== startHref) return;
+        if (recentTouchLinkClickTarget === link && recentTouchLinkClickAt >= startedFallbackAt) return;
+        const navigated = runTouchNavigationFallback(link);
+        if (navigated) recentTouchNavigationAt = Date.now();
+      }, 180);
     }, { passive: false });
+
+    document.addEventListener("click", (event) => {
+      if (!shouldUseTouchLinkFallback()) return;
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const link = target.closest("a[href]");
+      if (!isTouchNavigationFallbackCandidate(link)) return;
+      recentTouchLinkClickAt = Date.now();
+      recentTouchLinkClickTarget = link;
+      clearPendingTouchNavigation();
+    }, true);
 
     document.addEventListener("click", (event) => {
       if (!shouldUseTouchLinkFallback()) return;
@@ -2961,8 +3162,10 @@
   document.addEventListener("DOMContentLoaded", () => {
     initializeAnalytics();
     bindWhatsAppTracking();
-    bindTouchLinkFallback();
     bindTouchButtonFallback();
+    bindTouchChoiceFallback();
+    bindTouchFieldFocusFallback();
+    bindTouchLinkFallback();
     initializeThemeFavicon();
     ensureLanguageStyles();
     injectLanguageSwitcher();

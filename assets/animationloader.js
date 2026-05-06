@@ -5,6 +5,16 @@
     timers: new Set()
   };
 
+  function getStrokeLength(path) {
+    if (!(path instanceof SVGPathElement)) return LEN;
+    try {
+      const measured = Math.ceil(path.getTotalLength());
+      return Number.isFinite(measured) && measured > 0 ? measured : LEN;
+    } catch (_error) {
+      return LEN;
+    }
+  }
+
   function clearTimers() {
     state.timers.forEach((timerId) => window.clearTimeout(timerId));
     state.timers.clear();
@@ -21,7 +31,10 @@
 
   function initLoaderAnimation(root = document) {
     const scope = root instanceof HTMLElement || root instanceof Document ? root : document;
-    const paths = Array.from(scope.querySelectorAll(".logo-svg path"));
+    const paths = Array.from(scope.querySelectorAll(".logo-svg path")).map((path) => ({
+      node: path,
+      length: getStrokeLength(path)
+    }));
     if (!paths.length) return false;
 
     state.token += 1;
@@ -35,18 +48,19 @@
     const STAGGER = reduceMotion ? 0 : 70;
 
     if (reduceMotion) {
-      paths.forEach((path) => {
-        path.style.strokeDashoffset = "0";
+      paths.forEach(({ node, length }) => {
+        node.style.strokeDasharray = `${length} ${length}`;
+        node.style.strokeDashoffset = "0";
       });
       return true;
     }
 
     function animatePaths(reverse) {
-      paths.forEach((path, index) => {
+      paths.forEach(({ node, length }, index) => {
         const delay = index * STAGGER;
         const start = performance.now() + delay;
-        const fromOffset = reverse ? 0 : LEN;
-        const toOffset = reverse ? -LEN : 0;
+        const fromOffset = reverse ? 0 : length;
+        const toOffset = reverse ? -length : 0;
 
         function step(now) {
           if (token !== state.token) return;
@@ -57,7 +71,7 @@
           }
           const t = Math.min(elapsed / DRAW_DUR, 1);
           const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-          path.style.strokeDashoffset = String(fromOffset + (toOffset - fromOffset) * ease);
+          node.style.strokeDashoffset = String(fromOffset + (toOffset - fromOffset) * ease);
           if (t < 1) window.requestAnimationFrame(step);
         }
 
@@ -67,8 +81,9 @@
 
     function runCycle() {
       if (token !== state.token) return;
-      paths.forEach((path) => {
-        path.style.strokeDashoffset = String(LEN);
+      paths.forEach(({ node, length }) => {
+        node.style.strokeDasharray = `${length} ${length}`;
+        node.style.strokeDashoffset = String(length);
       });
 
       animatePaths(false);

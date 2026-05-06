@@ -7,13 +7,41 @@
     return pathname === "" || pathname === "/" || pathname.endsWith("/index.html");
   }
 
+  function getNormalizedPathname() {
+    return window.location.pathname.replace(/\/+$/, "").toLowerCase();
+  }
+
   function isFeaturedPage() {
-    const pathname = window.location.pathname.replace(/\/+$/, "");
+    const pathname = getNormalizedPathname();
     return pathname.endsWith("/featured.html") || pathname.endsWith("/featured");
   }
 
+  function isJournalsPage() {
+    const pathname = getNormalizedPathname();
+    return pathname.endsWith("/journal.html")
+      || pathname.endsWith("/journal")
+      || pathname.endsWith("/journals.html")
+      || pathname.endsWith("/journals");
+  }
+
+  function isWishlistPage() {
+    const pathname = getNormalizedPathname();
+    return pathname.endsWith("/wishlist.html") || pathname.endsWith("/wishlist");
+  }
+
+  function isPromoStripCollectionsPage() {
+    const pathname = getNormalizedPathname();
+    return pathname.endsWith("/gallery.html")
+      || pathname.endsWith("/gallery")
+      || pathname.endsWith("/product.html")
+      || pathname.endsWith("/product");
+  }
+
   function shouldUsePromoStrip() {
-    return !isHomePage() && !isFeaturedPage();
+    return (isHomePage() || isPromoStripCollectionsPage())
+      && !isFeaturedPage()
+      && !isJournalsPage()
+      && !isWishlistPage();
   }
 
   function ensureStyles() {
@@ -32,11 +60,18 @@
         display: flex !important;
         align-items: center !important;
         pointer-events: none !important;
+        transition: top 0.5s ease !important;
       }
       header::before {
         height: 72px !important;
-        background: #f8f6f1 !important;
+        top: var(--shared-header-top, 0px) !important;
+        background: #fff !important;
         border-bottom: 1px solid rgba(63, 54, 45, 0.16) !important;
+        transition: top 0.5s ease, opacity 0.45s ease, border-color 0.45s ease, background-color 0.45s ease !important;
+      }
+      header::after {
+        top: var(--shared-header-top, 0px) !important;
+        transition: top 0.5s ease !important;
       }
       body {
         --promo-strip-height: 44px;
@@ -54,7 +89,7 @@
         left: 0 !important;
         right: 0 !important;
         z-index: 60 !important;
-        background: #c7b9ab !important;
+        background: #d3d1cd !important;
         overflow: hidden !important;
         min-height: 0 !important;
         max-height: 0 !important;
@@ -78,7 +113,7 @@
         left: 0 !important;
         right: 0 !important;
         height: 0 !important;
-        background: #f8f6f1 !important;
+        background: #d3d1cd !important;
         z-index: 48 !important;
         pointer-events: none !important;
         opacity: 0 !important;
@@ -93,16 +128,138 @@
         opacity: 1 !important;
       }
       .collection-promo-track {
-        display: flex !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
         width: 100% !important;
-        justify-content: center !important;
         align-items: center !important;
-        gap: 10px !important;
+        gap: 12px !important;
         position: relative !important;
         padding: 10px 44px 10px 20px !important;
       }
+      .collection-promo-status {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 7px !important;
+        grid-column: 1 !important;
+        justify-self: start !important;
+        width: auto !important;
+        min-width: 48px !important;
+        color: rgba(79, 77, 73, 0.74) !important;
+        font-family: "Inter Tight", sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.05em !important;
+        white-space: nowrap !important;
+      }
+      .collection-promo-play-toggle {
+        position: relative !important;
+        display: inline-grid !important;
+        place-items: center !important;
+        width: 20px !important;
+        height: 20px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: rgba(79, 77, 73, 0.82) !important;
+        cursor: pointer !important;
+        padding: 0 !important;
+        flex: 0 0 auto !important;
+        position: relative !important;
+        z-index: 5 !important;
+      }
+      .collection-promo-play-toggle:hover,
+      .collection-promo-play-toggle:focus-visible {
+        color: rgba(79, 77, 73, 0.98) !important;
+        outline: none !important;
+      }
+      .collection-promo-pause-icon,
+      .collection-promo-play-icon {
+        grid-area: 1 / 1 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .collection-promo-pause-icon {
+        gap: 3px !important;
+      }
+      .collection-promo-pause-icon span {
+        display: block !important;
+        width: 2px !important;
+        height: 10px !important;
+        background: currentColor !important;
+      }
+      .collection-promo-play-icon {
+        width: 0 !important;
+        height: 0 !important;
+        border-top: 5px solid transparent !important;
+        border-bottom: 5px solid transparent !important;
+        border-left: 8px solid currentColor !important;
+        transform: translateX(1px) !important;
+        opacity: 0 !important;
+      }
+      .collection-promo-play-toggle[data-state="paused"] .collection-promo-pause-icon {
+        opacity: 0 !important;
+      }
+      .collection-promo-play-toggle[data-state="paused"] .collection-promo-play-icon {
+        opacity: 1 !important;
+      }
+      .collection-promo-progress {
+        position: relative !important;
+        display: block !important;
+        flex: 0 0 auto !important;
+        width: 16px !important;
+        height: 16px !important;
+        min-width: 16px !important;
+        border-radius: 50% !important;
+        overflow: hidden !important;
+        background: transparent !important;
+      }
+      .collection-promo-progress-fill {
+        position: absolute !important;
+        inset: 0 !important;
+        display: block !important;
+        border-radius: 50% !important;
+        background: conic-gradient(rgba(79, 77, 73, 0.84) var(--promo-progress-angle, 0deg), rgba(79, 77, 73, 0.2) 0deg) !important;
+        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0) !important;
+        mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0) !important;
+      }
+      .collection-promo-progress-fill.is-progressing {
+        animation: promoProgressFill var(--promo-progress-duration, 4800ms) linear forwards !important;
+      }
+      .collection-promo-status-text {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+      }
+      .collection-promo-viewport {
+        grid-column: 2 !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+        justify-self: center !important;
+          z-index: 1 !important;
+        height: 24px !important;
+        max-width: min(760px, calc(100vw - 170px)) !important;
+      }
+      .collection-promo-stack {
+        display: flex !important;
+        flex-direction: column !important;
+        transform: translateY(0) !important;
+        transition: transform 0.5s ease-in-out !important;
+      }
+      .collection-promo-stack.is-resetting {
+        transition: none !important;
+      }
+      .collection-promo-stack.is-rotating {
+        transform: translateY(-24px) !important;
+      }
       .collection-promo-link {
-        color: #5f5044 !important;
+        color: #4f4d49 !important;
         text-decoration: none !important;
         font-family: "Inter Tight", sans-serif !important;
         font-size: 13px !important;
@@ -114,6 +271,10 @@
         white-space: nowrap !important;
         font-weight: 500 !important;
         position: relative !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 24px !important;
       }
       body.has-promo-strip .collection-promo-link {
         opacity: 1 !important;
@@ -141,21 +302,35 @@
         right: 10px !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
-        width: 26px !important;
-        height: 26px !important;
+        width: 20px !important;
+        height: 20px !important;
         border: 0 !important;
         border-radius: 0 !important;
         background: transparent !important;
-        color: rgba(42, 33, 24, 0.78) !important;
+        color: rgba(79, 77, 73, 0.78) !important;
         font-family: "Inter Tight", sans-serif !important;
         font-size: 16px !important;
         line-height: 1 !important;
         cursor: pointer !important;
+        z-index: 5 !important;
       }
       .collection-promo-close:hover,
       .collection-promo-close:focus-visible {
-        color: rgba(42, 33, 24, 0.96) !important;
+        color: rgba(79, 77, 73, 0.96) !important;
         outline: none !important;
+      }
+      @property --promo-progress-angle {
+        syntax: "<angle>";
+        inherits: false;
+        initial-value: 0deg;
+      }
+      @keyframes promoProgressFill {
+        from {
+          --promo-progress-angle: 0deg;
+        }
+        to {
+          --promo-progress-angle: 360deg;
+        }
       }
       body[data-header-divider="none"] header::before,
       body[data-header-divider="none"] header,
@@ -337,11 +512,12 @@
       .menu-panel {
         position: fixed !important;
         top: 0 !important;
+        bottom: auto !important;
         left: 0 !important;
         right: auto !important;
         width: min(92vw, 500px) !important;
         height: 100vh !important;
-        background: var(--footer-offwhite, #f8f6f1) !important;
+        background: var(--footer-offwhite, #fff) !important;
         color: #151210 !important;
         transform: translateX(-100%) !important;
         transition: transform 0.5s ease-in-out !important;
@@ -349,12 +525,13 @@
         box-shadow: none !important;
         display: grid !important;
         grid-template-rows: auto 1fr !important;
+        border-top: 0 !important;
         border-right: 1px solid rgba(29, 26, 24, 0.08) !important;
         border-left: 0 !important;
       }
       .menu-panel.is-open {
         transform: translateX(0) !important;
-        box-shadow: 20px 0 36px rgba(10, 12, 18, 0.22) !important;
+        box-shadow: 20px 0 36px rgba(10, 12, 18, 0.18) !important;
       }
       .menu-head {
         display: flex !important;
@@ -511,10 +688,11 @@
       .contact-quick-panel {
         position: fixed !important;
         top: 0 !important;
+        bottom: auto !important;
         right: 0 !important;
         width: min(92vw, 600px) !important;
         height: 100vh !important;
-        background: var(--footer-offwhite, #f8f6f1) !important;
+        background: var(--footer-offwhite, #fff) !important;
         color: #151210 !important;
         transform: translateX(100%) !important;
         transition: transform 0.5s ease-in-out !important;
@@ -525,7 +703,7 @@
       }
       .contact-quick-panel.is-open {
         transform: translateX(0) !important;
-        box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22) !important;
+        box-shadow: -20px 0 36px rgba(10, 12, 18, 0.18) !important;
       }
       #contact-quick-panel .contact-quick-head {
         display: flex !important;
@@ -540,7 +718,7 @@
         border: 0 !important;
         background: #111 !important;
         color: #fff !important;
-        font-size: 23px !important;
+        font-size: clamp(20px, 5.6vw, 23px) !important;
         font-weight: 300 !important;
         line-height: 1 !important;
         cursor: pointer !important;
@@ -622,19 +800,34 @@
         .menu-panel {
           left: 0 !important;
           right: 0 !important;
+          top: auto !important;
+          bottom: 0 !important;
           width: 100vw !important;
           max-width: none !important;
           height: 100dvh !important;
           min-height: 100dvh !important;
+          transform: translateY(100%) !important;
+          border-top: 1px solid rgba(29, 26, 24, 0.08) !important;
           border-right: 0 !important;
+        }
+        .menu-panel.is-open {
+          transform: translateY(0) !important;
+          box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18) !important;
         }
         .contact-quick-panel {
           left: 0 !important;
           right: 0 !important;
+          top: auto !important;
+          bottom: 0 !important;
           width: 100vw !important;
           max-width: none !important;
           height: 100dvh !important;
           min-height: 100dvh !important;
+          transform: translateY(100%) !important;
+        }
+        .contact-quick-panel.is-open {
+          transform: translateY(0) !important;
+          box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18) !important;
         }
         header {
           padding: 0 12px !important;
@@ -642,7 +835,7 @@
           align-items: flex-end !important;
           gap: 0 !important;
           height: calc(72px + env(safe-area-inset-top, 0px)) !important;
-          background: #f8f6f1 !important;
+          background: #fff !important;
           z-index: 80 !important;
         }
         header::before,
@@ -670,14 +863,14 @@
           position: static !important;
           left: auto !important;
           transform: none !important;
-          max-width: calc(100% - 172px) !important;
+          max-width: calc(100% - 96px) !important;
           overflow: hidden !important;
           flex: 1 1 auto !important;
           order: 1 !important;
           min-width: 0 !important;
         }
         .header-logo-text {
-          font-size: 23px !important;
+          font-size: clamp(20px, 5.6vw, 23px) !important;
           letter-spacing: 0.01em !important;
           word-spacing: normal !important;
           overflow: hidden !important;
@@ -735,16 +928,42 @@
           padding: calc(env(safe-area-inset-top, 0px) + 18px) max(18px, env(safe-area-inset-right, 0px)) 0 max(18px, env(safe-area-inset-left, 0px)) !important;
         }
         .collection-promo-track {
-          gap: 12px !important;
-          padding: 8px 10px !important;
+          grid-template-columns: auto minmax(0, 1fr) auto !important;
+          gap: 8px !important;
+          padding: 8px 34px !important;
+        }
+        .collection-promo-status {
+          position: absolute !important;
+          left: -20px !important;
+          top: 50% !important;
+          transform: translateY(-50%) !important;
+          width: 52px !important;
+          min-width: 52px !important;
+          gap: 4px !important;
+          justify-content: flex-start !important;
+          z-index: 4 !important;
+          pointer-events: auto !important;
+        }
+        .collection-promo-status-text {
+          display: none !important;
+        }
+        .collection-promo-viewport {
+          grid-column: 2 !important;
+          width: min(100%, calc(100vw - 88px)) !important;
+          max-width: calc(100vw - 88px) !important;
+          justify-self: center !important;
+          z-index: 1 !important;
+        }
+        .collection-promo-stack,
+        .collection-promo-link {
+          width: 100% !important;
         }
         .collection-promo-link {
           font-size: 12px !important;
           white-space: normal !important;
-          padding-right: 20px !important;
         }
         .collection-promo-close {
-          right: 6px !important;
+          right: 8px !important;
         }
         .menu-view {
           inset: calc(env(safe-area-inset-top, 0px) + 18px) max(24px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 32px) max(24px, env(safe-area-inset-left, 0px)) !important;
@@ -828,24 +1047,113 @@
     });
   }
 
+  const PROMO_DISMISS_STORAGE_KEY = "marvell-promo-dismissed-until";
+  const PROMO_DISMISS_DURATION_MS = 5 * 60 * 1000;
+  let sharedPromoRestoreTimer = 0;
+
+  function wasHardReload() {
+    try {
+      return performance.getEntriesByType("navigation")?.[0]?.type === "reload";
+    } catch (_error) {
+      return false;
+    }
+  }
+
+  function getPromoDismissedUntil() {
+    try {
+      const stored = Number(window.sessionStorage?.getItem(PROMO_DISMISS_STORAGE_KEY) || "0");
+      return Number.isFinite(stored) ? stored : 0;
+    } catch (_error) {
+      return 0;
+    }
+  }
+
+  function setPromoDismissedUntil(value) {
+    try {
+      if (value > Date.now()) window.sessionStorage?.setItem(PROMO_DISMISS_STORAGE_KEY, String(value));
+      else window.sessionStorage?.removeItem(PROMO_DISMISS_STORAGE_KEY);
+    } catch (_error) {
+      // Storage is optional; the close button still works on the current page.
+    }
+  }
+
+  function getPromoDismissRemainingMs() {
+    return Math.max(0, getPromoDismissedUntil() - Date.now());
+  }
+
+  function isPromoDismissedForSession() {
+    if (getPromoDismissRemainingMs() <= 0) {
+      setPromoDismissedUntil(0);
+      window.__MARVELL_PROMO_DISMISSED_THIS_LOAD__ = false;
+      return false;
+    }
+    return true;
+  }
+
+  function dismissPromoForSession() {
+    window.__MARVELL_PROMO_DISMISSED_THIS_LOAD__ = true;
+    setPromoDismissedUntil(Date.now() + PROMO_DISMISS_DURATION_MS);
+  }
+
+  function scheduleSharedPromoRestore(callback) {
+    if (sharedPromoRestoreTimer) window.clearTimeout(sharedPromoRestoreTimer);
+    const remaining = getPromoDismissRemainingMs();
+    if (remaining <= 0) return;
+    sharedPromoRestoreTimer = window.setTimeout(() => {
+      sharedPromoRestoreTimer = 0;
+      window.__MARVELL_PROMO_DISMISSED_THIS_LOAD__ = false;
+      setPromoDismissedUntil(0);
+      if (typeof callback === "function") callback();
+    }, remaining + 40);
+  }
+
+  if (wasHardReload()) setPromoDismissedUntil(0);
+
   function ensurePromoStrip() {
-    if (!shouldUsePromoStrip() || !(document.body instanceof HTMLElement)) return;
+    if (!(document.body instanceof HTMLElement)) return;
+    if (isPromoDismissedForSession()) {
+      document.body.classList.remove("has-promo-strip", "promo-strip-closing");
+      scheduleSharedPromoRestore(ensurePromoStrip);
+      return;
+    }
+    if (!shouldUsePromoStrip()) {
+      document.body.classList.remove("has-promo-strip", "promo-strip-closing");
+      document.querySelector(".collection-promo-strip")?.remove();
+      document.querySelector(".promo-strip-fallback")?.remove();
+      return;
+    }
 
     const header = document.querySelector("header");
     if (!(header instanceof HTMLElement)) return;
 
     let strip = document.querySelector(".collection-promo-strip");
+	    const expectedPromoMarkup = `
+	      <div class="collection-promo-track">
+	        <div class="collection-promo-status">
+	          <span class="collection-promo-progress" aria-hidden="true"><span class="collection-promo-progress-fill" id="collection-promo-progress-fill"></span></span>
+	          <button class="collection-promo-play-toggle" id="collection-promo-play-toggle" type="button" aria-label="Pause seasonal promotions" aria-pressed="false" data-state="playing">
+	            <span class="collection-promo-pause-icon" aria-hidden="true"><span></span><span></span></span>
+	            <span class="collection-promo-play-icon" aria-hidden="true"></span>
+	          </button>
+	          <span class="collection-promo-status-text" id="collection-promo-status-text">1 / 1</span>
+	        </div>
+        <div class="collection-promo-viewport">
+          <div class="collection-promo-stack" id="collection-promo-stack">
+            <a class="collection-promo-link" id="collection-promo-link" href="featured.html">Collections - Explore the arrangements</a>
+            <a class="collection-promo-link" id="collection-promo-link-next" href="featured.html" tabindex="-1" aria-hidden="true">Collections - Explore the arrangements</a>
+          </div>
+        </div>
+        <button class="collection-promo-close" id="collection-promo-close" type="button" aria-label="Close seasonal promotion">&times;</button>
+      </div>
+    `;
     if (!(strip instanceof HTMLElement)) {
       strip = document.createElement("div");
       strip.className = "collection-promo-strip";
       strip.setAttribute("aria-hidden", "true");
-      strip.innerHTML = `
-        <div class="collection-promo-track">
-          <a class="collection-promo-link" id="collection-promo-link" href="featured.html">Collections - Explore the arrangements</a>
-          <button class="collection-promo-close" id="collection-promo-close" type="button" aria-label="Close seasonal promotion">&times;</button>
-        </div>
-      `;
+      strip.innerHTML = expectedPromoMarkup;
       document.body.insertBefore(strip, header);
+	    } else if (!(strip.querySelector("#collection-promo-progress-fill") instanceof HTMLElement) || !(strip.querySelector("#collection-promo-play-toggle") instanceof HTMLButtonElement) || !(strip.querySelector("#collection-promo-status-text") instanceof HTMLElement) || !(strip.querySelector("#collection-promo-link-next") instanceof HTMLAnchorElement) || !(strip.querySelector("#collection-promo-stack") instanceof HTMLElement)) {
+      strip.innerHTML = expectedPromoMarkup;
     }
 
     let fallback = document.querySelector(".promo-strip-fallback");
@@ -867,12 +1175,14 @@
       closeButton.dataset.promoBound = "1";
       closeButton.addEventListener("click", () => {
         if (strip.classList.contains("is-closing")) return;
+        dismissPromoForSession();
         strip.classList.add("is-closing");
         document.body.classList.add("promo-strip-closing");
         window.setTimeout(() => {
           document.body.classList.remove("has-promo-strip");
           strip.classList.remove("is-closing");
           document.body.classList.remove("promo-strip-closing");
+          scheduleSharedPromoRestore(ensurePromoStrip);
         }, 520);
       });
     }

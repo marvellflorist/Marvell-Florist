@@ -107,7 +107,6 @@
           "filters": {
             "type": "bouquet",
             "colors": [
-              "pink",
               "white",
               "yellow",
               "black",
@@ -162,7 +161,8 @@
               "usage": "both",
               "image": "/assets/uploads/img_4412.webp"
             }
-          ]
+          ],
+          "description": "This summery version of the LV Sneakerina sneaker ballerina comes in openwork mesh for an airy, see-through effect. The upper is complemented by coordinating double laces and trim in smooth calf leather, including on the dynamic LV signature on the side. The supple, lightweight rubber outsole features Monogram Flowers on its tread.\n\n\nEcru White\nMix of materials\nLaces\nSignature details\nSacchetto construction\nRubber outsole with the LV Initials and Monogram Flowers on the tread\nMade in Italy"
         },
         {
           "src": "/assets/uploads/img_4276.webp",
@@ -463,22 +463,205 @@
       "lead": "Marking a passage shaped by time and intention, the Graduation Collection captures a moment of transition. As one chapter draws to a close, there is a quiet space where reflection and anticipation exist in balance."
     },
     {
-      "heroImage": "/assets/graduation.webp",
-      "start": "05-17",
-      "products": [],
-      "priority": 4,
-      "forceActive": false,
-      "kicker": "SEASONAL COLLECTION",
-      "title": "Graduation Collection",
-      "end": "07-31",
-      "id": "graduation_late",
-      "promoText": "Graduation Collection - Celebrate the moment",
-      "lead": "Composed with balanced proportions and soft tonal palettes, the Graduation Collection pairs structured silhouettes with lighter textures. Late afternoon light and quiet conversation settle into a calm moment before what comes next."
-    },
-    {
-      "heroImage": "/assets/popupmothersday.webp",
+      "heroImage": "/assets/uploads/untitled168_20260504184434-1-.webp",
       "start": "05-01",
-      "products": [],
+      "products": [
+        {
+          "src": "/assets/uploads/img_4691.webp",
+          "name": "Sovereign",
+          "price": 550000,
+          "additionalImages": [
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4693.webp"
+            }
+          ],
+          "description": "The collection's most expansive work. An architectural arrangement characterized by dramatic height and a wide, reaching silhouette. Dark, structured wrapping anchoring deep plum and ivory tones marks a presence both bold and grounded.",
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "black",
+              "pink",
+              "white",
+              "red",
+              "peach",
+              "purple"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "carnation",
+              "snap-dragons",
+              "gompie",
+              "aranthera-azimah"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4681.webp",
+          "name": "Aube de Soie",
+          "price": 350000,
+          "additionalImages": [
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4678.webp"
+            }
+          ],
+          "description": "Light and ethereal. Layers of translucent white wrapping creating a sense of movement around a core of muted pastels. An effortless composition valuing negative space and a gentle, tonal aesthetic.",
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "pink",
+              "yellow",
+              "purple"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath",
+              "carnation",
+              "lysianthus"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4683.webp",
+          "additionalImages": [
+            {
+              "usage": "both",
+              "image": "/assets/uploads/quality_restoration_20260504223738514.webp"
+            }
+          ],
+          "name": "Noire Citron",
+          "price": 350000,
+          "description": "A study in visual weight and contrast. Sharp, dark outer structure providing a crisp frame for a warm, luminous center of tonal yellows and soft pinks. Balanced composition wrapped in a delicate mesh that adds a layer of depth without compromising clean, modern lines.",
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "red",
+              "pink",
+              "yellow",
+              "black",
+              "gold"
+            ],
+            "flowerCondition": "fresh",
+            "flowerTypes": [
+              "mawar",
+              "carnation",
+              "aster",
+              "poms"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4690.webp",
+          "additionalImages": [
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4689.webp"
+            }
+          ],
+          "name": "Dentelle Classique",
+          "price": 150000,
+          "description": "A focus on intricate detail and classic contrast. Veiled in a delicate lace-like mesh that softens the transition between a deep crimson center and dark outer wrap. Traditional in form but contemporary through a sharp use of color and texture.",
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "black",
+              "red",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "mawar"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4688.webp",
+          "additionalImages": [
+            {
+              "usage": "both",
+              "image": "/assets/uploads/img_4685.webp"
+            }
+          ],
+          "name": "Aria",
+          "price": 350000,
+          "description": "A celebration of texture and detail. Layered mesh creating a voluminous, rounded base topped with an organic arrangement of pink tones. Subtle, fluttering accents providing a sense of narrative and movement.",
+          "filters": {
+            "colors": [
+              "pink",
+              "red",
+              "white",
+              "green"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "mawar",
+              "aster",
+              "poms"
+            ],
+            "type": "bouquet"
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4674.webp",
+          "name": "Cœur",
+          "price": 200000,
+          "description": "A concentrated expression of devotion. Housed in a scarlet, heart-shaped case with gold accents, featuring a dense curation of rouge textures and tones. Includes a subtle storage element and gilded closure; a presence that feels both substantial and intimate.\n\n• Height: 10 cm\n• Length: 13 cm\n• Vessel: Heart-shaped case with integrated storage",
+          "filters": {
+            "colors": [
+              "red",
+              "gold"
+            ],
+            "flowerCondition": "preserved",
+            "flowerTypes": [
+              "mawar",
+              "hydrangea"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4672.webp",
+          "name": "The Heirloom",
+          "price": 180000,
+          "description": "Defined by verticality and a sense of preservation. Housed within a clear cloche, featuring a central, tree-like form rising from a bed of deep rouge textures. Set upon a natural wood foundation; an enduring, sculptural object designed to sit quietly within a space.\n\n• Height: 17 cm\n• Base Diameter: 11.5 cm\n• Vessel: Glass cloche with a natural wood base",
+          "filters": {
+            "colors": [
+              "white",
+              "red",
+              "pink"
+            ],
+            "flowerCondition": "preserved",
+            "flowerTypes": [
+              "mawar",
+              "babys-breath"
+            ]
+          }
+        },
+        {
+          "src": "/assets/uploads/img_4755.webp",
+          "name": "Abundance",
+          "description": "Expansive and layered composition featuring a central arrangement of soft, warm tones framed by a structural, fanned backdrop. Integrating illustrative accents and vibrant butterfly motifs to create a narrative-driven silhouette. Finished with architectural paper folds and gold-trimmed edges; a substantial presence designed as a comprehensive expression of gratitude.",
+          "price": 240000,
+          "filters": {
+            "type": "bouquet",
+            "colors": [
+              "white",
+              "pink",
+              "peach"
+            ],
+            "flowerCondition": "artificial",
+            "flowerTypes": [
+              "mawar",
+              "lily",
+              "carnation",
+              "aster"
+            ]
+          }
+        }
+      ],
       "priority": 7,
       "forceActive": true,
       "kicker": "SEASONAL COLLECTION",

@@ -23,10 +23,10 @@
     document.head.appendChild(script);
   })();
 </script>
-<link rel="preload" as="image" href="assets/home.webp" fetchpriority="high">
-<link rel="preload" as="image" href="assets/portfolio.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/home-mobile.webp" media="(max-width: 768px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/home-2200.webp" media="(min-width: 769px)" fetchpriority="high">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260425d"></script>
+<script src="assets/site-language.js?v=20260505a"></script>
 <script id="embedded-gallery-json" type="application/json">{
   "categories": [
     {
@@ -1255,6 +1255,26 @@
             {
               "id": "chrysanthemum",
               "label": "Krisan"
+            },
+            {
+              "id": "poms",
+              "label": "Poms"
+            },
+            {
+              "id": "snap-dragons",
+              "label": "Snap Dragons"
+            },
+            {
+              "id": "gompie",
+              "label": "Gompie"
+            },
+            {
+              "id": "aranthera-azimah",
+              "label": "Aranthera Azimah"
+            },
+            {
+              "id": "lysianthus",
+              "label": "Lysianthus"
             }
           ]
         }
@@ -1499,6 +1519,26 @@
             {
               "id": "chrysanthemum",
               "label": "Krisan"
+            },
+            {
+              "id": "poms",
+              "label": "Poms"
+            },
+            {
+              "id": "snap-dragons",
+              "label": "Snap Dragons"
+            },
+            {
+              "id": "gompie",
+              "label": "Gompie"
+            },
+            {
+              "id": "aranthera-azimah",
+              "label": "Aranthera Azimah"
+            },
+            {
+              "id": "lysianthus",
+              "label": "Lysianthus"
             }
           ]
         }
@@ -1776,6 +1816,26 @@
             {
               "id": "chrysanthemum",
               "label": "Krisan"
+            },
+            {
+              "id": "poms",
+              "label": "Poms"
+            },
+            {
+              "id": "snap-dragons",
+              "label": "Snap Dragons"
+            },
+            {
+              "id": "gompie",
+              "label": "Gompie"
+            },
+            {
+              "id": "aranthera-azimah",
+              "label": "Aranthera Azimah"
+            },
+            {
+              "id": "lysianthus",
+              "label": "Lysianthus"
             }
           ]
         }
@@ -1823,27 +1883,7 @@
     }
   ]
 }</script>
-<script id="embedded-site-sections-json" type="application/json">{
-  "homeHero": {
-    "image": "assets/home.webp",
-    "eyebrow": "Marvell Florist",
-    "heading": "For Moments That Matter",
-    "ctaLabel": "Discover the Collection",
-    "ctaTarget": "gallery-entry"
-  },
-  "homePortfolio": {
-    "kicker": "Portfolio",
-    "heading": "Explore a Selection of Our Creations",
-    "lead": "A broader view of our work across categories and occasions.",
-    "requestNote": "Looking for something else?",
-    "requestButtonLabel": "Request a custom arrangement"
-  },
-  "galleryPage": {
-    "note": "Most pieces are custom made, so availability and flower selection must be confirmed first.",
-    "byRequestHook": "Not every arrangement begins in a catalog. Some start with a conversation.",
-    "consultButtonLabel": "Consult This Collection"
-  }
-}</script>
+<script id="embedded-site-sections-json" type="application/json">{}</script>
 <script>
   if (window["ga-disable-G-Z9PJ60V3CR"]) {
     window.dataLayer = window.dataLayer || [];
@@ -2031,10 +2071,10 @@
 :root {
   --promo-strip-height: 40px;
   --promo-offset: 0px;
-  --quote-section-bg: #f8f6f1;
-  --theme-body-bg: #f8f6f1;
+  --quote-section-bg: #fff;
+  --theme-body-bg: #fff;
   --theme-body-text: #2f2923;
-  --theme-header-bar-bg: #f8f6f1;
+  --theme-header-bar-bg: #fff;
   --theme-header-bar-border: rgba(63, 54, 45, 0.16);
   --theme-rail-text: rgba(245, 240, 232, 0.9);
   --theme-rail-bg: rgba(12, 14, 20, 0.42);
@@ -2069,6 +2109,9 @@
 body.has-promo-strip {
   --promo-offset: var(--promo-strip-height);
 }
+body.promo-strip-closing {
+  --promo-offset: 0px;
+}
 html {
   scroll-behavior: smooth;
   background: var(--theme-body-bg);
@@ -2082,15 +2125,15 @@ body {
   overscroll-behavior-y: none;
 }
 body.edition-ii {
-  --theme-body-bg: #f8f6f1;
+  --theme-body-bg: #fff;
   --theme-body-text: #2f2923;
-  --theme-header-bar-bg: #f8f6f1;
+  --theme-header-bar-bg: #fff;
   --theme-header-bar-border: rgba(63, 54, 45, 0.16);
   --theme-rail-text: rgba(245, 240, 232, 0.92);
   --theme-rail-bg: rgba(24, 20, 18, 0.42);
   --theme-rail-border: rgba(248, 246, 241, 0.3);
   --theme-rail-shadow: 0 14px 26px rgba(20, 16, 13, 0.24);
-  --theme-rail-hover-text: #f8f6f1;
+  --theme-rail-hover-text: #fff;
   --theme-rail-hover-bg: rgba(34, 28, 24, 0.72);
   --theme-rail-hover-border: rgba(248, 246, 241, 0.24);
   --theme-rail-hover-shadow: 0 12px 18px rgba(20, 16, 13, 0.22);
@@ -2131,7 +2174,7 @@ header {
   align-items: center;
   z-index: 50;
   pointer-events: none;
-  transition: top 0.55s ease;
+  transition: top 0.5s ease, background-color 0.45s ease;
 }
 .header-bar {
   position: relative;
@@ -2291,10 +2334,10 @@ header::after {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 49;
+  z-index: 60;
   margin-top: 0;
   border: 0;
-  background: #c7b9ab;
+  background: #d3d1cd;
   overflow: hidden;
   min-height: var(--promo-strip-height);
   display: block;
@@ -2303,7 +2346,6 @@ header::after {
   transition: transform 0.55s ease, opacity 0.55s ease;
 }
 body.has-promo-strip .collection-promo-strip {
-  animation: promoStripFade 2.2s ease forwards;
   opacity: 1;
   transform: translateY(0);
 }
@@ -2313,7 +2355,7 @@ body.has-promo-strip .collection-promo-strip {
   left: 0;
   right: 0;
   height: var(--promo-strip-height);
-  background: var(--theme-header-bar-bg);
+  background: #d3d1cd;
   z-index: 48;
   pointer-events: none;
   opacity: 0;
@@ -2323,26 +2365,154 @@ body.has-promo-strip .promo-strip-fallback {
   opacity: 1;
 }
 .collection-promo-track {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   width: 100%;
-  justify-content: center;
-  gap: 0;
-  padding: 10px 52px 10px 14px;
+  gap: 12px;
+  padding: 10px 44px 10px 20px;
   align-items: center;
   position: relative;
 }
+.collection-promo-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  grid-column: 1;
+  justify-self: start;
+  width: auto;
+  min-width: 48px;
+  color: rgba(79, 77, 73, 0.74);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.collection-promo-play-toggle {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(79, 77, 73, 0.82);
+  cursor: pointer;
+  padding: 0;
+  flex: 0 0 auto;
+  z-index: 5;
+}
+.collection-promo-play-toggle:hover,
+.collection-promo-play-toggle:focus-visible {
+  color: rgba(79, 77, 73, 0.98);
+  outline: none;
+}
+.collection-promo-pause-icon,
+.collection-promo-play-icon {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.collection-promo-pause-icon {
+  gap: 3px;
+}
+.collection-promo-pause-icon span {
+  display: block;
+  width: 2px;
+  height: 10px;
+  background: currentColor;
+}
+.collection-promo-play-icon {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid currentColor;
+  transform: translateX(1px);
+  opacity: 0;
+}
+.collection-promo-play-toggle[data-state="paused"] .collection-promo-pause-icon {
+  opacity: 0;
+}
+.collection-promo-play-toggle[data-state="paused"] .collection-promo-play-icon {
+  opacity: 1;
+}
+.collection-promo-progress {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: transparent;
+}
+.collection-promo-progress-fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: 50%;
+  background: conic-gradient(rgba(79, 77, 73, 0.84) var(--promo-progress-angle, 0deg), rgba(79, 77, 73, 0.2) 0deg);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0);
+}
+.collection-promo-progress-fill.is-progressing {
+  animation: promoProgressFill var(--promo-progress-duration, 4800ms) linear forwards;
+}
+.collection-promo-status-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.collection-promo-viewport {
+  grid-column: 2;
+  min-width: 0;
+  overflow: hidden;
+  justify-self: center;
+          z-index: 1;
+  height: 24px;
+  max-width: min(760px, calc(100vw - 170px));
+}
+.collection-promo-stack {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform 0.5s ease-in-out;
+}
+.collection-promo-stack.is-resetting {
+  transition: none;
+}
+.collection-promo-stack.is-rotating {
+  transform: translateY(-24px);
+}
 .collection-promo-link {
-  color: #f4eee4;
+  color: #4f4d49;
   text-decoration: none;
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
   line-height: 1.25;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   text-align: center;
   opacity: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  white-space: nowrap;
+  font-weight: 500;
 }
 body.has-promo-strip .collection-promo-link {
-  animation: promoTextFade 1.2s ease forwards;
+  opacity: 1;
+  transition: opacity 0.35s ease;
 }
 .collection-promo-link:hover,
 .collection-promo-link:focus-visible {
@@ -2354,43 +2524,33 @@ body.has-promo-strip .collection-promo-link {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: rgba(42, 33, 24, 0.78);
+  color: rgba(79, 77, 73, 0.78);
   font-family: "Inter Tight", sans-serif;
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
+        z-index: 5;
 }
 .collection-promo-close:hover,
 .collection-promo-close:focus-visible {
-  color: rgba(42, 33, 24, 0.96);
+  color: rgba(79, 77, 73, 0.96);
 }
-@keyframes promoStripFade {
+@property --promo-progress-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes promoProgressFill {
   from {
-    background: #b29d88;
-    opacity: 0;
-  }
-  45% {
-    background: #c7b9ab;
-    opacity: 1;
+    --promo-progress-angle: 0deg;
   }
   to {
-    background: #c7b9ab;
-    opacity: 1;
-  }
-}
-@keyframes promoTextFade {
-  from {
-    color: #f4eee4;
-    opacity: 0;
-  }
-  to {
-    color: rgba(42, 33, 24, 0.82);
-    opacity: 1;
+    --promo-progress-angle: 360deg;
   }
 }
 .section-rail {
@@ -2860,11 +3020,11 @@ header > a[aria-label="Go to home page"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(22, 19, 17, 0.76);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 12px 28px rgba(16, 12, 10, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: #000;
+  border: 1px solid #000;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   z-index: 11000;
   text-decoration: none;
   transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
@@ -2872,12 +3032,13 @@ header > a[aria-label="Go to home page"] {
 .floating-whatsapp-btn:hover,
 .floating-whatsapp-btn:focus-visible {
   transform: translateY(-2px);
-  background: rgba(28, 24, 21, 0.84);
-  border-color: rgba(255, 255, 255, 0.24);
-  box-shadow: 0 16px 30px rgba(16, 12, 10, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  background: #000;
+  border-color: #000;
+  box-shadow: none;
+  opacity: 1;
 }
 .floating-whatsapp-btn:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.18);
+  outline: 2px solid #fff;
   outline-offset: 3px;
 }
 .floating-whatsapp-btn svg {
@@ -2937,8 +3098,9 @@ header > a[aria-label="Go to home page"] {
 .contact-quick-panel {
   position: fixed;
   top: 0;
+  bottom: auto;
   right: 0;
-  width: min(92vw, 460px);
+  width: min(94vw, 540px);
   height: 100vh;
   background: var(--footer-offwhite);
   color: #151210;
@@ -2955,6 +3117,7 @@ header > a[aria-label="Go to home page"] {
   --menu-panel-width: var(--menu-panel-single-width);
   position: fixed;
   top: 0;
+  bottom: auto;
   left: 0;
   width: var(--menu-panel-width);
   height: 100vh;
@@ -2966,6 +3129,7 @@ header > a[aria-label="Go to home page"] {
   box-shadow: none;
   display: grid;
   grid-template-rows: auto 1fr;
+  border-top: 0;
   border-right: 1px solid rgba(29, 26, 24, 0.08);
   overflow: hidden;
 }
@@ -2990,11 +3154,11 @@ header > a[aria-label="Go to home page"] {
 }
 .contact-quick-panel.is-open {
   transform: translateX(0);
-  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
+  box-shadow: -20px 0 36px rgba(10, 12, 18, 0.18);
 }
 .menu-panel.is-open {
   transform: translateX(0);
-  box-shadow: 20px 0 36px rgba(10, 12, 18, 0.22);
+  box-shadow: 20px 0 36px rgba(10, 12, 18, 0.18);
 }
 .search-dropdown-backdrop {
   position: fixed;
@@ -3240,6 +3404,7 @@ header > a[aria-label="Go to home page"] {
   background: rgba(248, 246, 241, 0.72);
   color: rgba(42, 33, 24, 0.86);
   font-family: "Inter Tight", sans-serif;
+  touch-action: manipulation;
   font-size: 12px;
   line-height: 1;
   padding: 10px 16px;
@@ -3265,8 +3430,9 @@ header > a[aria-label="Go to home page"] {
 .search-filters-modal {
   position: fixed;
   top: 0;
+  bottom: auto;
   right: 0;
-  width: min(92vw, 460px);
+  width: min(94vw, 600px);
   height: 100vh;
   background: rgba(248, 246, 241, 0.9);
   color: #151210;
@@ -3275,14 +3441,15 @@ header > a[aria-label="Go to home page"] {
   z-index: 252;
   box-shadow: none;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  border-top: 0;
   border-left: 1px solid rgba(42, 33, 24, 0.12);
   backdrop-filter: blur(18px) saturate(1.03);
   -webkit-backdrop-filter: blur(18px) saturate(1.03);
 }
 .search-filters-modal.is-open {
   transform: translateX(0);
-  box-shadow: -20px 0 36px rgba(24, 18, 13, 0.22);
+  box-shadow: -20px 0 36px rgba(24, 18, 13, 0.18);
 }
 .search-dropdown-body.is-filters-open > *:not(#search-filters-modal) {
   filter: blur(8px);
@@ -3293,48 +3460,98 @@ header > a[aria-label="Go to home page"] {
 .search-filters-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 26px 28px 16px;
+  justify-content: flex-start;
+  width: min(calc(100% - 40px), 408px);
+  margin: 0 auto;
+  padding: 52px 0 20px;
+  box-sizing: border-box;
 }
 .search-filters-head h3 {
   margin: 0;
   font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 600;
+  color: #151210;
 }
 .search-filters-close {
+  position: absolute;
+  top: 26px;
+  right: 24px;
   width: 34px;
   height: 34px;
   border: 0;
-  background: transparent;
-  color: rgba(29, 28, 27, 0.88);
-  font-size: 23px;
+  border-radius: 50%;
+  background: #151210;
+  color: #fff;
+  font-size: clamp(20px, 5.6vw, 23px);
   line-height: 1;
   cursor: pointer;
-  opacity: 0.72;
+  opacity: 1;
   transition: opacity 180ms ease, font-weight 180ms ease;
 }
 .search-filters-close:hover,
 .search-filters-close:focus-visible {
-  opacity: 1;
-  font-weight: 700;
+  background: #2a2118;
   outline: none;
 }
 .search-filters-body {
-  padding: 8px 28px 28px;
+  width: min(calc(100% - 40px), 408px);
+  margin: 0 auto;
+  padding: 10px 0 16px;
+  box-sizing: border-box;
   overflow-y: auto;
+}
+.search-filters-footer {
+  width: min(calc(100% - 40px), 408px);
+  margin: 0 auto;
+  padding: 8px 0 30px;
+  box-sizing: border-box;
+}
+.search-filters-apply {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid transparent;
+  background: #12100e;
+  color: #f8f4ec;
+  display: inline-flex;
+  pointer-events: auto;
+  touch-action: manipulation;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+.search-filters-apply.is-disabled,
+.search-filters-apply:disabled {
+  background: rgba(47, 41, 35, 0.24);
+  border-color: transparent;
+  color: rgba(248, 244, 236, 0.72);
+  cursor: not-allowed;
+}
+.search-filters-apply:not(:disabled):not(.is-disabled):hover,
+.search-filters-apply:not(:disabled):not(.is-disabled):focus-visible {
+  outline: none;
+  background: transparent;
+  color: #151210;
+  border-color: #151210;
 }
 .search-filters-panel {
   display: grid;
-  gap: 10px;
+  gap: 14px;
 }
 .search-filter-group {
   border: 0;
   border-top: 1px solid rgba(113, 90, 63, 0.16);
   min-inline-size: 0;
+  touch-action: manipulation;
   margin: 0;
-  padding-top: 10px;
+  padding-top: 18px;
 }
 .search-filter-group-toggle {
   width: 100%;
@@ -3342,19 +3559,22 @@ header > a[aria-label="Go to home page"] {
   background: transparent;
   display: flex;
   align-items: center;
+  touch-action: manipulation;
   justify-content: space-between;
   padding: 0;
   cursor: pointer;
+  font-weight: 500;
+  color: #151210;
 }
 .search-filter-group-title {
   font-family: "Inter Tight", sans-serif;
   font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(42, 33, 24, 0.74);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #151210;
 }
 .search-filter-group-icon {
-  color: rgba(42, 33, 24, 0.62);
+  color: #151210;
   font-size: 18px;
   line-height: 1;
 }
@@ -3368,23 +3588,25 @@ header > a[aria-label="Go to home page"] {
 .search-filter-group.is-open .search-filter-group-panel {
   max-height: 520px;
   opacity: 1;
-  margin-top: 4px;
+  margin-top: 10px;
   overflow-y: auto;
 }
 .search-filter-options {
   display: grid;
-  gap: 8px;
+  gap: 5px;
   padding-top: 6px;
 }
 .search-filter-options--color {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px 12px;
+  justify-content: start;
+  gap: 18px 8px;
 }
 .search-filter-option {
   position: relative;
   display: block;
   width: 100%;
+  touch-action: manipulation;
   cursor: pointer;
 }
 .search-filter-option input {
@@ -3397,52 +3619,61 @@ header > a[aria-label="Go to home page"] {
 }
 .search-filter-option-label {
   position: relative;
-  display: flex;
-  align-items: center;
+  display: block;
   width: 100%;
-  min-height: 40px;
-  border-radius: 999px;
-  padding: 10px 48px 10px 14px;
-  border: 1px solid rgba(128, 101, 72, 0.26);
-  background: rgba(223, 208, 190, 0.76);
-  color: rgba(58, 42, 26, 0.88);
+  min-height: 0;
+  border-radius: 0;
+  padding: 6px 0 6px 30px;
+  border: 0;
+  background: none;
+  color: #151210;
   font-family: "Inter Tight", sans-serif;
   font-size: 13px;
-  line-height: 1.2;
-  transition: background 220ms ease, color 220ms ease, border-color 220ms ease;
+  line-height: 1.45;
+  transition: color 220ms ease;
 }
 .search-filter-option-label::before {
   content: "";
   position: absolute;
-  right: 12px;
-  width: 26px;
-  height: 15px;
-  border-radius: 999px;
-  background: rgba(128, 101, 72, 0.42);
-  transition: background 220ms ease;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(42, 33, 24, 0.42);
+  background: transparent;
+  box-sizing: border-box;
+  transition: background 220ms ease, border-color 220ms ease, border-width 220ms ease;
 }
 .search-filter-option-label::after {
   content: "";
   position: absolute;
-  right: 24px;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  transition: right 220ms ease, background 220ms ease;
+  left: 9px;
+  top: 50%;
+  width: 4px;
+  height: 7px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translate(-50%, -58%) rotate(45deg);
+  transform-origin: center;
+  opacity: 0;
+  transition: opacity 220ms ease;
 }
 .search-filter-option input:checked + .search-filter-option-label {
-  background: #2c231b;
-  color: #f6f1e8;
-  border-color: #2c231b;
+  color: #2c231b;
+}
+.search-filter-option:hover .search-filter-option-label::before,
+.search-filter-option:focus-within .search-filter-option-label::before {
+  border-width: 2px;
+  border-color: #151210;
 }
 .search-filter-option input:checked + .search-filter-option-label::before {
-  background: rgba(255, 255, 255, 0.36);
+  background: #1f1a15;
+  border-color: #1f1a15;
 }
 .search-filter-option input:checked + .search-filter-option-label::after {
-  right: 14px;
-  background: #fff;
+  opacity: 1;
 }
 .search-filter-option--color .search-filter-option-label {
   display: grid;
@@ -3740,6 +3971,7 @@ header > a[aria-label="Go to home page"] {
   border-radius: 0;
   white-space: nowrap;
   flex: 0 1 auto;
+  touch-action: manipulation;
   align-self: center;
   cursor: pointer;
   transition: color 180ms ease;
@@ -3836,6 +4068,8 @@ header > a[aria-label="Go to home page"] {
   height: 100%;
   color: inherit;
   text-decoration: none;
+  touch-action: auto;
+  -webkit-tap-highlight-color: transparent;
 }
 .search-product-media-shell::before {
   content: "";
@@ -4110,7 +4344,7 @@ body.search-open {
   border: 0;
   background: #111;
   color: #fff;
-  font-size: 23px;
+  font-size: clamp(20px, 5.6vw, 23px);
   font-weight: 300;
   line-height: 1;
   cursor: pointer;
@@ -4450,7 +4684,7 @@ body.search-open {
   border: 0;
   background: #111;
   color: #fff;
-  font-size: 23px;
+  font-size: clamp(20px, 5.6vw, 23px);
   font-weight: 300;
   line-height: 1;
   cursor: pointer;
@@ -4702,8 +4936,35 @@ section {
 }
 @media (max-width: 768px) {
   .collection-promo-track {
-    gap: 12px;
-    padding: 8px 10px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 8px 34px;
+  }
+  .collection-promo-status {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    min-width: 52px;
+    gap: 4px;
+    justify-content: flex-start;
+    z-index: 4;
+    pointer-events: auto;
+  }
+  .collection-promo-status-text {
+    display: none;
+  }
+  .collection-promo-viewport {
+    grid-column: 2;
+    width: min(100%, calc(100vw - 88px));
+    max-width: calc(100vw - 88px);
+    justify-self: center;
+          z-index: 1;
+  }
+  .collection-promo-stack,
+  .collection-promo-link {
+    width: 100%;
   }
   .collection-promo-link {
     font-size: 12px;
@@ -4811,20 +5072,15 @@ section {
     opacity: 1;
     transition: opacity 0.55s ease;
   }
-  body.desktop-header-hero-mode {
-    --promo-offset: 0px;
-  }
-  body.desktop-promo-deferred {
-    --promo-offset: 0px;
-  }
-  body.has-promo-strip.desktop-promo-deferred .collection-promo-strip {
-    opacity: 0;
-    transform: translateY(-100%);
-    pointer-events: none;
-  }
-  body.desktop-promo-deferred .promo-strip-fallback {
-    opacity: 0;
-  }
+	  body.has-promo-strip.desktop-header-hero-mode {
+	    --promo-offset: var(--promo-strip-height);
+	  }
+	  body.has-promo-strip.desktop-promo-deferred {
+	    --promo-offset: var(--promo-strip-height);
+	  }
+	  body.has-promo-strip.desktop-promo-deferred .promo-strip-fallback {
+	    opacity: 1;
+	  }
   body.desktop-header-hero-mode header::before {
     opacity: 0;
     border-bottom-color: transparent;
@@ -5070,7 +5326,7 @@ body.intro-scroll-lock {
 #home .layer-depth-bg .layer-bg {
   inset: 0;
   filter: saturate(1.03) contrast(1.03);
-  background-image: url("assets/home.webp");
+  background-image: url("assets/home-2200.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -5171,7 +5427,7 @@ body.intro-scroll-lock {
 #home .home-sky-track {
   width: 100%;
   height: 100%;
-  background-image: url("assets/home.webp");
+  background-image: url("assets/home-2200.webp");
   background-repeat: repeat-x;
   background-size: auto 100%;
   background-position: 0 0;
@@ -5232,7 +5488,7 @@ body.intro-scroll-lock {
   height: auto;
   padding: clamp(22px, 3vw, 34px) 0 clamp(56px, 7vw, 88px);
   color: #2f2a25;
-  background: #f8f6f1;
+  background: #fff;
   isolation: isolate;
   position: relative;
   overflow: hidden;
@@ -5297,7 +5553,7 @@ body.intro-scroll-lock {
   max-width: none;
   margin-top: clamp(-20px, -3.2vw, -10px);
   padding-top: clamp(34px, 6vw, 46px);
-  background: #f8f6f1;
+  background: #fff;
 }
 .featured-event-inner--overlay .featured-event-header,
 .featured-event-inner--overlay .featured-grid,
@@ -5649,6 +5905,8 @@ body.intro-scroll-lock {
   height: 100%;
   text-decoration: none;
   color: inherit;
+  touch-action: auto;
+  -webkit-tap-highlight-color: transparent;
 }
 .featured-product-body {
   margin-top: 10px;
@@ -5710,11 +5968,13 @@ body.intro-scroll-lock {
   letter-spacing: 0.04em;
   text-transform: none;
   box-shadow: none;
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
 }
 .featured-collection-btn:hover,
 .featured-collection-btn:focus-visible {
-  transform: scale(0.97);
+  background: transparent;
+  color: #151210;
+  border-color: #151210;
 }
 .seasonal-popup {
   position: fixed;
@@ -5809,7 +6069,7 @@ body.seasonal-popup-open {
 #gallery {
   min-height: auto !important;
   color: #2f2a25;
-  background: #f8f6f1;
+  background: #fff;
   isolation: isolate;
   padding: clamp(14px, 2.2vw, 24px) 0 clamp(18px, 2.8vw, 30px);
 }
@@ -6007,7 +6267,7 @@ body.seasonal-popup-open {
   margin: 0;
   overflow: hidden;
   border-radius: 0;
-  background: #d9d2c7 url("assets/portfolio.webp") center / cover no-repeat;
+  background: #d9d2c7 url("assets/portfolio-1800.webp") center / cover no-repeat;
 }
 .portfolio-campaign-hero img {
   width: 100%;
@@ -6117,11 +6377,13 @@ body.seasonal-popup-open {
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: none;
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
 }
 .portfolio-request-btn:hover,
 .portfolio-request-btn:focus-visible {
-  transform: scale(0.97);
+  background: transparent;
+  color: #151210;
+  border-color: #151210;
 }
 .portfolio-card-label {
   display: none;
@@ -6561,7 +6823,7 @@ body.seasonal-popup-open {
 
 /* Catalog-style gallery reconstruction */
 #gallery {
-  background: #f8f6f1 !important;
+  background: #fff !important;
   color: #2f2a25;
 }
 #gallery::before {
@@ -6819,6 +7081,17 @@ body.seasonal-popup-open {
   background: rgba(120, 101, 78, 0.18);
   transform: scaleY(0.6);
   transform-origin: center;
+  overflow: hidden;
+  position: relative;
+}
+.reviews-divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(42, 33, 24, 0.78);
+  transform: scaleX(var(--reviews-progress, 0));
+  transform-origin: left center;
+  transition: transform 260ms ease;
 }
 .reviews-viewport {
   overflow: visible;
@@ -6917,6 +7190,9 @@ body.seasonal-popup-open {
   opacity: 0.35;
   cursor: default;
   transform: none;
+}
+.reviews-progress {
+  display: none;
 }
 .reviews-footer {
   margin-top: 10px;
@@ -7268,7 +7544,7 @@ body.seasonal-popup-open {
 
 #site-footer {
   position: relative;
-  background: #f8f6f1;
+  background: #fff;
   color: #2a2118;
   padding: 72px 0 84px;
   border-top: 1px solid rgba(63, 54, 45, 0.1);
@@ -7563,9 +7839,9 @@ body.seasonal-popup-open {
   :root {
     --promo-strip-height: calc(40px + env(safe-area-inset-top, 0px));
   }
-  body.has-promo-strip {
-    --promo-offset: 0px;
-  }
+	  body.has-promo-strip {
+	    --promo-offset: var(--promo-strip-height);
+	  }
   .mobile-safe-area-fill {
     position: fixed;
     left: 0;
@@ -7587,8 +7863,8 @@ body.seasonal-popup-open {
     background: var(--footer-offwhite);
     z-index: 49;
   }
-  header {
-    top: 0;
+	  header {
+	    top: var(--promo-offset);
     padding: 0 16px;
     justify-content: flex-start;
     align-items: flex-end;
@@ -7611,14 +7887,14 @@ body.seasonal-popup-open {
     display: none;
   }
   .header-logo-text {
-    font-size: 23px;
+    font-size: clamp(20px, 5.6vw, 23px);
     letter-spacing: 0.01em;
     overflow: hidden;
     text-overflow: clip;
   }
   .header-logo {
     order: 1;
-    max-width: calc(100% - 172px);
+    max-width: calc(100% - 96px);
     overflow: hidden;
     flex: 1 1 auto;
     min-width: 0;
@@ -7681,16 +7957,44 @@ body.seasonal-popup-open {
   .menu-toggle .menu-label {
     display: none;
   }
-  .collection-promo-strip {
-    top: calc(72px + env(safe-area-inset-top, 0px));
-  }
-  .promo-strip-fallback {
-    top: calc(72px + env(safe-area-inset-top, 0px));
-  }
-  .collection-promo-track {
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
+	  .collection-promo-strip {
+	    top: 0;
+	    z-index: 60;
+	  }
+	  .promo-strip-fallback {
+	    top: 0;
+	  }
+	  .collection-promo-track {
+	    grid-template-columns: auto minmax(0, 1fr) auto;
+	    gap: 8px;
+	    padding: 8px 34px;
+	  }
+	  .collection-promo-status {
+	    position: absolute;
+	    left: -20px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    width: 52px;
+	    min-width: 52px;
+	    gap: 4px;
+	    justify-content: flex-start;
+	    z-index: 4;
+	    pointer-events: auto;
+	  }
+	  .collection-promo-status-text {
+	    display: none;
+	  }
+	  .collection-promo-viewport {
+	    grid-column: 2;
+    width: min(100%, calc(100vw - 88px));
+    max-width: calc(100vw - 88px);
+    justify-self: center;
+          z-index: 1;
+	  }
+	  .collection-promo-stack,
+	  .collection-promo-link {
+	    width: 100%;
+	  }
   .menu-panel {
     --mobile-menu-left-gutter: 14px;
     --mobile-menu-right-gutter: 16px;
@@ -7700,9 +8004,12 @@ body.seasonal-popup-open {
     width: 100vw;
     min-width: 100vw;
     max-width: 100vw;
+    top: auto;
+    bottom: 0;
     left: 0;
     right: 0;
     transform: translateY(100%);
+    border-top: 1px solid rgba(29, 26, 24, 0.08);
     border-right: 0;
     border-left: 0;
   }
@@ -7710,7 +8017,23 @@ body.seasonal-popup-open {
     display: none;
   }
   .menu-panel.is-open {
+    transform: translateY(0);
     box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.22);
+  }
+  .contact-quick-panel {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    min-height: 100dvh;
+    transform: translateY(100%);
+  }
+  .contact-quick-panel.is-open {
+    transform: translateY(0);
+    box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18);
   }
   .menu-close {
     width: 40px;
@@ -8024,14 +8347,39 @@ body.seasonal-popup-open {
     -webkit-backdrop-filter: blur(12px) saturate(1.04);
   }
   .search-filters-modal {
+    top: auto;
+    bottom: 0;
     width: 100vw;
     max-width: 100vw;
+    transform: translateY(100%);
+    border-top: 1px solid rgba(42, 33, 24, 0.12);
+    border-left: 0;
+  }
+  .search-filters-modal.is-open {
+    transform: translateY(0);
+    box-shadow: 0 -20px 36px rgba(24, 18, 13, 0.18);
   }
   .search-filters-head {
-    padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px 12px;
+    width: min(calc(100% - 32px), 408px);
+    padding: calc(env(safe-area-inset-top, 0px) + 34px) 0 12px;
   }
   .search-filters-body {
-    padding: 8px 16px calc(env(safe-area-inset-bottom, 0px) + 18px);
+    width: min(calc(100% - 32px), 408px);
+    padding: 8px 0 12px;
+  }
+  .search-filters-footer {
+    width: min(calc(100% - 32px), 408px);
+    padding: 12px 0 calc(env(safe-area-inset-bottom, 0px) + 80px);
+  }
+  .search-filters-close {
+    top: calc(env(safe-area-inset-top, 0px) + 12px);
+    right: 18px;
+  }
+  .search-filter-options--color {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .search-filter-option--color {
+    width: 100%;
   }
   .search-group + .search-group {
     margin-top: 0;
@@ -8404,7 +8752,7 @@ body.seasonal-popup-open {
   }
   #featured .section-content {
     padding: 0;
-    background: #f8f6f1;
+    background: #fff;
   }
   .featured-frame {
     width: calc(100% - 16px);
@@ -8423,7 +8771,7 @@ body.seasonal-popup-open {
     height: clamp(56vh, 64vh, 74vh);
     margin-bottom: 0;
     overflow: hidden;
-    background: #d9d2c7 url("assets/portfolio.webp") center / cover no-repeat;
+    background: #d9d2c7 url("assets/portfolio-1800.webp") center / cover no-repeat;
   }
   #featured {
     overflow: visible;
@@ -8433,7 +8781,7 @@ body.seasonal-popup-open {
     z-index: 2;
     margin-top: 0;
     padding-top: 0;
-    background: #f8f6f1;
+    background: #fff;
   }
   #featured {
     padding-bottom: clamp(36px, 8vw, 54px);
@@ -8447,12 +8795,12 @@ body.seasonal-popup-open {
     z-index: 2;
     margin-top: 0;
     padding-top: 0;
-    background: #f8f6f1;
+    background: #fff;
   }
   .featured-campaign-inner {
     width: 100%;
     padding: clamp(24px, 6.4vw, 34px) clamp(14px, 4.4vw, 20px) 0;
-    background: #f8f6f1;
+    background: #fff;
     box-sizing: border-box;
   }
   .featured-title-block {
@@ -8558,7 +8906,7 @@ body.seasonal-popup-open {
     width: 100%;
     grid-template-columns: 1fr;
     padding: 0 clamp(14px, 4.4vw, 20px) 8px;
-    background: #f8f6f1;
+    background: #fff;
   }
   .services-grid {
     grid-template-columns: 1fr;
@@ -8584,8 +8932,8 @@ body.seasonal-popup-open {
   }
   #gallery::before { background-attachment: scroll; }
   #reviews .section-content {
-    padding-top: 56px;
-    padding-bottom: 44px;
+    padding-top: 42px;
+    padding-bottom: 30px;
   }
   #reviews h1,
   #reviews .reviews-meta-line {
@@ -8593,7 +8941,7 @@ body.seasonal-popup-open {
   }
   .reviews-slogan {
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     display: block;
     color: rgba(42, 33, 24, 0.86);
   }
@@ -8636,15 +8984,33 @@ body.seasonal-popup-open {
     font-size: 12px;
   }
   .reviews-carousel {
+    --reviews-mobile-card-width: min(calc(100vw - 48px), 360px);
+    --reviews-mobile-side-gutter: max(16px, calc((100vw - var(--reviews-mobile-card-width)) / 2));
     display: block;
-    margin-top: 16px;
+    margin-top: 12px;
+  }
+  .reviews-divider {
+    width: var(--reviews-mobile-card-width);
+    height: 0.5px;
+    margin-top: 12px;
+    transform: none;
   }
   .reviews-nav-btn {
     display: none;
   }
   .reviews-viewport {
-    overflow: visible;
-    padding: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0 calc(-1 * var(--reviews-mobile-side-gutter));
+    padding: 0 var(--reviews-mobile-side-gutter) 4px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--reviews-mobile-side-gutter);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+  .reviews-viewport::-webkit-scrollbar {
+    display: none;
   }
   .reviews-track {
     display: block;
@@ -8652,16 +9018,25 @@ body.seasonal-popup-open {
   }
   .review-slide {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, var(--reviews-mobile-card-width));
+    gap: 14px;
+    width: max-content;
+    min-width: 100%;
+    align-items: stretch;
   }
   .review-card {
-    width: 100%;
+    width: auto;
+    min-width: 0;
+    display: grid;
+    align-content: center;
     border-radius: 0;
     border: 0;
     background: transparent !important;
     box-shadow: none;
-    padding: 14px 13px;
+    padding: 14px 16px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
   #reviews .reviews-footer {
     text-align: center;
@@ -8672,6 +9047,14 @@ body.seasonal-popup-open {
   }
   .review-text {
     font-size: 13px;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
   }
   #site-footer {
     padding: 48px 0 calc(env(safe-area-inset-bottom, 0px) + 96px);
@@ -8912,7 +9295,11 @@ body.seasonal-popup-open {
   }
   #home .layer-bg {
     inset: 0;
+    background-image: url("assets/home-mobile.webp");
     background-position: center center;
+  }
+  #home .home-sky-track {
+    background-image: url("assets/home-mobile.webp");
   }
   #home .home-sky-marquee,
   #home .home-sky-track,
@@ -9826,7 +10213,7 @@ body.seasonal-popup-open {
   }
   .portfolio-campaign-hero {
     height: clamp(56svh, 64svh, 74svh);
-    background: #d9d2c7 url("assets/portfolio.webp") center / cover no-repeat;
+    background: #d9d2c7 url("assets/portfolio-1800.webp") center / cover no-repeat;
   }
   .featured-campaign-hero img,
   .featured-home-followup-hero img,
@@ -9850,7 +10237,7 @@ body.seasonal-popup-open {
     margin-right: 0 !important;
     padding-left: clamp(14px, 4.4vw, 20px) !important;
     padding-right: clamp(14px, 4.4vw, 20px) !important;
-    background: #f8f6f1 !important;
+    background: #fff !important;
   }
   .featured-home-followup-inner {
     position: relative;
@@ -9863,7 +10250,7 @@ body.seasonal-popup-open {
     margin-right: 0 !important;
     padding-left: clamp(14px, 4.4vw, 20px) !important;
     padding-right: clamp(14px, 4.4vw, 20px) !important;
-    background: #f8f6f1 !important;
+    background: #fff !important;
   }
   .featured-title-block {
     margin-bottom: clamp(18px, 5.8vw, 30px) !important;
@@ -9882,7 +10269,7 @@ body.seasonal-popup-open {
     padding-left: clamp(14px, 4.4vw, 20px);
     padding-right: clamp(14px, 4.4vw, 20px);
     box-sizing: border-box;
-    background: #f8f6f1 !important;
+    background: #fff !important;
   }
   #gallery .section-content {
     margin-top: 0;
@@ -9891,7 +10278,7 @@ body.seasonal-popup-open {
     min-height: auto !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
-    background: #f8f6f1 !important;
+    background: #fff !important;
   }
   body.seasonal-inactive #gallery .section-content {
     margin-top: 0 !important;
@@ -9916,7 +10303,7 @@ body.seasonal-popup-open {
     position: relative;
     z-index: 2;
     box-sizing: border-box;
-    background: #f8f6f1;
+    background: #fff;
   }
   .portfolio-carousel-head {
     display: none;
@@ -9951,7 +10338,7 @@ body.seasonal-popup-open {
     padding-left: clamp(14px, 4.4vw, 20px);
     padding-right: clamp(14px, 4.4vw, 20px);
     box-sizing: border-box;
-    background: #f8f6f1;
+    background: #fff;
   }
   .portfolio-order-flow {
     width: 100%;
@@ -9963,7 +10350,7 @@ body.seasonal-popup-open {
     right: 0;
     bottom: -3px;
     height: 6px;
-    background: #f8f6f1;
+    background: #fff;
     pointer-events: none;
   }
   .portfolio-campaign-hero {
@@ -9972,7 +10359,7 @@ body.seasonal-popup-open {
     transform: none !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    background: #d9d2c7 url("assets/portfolio.webp") center / cover no-repeat !important;
+    background: #d9d2c7 url("assets/portfolio-1800.webp") center / cover no-repeat !important;
   }
   .gallery-catalog-slider {
     grid-auto-columns: minmax(200px, 78vw);
@@ -10153,6 +10540,26 @@ body.seasonal-popup-open {
 </div>
 <div class="mobile-safe-area-fill mobile-safe-area-fill--top" aria-hidden="true"></div>
 <div class="mobile-safe-area-fill mobile-safe-area-fill--bottom" aria-hidden="true"></div>
+<div class="collection-promo-strip" aria-hidden="true">
+  <div class="collection-promo-track">
+    <div class="collection-promo-status">
+      <span class="collection-promo-progress" aria-hidden="true"><span class="collection-promo-progress-fill" id="collection-promo-progress-fill"></span></span>
+      <button class="collection-promo-play-toggle" id="collection-promo-play-toggle" type="button" aria-label="Pause seasonal promotions" aria-pressed="false" data-state="playing">
+        <span class="collection-promo-pause-icon" aria-hidden="true"><span></span><span></span></span>
+        <span class="collection-promo-play-icon" aria-hidden="true"></span>
+      </button>
+      <span class="collection-promo-status-text" id="collection-promo-status-text">1 / 1</span>
+    </div>
+    <div class="collection-promo-viewport">
+      <div class="collection-promo-stack" id="collection-promo-stack">
+        <a class="collection-promo-link" id="collection-promo-link" href="featured.html">Collections - Explore the arrangements</a>
+        <a class="collection-promo-link" id="collection-promo-link-next" href="featured.html" tabindex="-1" aria-hidden="true">Collections - Explore the arrangements</a>
+      </div>
+    </div>
+    <button class="collection-promo-close" id="collection-promo-close" type="button" aria-label="Close seasonal promotion">&times;</button>
+  </div>
+</div>
+<div class="promo-strip-fallback" aria-hidden="true"></div>
 <header>
   <div class="header-bar">
     <a class="header-logo" href="index.html" aria-label="Go to home page">
@@ -10261,11 +10668,11 @@ body.seasonal-popup-open {
       </div>
     </div>
     <div class="menu-view" data-menu-view="featured">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
       <div data-featured-menu-list></div>
     </div>
     <div class="menu-view" data-menu-view="about">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
       <a class="menu-link" data-about-link="overview" href="about.html">View About</a>
       <a class="menu-link" data-about-link="journey" href="about.html#foundation">Our Journey</a>
       <a class="menu-link" data-about-link="craft" href="about.html#philosophy">Our Craft</a>
@@ -10273,7 +10680,7 @@ body.seasonal-popup-open {
       <a class="menu-link" data-about-link="signature" href="about.html#signature">Signature Story</a>
     </div>
     <div class="menu-view" data-menu-view="services">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
       <a class="menu-link" data-service-link="all" href="services.html">View All Services</a>
       <a class="menu-link" data-service-link="consultation" href="services.html#consultation">Consultation</a>
       <a class="menu-link" data-service-link="personal-message" href="services.html#personal-message">Message Cards</a>
@@ -10281,12 +10688,12 @@ body.seasonal-popup-open {
       <a class="menu-link" data-service-link="collection-pickup" href="services.html#collection-pickup">Pickup &amp; Handover</a>
     </div>
     <div class="menu-view" data-menu-view="visit">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
       <a class="menu-link" data-visit-link="boutique" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Florist Boutique</a>
       <a class="menu-link" data-visit-link="supplies" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Supplies Shop</a>
     </div>
     <div class="menu-view" data-menu-view="contact">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
       <div class="contact-quick-body">
         <div class="contact-quick-block">
           <p class="contact-quick-label">Hubungi Kami</p>
@@ -10333,15 +10740,18 @@ body.seasonal-popup-open {
         <button class="search-query-tab is-active" id="search-query-tab-products" type="button">Produk (0)</button>
         <button class="search-query-tab" id="search-query-tab-faq" type="button">FAQ (0)</button>
       </div>
-      <button class="search-query-filter" id="search-query-filter" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-filters-modal"><span class="search-query-filter-label">Filter</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings2-icon lucide-settings-2" aria-hidden="true"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></button>
+      <button class="search-query-filter" id="search-query-filter" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="search-filters-modal"><span class="search-query-filter-label">Filters</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings2-icon lucide-settings-2" aria-hidden="true"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></button>
     </div>
     <aside class="search-filters-modal" id="search-filters-modal" aria-hidden="true">
       <div class="search-filters-head">
-        <h3>Filter</h3>
+        <h3>Filters</h3>
         <button class="search-filters-close" id="search-filters-close" type="button" aria-label="Tutup filter pencarian">&#10005;</button>
       </div>
       <div class="search-filters-body">
         <section id="search-filters-wrap" aria-label="Filter pencarian"></section>
+      </div>
+      <div class="search-filters-footer">
+        <button class="search-filters-apply is-disabled" id="search-filters-apply" type="button" disabled>Apply</button>
       </div>
     </aside>
     <div class="search-status" id="search-status" aria-live="polite"></div>
@@ -10467,7 +10877,7 @@ body.seasonal-popup-open {
       <p class="reviews-headline"><span class="reviews-stars" aria-hidden="true">★★★★★</span><span class="reviews-rating-line">5.0 Rating Rata-Rata</span></p>
       <p class="reviews-slogan">Ulasan nyata dari pelanggan yang mempercayakan momen mereka kepada Marvell Florist.</p>
     </div>
-    <div class="reviews-divider" aria-hidden="true"></div>
+    <div class="reviews-divider" id="reviews-progress" aria-hidden="true"></div>
     <div class="reviews-carousel" id="reviews-carousel" aria-label="Customer review carousel">
       <button class="reviews-nav-btn" id="reviews-prev" type="button" aria-label="Previous reviews">&#8249;</button>
       <div class="reviews-viewport" id="reviews-viewport">
@@ -10539,7 +10949,7 @@ body.seasonal-popup-open {
   </div>
 </footer>
 
-<script src="assets/secondary-menu.js?v=20260424e"></script>
+<script src="assets/secondary-menu.js?v=20260505c"></script>
 <script>
 const sections = document.querySelectorAll("section[data-parallax]");
 const storySections = Array.from(document.querySelectorAll("section[id]"));
@@ -10656,7 +11066,8 @@ if (homeHeroClickTarget instanceof HTMLButtonElement) {
 
 if (featuredHeroClickTarget instanceof HTMLButtonElement) {
   featuredHeroClickTarget.addEventListener("click", () => {
-    window.location.href = "featured.html";
+    const href = String(featuredHeroClickTarget.getAttribute("data-seasonal-direct-href") || "featured.html").trim() || "featured.html";
+    window.location.href = href;
   });
 }
 
@@ -10959,6 +11370,7 @@ const searchQueryFilterButton = document.getElementById("search-query-filter");
 const searchFiltersModal = document.getElementById("search-filters-modal");
 const searchFiltersClose = document.getElementById("search-filters-close");
 const searchFiltersWrap = document.getElementById("search-filters-wrap");
+const searchFiltersApply = document.getElementById("search-filters-apply");
 const featuredLeadElement = document.getElementById("featured-lead");
 const portfolioKickerElement = document.getElementById("portfolio-kicker");
 const portfolioHeadingElement = document.getElementById("portfolio-heading");
@@ -11035,6 +11447,8 @@ const GALLERY_LEGACY_ENDPOINTS = ["/data/gallery.json", "data/gallery.json"];
 const FEATURED_CONTENT_ENDPOINTS = ["/content/featured.json", "content/featured.json"];
 const PORTFOLIO_CATEGORIES_ENDPOINTS = ["/content/portfolio-categories.json", "content/portfolio-categories.json"];
 const SITE_SECTIONS_ENDPOINTS = ["/content/site-sections.json", "content/site-sections.json"];
+const IS_LOCAL_CONTENT_HOST = ["127.0.0.1", "localhost"].includes(String(window.location.hostname || "").toLowerCase());
+const SITE_SECTIONS_LIVE_SYNC_INTERVAL_MS = IS_LOCAL_CONTENT_HOST ? 1000 : 30000;
 const getEmbeddedJsonPayload = (scriptId) => {
   const element = document.getElementById(scriptId);
   if (!(element instanceof HTMLScriptElement)) return null;
@@ -11052,6 +11466,27 @@ const HOME_PORTFOLIO_DEFAULT_COPY = {
   lead: "A broader view of our work across categories and occasions.",
   requestNote: "Looking for something else?",
   requestButtonLabel: "Request a custom arrangement"
+};
+let latestSiteSectionsSignature = "";
+let siteSectionsLiveSyncTimer = 0;
+const serializeComparablePayload = (payload = {}) => {
+  try {
+    return JSON.stringify(payload && typeof payload === "object" ? payload : {});
+  } catch (_error) {
+    return "";
+  }
+};
+const fetchFirstAvailableJson = async (endpoints = []) => {
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint, { cache: "no-store" });
+      if (!response.ok) continue;
+      return await response.json();
+    } catch (_error) {
+      // Try next endpoint variant.
+    }
+  }
+  return null;
 };
 let searchFeaturedCollectionTitle = SEARCH_FEATURED_FALLBACK_TITLE;
 let searchFeaturedCollectionProducts = [];
@@ -11132,7 +11567,12 @@ const SEARCH_FLOWER_TYPE_DEFS = [
   { id: "hydrangea", label: "Hydrangea", tokens: ["hydrangea", "hortensia"] },
   { id: "peony", label: "Peony", tokens: ["peony", "peonies"] },
   { id: "gerbera", label: "Gerbera", tokens: ["gerbera"] },
-  { id: "chrysanthemum", label: "Krisan", tokens: ["chrysanthemum", "krisan"] }
+  { id: "chrysanthemum", label: "Krisan", tokens: ["chrysanthemum", "krisan"] },
+  { id: "poms", label: "Poms", tokens: ["poms", "pom", "pom poms", "pompom", "pompon"] },
+  { id: "snap-dragons", label: "Snap Dragons", tokens: ["snap dragons", "snap dragon", "snapdragons", "snapdragon"] },
+  { id: "gompie", label: "Gompie", tokens: ["gompie"] },
+  { id: "aranthera-azimah", label: "Aranthera Azimah", tokens: ["aranthera azimah", "aranthera", "azimah"] },
+  { id: "lysianthus", label: "Lysianthus", tokens: ["lysianthus", "lisianthus"] }
 ];
 const SEARCH_SYNONYM_GROUPS = [
   ["bouquet", "bouquets", "buket", "buket bunga", "bunga tangan", "hand bouquet"],
@@ -11539,6 +11979,12 @@ const buildBilingualSearchKeywords = (title, category, extraKeywords = []) => {
   return Array.from(allTerms);
 };
 const hasAnyActiveSearchFilters = () => SEARCH_FILTER_GROUP_IDS.some((groupId) => activeSearchFilters[groupId] instanceof Set && activeSearchFilters[groupId].size > 0);
+const updateSearchFiltersApplyState = () => {
+  if (!(searchFiltersApply instanceof HTMLButtonElement)) return;
+  const shouldEnable = hasAnyActiveSearchFilters();
+  searchFiltersApply.disabled = !shouldEnable;
+  searchFiltersApply.classList.toggle("is-disabled", !shouldEnable);
+};
 const resetActiveSearchFilters = () => {
   activeSearchFilters = {
     category: new Set(),
@@ -11703,14 +12149,14 @@ const buildSearchLegacyCategoryFilters = (categoryMeta = null) => {
       colorGroup,
       sizeGroup,
       flowerConditionGroup,
-      flowerTypeGroup(["mawar", "tulip", "anggrek", "lily", "babys-breath", "aster", "sunflower", "carnation", "hydrangea", "peony", "gerbera", "chrysanthemum"])
+      flowerTypeGroup(["mawar", "tulip", "anggrek", "lily", "babys-breath", "aster", "sunflower", "carnation", "hydrangea", "peony", "gerbera", "chrysanthemum", "poms", "snap-dragons", "gompie", "aranthera-azimah", "lysianthus"])
     ];
   }
   if (categoryKey === "standing-flowers") {
     return [
       colorGroup,
       flowerConditionGroup,
-      flowerTypeGroup(["mawar", "lily", "anggrek", "sunflower", "aster", "chrysanthemum"])
+      flowerTypeGroup(["mawar", "lily", "anggrek", "sunflower", "aster", "chrysanthemum", "poms", "snap-dragons", "gompie", "aranthera-azimah", "lysianthus"])
     ];
   }
   if (categoryKey === "funerals") {
@@ -11726,7 +12172,7 @@ const buildSearchLegacyCategoryFilters = (categoryMeta = null) => {
         ]
       },
       colorGroup,
-      flowerTypeGroup(["mawar", "lily", "anggrek", "aster", "chrysanthemum"])
+      flowerTypeGroup(["mawar", "lily", "anggrek", "aster", "chrysanthemum", "poms", "snap-dragons", "gompie", "aranthera-azimah", "lysianthus"])
     ];
   }
   if (categoryKey === "papan-bunga") {
@@ -11788,7 +12234,7 @@ const getSearchCategoryFilterGroups = (categoryMeta = null) => {
   if (!cmsFilterGroups.length) return legacyGroups;
   return cmsFilterGroups.map((group) => ({
     id: String(group.id || "").trim() || "filter",
-    label: String(group.label || group.id || "Filter").trim() || "Filter",
+    label: String(group.label || group.id || "Filters").trim() || "Filters",
     options: (Array.isArray(group.options) ? group.options : []).filter((option) => {
       return !(normalizeSearchFilterToken(group.id || "") === "color" && normalizeSearchFilterToken(option?.id || option?.label || "") === "mixed");
     }).map((option) => {
@@ -12193,6 +12639,18 @@ const initializeSearchCardCarousels = (scope = document) => {
       }
     }
 
+    if (card instanceof HTMLElement && card.dataset.searchCardLinkBound !== "1") {
+      card.dataset.searchCardLinkBound = "1";
+      card.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        if (target.closest("a, button, [data-favorite-toggle]")) return;
+        const link = card.querySelector(".search-product-detail-link");
+        if (!(link instanceof HTMLAnchorElement)) return;
+        window.location.href = link.href;
+      });
+    }
+
     if (carousel.dataset.searchResizeBound !== "1") {
       carousel.dataset.searchResizeBound = "1";
       window.addEventListener("resize", () => syncTrackPosition("auto"));
@@ -12587,6 +13045,7 @@ const setSearchFiltersModalOpen = (shouldOpen) => {
     searchFiltersModal.classList.toggle("is-open", searchFiltersModalOpen);
     searchFiltersModal.setAttribute("aria-hidden", searchFiltersModalOpen ? "false" : "true");
   }
+  updateSearchFiltersApplyState();
 };
 const buildSearchFilterGroups = (items = []) => {
   const scopedItems = Array.from(items);
@@ -12626,12 +13085,14 @@ const renderSearchFiltersModal = (items = [], isQueryMode = false) => {
   if (!isQueryMode) {
     searchFiltersWrap.innerHTML = "";
     setSearchFiltersModalOpen(false);
+    updateSearchFiltersApplyState();
     return;
   }
   const groups = buildSearchFilterGroups(items);
   if (!groups.length) {
     searchFiltersWrap.innerHTML = "";
     setSearchFiltersModalOpen(false);
+    updateSearchFiltersApplyState();
     return;
   }
   searchFiltersWrap.innerHTML = `
@@ -12665,6 +13126,7 @@ const renderSearchFiltersModal = (items = [], isQueryMode = false) => {
       if (panel instanceof HTMLElement) panel.style.maxHeight = `${panel.scrollHeight}px`;
     });
   });
+  updateSearchFiltersApplyState();
 };
 const renderSearchShelves = (queryText = "") => {
   const query = normalizeSearchText(queryText);
@@ -12770,6 +13232,7 @@ const renderSearchShelves = (queryText = "") => {
 };
 const applySiteSectionsCopy = (payload = {}) => {
   window.__MARVELL_SITE_SECTIONS__ = payload && typeof payload === "object" ? payload : {};
+  latestSiteSectionsSignature = serializeComparablePayload(window.__MARVELL_SITE_SECTIONS__);
   const homePortfolio = payload?.homePortfolio && typeof payload.homePortfolio === "object"
     ? payload.homePortfolio
     : {};
@@ -12790,8 +13253,9 @@ const applySiteSectionsCopy = (payload = {}) => {
     ctaLabel: String(homeHero.ctaLabel || "").trim() || "Discover the Collection",
     ctaTarget: String(homeHero.ctaTarget || "").trim() || "gallery-entry"
   };
+  const activeFeaturedHref = String(window.__MARVELL_HOMEPAGE_FEATURED_HREF__ || "").trim();
   const homeHeroHref = homeHeroResolved.ctaTarget === "featured-primary"
-    ? "featured.html"
+    ? (activeFeaturedHref || "featured.html")
     : "gallery.html?entry=home-hero";
 
   if (portfolioKickerElement instanceof HTMLElement) portfolioKickerElement.textContent = resolved.kicker;
@@ -12808,14 +13272,47 @@ const applySiteSectionsCopy = (payload = {}) => {
   if (homeHeroLinkElement instanceof HTMLAnchorElement) {
     homeHeroLinkElement.textContent = homeHeroResolved.ctaLabel;
     homeHeroLinkElement.setAttribute("href", homeHeroHref);
+    homeHeroLinkElement.dataset.siteSectionsManaged = "true";
   }
   if (homeHeroClickTarget instanceof HTMLButtonElement) {
     homeHeroClickTarget.setAttribute("data-seasonal-direct-href", homeHeroHref);
   }
   if (homeHeroBackgroundElement instanceof HTMLElement) {
     const heroImagePath = String(homeHeroResolved.image || "").trim();
-    homeHeroBackgroundElement.style.backgroundImage = heroImagePath ? `url("${heroImagePath}")` : 'url("assets/home.webp")';
+    const fallbackHeroImage = window.matchMedia("(max-width: 768px)").matches
+      ? "assets/home-mobile.webp"
+      : "assets/home-2200.webp";
+    homeHeroBackgroundElement.style.backgroundImage = heroImagePath ? `url("${heroImagePath}")` : `url("${fallbackHeroImage}")`;
   }
+  window.dispatchEvent(new CustomEvent("sitesectionsupdated", {
+    detail: window.__MARVELL_SITE_SECTIONS__
+  }));
+};
+const refreshSiteSectionsCopy = async (force = false) => {
+  const fetchedPayload = await fetchFirstAvailableJson(SITE_SECTIONS_ENDPOINTS);
+  if (!fetchedPayload || typeof fetchedPayload !== "object") return false;
+  const nextSignature = serializeComparablePayload(fetchedPayload);
+  if (!force && nextSignature && nextSignature === latestSiteSectionsSignature) return true;
+  applySiteSectionsCopy(fetchedPayload);
+  return true;
+};
+const scheduleSiteSectionsLiveSync = () => {
+  if (siteSectionsLiveSyncTimer) window.clearTimeout(siteSectionsLiveSyncTimer);
+  siteSectionsLiveSyncTimer = window.setTimeout(async () => {
+    await refreshSiteSectionsCopy(false);
+    scheduleSiteSectionsLiveSync();
+  }, SITE_SECTIONS_LIVE_SYNC_INTERVAL_MS);
+};
+const initializeSiteSectionsContent = async () => {
+  const embeddedSiteSectionsPayload = getEmbeddedJsonPayload("embedded-site-sections-json");
+  if (embeddedSiteSectionsPayload && typeof embeddedSiteSectionsPayload === "object" && Object.keys(embeddedSiteSectionsPayload).length) {
+    applySiteSectionsCopy(embeddedSiteSectionsPayload);
+  }
+  const fetchedPayload = await fetchFirstAvailableJson(SITE_SECTIONS_ENDPOINTS);
+  if (fetchedPayload && typeof fetchedPayload === "object") {
+    applySiteSectionsCopy(fetchedPayload);
+  }
+  if (IS_LOCAL_CONTENT_HOST) scheduleSiteSectionsLiveSync();
 };
 const hydrateSearchFeaturedFromContent = (payload = {}) => {
   const parseMonthDay = (value) => {
@@ -12848,8 +13345,8 @@ const hydrateSearchFeaturedFromContent = (payload = {}) => {
     && event.products.some((product) => String(product?.src || "").trim() && String(product?.name || "").trim())
   ));
   const activeEvents = sortByPriority([
-    ...eventsWithProducts.filter((event) => event?.forceActive === true),
-    ...eventsWithProducts.filter((event) => isEventScheduledActive(event, new Date()))
+    ...events.filter((event) => event?.forceActive === true),
+    ...events.filter((event) => isEventScheduledActive(event, new Date()))
   ]);
   const dedupedActiveEvents = [];
   const seen = new Set();
@@ -12859,7 +13356,12 @@ const hydrateSearchFeaturedFromContent = (payload = {}) => {
     seen.add(key);
     dedupedActiveEvents.push(event);
   });
-  const targetEvent = dedupedActiveEvents[0] || sortByPriority(eventsWithProducts)[0] || null;
+  const renderableActiveEvents = dedupedActiveEvents.filter((event) => (
+    Array.isArray(event?.products)
+    && event.products.some((product) => String(product?.src || "").trim() && String(product?.name || "").trim())
+  ));
+  const searchableEvents = renderableActiveEvents.length ? renderableActiveEvents : sortByPriority(eventsWithProducts);
+  const targetEvent = searchableEvents[0] || null;
   if (!targetEvent) {
     searchFeaturedCollectionProducts = [];
     searchSeasonalProductPool = [];
@@ -12868,9 +13370,11 @@ const hydrateSearchFeaturedFromContent = (payload = {}) => {
     return;
   }
   const eventTitle = String(targetEvent.title || SEARCH_FEATURED_FALLBACK_TITLE).trim();
-  const eventId = String(targetEvent.id || "").trim();
-  const eventProducts = Array.isArray(targetEvent.products) ? targetEvent.products : [];
-  const mapped = eventProducts
+  const mapEventProducts = (eventConfig) => {
+    const mappedEventTitle = String(eventConfig?.title || SEARCH_FEATURED_FALLBACK_TITLE).trim();
+    const mappedEventId = String(eventConfig?.id || "").trim();
+    const eventProducts = Array.isArray(eventConfig?.products) ? eventConfig.products : [];
+    return eventProducts
     .filter((product) => product && product.src && product.name)
     .map((product) => {
       const title = String(product.name || "Produk Unggulan").trim();
@@ -12882,7 +13386,7 @@ const hydrateSearchFeaturedFromContent = (payload = {}) => {
       const typeKeyword = String(itemFilters.type || "").trim();
       return {
         title,
-        category: eventTitle || SEARCH_FEATURED_FALLBACK_TITLE,
+        category: mappedEventTitle || SEARCH_FEATURED_FALLBACK_TITLE,
         image: resolveSearchImage(image),
         additionalImages: normalizeSearchAdditionalImages(product.additionalImages),
         rawPrice,
@@ -12892,9 +13396,9 @@ const hydrateSearchFeaturedFromContent = (payload = {}) => {
           type: typeKeyword || undefined
         },
         keywords: buildBilingualSearchKeywords(title, "Featured", [
-          eventTitle,
-          eventId,
-          ...tokenizeSearchQuery(eventTitle),
+          mappedEventTitle,
+          mappedEventId,
+          ...tokenizeSearchQuery(mappedEventTitle),
           "Featured",
           "Seasonal",
           "Collection",
@@ -12902,12 +13406,15 @@ const hydrateSearchFeaturedFromContent = (payload = {}) => {
           typeKeyword
         ]),
         href: buildSearchFeaturedCollectionHref({
-          eventId,
-          eventTitle,
+          eventId: mappedEventId,
+          eventTitle: mappedEventTitle,
           productTitle: title
         })
       };
     });
+  };
+  const mapped = mapEventProducts(targetEvent);
+  const searchableMapped = searchableEvents.flatMap((eventConfig) => mapEventProducts(eventConfig));
   if (!mapped.length) {
     searchFeaturedCollectionProducts = [];
     searchSeasonalProductPool = [];
@@ -12917,10 +13424,10 @@ const hydrateSearchFeaturedFromContent = (payload = {}) => {
   }
   searchFeaturedCollectionTitle = eventTitle;
   searchFeaturedCollectionProducts = mapped;
-  searchSeasonalProductPool = mapped.map((item) => ({
+  searchSeasonalProductPool = searchableMapped.map((item) => ({
     ...item,
-    category: eventTitle || "Seasonal Collection",
-    keywords: buildBilingualSearchKeywords(item.title, eventTitle || "Seasonal Collection", [
+    category: item.category || "Seasonal Collection",
+    keywords: buildBilingualSearchKeywords(item.title, item.category || "Seasonal Collection", [
       ...(Array.isArray(item.keywords) ? item.keywords : []),
       "seasonal",
       "collection"
@@ -13307,6 +13814,12 @@ if (searchFiltersWrap instanceof HTMLElement && POPUPS_ENABLED) {
     setSearchFiltersModalOpen(true);
   });
 }
+if (searchFiltersApply instanceof HTMLButtonElement && POPUPS_ENABLED) {
+  searchFiltersApply.addEventListener("click", () => {
+    if (searchFiltersApply.disabled) return;
+    setSearchFiltersModalOpen(false);
+  });
+}
 if (searchForm && searchInput instanceof HTMLInputElement && POPUPS_ENABLED) {
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -13655,7 +14168,7 @@ function setupEarlyLazyImageWarmup() {
     preloader.src = source;
   };
 
-  const preloadMargin = window.matchMedia("(max-width: 768px)").matches ? 2600 : 3200;
+  const preloadMargin = window.matchMedia("(max-width: 768px)").matches ? 900 : 1400;
   const lazyObserver = typeof IntersectionObserver === "function"
     ? new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -14162,6 +14675,7 @@ const reviewsPrevButton = document.getElementById("reviews-prev");
 const reviewsNextButton = document.getElementById("reviews-next");
 const reviewsViewport = document.getElementById("reviews-viewport");
 const reviewsSection = document.getElementById("reviews");
+const reviewsProgress = document.getElementById("reviews-progress");
 let galleryCategories = [];
 let pendingGalleryCategoryFromNav = "";
 const REVIEW_PAGE_SIZE = 3;
@@ -14321,6 +14835,13 @@ let reviewsAutoShuffleCursor = 0;
 let reviewsAutoShuffleStep = 0;
 let reviewsAutoShuffleDirection = 1;
 let reviewsAutoShuffleResizeBound = false;
+let reviewsMobileLoopTimer = 0;
+let reviewsMobileLoopPauseTimer = 0;
+let reviewsMobileLoopIndex = 0;
+let reviewsMobileLoopUniqueCount = 0;
+let reviewsMobileLoopBound = false;
+let reviewsResponsiveModeWasMobile = null;
+let reviewsResponsiveModeTimer = 0;
 
 const galleryCategoryMeta = [
   {
@@ -14425,7 +14946,7 @@ function normalizePortfolioFilterGroupRecord(entry, index) {
 function normalizePortfolioCategoryRecord(entry, index) {
   if (!entry || typeof entry !== "object") return null;
   const fallbackKey = `category-${index + 1}`;
-  const key = toSlug(entry.key || entry.name || fallbackKey) || fallbackKey;
+  const key = normalizeSearchCategorySlug(entry.key || entry.name || fallbackKey) || fallbackKey;
   const name = String(entry.name || entry.key || fallbackKey).trim() || fallbackKey;
   const aliases = Array.from(new Set([
     ...normalizePortfolioTextList(entry.aliases),
@@ -14920,6 +15441,17 @@ function stopReviewsAutoShuffle() {
   }
 }
 
+function stopReviewsMobileLoop() {
+  if (reviewsMobileLoopTimer) {
+    window.clearTimeout(reviewsMobileLoopTimer);
+    reviewsMobileLoopTimer = 0;
+  }
+  if (reviewsMobileLoopPauseTimer) {
+    window.clearTimeout(reviewsMobileLoopPauseTimer);
+    reviewsMobileLoopPauseTimer = 0;
+  }
+}
+
 function splitReviewTextIntoSentences(text) {
   const normalized = String(text || "").replace(/\s+/g, " ").trim();
   if (!normalized) return [];
@@ -14982,6 +15514,10 @@ function getReviewsColumns() {
   return 3;
 }
 
+function shouldUseMobileReviewsLoop() {
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+
 function syncReviewsAutoShuffleLayout() {
   if (!(reviewsViewport instanceof HTMLElement) || !reviewsAutoShuffleSource.length) return;
   const viewportWidth = reviewsViewport.clientWidth || reviewsTrack?.clientWidth || 0;
@@ -14994,7 +15530,9 @@ function syncReviewsAutoShuffleLayout() {
   const gap = slideStyles ? parseFloat(slideStyles.rowGap || slideStyles.gap || "16") || 16 : 16;
   const columns = getReviewsColumns();
   const isSingleColumn = columns === 1;
-  const cardWidth = Math.max((viewportWidth - (gap * (columns - 1))) / columns, 120);
+  const renderedCard = reviewsTrack?.querySelector(".review-card");
+  const renderedCardWidth = renderedCard instanceof HTMLElement ? renderedCard.getBoundingClientRect().width : 0;
+  const cardWidth = Math.max(isSingleColumn && renderedCardWidth ? renderedCardWidth : ((viewportWidth - (gap * (columns - 1))) / columns), 120);
 
   const measureWrap = document.createElement("div");
   measureWrap.style.position = "absolute";
@@ -15020,10 +15558,8 @@ function syncReviewsAutoShuffleLayout() {
 
   measureWrap.remove();
 
-  const safeCardHeight = Math.max(maxCardHeight, isSingleColumn ? 108 : 132);
-  const slideHeight = isSingleColumn
-    ? (safeCardHeight * reviewsAutoShuffleSlots.length) + (gap * Math.max(reviewsAutoShuffleSlots.length - 1, 0))
-    : safeCardHeight;
+  const safeCardHeight = Math.max(maxCardHeight, isSingleColumn ? 132 : 132);
+  const slideHeight = safeCardHeight;
 
   const targets = [
     reviewsSection,
@@ -15095,6 +15631,104 @@ function startReviewsAutoShuffle(selectedIndices) {
   scheduleNextReviewsAutoShuffle(3200);
 }
 
+function scheduleNextReviewsMobileLoop(delayMs = 3400) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!(reviewsViewport instanceof HTMLElement) || reviewsMobileLoopUniqueCount <= 1) return;
+  if (reviewsMobileLoopTimer) window.clearTimeout(reviewsMobileLoopTimer);
+  reviewsMobileLoopTimer = window.setTimeout(runReviewsMobileLoopStep, delayMs);
+}
+
+function updateReviewsMobileProgress() {
+  const target = reviewsProgress;
+  if (!(target instanceof HTMLElement)) return;
+  if (!reviewsMobileLoopUniqueCount || !shouldUseMobileReviewsLoop()) {
+    target.style.setProperty("--reviews-progress", "0");
+    return;
+  }
+  const visibleIndex = reviewsMobileLoopIndex >= reviewsMobileLoopUniqueCount
+    ? reviewsMobileLoopUniqueCount - 1
+    : clamp(reviewsMobileLoopIndex, 0, reviewsMobileLoopUniqueCount - 1);
+  const progress = (visibleIndex + 1) / reviewsMobileLoopUniqueCount;
+  target.style.setProperty("--reviews-progress", progress.toFixed(4));
+}
+
+function scrollReviewsMobileLoopTo(index, behavior = "smooth") {
+  if (!(reviewsViewport instanceof HTMLElement) || !(reviewsTrack instanceof HTMLElement)) return;
+  const cards = Array.from(reviewsTrack.querySelectorAll(".review-card"));
+  const card = cards[index];
+  if (!(card instanceof HTMLElement)) return;
+  const centeredLeft = card.offsetLeft - ((reviewsViewport.clientWidth - card.clientWidth) / 2);
+  reviewsViewport.scrollTo({ left: Math.max(0, centeredLeft), behavior });
+}
+
+function runReviewsMobileLoopStep() {
+  if (!(reviewsViewport instanceof HTMLElement) || reviewsMobileLoopUniqueCount <= 1) return;
+  reviewsMobileLoopIndex += 1;
+  updateReviewsMobileProgress();
+  scrollReviewsMobileLoopTo(reviewsMobileLoopIndex, "smooth");
+
+  if (reviewsMobileLoopIndex >= reviewsMobileLoopUniqueCount) {
+    window.setTimeout(() => {
+      reviewsMobileLoopIndex = 0;
+      updateReviewsMobileProgress();
+      scrollReviewsMobileLoopTo(0, "auto");
+      scheduleNextReviewsMobileLoop();
+    }, 620);
+    return;
+  }
+
+  scheduleNextReviewsMobileLoop();
+}
+
+function pauseReviewsMobileLoop() {
+  if (reviewsMobileLoopTimer) {
+    window.clearTimeout(reviewsMobileLoopTimer);
+    reviewsMobileLoopTimer = 0;
+  }
+  if (reviewsMobileLoopPauseTimer) window.clearTimeout(reviewsMobileLoopPauseTimer);
+  reviewsMobileLoopPauseTimer = window.setTimeout(() => {
+    reviewsMobileLoopPauseTimer = 0;
+    scheduleNextReviewsMobileLoop(2200);
+  }, 2600);
+}
+
+function bindReviewsMobileLoopControls() {
+  if (reviewsMobileLoopBound || !(reviewsViewport instanceof HTMLElement)) return;
+  reviewsMobileLoopBound = true;
+  reviewsViewport.addEventListener("pointerdown", pauseReviewsMobileLoop, { passive: true });
+  reviewsViewport.addEventListener("touchstart", pauseReviewsMobileLoop, { passive: true });
+  reviewsViewport.addEventListener("wheel", pauseReviewsMobileLoop, { passive: true });
+  reviewsViewport.addEventListener("scroll", () => {
+    if (!shouldUseMobileReviewsLoop() || !reviewsMobileLoopUniqueCount) return;
+    if (reviewsMobileLoopTimer) return;
+    const cards = Array.from(reviewsTrack?.querySelectorAll(".review-card") || []).slice(0, reviewsMobileLoopUniqueCount);
+    let closestIndex = reviewsMobileLoopIndex;
+    let closestDistance = Infinity;
+    cards.forEach((card, index) => {
+      if (!(card instanceof HTMLElement)) return;
+      const distance = Math.abs(card.offsetLeft - reviewsViewport.scrollLeft);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+    reviewsMobileLoopIndex = closestIndex;
+    updateReviewsMobileProgress();
+  }, { passive: true });
+}
+
+function startReviewsMobileLoop() {
+  stopReviewsMobileLoop();
+  reviewsAutoShuffleSlots = Array.from(document.querySelectorAll("#reviews .review-card"));
+  reviewsMobileLoopUniqueCount = Math.floor(reviewsAutoShuffleSlots.length / 2);
+  reviewsMobileLoopIndex = 0;
+  requestReviewsAutoShuffleLayoutSync();
+  bindReviewsMobileLoopControls();
+  updateReviewsMobileProgress();
+  window.requestAnimationFrame(() => scrollReviewsMobileLoopTo(0, "auto"));
+  scheduleNextReviewsMobileLoop(2600);
+}
+
 function updateReviewsCarouselState() {
   if (!reviewsTrack) return;
   reviewsTrack.style.transform = `translate3d(${-reviewsPageIndex * 100}%, 0, 0)`;
@@ -15105,6 +15739,8 @@ function updateReviewsCarouselState() {
 function initializeReviewsCarousel() {
   if (!reviewsTrack) return;
   stopReviewsAutoShuffle();
+  stopReviewsMobileLoop();
+  reviewsResponsiveModeWasMobile = shouldUseMobileReviewsLoop();
   const reviewsHeadline = document.querySelector("#reviews .reviews-headline");
   const reviewsMetaLine = document.querySelector("#reviews .reviews-meta-line");
   if (reviewsHeadline) {
@@ -15118,12 +15754,31 @@ function initializeReviewsCarousel() {
   const quotedReviews = reviews.filter((entry) => String(entry?.text || "").trim().length > 0);
   const source = quotedReviews.length ? quotedReviews : reviews;
   reviewsAutoShuffleSource = source.slice();
+  if (!shouldUseMobileReviewsLoop()) updateReviewsMobileProgress();
   let rotationSeed = 0;
   try {
     rotationSeed = Number(sessionStorage.getItem("reviews-mobile-quote-rotation") || "0") || 0;
     sessionStorage.setItem("reviews-mobile-quote-rotation", String(rotationSeed + 1));
   } catch (_error) {
     rotationSeed = 0;
+  }
+
+  if (shouldUseMobileReviewsLoop()) {
+    const rotatedSource = source.map((_, index) => source[(rotationSeed + index) % source.length]);
+    reviewsTrack.innerHTML = `
+      <div class="review-slide">
+        ${rotatedSource.concat(rotatedSource).map((entry) => {
+          return `
+            <article class="review-card">
+              ${buildReviewCardMarkup(entry)}
+            </article>
+          `;
+        }).join("")}
+      </div>
+    `;
+    markNoSmudgeTargets(reviewsTrack);
+    startReviewsMobileLoop();
+    return;
   }
 
   const selected = [];
@@ -15149,6 +15804,23 @@ function initializeReviewsCarousel() {
   markNoSmudgeTargets(reviewsTrack);
   requestReviewsAutoShuffleLayoutSync();
   startReviewsAutoShuffle(selectedIndices);
+}
+
+function scheduleReviewsResponsiveModeCheck() {
+  if (reviewsResponsiveModeTimer) window.clearTimeout(reviewsResponsiveModeTimer);
+  reviewsResponsiveModeTimer = window.setTimeout(() => {
+    reviewsResponsiveModeTimer = 0;
+    const isMobileMode = shouldUseMobileReviewsLoop();
+    if (reviewsResponsiveModeWasMobile === null) {
+      reviewsResponsiveModeWasMobile = isMobileMode;
+      return;
+    }
+    if (isMobileMode !== reviewsResponsiveModeWasMobile) {
+      initializeReviewsCarousel();
+      return;
+    }
+    requestReviewsAutoShuffleLayoutSync();
+  }, 180);
 }
 
 
@@ -15602,66 +16274,30 @@ function initializeGalleryInteractions() {
 }
 
 async function initializeGallery() {
-  try {
-    const embeddedGalleryPayload = getEmbeddedJsonPayload("embedded-gallery-json");
-    const embeddedFeaturedPayload = getEmbeddedJsonPayload("embedded-featured-json");
-    const embeddedCategoriesPayload = getEmbeddedJsonPayload("embedded-portfolio-categories-json");
-    const embeddedSiteSectionsPayload = getEmbeddedJsonPayload("embedded-site-sections-json");
-
-    if (embeddedCategoriesPayload) {
-      applyPortfolioCategoryConfig(embeddedCategoriesPayload);
-    } else {
-      renderHomePortfolioCards(galleryCategoryMeta);
+  const embeddedGalleryPayload = getEmbeddedJsonPayload("embedded-gallery-json");
+  const embeddedFeaturedPayload = getEmbeddedJsonPayload("embedded-featured-json");
+  const embeddedCategoriesPayload = getEmbeddedJsonPayload("embedded-portfolio-categories-json");
+  const scheduleNonCriticalWork = (callback, timeout = 900) => {
+    if (typeof callback !== "function") return;
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(callback, { timeout });
+      return;
     }
-    if (!searchBaseProductPool.length && embeddedGalleryPayload) {
-      const embeddedGalleryItems = extractGalleryItems(embeddedGalleryPayload);
-      if (embeddedGalleryItems.length) hydrateSearchPoolFromGallery(embeddedGalleryItems);
-    }
-    if (!searchFeaturedCollectionProducts.length && embeddedFeaturedPayload) {
-      hydrateSearchFeaturedFromContent(embeddedFeaturedPayload);
-    }
-    applySiteSectionsCopy(embeddedSiteSectionsPayload || {});
-
-    const fetchFirstAvailableJson = async (endpoints = []) => {
-      for (const endpoint of endpoints) {
-        try {
-          const response = await fetch(endpoint, { cache: "no-store" });
-          if (!response.ok) continue;
-          return await response.json();
-        } catch (_error) {
-          // Try next endpoint variant.
-        }
+    window.setTimeout(callback, timeout);
+  };
+  const fetchFirstAvailableJson = async (endpoints = []) => {
+    for (const endpoint of endpoints) {
+      try {
+        const response = await fetch(endpoint, { cache: "no-store" });
+        if (!response.ok) continue;
+        return await response.json();
+      } catch (_error) {
+        // Try next endpoint variant.
       }
-      return null;
-    };
-
-    const [galleryPayload, legacyGalleryPayload, featuredPayload, categoriesPayload, siteSectionsPayload] = await Promise.all([
-      fetchFirstAvailableJson(GALLERY_CONTENT_ENDPOINTS),
-      fetchFirstAvailableJson(GALLERY_LEGACY_ENDPOINTS),
-      fetchFirstAvailableJson(FEATURED_CONTENT_ENDPOINTS),
-      fetchFirstAvailableJson(PORTFOLIO_CATEGORIES_ENDPOINTS),
-      fetchFirstAvailableJson(SITE_SECTIONS_ENDPOINTS)
-    ]);
-
-    if (categoriesPayload) {
-      applyPortfolioCategoryConfig(categoriesPayload);
     }
-    applySiteSectionsCopy(siteSectionsPayload || embeddedSiteSectionsPayload || {});
-
-    const resolvedGalleryPayload = galleryPayload || legacyGalleryPayload || embeddedGalleryPayload;
-    if (!resolvedGalleryPayload) throw new Error("Unable to load gallery content.");
-
-    const galleryItems = extractGalleryItems(resolvedGalleryPayload);
-    hydrateSearchPoolFromGallery(galleryItems);
-    renderGalleryFromData(resolvedGalleryPayload);
-
-    hydrateSearchFeaturedFromContent(featuredPayload || embeddedFeaturedPayload || {});
-  } catch (error) {
-    const embeddedGalleryPayload = getEmbeddedJsonPayload("embedded-gallery-json");
-    const embeddedFeaturedPayload = getEmbeddedJsonPayload("embedded-featured-json");
-    const embeddedCategoriesPayload = getEmbeddedJsonPayload("embedded-portfolio-categories-json");
-    const embeddedSiteSectionsPayload = getEmbeddedJsonPayload("embedded-site-sections-json");
-    applySiteSectionsCopy(embeddedSiteSectionsPayload || {});
+    return null;
+  };
+  const renderEmbeddedGallery = () => {
     if (embeddedCategoriesPayload) {
       applyPortfolioCategoryConfig(embeddedCategoriesPayload);
     } else {
@@ -15675,6 +16311,40 @@ async function initializeGallery() {
       renderGalleryFromData({ items: [] });
     }
     hydrateSearchFeaturedFromContent(embeddedFeaturedPayload || {});
+  };
+  const refreshGalleryContent = async () => {
+    try {
+      const [galleryPayload, legacyGalleryPayload, featuredPayload, categoriesPayload] = await Promise.all([
+        fetchFirstAvailableJson(GALLERY_CONTENT_ENDPOINTS),
+        fetchFirstAvailableJson(GALLERY_LEGACY_ENDPOINTS),
+        fetchFirstAvailableJson(FEATURED_CONTENT_ENDPOINTS),
+        fetchFirstAvailableJson(PORTFOLIO_CATEGORIES_ENDPOINTS)
+      ]);
+
+      if (categoriesPayload) {
+        applyPortfolioCategoryConfig(categoriesPayload);
+      }
+
+      const resolvedGalleryPayload = galleryPayload || legacyGalleryPayload || embeddedGalleryPayload;
+      if (resolvedGalleryPayload) {
+        const galleryItems = extractGalleryItems(resolvedGalleryPayload);
+        hydrateSearchPoolFromGallery(galleryItems);
+        renderGalleryFromData(resolvedGalleryPayload);
+      }
+
+      hydrateSearchFeaturedFromContent(featuredPayload || embeddedFeaturedPayload || {});
+      renderSearchShelves(searchInput instanceof HTMLInputElement ? searchInput.value : "");
+    } catch (_error) {
+      // The embedded payload keeps the page usable if the fresh CMS fetch is slow or unavailable.
+    }
+  };
+
+  renderEmbeddedGallery();
+
+  if (embeddedGalleryPayload) {
+    scheduleNonCriticalWork(refreshGalleryContent, hasSearchQueryFlag() ? 250 : 1200);
+  } else {
+    await refreshGalleryContent();
   }
   renderSearchShelves(searchInput instanceof HTMLInputElement ? searchInput.value : "");
   initializeGalleryInteractions();
@@ -15686,7 +16356,9 @@ initializeReviewsCarousel();
 initializeGlobalTextRevealAnimations();
 initializePortfolioFade();
 initializeHomePortfolioCarousel();
+void initializeSiteSectionsContent();
 initializeGallery();
+window.addEventListener("resize", scheduleReviewsResponsiveModeCheck);
 
 const serviceCards = Array.from(document.querySelectorAll("#services .service-card"));
 const servicesGrid = document.querySelector("#services .services-grid");
@@ -16024,7 +16696,7 @@ window.addEventListener("load", () => {
   }, 120);
 });
 </script>
-<script src="assets/favorites.js?v=20260422b"></script>
-<script type="module" src="/seasonal/seasonal-page.js?v=20260424b"></script>
+<script src="assets/favorites.js?v=20260505a"></script>
+<script type="module" src="/seasonal/seasonal-page.js?v=20260505f"></script>
 </body>
 </html>

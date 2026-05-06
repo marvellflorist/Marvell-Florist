@@ -34,7 +34,7 @@
         position: relative;
         margin-top: 56px;
         padding: 72px 0 calc(env(safe-area-inset-bottom, 0px) + 84px);
-        background: #f8f6f1;
+        background: #fff;
         color: #2a2118;
         border-top: 1px solid rgba(63, 54, 45, 0.16);
       }
@@ -215,11 +215,11 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: rgba(22, 19, 17, 0.76);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow: 0 12px 28px rgba(16, 12, 10, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: #000;
+        border: 1px solid #000;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
         z-index: 11000;
         text-decoration: none;
         transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
@@ -227,12 +227,13 @@
       .floating-whatsapp-btn:hover,
       .floating-whatsapp-btn:focus-visible {
         transform: translateY(-2px);
-        background: rgba(28, 24, 21, 0.84);
-        border-color: rgba(255, 255, 255, 0.24);
-        box-shadow: 0 16px 30px rgba(16, 12, 10, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+        background: #000;
+        border-color: #000;
+        box-shadow: none;
+        opacity: 1;
       }
       .floating-whatsapp-btn:focus-visible {
-        outline: 2px solid rgba(255, 255, 255, 0.18);
+        outline: 2px solid #fff;
         outline-offset: 3px;
       }
       .floating-whatsapp-btn svg {

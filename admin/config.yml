@@ -40,6 +40,22 @@ collections:
                 options:
                   - { label: "Gallery Entry Page", value: "gallery-entry" }
                   - { label: "Primary Featured Collection", value: "featured-primary" }
+          - label: "Home Portfolio"
+            name: "homePortfolio"
+            widget: "object"
+            fields:
+              - { label: "Kicker", name: "kicker", widget: "string", required: false }
+              - { label: "Heading", name: "heading", widget: "string", required: false }
+              - { label: "Lead", name: "lead", widget: "text", required: false }
+              - { label: "Request Note", name: "requestNote", widget: "string", required: false }
+              - { label: "Request Button Label", name: "requestButtonLabel", widget: "string", required: false }
+          - label: "Gallery Page Copy"
+            name: "galleryPage"
+            widget: "object"
+            fields:
+              - { label: "Portfolio Note", name: "note", widget: "text", required: false }
+              - { label: "By Request Hook", name: "byRequestHook", widget: "string", required: false }
+              - { label: "Consult Button Label", name: "consultButtonLabel", widget: "string", required: false }
 
   - name: "portfolio_products"
     label: "Product Portfolio"
@@ -94,6 +110,7 @@ collections:
                       - { label: "Posisi Carousel / Scroll", name: "scrollPosition", widget: "string", required: false, hint: "Contoh: left top, center center, 35% center." }
                   - { label: "2) Nama / Judul Produk", name: "title", widget: "string", required: true, hint: "Boleh ketik biasa. Sistem akan menampilkan dalam format Title Case." }
                   - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, required: false, hint: "Contoh input: 15000 (otomatis tampil sebagai Rp15.000)." }
+                  - { label: "3b) Deskripsi Produk", name: "description", widget: "text", required: false, hint: "Teks deskripsi produk yang tampil di halaman product, di bawah tombol konsultasi." }
                   - label: "4) Filter Produk"
                     name: "filters"
                     widget: "object"
@@ -157,6 +174,11 @@ collections:
                           - { label: "Peony", value: "peony" }
                           - { label: "Gerbera", value: "gerbera" }
                           - { label: "Krisan", value: "chrysanthemum" }
+                          - { label: "Poms", value: "poms" }
+                          - { label: "Snap Dragons", value: "snap-dragons" }
+                          - { label: "Gompie", value: "gompie" }
+                          - { label: "Aranthera Azimah", value: "aranthera-azimah" }
+                          - { label: "Lysianthus", value: "lysianthus" }
                       - label: "Momen"
                         name: "occasion"
                         widget: "select"
@@ -211,6 +233,7 @@ collections:
             fields:
               - { label: "ID Event", name: "id", widget: "string", hint: "ID internal. Jangan diubah kecuali diminta developer.", required: true }
               - { label: "Paksa Aktif", name: "forceActive", widget: "boolean", default: false, required: false, hint: "Jika aktif, event ini langsung tampil meskipun di luar jadwal tanggal." }
+              - { label: "Tampilkan di Promo Strip", name: "showInPromoStrip", widget: "boolean", default: true, required: false, hint: "Matikan jika event tetap aktif di search/featured, tetapi tidak ingin muncul di strip promo atas." }
               - { label: "Tanggal Mulai (MM-DD)", name: "start", widget: "string", required: false, hint: "Contoh: 03-07" }
               - { label: "Tanggal Selesai (MM-DD)", name: "end", widget: "string", required: false, hint: "Contoh: 04-15" }
               - { label: "Prioritas Urutan", name: "priority", widget: "number", value_type: "int", required: false, hint: "Angka lebih besar tampil lebih dulu. Jika ada beberapa koleksi aktif sekaligus, prioritas tertinggi dipakai lebih dulu di menu dan tampilan utama." }
@@ -257,6 +280,7 @@ collections:
                       - { label: "Posisi Carousel / Scroll", name: "scrollPosition", widget: "string", required: false, hint: "Contoh: left top, center center, 35% center." }
                   - { label: "2) Nama / Judul Produk", name: "name", widget: "string", required: true }
                   - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, required: false, hint: "Contoh input: 15000 (otomatis tampil sebagai Rp15.000)." }
+                  - { label: "3b) Deskripsi Produk", name: "description", widget: "text", required: false, hint: "Teks deskripsi produk yang tampil di halaman product, di bawah tombol konsultasi." }
                   - label: "4) Filter Produk Unggulan"
                     name: "filters"
                     widget: "object"
@@ -323,6 +347,11 @@ collections:
                           - { label: "Peony", value: "peony" }
                           - { label: "Gerbera", value: "gerbera" }
                           - { label: "Krisan", value: "chrysanthemum" }
+                          - { label: "Poms", value: "poms" }
+                          - { label: "Snap Dragons", value: "snap-dragons" }
+                          - { label: "Gompie", value: "gompie" }
+                          - { label: "Aranthera Azimah", value: "aranthera-azimah" }
+                          - { label: "Lysianthus", value: "lysianthus" }
 
   - name: "stories"
     label: "The Journals"

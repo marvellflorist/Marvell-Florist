@@ -15,87 +15,82 @@ const FEATURED_HERO_ALIASES = {
   "/assets/christmas.jpeg": "/assets/popupchristmas.webp"
 };
 const GRADUATION_EVENT_IDS = new Set(["graduation", "graduation_late"]);
-const PROMO_SEEN_STORAGE_KEY = "marvell-seasonal-promo-cooldown";
-const PROMO_SEEN_COOLDOWN_MS = 15 * 60 * 1000;
+const PROMO_ROTATION_INTERVAL_MS = 4800;
+const PROMO_DISMISS_STORAGE_KEY = "marvell-promo-dismissed-until";
+const PROMO_DISMISS_DURATION_MS = 5 * 60 * 1000;
 let featuredCatalogPromise = null;
-let stopPromoSeenMonitor = null;
+let stopPromoRotation = null;
+let promoDismissedForPage = false;
+let promoRestoreTimer = 0;
 
-function readPromoSeenState() {
-  if (typeof window === "undefined" || !window.localStorage) return 0;
+function clearPromoRotation() {
+  if (typeof stopPromoRotation === "function") stopPromoRotation();
+  stopPromoRotation = null;
+}
+
+function wasHardReload() {
   try {
-    const raw = window.localStorage.getItem(PROMO_SEEN_STORAGE_KEY);
-    const parsed = Number(raw || "0");
-    return Number.isFinite(parsed) ? parsed : 0;
+    return performance.getEntriesByType("navigation")?.[0]?.type === "reload";
+  } catch (_error) {
+    return false;
+  }
+}
+
+function getPromoDismissedUntil() {
+  try {
+    const stored = Number(window.sessionStorage?.getItem(PROMO_DISMISS_STORAGE_KEY) || "0");
+    return Number.isFinite(stored) ? stored : 0;
   } catch (_error) {
     return 0;
   }
 }
 
-function writePromoSeenState(nextState) {
-  if (typeof window === "undefined" || !window.localStorage) return;
+function setPromoDismissedUntil(value) {
   try {
-    window.localStorage.setItem(PROMO_SEEN_STORAGE_KEY, String(Math.max(0, Number(nextState) || 0)));
+    if (value > Date.now()) window.sessionStorage?.setItem(PROMO_DISMISS_STORAGE_KEY, String(value));
+    else window.sessionStorage?.removeItem(PROMO_DISMISS_STORAGE_KEY);
   } catch (_error) {
-    // Ignore storage failures.
+    // Storage can be unavailable in private or embedded browser contexts.
   }
 }
 
-function hasSeenPromoRecently() {
-  const lastSeenAt = readPromoSeenState();
-  if (!lastSeenAt) return false;
-  return (Date.now() - lastSeenAt) < PROMO_SEEN_COOLDOWN_MS;
+function getPromoDismissRemainingMs() {
+  return Math.max(0, getPromoDismissedUntil() - Date.now());
 }
 
-function markPromoSeen() {
-  writePromoSeenState(Date.now());
+function clearExpiredPromoDismissal() {
+  if (getPromoDismissRemainingMs() <= 0) {
+    setPromoDismissedUntil(0);
+    promoDismissedForPage = false;
+    window.__MARVELL_PROMO_DISMISSED_THIS_LOAD__ = false;
+  }
 }
 
-function clearPromoSeenMonitor() {
-  if (typeof stopPromoSeenMonitor === "function") stopPromoSeenMonitor();
-  stopPromoSeenMonitor = null;
+function isPromoDismissedForPage() {
+  clearExpiredPromoDismissal();
+  return getPromoDismissRemainingMs() > 0 || promoDismissedForPage || Boolean(window.__MARVELL_PROMO_DISMISSED_THIS_LOAD__);
 }
 
-function monitorPromoStripSeen(strip) {
-  clearPromoSeenMonitor();
-  if (!(strip instanceof HTMLElement)) return;
-
-  const isActuallyVisible = () => {
-    if (!document.body.classList.contains("has-promo-strip")) return false;
-    if (strip.getAttribute("aria-hidden") === "true") return false;
-    if (document.body.classList.contains("desktop-promo-deferred")) return false;
-    const styles = window.getComputedStyle(strip);
-    if (styles.display === "none" || styles.visibility === "hidden") return false;
-    if (Number(styles.opacity) <= 0.01) return false;
-    const rect = strip.getBoundingClientRect();
-    return rect.height > 0 && rect.bottom > 0;
-  };
-
-  const checkVisibility = () => {
-    if (!isActuallyVisible()) return;
-    markPromoSeen();
-    clearPromoSeenMonitor();
-  };
-
-  const scheduleCheck = () => window.requestAnimationFrame(checkVisibility);
-  const options = { passive: true };
-  window.addEventListener("scroll", scheduleCheck, options);
-  window.addEventListener("resize", scheduleCheck);
-  window.addEventListener("pageshow", scheduleCheck);
-  strip.addEventListener("transitionend", scheduleCheck);
-  strip.addEventListener("animationend", scheduleCheck);
-  const timeoutId = window.setTimeout(scheduleCheck, 700);
-
-  stopPromoSeenMonitor = () => {
-    window.removeEventListener("scroll", scheduleCheck, options);
-    window.removeEventListener("resize", scheduleCheck);
-    window.removeEventListener("pageshow", scheduleCheck);
-    strip.removeEventListener("transitionend", scheduleCheck);
-    strip.removeEventListener("animationend", scheduleCheck);
-    window.clearTimeout(timeoutId);
-  };
-
-  scheduleCheck();
+function dismissPromoForPage() {
+  promoDismissedForPage = true;
+  window.__MARVELL_PROMO_DISMISSED_THIS_LOAD__ = true;
+  setPromoDismissedUntil(Date.now() + PROMO_DISMISS_DURATION_MS);
 }
+
+function schedulePromoRestore(callback) {
+  if (promoRestoreTimer) window.clearTimeout(promoRestoreTimer);
+  const remaining = getPromoDismissRemainingMs();
+  if (remaining <= 0) return;
+  promoRestoreTimer = window.setTimeout(() => {
+    promoRestoreTimer = 0;
+    promoDismissedForPage = false;
+    window.__MARVELL_PROMO_DISMISSED_THIS_LOAD__ = false;
+    setPromoDismissedUntil(0);
+    if (typeof callback === "function") callback();
+  }, remaining + 40);
+}
+
+if (wasHardReload()) setPromoDismissedUntil(0);
 
 function setSeasonalAvailabilityState(isActive) {
   if (typeof document === "undefined") return;
@@ -158,7 +153,6 @@ function setSeasonalAvailabilityState(isActive) {
 function markSeasonalManagedContent(isManaged) {
   if (typeof document === "undefined") return;
   [
-    document.getElementById("collection-promo-link"),
     document.getElementById("featured-collection-current"),
     document.getElementById("featured-kicker"),
     document.getElementById("featured-title"),
@@ -171,6 +165,150 @@ function markSeasonalManagedContent(isManaged) {
       delete node.dataset.seasonalLabel;
     }
   });
+  Array.from(document.querySelectorAll(".collection-promo-link")).forEach((node) => {
+    if (!(node instanceof HTMLElement)) return;
+    if (isManaged) node.dataset.seasonalManaged = "true";
+    else {
+      delete node.dataset.seasonalManaged;
+      delete node.dataset.seasonalLabel;
+    }
+  });
+}
+
+function buildPromoStripEntries(events = []) {
+  return events.filter((eventConfig) => eventConfig?.showInPromoStrip !== false).map((eventConfig) => {
+    const promoCopy = getLocalizedEventField(eventConfig, "promoText", PROMO_COPY_BY_EVENT_ID[eventConfig?.id] || "");
+    if (!promoCopy) return null;
+    return {
+      id: String(eventConfig?.id || "").trim(),
+      copy: promoCopy,
+      href: buildLocalizedFeaturedHref(String(eventConfig?.id || "").trim())
+    };
+  }).filter(Boolean);
+}
+
+function applyPromoStripEntry(linkElement, entry) {
+  if (!(linkElement instanceof HTMLAnchorElement) || !entry) return;
+  linkElement.textContent = entry.copy;
+  linkElement.setAttribute("href", entry.href);
+  linkElement.dataset.seasonalManaged = "true";
+  linkElement.dataset.seasonalLabel = entry.copy;
+}
+
+function startPromoStripRotation(entries, elements) {
+  clearPromoRotation();
+  const currentLink = elements?.currentLink;
+  const nextLink = elements?.nextLink;
+  const stack = elements?.stack;
+  const statusText = elements?.statusText;
+  const progressFill = elements?.progressFill;
+  const playToggle = elements?.playToggle;
+  if (!(currentLink instanceof HTMLAnchorElement) || !(nextLink instanceof HTMLAnchorElement) || !(stack instanceof HTMLElement) || !(statusText instanceof HTMLElement)) return;
+
+  let currentIndex = 0;
+  let isTransitioning = false;
+  let isPaused = false;
+  const canRotate = entries.length > 1 && progressFill instanceof HTMLElement;
+
+  const syncStatus = () => {
+    statusText.textContent = `${currentIndex + 1} / ${entries.length}`;
+  };
+
+  const syncCurrent = () => {
+    applyPromoStripEntry(currentLink, entries[currentIndex]);
+    currentLink.setAttribute("aria-hidden", "false");
+    currentLink.removeAttribute("tabindex");
+    const nextIndex = (currentIndex + 1) % entries.length;
+    applyPromoStripEntry(nextLink, entries[nextIndex] || entries[currentIndex]);
+    nextLink.setAttribute("aria-hidden", "true");
+    nextLink.setAttribute("tabindex", "-1");
+    syncStatus();
+  };
+
+  const setPaused = (nextPaused) => {
+    isPaused = Boolean(nextPaused);
+    if (playToggle instanceof HTMLButtonElement) {
+      playToggle.dataset.state = isPaused ? "paused" : "playing";
+      playToggle.setAttribute("aria-label", isPaused ? "Resume seasonal promotions" : "Pause seasonal promotions");
+      playToggle.setAttribute("aria-pressed", isPaused ? "true" : "false");
+    }
+    if (progressFill instanceof HTMLElement) {
+      progressFill.style.animationPlayState = isPaused ? "paused" : "running";
+    }
+  };
+
+  const resetProgress = () => {
+    if (!(progressFill instanceof HTMLElement)) return;
+    progressFill.classList.remove("is-progressing");
+    progressFill.style.setProperty("--promo-progress-duration", `${PROMO_ROTATION_INTERVAL_MS}ms`);
+    progressFill.style.animationPlayState = isPaused ? "paused" : "running";
+    progressFill.style.transform = canRotate ? "" : "scaleX(1)";
+    if (!canRotate || !document.body.classList.contains("has-promo-strip")) return;
+    void progressFill.offsetWidth;
+    progressFill.classList.add("is-progressing");
+  };
+
+  const advanceToNext = () => {
+    if (!canRotate || isPaused || isTransitioning || !document.body.classList.contains("has-promo-strip")) return;
+    const nextIndex = (currentIndex + 1) % entries.length;
+    applyPromoStripEntry(nextLink, entries[nextIndex]);
+    nextLink.setAttribute("aria-hidden", "false");
+    nextLink.removeAttribute("tabindex");
+    if (progressFill instanceof HTMLElement) progressFill.classList.remove("is-progressing");
+    isTransitioning = true;
+    stack.classList.add("is-rotating");
+  };
+
+  const handleTransitionEnd = (event) => {
+    if (event.target !== stack || !stack.classList.contains("is-rotating")) return;
+    currentIndex = (currentIndex + 1) % entries.length;
+    stack.classList.add("is-resetting");
+    stack.classList.remove("is-rotating");
+    syncCurrent();
+    void stack.offsetWidth;
+    stack.classList.remove("is-resetting");
+    isTransitioning = false;
+    resetProgress();
+  };
+
+  const handleProgressEnd = (event) => {
+    if (event.target !== progressFill) return;
+    advanceToNext();
+  };
+
+  const handlePlayToggle = () => {
+    setPaused(!isPaused);
+    if (!isPaused && progressFill instanceof HTMLElement && !progressFill.classList.contains("is-progressing")) {
+      resetProgress();
+    }
+  };
+
+  syncCurrent();
+  stack.addEventListener("transitionend", handleTransitionEnd);
+  if (progressFill instanceof HTMLElement) progressFill.addEventListener("animationend", handleProgressEnd);
+  if (playToggle instanceof HTMLButtonElement) {
+    playToggle.disabled = !canRotate;
+    playToggle.addEventListener("click", handlePlayToggle);
+  }
+  setPaused(false);
+  resetProgress();
+
+  stopPromoRotation = () => {
+    stack.classList.remove("is-rotating");
+    stack.classList.remove("is-resetting");
+    stack.removeEventListener("transitionend", handleTransitionEnd);
+    if (progressFill instanceof HTMLElement) {
+      progressFill.removeEventListener("animationend", handleProgressEnd);
+      progressFill.classList.remove("is-progressing");
+      progressFill.style.animationPlayState = "";
+      progressFill.style.removeProperty("--promo-progress-duration");
+      progressFill.style.transform = "";
+    }
+    if (playToggle instanceof HTMLButtonElement) {
+      playToggle.removeEventListener("click", handlePlayToggle);
+      playToggle.disabled = false;
+    }
+  };
 }
 
 function escapeHTML(value) {
@@ -432,9 +570,11 @@ function resolvePrimaryFeaturedEvent(events = []) {
   return events[0] || null;
 }
 
-function getHomepageFeaturedEvents(events = [], limit = 2) {
+function getHomepageFeaturedEvents(events = []) {
   if (!Array.isArray(events) || !events.length) return [];
-  return events.slice(0, Math.max(0, Number(limit) || 0));
+  const secondPriorityEvent = events[1] || null;
+  if (secondPriorityEvent) return [secondPriorityEvent];
+  return events[0] ? [events[0]] : [];
 }
 
 function getActiveUiLanguage() {
@@ -627,7 +767,12 @@ const FEATURED_FLOWER_TYPE_DEFS = [
   { id: "hydrangea", label: "Hydrangeas", tokens: ["hydrangea", "hydrangeas", "hortensia"] },
   { id: "peony", label: "Peonies", tokens: ["peony", "peonies"] },
   { id: "gerbera", label: "Gerberas", tokens: ["gerbera"] },
-  { id: "chrysanthemum", label: "Chrysanthemums", tokens: ["chrysanthemum", "chrysanthemums", "krisan"] }
+  { id: "chrysanthemum", label: "Chrysanthemums", tokens: ["chrysanthemum", "chrysanthemums", "krisan"] },
+  { id: "poms", label: "Poms", tokens: ["poms", "pom", "pom poms", "pompom", "pompon"] },
+  { id: "snap-dragons", label: "Snap Dragons", tokens: ["snap dragons", "snap dragon", "snapdragons", "snapdragon"] },
+  { id: "gompie", label: "Gompie", tokens: ["gompie"] },
+  { id: "aranthera-azimah", label: "Aranthera Azimah", tokens: ["aranthera azimah", "aranthera", "azimah"] },
+  { id: "lysianthus", label: "Lysianthus", tokens: ["lysianthus", "lisianthus"] }
 ];
 
 function normalizeFeaturedFilterToken(value) {
@@ -736,10 +881,7 @@ function parseFeaturedNumericPrice(value) {
 }
 
 function getFeaturedPriceFilterStep(min, max) {
-  const span = Math.max(0, Number(max) - Number(min));
-  if (span <= 100000) return 5000;
-  if (span <= 500000) return 10000;
-  return 25000;
+  return 1;
 }
 
 function buildFeaturedPriceFilterConfig(eventConfig, items) {
@@ -841,6 +983,109 @@ function renderFeaturedFiltersMarkup(filters) {
   }).join("");
 }
 
+function bindFeaturedFilterOptionTapFallback(panelRoot) {
+  const modal = panelRoot instanceof Document
+    ? panelRoot.getElementById("featured-filters-modal")
+    : panelRoot;
+  if (!(modal instanceof HTMLElement)) return;
+  if (modal.dataset.filterOptionTapFallbackBound === "1") return;
+  modal.dataset.filterOptionTapFallbackBound = "1";
+
+  let activeTap = null;
+  let recentManualToggleAt = 0;
+  let recentManualToggleInput = null;
+  const moveThreshold = 12;
+
+  const getOptionFromTarget = (target) => {
+    if (!(target instanceof Element)) return null;
+    const option = target.closest(".filter-option");
+    return option instanceof HTMLLabelElement ? option : null;
+  };
+  const getOptionInput = (option) => {
+    const input = option?.querySelector("input[type='checkbox'][data-filter-group]");
+    return input instanceof HTMLInputElement && !input.disabled ? input : null;
+  };
+  const startTap = (target, clientX, clientY, pointerId = null) => {
+    const option = getOptionFromTarget(target);
+    const input = getOptionInput(option);
+    if (!option || !input) {
+      activeTap = null;
+      return;
+    }
+    activeTap = { option, input, startX: clientX, startY: clientY, moved: false, pointerId };
+  };
+  const moveTap = (clientX, clientY, pointerId = null) => {
+    if (!activeTap) return;
+    if (pointerId !== null && activeTap.pointerId !== pointerId) return;
+    const movedX = Math.abs(clientX - activeTap.startX);
+    const movedY = Math.abs(clientY - activeTap.startY);
+    if (movedX > moveThreshold || movedY > moveThreshold) activeTap.moved = true;
+  };
+  const finishTap = (event, target, pointerId = null) => {
+    if (!activeTap) return;
+    const state = activeTap;
+    activeTap = null;
+    if (pointerId !== null && state.pointerId !== pointerId) return;
+    if (state.moved) return;
+    if (getOptionFromTarget(target) !== state.option) return;
+    event.preventDefault();
+    state.input.checked = !state.input.checked;
+    recentManualToggleAt = Date.now();
+    recentManualToggleInput = state.input;
+    state.input.dispatchEvent(new Event("change", { bubbles: true }));
+  };
+
+  modal.addEventListener("click", (event) => {
+    if (Date.now() - recentManualToggleAt > 700) return;
+    const option = getOptionFromTarget(event.target);
+    const input = getOptionInput(option);
+    if (!input || input !== recentManualToggleInput) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
+    recentManualToggleInput = null;
+  }, true);
+
+  if (typeof PointerEvent === "function") {
+    modal.addEventListener("pointerdown", (event) => {
+      if (event.pointerType !== "touch" && event.pointerType !== "pen") return;
+      startTap(event.target, event.clientX, event.clientY, event.pointerId);
+    }, { passive: true });
+    modal.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "touch" && event.pointerType !== "pen") return;
+      moveTap(event.clientX, event.clientY, event.pointerId);
+    }, { passive: true });
+    modal.addEventListener("pointercancel", () => {
+      activeTap = null;
+    }, { passive: true });
+    modal.addEventListener("pointerup", (event) => {
+      if (event.pointerType !== "touch" && event.pointerType !== "pen") return;
+      finishTap(event, event.target, event.pointerId);
+    }, { passive: false });
+    return;
+  }
+
+  modal.addEventListener("touchstart", (event) => {
+    const touch = event.changedTouches && event.changedTouches[0];
+    if (!touch) return;
+    startTap(event.target, touch.clientX, touch.clientY);
+  }, { passive: true });
+  modal.addEventListener("touchmove", (event) => {
+    const touch = event.changedTouches && event.changedTouches[0];
+    if (!touch) {
+      if (activeTap) activeTap.moved = true;
+      return;
+    }
+    moveTap(touch.clientX, touch.clientY);
+  }, { passive: true });
+  modal.addEventListener("touchcancel", () => {
+    activeTap = null;
+  }, { passive: true });
+  modal.addEventListener("touchend", (event) => {
+    finishTap(event, event.target);
+  }, { passive: false });
+}
+
 function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProducts) {
   if (!(scopeRoot instanceof HTMLElement) || !isDedicatedFeaturedPage()) return;
   const filtersAnchor = document.getElementById("featured-filters-anchor");
@@ -908,7 +1153,7 @@ function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProduct
     <div class="featured-filters-shell" data-featured-filters-shell>
       <div class="filters-toolbar">
         <button class="filters-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="featured-filters-modal">
-          <span class="filters-trigger-label">Filter</span>
+          <span class="filters-trigger-label">Filters</span>
           <span class="filters-trigger-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings2-icon lucide-settings-2"><path d="M14 17H5"/><path d="M19 7h-9"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></span>
         </button>
       </div>
@@ -917,7 +1162,7 @@ function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProduct
   const portalMarkup = `
     <aside class="filters-panel-modal" id="featured-filters-modal" aria-hidden="true" tabindex="-1">
       <div class="filters-head">
-        <h3>Filter</h3>
+        <h3>Filters</h3>
         <button class="filters-close" type="button" aria-label="Close filters panel">&#10005;</button>
       </div>
       <div class="filters-body">
@@ -927,6 +1172,9 @@ function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProduct
             <button type="button" class="filter-clear">Reset filter</button>
           </div>
         </div>
+      </div>
+      <div class="filters-footer">
+        <button class="filters-apply is-disabled" type="button" data-featured-filters-apply disabled>Apply</button>
       </div>
     </aside>
     <div class="featured-filters-backdrop" data-featured-filters-backdrop hidden></div>
@@ -946,11 +1194,13 @@ function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProduct
   const modal = panelRoot.getElementById("featured-filters-modal");
   const closeButton = panelRoot.querySelector(".filters-close");
   const clearButton = panelRoot.querySelector(".filter-clear");
+  const applyButton = panelRoot.querySelector("[data-featured-filters-apply]");
   const backdrop = panelRoot.querySelector("[data-featured-filters-backdrop]");
   const emptyState = document.querySelector("[data-featured-filters-empty]");
   const checks = Array.from(panelRoot.querySelectorAll("#featured-filters-modal input[type='checkbox'][data-filter-group]"));
   const rangeInputs = Array.from(panelRoot.querySelectorAll("#featured-filters-modal input[type='range'][data-filter-group]"));
   const groupToggles = Array.from(panelRoot.querySelectorAll("#featured-filters-modal .filter-group-toggle"));
+  bindFeaturedFilterOptionTapFallback(panelRoot);
   const selectedByGroup = new Map(
     filters
       .filter((group) => group.kind !== "range")
@@ -994,6 +1244,16 @@ function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProduct
     const state = rangeStateByGroup.get(groupId);
     if (!state) return false;
     return state.min !== state.initialMin || state.max !== state.initialMax;
+  };
+  const hasActiveFilters = () => (
+    Array.from(selectedByGroup.values()).some((set) => set.size > 0)
+    || Array.from(rangeStateByGroup.keys()).some((groupId) => isRangeFilterActive(groupId))
+  );
+  const updateApplyState = () => {
+    if (!(applyButton instanceof HTMLButtonElement)) return;
+    const shouldEnable = hasActiveFilters();
+    applyButton.disabled = !shouldEnable;
+    applyButton.classList.toggle("is-disabled", !shouldEnable);
   };
 
   const updateRangeUi = (groupId) => {
@@ -1040,6 +1300,7 @@ function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProduct
     }, 0);
 
     if (emptyState instanceof HTMLElement) emptyState.hidden = visibleCount !== 0;
+    updateApplyState();
   };
 
   checks.forEach((input) => {
@@ -1112,6 +1373,12 @@ function initializeDedicatedFeaturedFilters(scopeRoot, eventConfig, eventProduct
         updateRangeUi(groupId);
       });
       applyFilters();
+    });
+  }
+  if (applyButton instanceof HTMLButtonElement) {
+    applyButton.addEventListener("click", () => {
+      if (applyButton.disabled) return;
+      setFiltersOpen(false);
     });
   }
 
@@ -1554,6 +1821,18 @@ function initializeFeaturedCardCarousels(scope = document) {
       }
     }
 
+    if (card instanceof HTMLElement && card.dataset.featuredCardLinkBound !== "1") {
+      card.dataset.featuredCardLinkBound = "1";
+      card.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        if (target.closest("a, button, [data-favorite-toggle]")) return;
+        const link = card.querySelector(".featured-product-link");
+        if (!(link instanceof HTMLAnchorElement)) return;
+        window.location.href = link.href;
+      });
+    }
+
     if (carousel.dataset.featuredResizeBound !== "1") {
       carousel.dataset.featuredResizeBound = "1";
       window.addEventListener("resize", () => {
@@ -1603,16 +1882,71 @@ function scheduleFeaturedHashNavigation(rootElement, attempt = 0) {
 }
 
 async function renderSeasonalPromotionStrip() {
-  const strip = document.querySelector(".collection-promo-strip");
-  const promoLink = document.getElementById("collection-promo-link");
-  const promoClose = document.getElementById("collection-promo-close");
-  const hasStripUi = strip instanceof HTMLElement && promoLink instanceof HTMLAnchorElement;
+  let strip = null;
+  const resolveStripUi = () => {
+    strip = document.querySelector(".collection-promo-strip");
+    if (strip instanceof HTMLElement) {
+      const needsUpgradedMarkup = !(strip.querySelector("#collection-promo-progress-fill") instanceof HTMLElement)
+        || !(strip.querySelector("#collection-promo-play-toggle") instanceof HTMLButtonElement)
+        || !(strip.querySelector("#collection-promo-status-text") instanceof HTMLElement)
+        || !(strip.querySelector("#collection-promo-link-next") instanceof HTMLAnchorElement)
+        || !(strip.querySelector("#collection-promo-stack") instanceof HTMLElement);
+      if (needsUpgradedMarkup) {
+        strip.innerHTML = `
+          <div class="collection-promo-track">
+            <div class="collection-promo-status">
+              <span class="collection-promo-progress" aria-hidden="true"><span class="collection-promo-progress-fill" id="collection-promo-progress-fill"></span></span>
+              <button class="collection-promo-play-toggle" id="collection-promo-play-toggle" type="button" aria-label="Pause seasonal promotions" aria-pressed="false" data-state="playing">
+                <span class="collection-promo-pause-icon" aria-hidden="true"><span></span><span></span></span>
+                <span class="collection-promo-play-icon" aria-hidden="true"></span>
+              </button>
+              <span class="collection-promo-status-text" id="collection-promo-status-text">1 / 1</span>
+            </div>
+            <div class="collection-promo-viewport">
+              <div class="collection-promo-stack" id="collection-promo-stack">
+                <a class="collection-promo-link" id="collection-promo-link" href="featured.html">Collections - Explore the arrangements</a>
+                <a class="collection-promo-link" id="collection-promo-link-next" href="featured.html" tabindex="-1" aria-hidden="true">Collections - Explore the arrangements</a>
+              </div>
+            </div>
+            <button class="collection-promo-close" id="collection-promo-close" type="button" aria-label="Close seasonal promotion">&times;</button>
+          </div>
+        `;
+      }
+    }
+    const promoLink = document.getElementById("collection-promo-link");
+    const promoLinkNext = document.getElementById("collection-promo-link-next");
+    const promoStack = document.getElementById("collection-promo-stack");
+    const promoStatusText = document.getElementById("collection-promo-status-text");
+    const promoProgressFill = document.getElementById("collection-promo-progress-fill");
+    const promoPlayToggle = document.getElementById("collection-promo-play-toggle");
+    const promoClose = document.getElementById("collection-promo-close");
+    const hasStripUi = strip instanceof HTMLElement
+      && promoLink instanceof HTMLAnchorElement
+      && promoLinkNext instanceof HTMLAnchorElement
+      && promoStack instanceof HTMLElement
+      && promoStatusText instanceof HTMLElement
+      && promoProgressFill instanceof HTMLElement
+      && promoPlayToggle instanceof HTMLButtonElement;
+    return {
+      promoLink,
+      promoLinkNext,
+      promoStack,
+      promoStatusText,
+      promoProgressFill,
+      promoPlayToggle,
+      promoClose,
+      hasStripUi
+    };
+  };
+  resolveStripUi();
   let closeTimerId = 0;
 
   const setStripVisible = (isVisible) => {
+    if (!(strip instanceof HTMLElement)) strip = document.querySelector(".collection-promo-strip");
     document.body.classList.toggle("has-promo-strip", isVisible);
     if (!isVisible) {
       document.body.classList.remove("promo-strip-closing");
+      clearPromoRotation();
     }
     if (strip instanceof HTMLElement) {
       if (isVisible) {
@@ -1626,8 +1960,7 @@ async function renderSeasonalPromotionStrip() {
   const activeEvents = resolveActiveCatalogEvents(featuredCatalog, new Date());
   const renderableEvents = getRenderableCatalogEvents(activeEvents);
   renderFeaturedMenuList(renderableEvents);
-  const topEvent = renderableEvents[0] || null;
-  if (!topEvent) {
+  if (!renderableEvents.length) {
     setSeasonalAvailabilityState(false);
     markSeasonalManagedContent(false);
     setStripVisible(false);
@@ -1635,34 +1968,49 @@ async function renderSeasonalPromotionStrip() {
   }
   setSeasonalAvailabilityState(true);
 
-  const promoCopy = getLocalizedEventField(topEvent, "promoText", PROMO_COPY_BY_EVENT_ID[topEvent.id] || "");
-  if (!promoCopy) {
+  const promoEntries = buildPromoStripEntries(renderableEvents);
+  if (!promoEntries.length) {
     setSeasonalAvailabilityState(false);
     markSeasonalManagedContent(false);
     setStripVisible(false);
     return;
   }
 
-  markSeasonalManagedContent(true);
-  const isDedicatedPage = isDedicatedFeaturedPage();
-  const shouldLinkToHomeFeaturedSection = !isDedicatedPage && renderableEvents.length > 1;
-  if (promoLink instanceof HTMLAnchorElement) {
-    promoLink.textContent = promoCopy;
-    promoLink.setAttribute("href", shouldLinkToHomeFeaturedSection ? "#featured" : buildLocalizedFeaturedHref(String(topEvent.id || "").trim()));
-  }
+  const {
+    promoLink,
+    promoLinkNext,
+    promoStack,
+    promoStatusText,
+    promoProgressFill,
+    promoPlayToggle,
+    promoClose,
+    hasStripUi
+  } = resolveStripUi();
 
-  if (!hasStripUi || hasSeenPromoRecently()) {
+  markSeasonalManagedContent(true);
+  applyPromoStripEntry(promoLink, promoEntries[0]);
+  if (promoLinkNext instanceof HTMLAnchorElement) applyPromoStripEntry(promoLinkNext, promoEntries[1] || promoEntries[0]);
+  if (promoStatusText instanceof HTMLElement) promoStatusText.textContent = `1 / ${promoEntries.length}`;
+
+  if (!hasStripUi || isPromoDismissedForPage()) {
     setStripVisible(false);
-    clearPromoSeenMonitor();
+    if (hasStripUi) schedulePromoRestore(renderSeasonalPromotionStrip);
   } else {
     setStripVisible(true);
-    monitorPromoStripSeen(strip);
+    startPromoStripRotation(promoEntries, {
+      currentLink: promoLink,
+      nextLink: promoLinkNext,
+      stack: promoStack,
+      statusText: promoStatusText,
+      progressFill: promoProgressFill,
+      playToggle: promoPlayToggle
+    });
   }
 
   if (hasStripUi && promoClose instanceof HTMLButtonElement) {
     promoClose.onclick = () => {
-      markPromoSeen();
-      clearPromoSeenMonitor();
+      dismissPromoForPage();
+      clearPromoRotation();
       if (!(strip instanceof HTMLElement)) {
         setStripVisible(false);
         return;
@@ -1673,6 +2021,7 @@ async function renderSeasonalPromotionStrip() {
       closeTimerId = window.setTimeout(() => {
         document.body.classList.remove("promo-strip-closing");
         setStripVisible(false);
+        schedulePromoRestore(renderSeasonalPromotionStrip);
       }, 500);
     };
   }
@@ -1692,6 +2041,7 @@ async function renderSeasonalPage() {
   const featuredCollectionOptions = featuredCollectionMenu instanceof HTMLElement
     ? featuredCollectionMenu.querySelector("[data-featured-collection-options]")
     : null;
+  const featuredCollectionMenuKicker = document.getElementById("featured-collection-menu-kicker");
   const featuredKicker = document.getElementById("featured-kicker");
   const featuredLead = document.querySelector("#featured .featured-title-block .featured-lead");
   const homeHeroButton = document.getElementById("home-hero-click");
@@ -1708,6 +2058,10 @@ async function renderSeasonalPage() {
   const buildWarningText = () => getLocalizedSeasonalLabel(
     "Each arrangement is custom-made. Final details and pricing are confirmed during consultation.",
     "Setiap rangkaian dibuat khusus. Detail akhir dan harga dikonfirmasi saat konsultasi."
+  );
+  const buildCollectionMenuKicker = () => getLocalizedSeasonalLabel(
+    "Featured Collections",
+    "Koleksi Unggulan"
   );
   const setFeaturedHeroMedia = (src, altText = "Featured seasonal campaign cover") => {
     if (!(featuredHeroImage instanceof HTMLImageElement)) return;
@@ -1729,6 +2083,9 @@ async function renderSeasonalPage() {
     targetNode.textContent = localizedLabel;
     featuredCollectionCurrent.dataset.seasonalLabel = rawLabel;
   };
+  if (featuredCollectionMenuKicker instanceof HTMLElement) {
+    featuredCollectionMenuKicker.textContent = buildCollectionMenuKicker();
+  }
   const setFeaturedCollectionMenuOpen = (isOpen) => {
     if (!(featuredCollectionCurrent instanceof HTMLButtonElement) || !(featuredCollectionMenu instanceof HTMLElement)) return;
     const canOpen = featuredCollectionCurrent.dataset.hasOptions === "true";
@@ -1791,9 +2148,12 @@ async function renderSeasonalPage() {
       ctaTarget: String(homeHero.ctaTarget || "").trim() || "gallery-entry"
     };
   };
-  const resolveHomeHeroHref = (targetMode, eventConfig) => {
-    if (targetMode === "featured-primary" && eventConfig) {
-      return buildLocalizedFeaturedHref(String(eventConfig?.id || "").trim());
+  const resolveHomeHeroHref = (targetMode, eventConfig = null) => {
+    const activeFeaturedHref = String(window.__MARVELL_HOMEPAGE_FEATURED_HREF__ || "").trim();
+    if (targetMode === "featured-primary") {
+      if (activeFeaturedHref) return activeFeaturedHref;
+      if (eventConfig) return buildLocalizedFeaturedHref(String(eventConfig?.id || "").trim());
+      return buildLocalizedPageHref("featured.html");
     }
     return buildLocalizedPageHref("gallery.html", { entry: "home-hero" });
   };
@@ -1849,7 +2209,15 @@ async function renderSeasonalPage() {
     if (!(homeHeroBackground instanceof HTMLElement)) return;
     const heroConfig = getSiteSectionsHomeHero();
     const configuredImage = normalizeAssetPath(heroConfig.image);
-    const fallbackImage = configuredImage ? `url("${configuredImage}")` : 'url("assets/home.webp")';
+    const responsiveFallbackImage = window.matchMedia("(max-width: 768px)").matches
+      ? "assets/home-mobile.webp"
+      : "assets/home-2200.webp";
+    const fallbackImage = configuredImage ? `url("${configuredImage}")` : `url("${responsiveFallbackImage}")`;
+    if (configuredImage) {
+      homeHeroBackground.style.backgroundImage = fallbackImage;
+      homeHeroBackground.style.backgroundPosition = "center center";
+      return;
+    }
     if (!eventConfig) {
       homeHeroBackground.style.backgroundImage = fallbackImage;
       homeHeroBackground.style.backgroundPosition = "center center";
@@ -1978,6 +2346,11 @@ async function renderSeasonalPage() {
   if (featuredHeroClick instanceof HTMLButtonElement && featuredHeroClick.dataset.bound !== "1") {
     featuredHeroClick.dataset.bound = "1";
     featuredHeroClick.addEventListener("click", () => {
+      const directHref = String(featuredHeroClick.getAttribute("data-seasonal-direct-href") || "").trim();
+      if (directHref) {
+        window.location.href = directHref;
+        return;
+      }
       const destination = target || featuredSection?.querySelector(".section-content");
       if (destination instanceof HTMLElement) destination.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -2007,7 +2380,8 @@ async function renderSeasonalPage() {
   const featuredCatalog = await loadFeaturedCatalog();
   const activeEvents = resolveActiveCatalogEvents(featuredCatalog, new Date());
   const renderableEvents = getRenderableCatalogEvents(activeEvents);
-  const homepageRenderableEvents = getHomepageFeaturedEvents(renderableEvents, 2);
+  const homepageRenderableEvents = getHomepageFeaturedEvents(renderableEvents);
+  const primaryCatalogEvent = resolvePrimaryFeaturedEvent(renderableEvents);
   const isHomePage = !isDedicatedFeaturedPage();
   const showCollectionBar = isDedicatedFeaturedPage();
   renderFeaturedMenuList(renderableEvents);
@@ -2016,6 +2390,7 @@ async function renderSeasonalPage() {
   }
   const primaryEvent = resolvePrimaryFeaturedEvent(isHomePage ? homepageRenderableEvents : renderableEvents);
   if (!primaryEvent) {
+    delete window.__MARVELL_HOMEPAGE_FEATURED_HREF__;
     setSeasonalAvailabilityState(false);
     setFeaturedSectionVisibility(false);
     markSeasonalManagedContent(false);
@@ -2035,7 +2410,10 @@ async function renderSeasonalPage() {
       if (featuredCollectionOptions instanceof HTMLElement) featuredCollectionOptions.innerHTML = "";
     }
     if (featuredTitle) featuredTitle.textContent = "Collections";
-    if (featuredKicker instanceof HTMLElement) featuredKicker.textContent = getLocalizedSeasonalLabel("Seasonal Collection", "Koleksi Musiman");
+    if (featuredKicker instanceof HTMLElement) {
+      featuredKicker.textContent = "";
+      featuredKicker.hidden = true;
+    }
     if (featuredLead instanceof HTMLElement) {
       featuredLead.textContent = buildCuratedLead();
       featuredLead.hidden = false;
@@ -2043,6 +2421,9 @@ async function renderSeasonalPage() {
     if (featuredHeroImage instanceof HTMLImageElement) {
       ensureCampaignCoverEagerLoad();
       setFeaturedHeroMedia("", "Featured seasonal campaign cover");
+    }
+    if (featuredHeroClick instanceof HTMLButtonElement) {
+      featuredHeroClick.removeAttribute("data-seasonal-direct-href");
     }
     if (featuredCollectionBar instanceof HTMLElement) {
       featuredCollectionBar.hidden = true;
@@ -2054,7 +2435,21 @@ async function renderSeasonalPage() {
   markSeasonalManagedContent(true);
   setSeasonalAvailabilityState(true);
   if (isHomePage) {
-    setHomeHeroCopy(primaryEvent, { preserveConfiguredText: true });
+    window.__MARVELL_HOMEPAGE_FEATURED_HREF__ = primaryCatalogEvent
+      ? buildLocalizedFeaturedHref(String(primaryCatalogEvent.id || "").trim())
+      : buildLocalizedPageHref("featured.html");
+  } else {
+    delete window.__MARVELL_HOMEPAGE_FEATURED_HREF__;
+  }
+  if (featuredHeroClick instanceof HTMLButtonElement) {
+    if (isHomePage) {
+      featuredHeroClick.setAttribute("data-seasonal-direct-href", buildLocalizedFeaturedHref(String(primaryEvent.id || "").trim()));
+    } else {
+      featuredHeroClick.removeAttribute("data-seasonal-direct-href");
+    }
+  }
+  if (isHomePage) {
+    setHomeHeroCopy(null);
     setHomeHeroMedia(null);
   } else {
     setHomeHeroCopy(primaryEvent);
@@ -2068,7 +2463,13 @@ async function renderSeasonalPage() {
     featuredTitle.dataset.seasonalLabel = rawCollectionTitle;
   }
   if (featuredKicker instanceof HTMLElement) {
-    featuredKicker.textContent = getLocalizedEventField(primaryEvent, "kicker", featuredCatalog?.defaultKicker || "Seasonal Collection");
+    if (isHomePage) {
+      featuredKicker.textContent = getLocalizedEventField(primaryEvent, "kicker", featuredCatalog?.defaultKicker || "Seasonal Collection");
+      featuredKicker.hidden = false;
+    } else {
+      featuredKicker.textContent = "";
+      featuredKicker.hidden = true;
+    }
   }
   if (featuredLead instanceof HTMLElement) {
     if (isHomePage) {

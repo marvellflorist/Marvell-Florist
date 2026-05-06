@@ -19,8 +19,8 @@
 <meta name="twitter:description" content="A Marvell Florist journal presented as a simple visual lookbook.">
 <meta name="twitter:image" content="https://marvellflorist.com/assets/uploads/img_4322.webp">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260425d"></script>
-<script src="assets/header-template.js?v=20260425c"></script>
+<script src="assets/site-language.js?v=20260505a"></script>
+<script src="assets/header-template.js?v=20260505j"></script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -495,6 +495,19 @@ body[data-journal-theme="mono"] #site-footer .footer-col {
         "/assets/uploads/img_4337.webp",
         "/assets/uploads/img_4503.webp"
       ]
+    },
+    {
+      "slug": "mothers-day-2026",
+      "monthYear": "May 2026",
+      "coverImage": "/assets/uploads/untitled168_20260504184434-1-.webp",
+      "images": [
+        "/assets/uploads/img_4664.webp",
+        "/assets/uploads/img_4659.webp",
+        "/assets/uploads/img_4657.webp",
+        "/assets/uploads/img_4649.webp",
+        "/assets/uploads/img_4642.webp"
+      ],
+      "title": "Origins and Arrivals"
     }
   ]
 }
@@ -528,6 +541,19 @@ function normalizeStoryImage(entry) {
   if (typeof entry === "string") return entry.trim();
   if (typeof entry === "object" && typeof entry.image === "string") return entry.image.trim();
   return "";
+}
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeAttr(value) {
+  return escapeHTML(value);
 }
 
 async function fetchStoriesPayload() {
@@ -589,12 +615,12 @@ function renderRelatedJournals(entries, currentSlug) {
 
   section.hidden = false;
   grid.innerHTML = related.map((entry) => `
-    <a class="related-journal-card" href="journal.html?journal=${encodeURIComponent(entry.slug)}" aria-label="${entry.title}">
+    <a class="related-journal-card" href="journal.html?journal=${encodeURIComponent(entry.slug)}" aria-label="${escapeAttr(entry.title)}">
       <div class="related-journal-media">
-        <img src="${entry.coverImage}" alt="${entry.title}" loading="lazy" decoding="async">
+        <img src="${escapeAttr(entry.coverImage)}" alt="${escapeAttr(entry.title)}" loading="lazy" decoding="async">
       </div>
-      <p class="related-journal-name">${entry.title}</p>
-      ${entry.monthYear ? `<p class="related-journal-meta">${entry.monthYear}</p>` : ""}
+      <p class="related-journal-name">${escapeHTML(entry.title)}</p>
+      ${entry.monthYear ? `<p class="related-journal-meta">${escapeHTML(entry.monthYear)}</p>` : ""}
     </a>
   `).join("");
 }
@@ -647,16 +673,16 @@ function setupDesktopStoryScroll() {
   section.hidden = false;
   track.innerHTML = entry.images.map((image, index) => `
     <figure class="story-figure">
-      <img src="${image}" alt="${entry.title} image ${index + 1}" loading="lazy" decoding="async">
+      <img src="${escapeAttr(image)}" alt="${escapeAttr(`${entry.title} image ${index + 1}`)}" loading="lazy" decoding="async">
     </figure>
   `).join("");
   renderRelatedJournals(entries, entry.slug);
   setupDesktopStoryScroll();
 })();
 </script>
-<script src="assets/shared-contact.js?v=20260414g"></script>
-<script src="assets/favorites.js?v=20260422b"></script>
-<script src="assets/secondary-menu.js?v=20260424e"></script>
-<script src="assets/shared-footer.js?v=20260423j"></script>
+<script src="assets/shared-contact.js?v=20260505b"></script>
+<script src="assets/favorites.js?v=20260505a"></script>
+<script src="assets/secondary-menu.js?v=20260505c"></script>
+<script src="assets/shared-footer.js?v=20260505a"></script>
 </body>
 </html>

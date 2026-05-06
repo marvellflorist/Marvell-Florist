@@ -1,10 +1,10 @@
 {
   "homeHero": {
-    "image": "assets/home.webp",
-    "eyebrow": "Marvell Florist",
-    "heading": "For Moments That Matter",
-    "ctaLabel": "Discover the Collection",
-    "ctaTarget": "gallery-entry"
+    "image": "/assets/uploads/untitled168_20260504184434-1-.webp",
+    "eyebrow": "featured collection",
+    "heading": "International Mother's Day",
+    "ctaLabel": "Gifts For Her",
+    "ctaTarget": "featured-primary"
   },
   "homePortfolio": {
     "kicker": "OUR WORK",

@@ -91,11 +91,12 @@
         --menu-panel-width: var(--menu-panel-single-width);
         position: fixed !important;
         top: 0 !important;
+        bottom: auto !important;
         left: 0 !important;
         right: auto !important;
         width: var(--menu-panel-width) !important;
         height: 100vh !important;
-        background: var(--footer-offwhite, #f8f6f1) !important;
+        background: var(--footer-offwhite, #fff) !important;
         color: #151210 !important;
         transform: translateX(-100%) !important;
         transition: transform 0.5s ease-in-out, width 0.42s cubic-bezier(0.22, 1, 0.36, 1) !important;
@@ -103,6 +104,7 @@
         box-shadow: none !important;
         display: grid !important;
         grid-template-rows: auto 1fr !important;
+        border-top: 0 !important;
         border-right: 1px solid rgba(29, 26, 24, 0.08) !important;
         border-left: 0 !important;
         overflow: hidden !important;
@@ -128,7 +130,7 @@
       }
       .menu-panel.is-open {
         transform: translateX(0) !important;
-        box-shadow: 20px 0 36px rgba(10, 12, 18, 0.22) !important;
+        box-shadow: 20px 0 36px rgba(10, 12, 18, 0.18) !important;
       }
       .menu-head {
         display: flex !important;
@@ -204,7 +206,7 @@
         grid-column: 1 !important;
         position: relative !important;
         z-index: 2 !important;
-        background: var(--footer-offwhite, #f8f6f1) !important;
+        background: var(--footer-offwhite, #fff) !important;
         transition: color 0.28s ease, opacity 0.28s ease !important;
       }
       .menu-view[data-menu-view="about"],
@@ -248,7 +250,7 @@
         width: var(--menu-panel-single-width) !important;
         height: 100% !important;
         padding: 0 !important;
-        background: var(--footer-offwhite, #f8f6f1) !important;
+        background: var(--footer-offwhite, #fff) !important;
         border: 0 !important;
         border-left: 1px solid rgba(29, 26, 24, 0.08) !important;
         box-shadow: none !important;
@@ -272,6 +274,7 @@
         pointer-events: none !important;
         transition: opacity 0.52s ease, transform 0.82s cubic-bezier(0.16, 0.84, 0.2, 1) !important;
       }
+      .menu-panel[data-menu-quick-active="true"] .menu-main-quickpane[data-quick-current="collections"],
       .menu-panel[data-menu-quick-active="true"] .menu-main-quickpane[data-quick-current="about"],
       .menu-panel[data-menu-quick-active="true"] .menu-main-quickpane[data-quick-current="services"],
       .menu-panel[data-menu-quick-active="true"] .menu-main-quickpane[data-quick-current="visit"] {
@@ -279,11 +282,13 @@
         transform: translateX(0) !important;
         pointer-events: auto !important;
       }
+      .menu-main-quickpane[data-quick-current="collections"],
       .menu-main-quickpane[data-quick-current="about"],
       .menu-main-quickpane[data-quick-current="services"],
       .menu-main-quickpane[data-quick-current="visit"] {
-        background: var(--footer-offwhite, #f8f6f1) !important;
+        background: var(--footer-offwhite, #fff) !important;
       }
+      .menu-main-quickpane[data-quick-current="collections"] .menu-quick-panel[data-quick-panel="collections"],
       .menu-main-quickpane[data-quick-current="about"] .menu-quick-panel[data-quick-panel="about"],
       .menu-main-quickpane[data-quick-current="services"] .menu-quick-panel[data-quick-panel="services"],
       .menu-main-quickpane[data-quick-current="visit"] .menu-quick-panel[data-quick-panel="visit"] {
@@ -558,9 +563,16 @@
           max-width: 100vw !important;
           left: 0 !important;
           right: 0 !important;
+          top: auto !important;
+          bottom: 0 !important;
+          border-top: 1px solid rgba(29, 26, 24, 0.08) !important;
           border-left: 0 !important;
           border-right: 0 !important;
           transform: translateY(100%) !important;
+        }
+        .menu-panel.is-open {
+          transform: translateY(0) !important;
+          box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18) !important;
         }
         .menu-panel[data-menu-quick-active="true"] {
           width: 100vw !important;
@@ -851,9 +863,16 @@
           max-width: 100vw !important;
           left: 0 !important;
           right: 0 !important;
+          top: auto !important;
+          bottom: 0 !important;
+          border-top: 1px solid rgba(29, 26, 24, 0.08) !important;
           border-left: 0 !important;
           border-right: 0 !important;
           transform: translateY(100%) !important;
+        }
+        body[data-menu-mobile-standardized="index"] .menu-panel.is-open {
+          transform: translateY(0) !important;
+          box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18) !important;
         }
         body[data-menu-mobile-standardized="index"] .menu-panel[data-menu-quick-active="true"] {
           width: 100vw !important;
@@ -1044,6 +1063,7 @@
             </div>
           </div>
           <div class="menu-main-quickpane" data-menu-quickpane data-quick-current="">
+            <div class="menu-quick-panel" data-quick-panel="collections"></div>
             <div class="menu-quick-panel" data-quick-panel="services">
               <a class="menu-quick-link" data-service-link="all" href="services.html">View All Services</a>
               <a class="menu-quick-link" data-service-link="consultation" href="services.html#consultation">Consultation</a>
@@ -1066,11 +1086,11 @@
         </div>
       </div>
       <div class="menu-view" data-menu-view="featured">
-        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
         <div data-featured-menu-list></div>
       </div>
       <div class="menu-view" data-menu-view="about">
-        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
         <a class="menu-link" data-about-link="overview" href="about.html">View About</a>
       <a class="menu-link" data-about-link="journey" href="about.html#foundation">Our Journey</a>
       <a class="menu-link" data-about-link="craft" href="about.html#philosophy">Our Craft</a>
@@ -1078,12 +1098,12 @@
         <a class="menu-link" data-about-link="signature" href="about.html#signature">Signature Story</a>
       </div>
       <div class="menu-view" data-menu-view="visit">
-        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
         <a class="menu-link" data-visit-link="boutique" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Florist Boutique</a>
         <a class="menu-link" data-visit-link="supplies" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Supplies Shop</a>
       </div>
       <div class="menu-view" data-menu-view="services">
-        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
         <a class="menu-link" data-service-link="all" href="services.html">View All Services</a>
         <a class="menu-link" data-service-link="consultation" href="services.html#consultation">Consultation</a>
         <a class="menu-link" data-service-link="personal-message" href="services.html#personal-message">Message Cards</a>
@@ -1091,7 +1111,7 @@
         <a class="menu-link" data-service-link="collection-pickup" href="services.html#collection-pickup">Pickup &amp; Handover</a>
       </div>
       <div class="menu-view" data-menu-view="contact">
-        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">&lsaquo; Back</button>
+        <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
         <div class="contact-quick-body">
           <div class="contact-quick-block">
             <p class="contact-quick-label">Hubungi Kami</p>
@@ -1173,7 +1193,7 @@
 
       // Fix hard refresh left panel
       if (panel instanceof HTMLElement) {
-        panel.style.transform = window.matchMedia("(max-width: 899px)").matches ? "translateY(100%)" : "translateX(-100%)";
+        panel.style.transform = window.matchMedia("(min-width: 900px)").matches ? "translateX(-100%)" : "translateY(100%)";
       }
 
   if (!(panel instanceof HTMLElement) || !(backdrop instanceof HTMLElement) || !(menuToggle instanceof HTMLElement)) return;
@@ -1190,13 +1210,17 @@
 
   const isDesktopQuickPane = () => window.matchMedia("(min-width: 900px)").matches;
   const getPanelClosedTransform = () => (isDesktopQuickPane() ? "translateX(-100%)" : "translateY(100%)");
+  const getPanelOpenTransform = () => (isDesktopQuickPane() ? "translateX(0)" : "translateY(0)");
   const getQuickPaneHiddenTransform = () => (isDesktopQuickPane() ? "translateX(-42px)" : "translateX(42px)");
   const getQuickPanelHiddenTransform = () => (isDesktopQuickPane() ? "translateX(-22px)" : "translateX(22px)");
   const applyPanelSide = () => {
     const isDesktop = isDesktopQuickPane();
-    panel.style.setProperty("left", isDesktop ? "0" : "auto", "important");
+    panel.style.setProperty("top", isDesktop ? "0" : "auto", "important");
+    panel.style.setProperty("bottom", isDesktop ? "auto" : "0", "important");
+    panel.style.setProperty("left", "0", "important");
     panel.style.setProperty("right", isDesktop ? "auto" : "0", "important");
     panel.style.setProperty("border-left", isDesktop ? "0" : "0", "important");
+    panel.style.setProperty("border-top", isDesktop ? "0" : "1px solid rgba(29, 26, 24, 0.08)", "important");
     panel.style.setProperty("border-right", isDesktop ? "1px solid rgba(29, 26, 24, 0.08)" : "0", "important");
     if (menuHead instanceof HTMLElement) {
       menuHead.style.setProperty("justify-content", isDesktop ? "flex-start" : "flex-end", "important");
@@ -1214,6 +1238,8 @@
     }
     if (panel.getAttribute("aria-hidden") === "true" && !panel.classList.contains("is-open")) {
       panel.style.setProperty("transform", getPanelClosedTransform(), "important");
+    } else if (panel.classList.contains("is-open")) {
+      panel.style.setProperty("transform", getPanelOpenTransform(), "important");
     }
   };
   applyPanelSide();
@@ -1336,6 +1362,7 @@ const setQuickPane = (panelName = "") => {
   };
 
   const featuredMenuList = panel.querySelector("[data-featured-menu-list]");
+  const featuredQuickList = panel.querySelector('[data-quick-panel="collections"]');
 
   function getActiveUiLanguage() {
     const params = new URL(window.location.href).searchParams;
@@ -1411,19 +1438,48 @@ const setQuickPane = (panelName = "") => {
 
   function syncSharedCollectionsEntry(catalog) {
     const activeEvents = getRenderableActiveEvents(catalog);
-    const primaryEvent = resolvePrimaryFeaturedEvent(activeEvents);
+    const sortedEvents = [...activeEvents].sort((a, b) => {
+      const byPriority = (Number(b?.priority) || 0) - (Number(a?.priority) || 0);
+      if (byPriority !== 0) return byPriority;
+      return String(a?.id || "").localeCompare(String(b?.id || ""));
+    });
+    const primaryEvent = resolvePrimaryFeaturedEvent(sortedEvents);
+    const hasMultiple = sortedEvents.length > 1;
     const directHref = primaryEvent ? buildLocalizedFeaturedHref(String(primaryEvent.id || "").trim()) : buildLocalizedFeaturedHref("");
-    const rawLabel = primaryEvent ? String(primaryEvent.title || "").trim() || "Collections" : "Collections";
+    const rawLabel = hasMultiple
+      ? "Collections"
+      : (primaryEvent ? String(primaryEvent.title || "").trim() || "Collections" : "Collections");
     const label = localizeSeasonalCollectionTitle(rawLabel);
     panel.querySelectorAll("[data-seasonal-featured-link]").forEach((trigger) => {
       if (!(trigger instanceof HTMLElement)) return;
-      trigger.setAttribute("data-seasonal-direct-href", directHref);
       trigger.dataset.seasonalManaged = "true";
       trigger.dataset.seasonalLabel = rawLabel;
       trigger.textContent = label;
+      if (hasMultiple) {
+        trigger.setAttribute("data-menu-quick", "collections");
+        trigger.setAttribute("data-menu-open", "featured");
+        trigger.removeAttribute("data-seasonal-direct-href");
+      } else {
+        trigger.removeAttribute("data-menu-quick");
+        trigger.setAttribute("data-seasonal-direct-href", directHref);
+      }
     });
+    const eventLinksMarkup = sortedEvents.map((eventConfig) => {
+      const eventId = String(eventConfig?.id || "").trim();
+      const eventTitle = String(eventConfig?.title || "").trim() || "Collections";
+      const localizedTitle = localizeSeasonalCollectionTitle(eventTitle);
+      if (!eventId) return "";
+      return `<a class="menu-link" data-seasonal-managed="true" data-seasonal-label="${String(eventTitle).replace(/"/g, "&quot;")}" href="${buildLocalizedFeaturedHref(eventId)}">${localizedTitle}</a>`;
+    }).join("");
     if (featuredMenuList instanceof HTMLElement) {
-      featuredMenuList.innerHTML = `<a class="menu-link" data-seasonal-fallback="true" data-seasonal-managed="true" data-seasonal-label="${String(rawLabel).replace(/"/g, "&quot;")}" href="${directHref}">${label}</a>`;
+      featuredMenuList.innerHTML = hasMultiple
+        ? eventLinksMarkup
+        : `<a class="menu-link" data-seasonal-fallback="true" data-seasonal-managed="true" data-seasonal-label="${String(rawLabel).replace(/"/g, "&quot;")}" href="${directHref}">${label}</a>`;
+    }
+    if (featuredQuickList instanceof HTMLElement) {
+      featuredQuickList.innerHTML = hasMultiple
+        ? eventLinksMarkup.replaceAll('class="menu-link"', 'class="menu-quick-link"')
+        : "";
     }
   }
 
@@ -1442,7 +1498,7 @@ const setQuickPane = (panelName = "") => {
 
 const openMenu = () => {
     panel.classList.add("is-open");
-    panel.style.setProperty("transform", "translateX(0)", "important");
+    panel.style.setProperty("transform", getPanelOpenTransform(), "important");
     backdrop.classList.add("is-open");
     panel.setAttribute("aria-hidden", "false");
     backdrop.setAttribute("aria-hidden", "false");

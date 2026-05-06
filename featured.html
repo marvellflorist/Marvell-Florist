@@ -6,7 +6,7 @@
   <title>Marvell Florist | Collections</title>
   <meta name="description" content="Explore the seasonal collections from Marvell Florist.">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#f8f6f1">
+  <meta name="theme-color" content="#fff">
   <link rel="canonical" href="https://marvellflorist.com/featured">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Marvell Florist">
@@ -28,8 +28,8 @@
   <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
   <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260425d"></script>
-<script src="assets/header-template.js?v=20260425c"></script>
+<script src="assets/site-language.js?v=20260505a"></script>
+<script src="assets/header-template.js?v=20260505j"></script>
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -58,12 +58,12 @@
     }
 
     html {
-      background: #f8f6f1;
+      background: #fff;
     }
     
     body {
       font-family: "Inter Tight", sans-serif;
-      background: #f8f6f1;
+      background: #fff;
       color: #2f2923;
     }
 
@@ -85,7 +85,7 @@
       position: fixed;
       inset: 0 0 auto;
       height: 72px;
-      background: #f8f6f1;
+      background: #fff;
       border-bottom: 1px solid rgba(63, 54, 45, 0.16);
       z-index: 1;
     }
@@ -240,7 +240,7 @@
       position: sticky;
       top: 72px;
       z-index: 60;
-      background: #f8f6f1;
+      background: #fff;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       border-bottom: 1px solid rgba(63, 54, 45, 0.12);
@@ -325,13 +325,13 @@
 
     .featured-collection-menu {
       position: absolute;
-      top: calc(100% + 4px);
+      top: calc(100% + 16px);
       left: -12px;
       width: max-content;
       min-width: calc(100% + 112px);
       max-width: min(440px, calc(100vw - 72px));
-      padding: 10px 0 6px;
-      background: #f8f6f1;
+      padding: 20px 0 8px;
+      background: #fff;
       border: 0;
       border-radius: 3px;
       box-shadow: none;
@@ -355,16 +355,20 @@
       pointer-events: auto;
     }
 
-    .featured-collection-menu-head {
-      padding: 0 72px 8px 12px;
+    .featured-collection-menu-kicker {
+      margin: 0;
+      padding: 0 12px 18px;
       font-family: "Inter Tight", sans-serif;
       font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.11em;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(58, 49, 40, 0.58);
-      line-height: 1.2;
-      pointer-events: none;
+      color: rgba(42, 33, 24, 0.44);
+    }
+
+    .featured-collection-menu-options {
+      display: grid;
+      gap: 0;
     }
 
     .featured-collection-option {
@@ -503,7 +507,7 @@
       font-weight: 400;
       line-height: 1.12;
       letter-spacing: 0.01em;
-      color: #f8f6f1;
+      color: #fff;
       text-align: left;
       text-transform: none;
       text-shadow: 0 5px 16px rgba(12, 9, 7, 0.18);
@@ -614,6 +618,8 @@
       height: 100%;
       text-decoration: none;
       color: inherit;
+      touch-action: auto;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .featured-media {
@@ -881,6 +887,7 @@
       background: transparent;
       padding: 8px 14px;
       color: rgba(42, 33, 24, 0.86);
+      touch-action: manipulation;
       font-family: "Inter Tight", sans-serif;
       font-size: 12px;
       letter-spacing: 0.06em;
@@ -938,48 +945,58 @@
 
     .filters-panel-modal {
       position: fixed;
-      top: 0;
+      top: auto;
+      bottom: 0;
       right: 0;
-      width: min(92vw, 500px);
+      width: min(94vw, 620px);
       height: 100vh;
-      background: #f8f6f1;
+      background: #fff;
       color: #151210;
-      transform: translateX(100%);
+      transform: translateY(100%);
       transition: transform 0.5s ease-in-out;
       z-index: 251;
       display: grid;
-      grid-template-rows: auto 1fr;
+      grid-template-rows: auto minmax(0, 1fr) auto;
       box-shadow: none;
-      border-left: 1px solid rgba(29, 26, 24, 0.08);
+      border-top: 1px solid rgba(29, 26, 24, 0.08);
+      border-left: 0;
     }
 
     .filters-panel-modal.is-open {
-      transform: translateX(0);
-      box-shadow: -20px 0 36px rgba(10, 12, 18, 0.22);
+      transform: translateY(0);
+      box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18);
     }
 
     .filters-head {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 28px 30px 18px;
+      justify-content: flex-start;
+      width: min(calc(100% - 40px), 408px);
+      margin: 0 auto;
+      padding: 52px 0 20px;
+      box-sizing: border-box;
     }
 
     .filters-head h3 {
       margin: 0;
       font-family: "Inter Tight", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      font-weight: 600;
+      color: #151210;
     }
 
     .filters-close {
+      position: absolute;
+      top: 26px;
+      right: 24px;
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      border: 1px solid rgba(32, 26, 22, 0.18);
-      background: rgba(21, 18, 16, 0.06);
-      color: #1d1a18;
+      border: 0;
+      background: #151210;
+      color: #fff;
       cursor: pointer;
       display: grid;
       place-items: center;
@@ -988,25 +1005,69 @@
 
     .filters-close:hover,
     .filters-close:focus-visible {
-      background: rgba(21, 18, 16, 0.12);
-      border-color: rgba(21, 18, 16, 0.28);
+      background: #2a2118;
       outline: none;
     }
 
     .filters-body {
-      padding: 8px 30px 30px;
+      width: min(calc(100% - 40px), 432px);
+      margin: 0 auto;
+      padding: 10px 0 16px;
+      box-sizing: border-box;
       overflow-y: auto;
+    }
+
+    .filters-footer {
+      width: min(calc(100% - 40px), 432px);
+      margin: 0 auto;
+      padding: 8px 0 32px;
+      box-sizing: border-box;
+    }
+
+    .filters-apply {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid transparent;
+      background: #12100e;
+      color: #f8f4ec;
+      display: inline-flex;
+      pointer-events: auto;
+      touch-action: manipulation;
+      align-items: center;
+      justify-content: center;
+      font-family: "Inter Tight", sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+    }
+
+    .filters-apply.is-disabled,
+    .filters-apply:disabled {
+      background: rgba(47, 41, 35, 0.24);
+      border-color: transparent;
+      color: rgba(248, 244, 236, 0.72);
+      cursor: not-allowed;
+    }
+
+    .filters-apply:not(:disabled):not(.is-disabled):hover,
+    .filters-apply:not(:disabled):not(.is-disabled):focus-visible {
+      outline: none;
+      background: transparent;
+      color: #151210;
+      border-color: #151210;
     }
 
     .filters-panel {
       display: grid;
-      gap: 14px;
+      gap: 10px;
       padding: 0;
     }
 
     .filter-group {
       display: grid;
-      gap: 8px;
+      gap: 12px;
       margin: 0;
       padding: 0;
       border: 0;
@@ -1015,8 +1076,8 @@
 
     .filter-group + .filter-group {
       border-top: 1px solid rgba(42, 33, 24, 0.14);
-      margin-top: 8px;
-      padding-top: 12px;
+      margin-top: 16px;
+      padding-top: 22px;
     }
 
     .filter-group-toggle {
@@ -1028,12 +1089,13 @@
       align-items: center;
       justify-content: space-between;
       text-align: left;
+      touch-action: manipulation;
       margin: 0;
       font-family: "Inter Tight", sans-serif;
       font-size: 16px;
       letter-spacing: 0.04em;
-      font-weight: 600;
-      color: rgba(42, 33, 24, 0.82);
+      font-weight: 500;
+      color: #151210;
       cursor: pointer;
     }
 
@@ -1050,8 +1112,8 @@
       font-family: "Inter Tight", sans-serif;
       font-size: 16px;
       letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: rgba(42, 33, 24, 0.82);
+      text-transform: none;
+      color: #151210;
     }
 
     .filter-group-panel {
@@ -1064,24 +1126,28 @@
 
     .filter-group.is-open .filter-group-panel {
       opacity: 1;
-      margin-top: 4px;
+      margin-top: 10px;
     }
 
     .filter-options {
       display: grid;
-      gap: 10px;
+      gap: 5px;
     }
 
     .filter-options--color {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px 12px;
+      justify-content: start;
+      gap: 18px 8px;
     }
 
     .filter-range {
       display: grid;
       gap: 12px;
-      padding: 6px 2px 2px;
+      width: 100%;
+      margin: 0;
+      padding: 8px 8px 6px;
+      box-sizing: border-box;
     }
 
     .filter-range-values {
@@ -1089,15 +1155,18 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
+      flex-wrap: wrap;
       font-family: "Inter Tight", sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.03em;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
       color: rgba(47, 41, 35, 0.82);
     }
 
     .filter-range-sliders {
       position: relative;
-      height: 34px;
+      height: 24px;
+      margin: 0 6px;
     }
 
     .filter-range-track,
@@ -1105,7 +1174,7 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      height: 4px;
+      height: 0.75px;
       border-radius: 999px;
     }
 
@@ -1118,7 +1187,7 @@
     .filter-range-fill {
       left: 0;
       right: 0;
-      background: #1f1a15;
+      background: #151210;
     }
 
     .filter-range-input {
@@ -1126,7 +1195,7 @@
       left: 0;
       top: 0;
       width: 100%;
-      height: 34px;
+      height: 24px;
       margin: 0;
       background: none;
       -webkit-appearance: none;
@@ -1135,12 +1204,12 @@
     }
 
     .filter-range-input::-webkit-slider-runnable-track {
-      height: 4px;
+      height: 0.75px;
       background: transparent;
     }
 
     .filter-range-input::-moz-range-track {
-      height: 4px;
+      height: 0.75px;
       background: transparent;
       border: 0;
     }
@@ -1148,24 +1217,24 @@
     .filter-range-input::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 18px;
-      height: 18px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      border: 1px solid rgba(42, 33, 24, 0.22);
-      background: #f8f6f1;
-      box-shadow: 0 2px 8px rgba(22, 17, 12, 0.18);
+      border: 1.25px solid #151210;
+      background: #fff;
+      box-shadow: none;
       pointer-events: auto;
       cursor: pointer;
-      margin-top: -7px;
+      margin-top: -5.625px;
     }
 
     .filter-range-input::-moz-range-thumb {
-      width: 18px;
-      height: 18px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      border: 1px solid rgba(42, 33, 24, 0.22);
-      background: #f8f6f1;
-      box-shadow: 0 2px 8px rgba(22, 17, 12, 0.18);
+      border: 1.25px solid #151210;
+      background: #fff;
+      box-shadow: none;
       pointer-events: auto;
       cursor: pointer;
     }
@@ -1174,7 +1243,7 @@
       margin: 0;
       font-family: "Inter Tight", sans-serif;
       font-size: 11px;
-      line-height: 1.45;
+      line-height: 1.6;
       color: rgba(42, 33, 24, 0.56);
     }
 
@@ -1182,6 +1251,7 @@
       position: relative;
       display: block;
       width: 100%;
+      touch-action: manipulation;
       cursor: pointer;
     }
 
@@ -1197,57 +1267,67 @@
 
     .filter-option-label {
       position: relative;
-      display: flex;
-      align-items: center;
+      display: block;
       width: 100%;
-      min-height: 40px;
-      border-radius: 999px;
-      padding: 10px 48px 10px 14px;
-      border: 1px solid rgba(42, 33, 24, 0.24);
-      background: transparent;
-      color: rgba(42, 33, 24, 0.86);
+      min-height: 0;
+      border-radius: 0;
+      padding: 6px 0 6px 30px;
+      border: 0;
+      background: none;
+      color: #151210;
       font-family: "Inter Tight", sans-serif;
       font-size: 13px;
-      line-height: 1.2;
-      transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+      line-height: 1.45;
+      transition: color 0.22s ease;
     }
 
     .filter-option-label::before {
       content: "";
       position: absolute;
-      right: 12px;
-      width: 26px;
-      height: 15px;
-      border-radius: 999px;
-      background: rgba(120, 103, 85, 0.38);
-      transition: background 0.22s ease;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1px solid rgba(42, 33, 24, 0.42);
+      background: transparent;
+      box-sizing: border-box;
+      transition: background 0.22s ease, border-color 0.22s ease, border-width 0.22s ease;
     }
 
     .filter-option-label::after {
       content: "";
       position: absolute;
-      right: 24px;
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-      transition: right 0.22s ease, background 0.22s ease;
+      left: 9px;
+      top: 50%;
+      width: 4px;
+      height: 7px;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: translate(-50%, -58%) rotate(45deg);
+      transform-origin: center;
+      opacity: 0;
+      transition: opacity 0.18s ease;
     }
 
     .filter-option input:checked + .filter-option-label {
-      background: rgba(42, 33, 24, 0.08);
       color: #2c231b;
-      border-color: #2c231b;
+    }
+
+    .filter-option:hover .filter-option-label::before,
+    .filter-option:focus-within .filter-option-label::before {
+      border-width: 2px;
+      border-color: #151210;
     }
 
     .filter-option input:checked + .filter-option-label::before {
-      background: rgba(42, 33, 24, 0.48);
+      background: #1f1a15;
+      border-color: #1f1a15;
     }
 
     .filter-option input:checked + .filter-option-label::after {
-      right: 14px;
-      background: #2c231b;
+      opacity: 1;
     }
 
     .filter-option--color .filter-option-label {
@@ -1447,14 +1527,15 @@
       text-transform: none;
       padding: 9px 16px;
       min-height: 38px;
-      transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
       cursor: pointer;
     }
 
     .featured-collection-btn:hover,
     .featured-collection-btn:focus-visible {
-      background: #111;
-      transform: scale(0.97);
+      background: transparent;
+      color: #151210;
+      border-color: #151210;
       box-shadow: none;
     }
     
@@ -1518,7 +1599,7 @@
       header {
         height: 72px;
         padding: 0 20px;
-        background: #f8f6f1;
+        background: #fff;
       }
 
       header::before,
@@ -1575,15 +1656,15 @@
       }
 
       .featured-collection-menu {
-        top: calc(100% + 4px);
+        top: calc(100% + 14px);
         left: -10px;
         min-width: calc(100% + 88px);
         max-width: min(360px, calc(100vw - 32px));
-        padding: 10px 0 6px;
+        padding: 18px 0 8px;
       }
 
-      .featured-collection-menu-head {
-        padding: 0 56px 8px 10px;
+      .featured-collection-menu-kicker {
+        padding: 0 12px 16px;
       }
 
       .featured-collection-option {
@@ -1639,7 +1720,7 @@
         padding: 22px 20px 0;
         text-align: center;
         pointer-events: auto;
-        background: #f8f6f1;
+        background: #fff;
       }
 
       .featured-kicker {
@@ -1679,15 +1760,36 @@
       }
 
       .filters-panel-modal {
-        width: min(100vw, 360px);
+        width: 100vw;
+        max-width: 100vw;
       }
 
       .filters-head {
-        padding: 22px 20px 14px;
+        width: min(calc(100% - 32px), 408px);
+        padding: 42px 0 14px;
       }
 
       .filters-body {
-        padding: 8px 20px 24px;
+        width: min(calc(100% - 32px), 432px);
+        padding: 8px 0 12px;
+      }
+
+      .filters-footer {
+        width: min(calc(100% - 32px), 432px);
+        padding: 12px 0 calc(env(safe-area-inset-bottom, 0px) + 28px);
+      }
+
+      .filters-close {
+        top: 18px;
+        right: 18px;
+      }
+
+      .filter-options--color {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .filter-option--color {
+        width: 100%;
       }
 
       .featured-endcap {
@@ -1797,7 +1899,7 @@
             <span class="featured-collection-current-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg></span>
           </button>
           <div class="featured-collection-menu" id="featured-collection-menu" hidden>
-            <div class="featured-collection-menu-head" data-featured-collection-menu-title>Seasonal Collection</div>
+            <p class="featured-collection-menu-kicker" id="featured-collection-menu-kicker">Featured Collections</p>
             <div class="featured-collection-menu-options" data-featured-collection-options></div>
           </div>
         </div>
@@ -1809,7 +1911,7 @@
         <button class="hero-priority-hit" id="featured-hero-click" type="button" aria-label="Explore featured products"></button>
         <img id="featured-hero-image" alt="Collections campaign cover" loading="eager" decoding="async" hidden>
         <div class="featured-title-block">
-          <p class="featured-kicker" id="featured-kicker">Seasonal Collection</p>
+          <p class="featured-kicker" id="featured-kicker" hidden></p>
           <h1 id="featured-title">Collections</h1>
           <p class="featured-lead" id="featured-lead">Koleksi kampanye aktif ditampilkan di bawah ini.</p>
         </div>
@@ -1827,10 +1929,10 @@
     </svg>
   </a>
   
-  <script src="assets/favorites.js?v=20260422b"></script>
-  <script type="module" src="/seasonal/seasonal-page.js?v=20260424b"></script>
-  <script src="assets/shared-contact.js?v=20260414g"></script>
-  <script src="assets/shared-footer.js?v=20260423j"></script>
-<script src="assets/secondary-menu.js?v=20260424e"></script>
+  <script src="assets/favorites.js?v=20260505a"></script>
+  <script type="module" src="/seasonal/seasonal-page.js?v=20260505f"></script>
+  <script src="assets/shared-contact.js?v=20260505b"></script>
+  <script src="assets/shared-footer.js?v=20260505a"></script>
+<script src="assets/secondary-menu.js?v=20260505c"></script>
 </body>
 </html>
