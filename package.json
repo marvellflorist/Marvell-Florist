@@ -1,8 +1,0 @@
-{
-  "name": "marvell-florist-site",
-  "private": true,
-  "scripts": {
-    "cms:test": "./start-local-cms-test.sh",
-    "cms:proxy": "npx --yes decap-server --port 8081"
-  }
-}
