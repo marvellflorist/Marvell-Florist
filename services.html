@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services | Marvell Florist</title>
+<meta name="description" content="Explore Marvell Florist services for consultations, custom floral work, delivery coordination, and floral styling in Batam.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#fff">
+<link rel="canonical" href="https://marvellflorist.com/services">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/services">
+<meta property="og:title" content="Services | Marvell Florist">
+<meta property="og:description" content="A pared-back view of Marvell Florist services, from consultation through timing, handover, and custom floral support.">
+<meta property="og:image" content="https://marvellflorist.com/assets/portfolio.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Services | Marvell Florist">
+<meta name="twitter:description" content="A pared-back view of Marvell Florist services, from consultation through timing, handover, and custom floral support.">
+<meta name="twitter:image" content="https://marvellflorist.com/assets/portfolio.webp">
+<script defer src="assets/site-loader.js?v=20260727a"></script>
+<script src="assets/site-language.js?v=20260505a"></script>
+<script src="assets/header-template.js?v=20260505j"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+@font-face {
+  font-family: "RelationshipDisplay";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Relationship of Melodrame";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #fff;
+  --ink: #201915;
+  --muted: rgba(32, 25, 21, 0.72);
+  --soft: rgba(32, 25, 21, 0.56);
+  --line: rgba(63, 54, 45, 0.16);
+  --line-strong: rgba(63, 54, 45, 0.32);
+  --header-height: 72px;
+}
+html {
+  scroll-behavior: smooth;
+  background: var(--cream);
+}
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Inter Tight", sans-serif;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 80;
+  height: var(--header-height);
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+header::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--header-height);
+  background: var(--cream);
+  z-index: 1;
+}
+header,
+header::before,
+header::after {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.header-bar {
+  position: relative;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+  pointer-events: auto;
+}
+.header-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.header-logo-text {
+  font-family: "Imperial Script", cursive;
+  font-size: 32px;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: rgba(42, 33, 24, 0.82);
+}
+.header-contact,
+.search-toggle,
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  background: transparent;
+  border: 0;
+}
+.search-toggle { margin-left: auto; }
+.search-toggle svg,
+.menu-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.menu-toggle { gap: 10px; }
+.menu-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-contact:hover,
+.header-contact:focus-visible,
+.search-toggle:hover,
+.search-toggle:focus-visible,
+.menu-toggle:hover,
+.menu-toggle:focus-visible,
+.header-logo:hover,
+.header-logo:focus-visible {
+  opacity: 0.84;
+  outline: none;
+}
+main {
+  padding-top: var(--header-height);
+}
+.services-page {
+  padding-bottom: 48px;
+}
+.services-shell,
+.services-accordion-shell {
+  width: min(1120px, calc(100vw - 64px));
+  margin: 0 auto;
+}
+.services-intro {
+  padding: 88px 0 34px;
+  text-align: center;
+  display: grid;
+  gap: 14px;
+}
+.services-hero-kicker {
+  color: rgba(32, 25, 21, 0.66);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.services-hero-title {
+  width: min(720px, 100%);
+  margin: 0 auto;
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  text-transform: none;
+  font-size: clamp(42px, 4.8vw, 72px);
+  line-height: 0.92;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.services-hero-copy,
+.services-hero-copy-secondary {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.services-hero-copy-secondary {
+  width: min(360px, 100%);
+}
+.services-hero-media {
+  width: 100vw;
+  margin: 0 calc(50% - 50vw);
+  aspect-ratio: 16 / 8.4;
+  overflow: hidden;
+  background: #ddd0c1;
+}
+.services-hero-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.services-accordion-shell {
+  padding: 92px 0 108px;
+}
+.services-accordion-item {
+  border-top: 1px solid var(--line-strong);
+  margin-top: 12px;
+}
+.services-accordion-item:last-child {
+  border-bottom: 1px solid var(--line-strong);
+}
+.services-accordion-toggle {
+  width: 100%;
+  padding: 44px 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.services-accordion-title {
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  text-transform: none;
+  font-size: clamp(20px, 1.72vw, 25px);
+  line-height: 1.02;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.services-accordion-icon {
+  flex: 0 0 auto;
+  font-size: 26px;
+  line-height: 1;
+  color: rgba(32, 25, 21, 0.72);
+  transition: transform 180ms ease;
+}
+.services-accordion-item.is-open .services-accordion-icon {
+  transform: rotate(45deg);
+}
+.services-accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms ease, opacity 200ms ease;
+  opacity: 0;
+}
+.services-accordion-item.is-open .services-accordion-panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.services-accordion-panel-inner {
+  overflow: hidden;
+}
+.services-accordion-content {
+  width: min(760px, 100%);
+  padding: 0 0 48px;
+  display: grid;
+  gap: 14px;
+}
+.services-accordion-copy {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.72;
+}
+.services-accordion-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 6px;
+}
+.services-accordion-link {
+  width: fit-content;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(32, 25, 21, 0.38);
+  padding-bottom: 4px;
+}
+.services-accordion-link:hover,
+.services-accordion-link:focus-visible {
+  opacity: 0.72;
+  outline: none;
+}
+@media (max-width: 768px) {
+  .services-shell,
+  .services-accordion-shell {
+    width: min(100vw - 32px, 760px);
+  }
+  .services-intro {
+    padding: 66px 0 26px;
+  }
+  .services-hero-title {
+    font-size: clamp(34px, 13vw, 54px);
+  }
+  .services-hero-copy,
+  .services-hero-copy-secondary,
+  .services-accordion-copy {
+    font-size: 14px;
+    line-height: 1.68;
+  }
+  .services-hero-media {
+    aspect-ratio: 4 / 5;
+  }
+  .services-accordion-shell {
+    padding-top: 64px;
+  }
+  .services-accordion-toggle {
+    padding: 34px 0 30px;
+    gap: 18px;
+  }
+  .services-accordion-title {
+    font-size: 18px;
+  }
+  .services-accordion-icon {
+    font-size: 22px;
+  }
+  .services-accordion-content {
+    padding-bottom: 38px;
+  }
+  .services-accordion-actions {
+    gap: 14px;
+  }
+}
+</style>
+</head>
+<body data-mobile-search-enabled="false" data-header-divider="none">
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
+      <span class="header-logo-text">Marvell Florist</span>
+    </a>
+    <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+      </span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+<main class="services-page">
+  <section class="services-shell services-intro">
+    <p class="services-hero-kicker">Our Services</p>
+    <h1 class="services-hero-title">Marvell Florist Services</h1>
+    <p class="services-hero-copy">Consultation-led floral help for orders, custom work, timing, and the details around them.</p>
+    <p class="services-hero-copy-secondary">A shorter guide to how we work.</p>
+  </section>
+
+  <figure class="services-hero-media" aria-label="Marvell Florist services hero image">
+    <img src="assets/portfolio.webp" alt="An interior view of curated floral arrangements at Marvell Florist" loading="eager" decoding="async">
+  </figure>
+
+  <section class="services-accordion-shell" aria-label="Service overview">
+    <article class="services-accordion-item" id="consultation" data-services-item>
+      <button class="services-accordion-toggle" type="button" aria-expanded="false" aria-controls="service-panel-consultation">
+        <span class="services-accordion-title">Consultation</span>
+        <span class="services-accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="services-accordion-panel" id="service-panel-consultation">
+        <div class="services-accordion-panel-inner">
+          <div class="services-accordion-content">
+            <p class="services-accordion-copy">Most requests begin with a conversation. We clarify the occasion, the recipient, the palette, the scale, and the budget before anything is prepared so the order feels considered from the beginning.</p>
+            <p class="services-accordion-copy">That first exchange also tells us whether the request fits an existing collection or needs a more tailored route.</p>
+            <div class="services-accordion-actions">
+              <a class="services-accordion-link" href="contact.html">Contact page</a>
+              <a class="services-accordion-link" href="https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20start%20a%20consultation." target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="services-accordion-item" id="custom-arrangements" data-services-item>
+      <button class="services-accordion-toggle" type="button" aria-expanded="false" aria-controls="service-panel-custom">
+        <span class="services-accordion-title">Custom Arrangements</span>
+        <span class="services-accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="services-accordion-panel" id="service-panel-custom">
+        <div class="services-accordion-panel-inner">
+          <div class="services-accordion-content">
+            <p class="services-accordion-copy">Some requests begin with a reference image, a wrapping idea, or a very specific setting. Others begin with a mood and a brief. This is where that more directed work belongs.</p>
+            <p class="services-accordion-copy">We shape the final piece around your references, available flowers, scale, and intended setting rather than forcing it into a preset format.</p>
+            <div class="services-accordion-actions">
+              <a class="services-accordion-link" href="https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20ask%20about%20a%20custom%20arrangement." target="_blank" rel="noopener noreferrer">Start consultation on WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="services-accordion-item" id="personal-message" data-services-item>
+      <button class="services-accordion-toggle" type="button" aria-expanded="false" aria-controls="service-panel-message">
+        <span class="services-accordion-title">Message Cards</span>
+        <span class="services-accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="services-accordion-panel" id="service-panel-message">
+        <div class="services-accordion-panel-inner">
+          <div class="services-accordion-content">
+            <p class="services-accordion-copy">A message card often finishes the gesture properly. It gives the flowers context when the order is personal, ceremonial, grateful, or quietly private.</p>
+            <p class="services-accordion-copy">If needed, we can help keep the wording clean, warm, and right for the tone of the arrangement.</p>
+            <div class="services-accordion-actions">
+              <a class="services-accordion-link" href="https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20ask%20about%20message%20cards." target="_blank" rel="noopener noreferrer">Ask about message cards</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="services-accordion-item" id="delivery-setup" data-services-item>
+      <button class="services-accordion-toggle" type="button" aria-expanded="false" aria-controls="service-panel-delivery">
+        <span class="services-accordion-title">Delivery Coordination</span>
+        <span class="services-accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="services-accordion-panel" id="service-panel-delivery">
+        <div class="services-accordion-panel-inner">
+          <div class="services-accordion-content">
+            <p class="services-accordion-copy">Timing, recipient details, and handling are confirmed before dispatch. For more delicate orders, we discuss placement and arrival conditions in advance rather than treating it like a generic courier handoff.</p>
+            <p class="services-accordion-copy">This is especially useful when the arrangement has a tighter delivery window or needs a more careful arrival.</p>
+            <div class="services-accordion-actions">
+              <a class="services-accordion-link" href="https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20discuss%20delivery%20timing." target="_blank" rel="noopener noreferrer">Discuss timing</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="services-accordion-item" id="collection-pickup" data-services-item>
+      <button class="services-accordion-toggle" type="button" aria-expanded="false" aria-controls="service-panel-pickup">
+        <span class="services-accordion-title">Collection &amp; Handover</span>
+        <span class="services-accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="services-accordion-panel" id="service-panel-pickup">
+        <div class="services-accordion-panel-inner">
+          <div class="services-accordion-content">
+            <p class="services-accordion-copy">Orders can also be prepared for pickup in Batam. We confirm the collection window in advance so the arrangement is ready, checked, and properly finished when you arrive.</p>
+            <p class="services-accordion-copy">For surprises and timed handovers, we can also help align the final pickup with the moment you need.</p>
+            <div class="services-accordion-actions">
+              <a class="services-accordion-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Get store directions</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="services-accordion-item" id="floral-styling" data-services-item>
+      <button class="services-accordion-toggle" type="button" aria-expanded="false" aria-controls="service-panel-styling">
+        <span class="services-accordion-title">Floral Styling</span>
+        <span class="services-accordion-icon" aria-hidden="true">+</span>
+      </button>
+      <div class="services-accordion-panel" id="service-panel-styling">
+        <div class="services-accordion-panel-inner">
+          <div class="services-accordion-content">
+            <p class="services-accordion-copy">Some requests are less about a gift and more about how flowers sit inside a space, on a table, at an opening, or on a vehicle. Those need more attention to placement, proportion, and setting.</p>
+            <p class="services-accordion-copy">That includes lighter styling help, event-adjacent floral moments, and requests that need a more spatial point of view.</p>
+            <div class="services-accordion-actions">
+              <a class="services-accordion-link" href="https://wa.me/6281275017456?text=Hello%20Marvell%20Florist%2C%20I%20would%20like%20to%20ask%20about%20a%20custom%20arrangement." target="_blank" rel="noopener noreferrer">Ask on WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script>
+const serviceAccordionItems = Array.from(document.querySelectorAll("[data-services-item]"));
+
+function setServiceAccordionState(item, isOpen) {
+  if (!(item instanceof HTMLElement)) return;
+  const toggle = item.querySelector(".services-accordion-toggle");
+  if (!(toggle instanceof HTMLButtonElement)) return;
+  item.classList.toggle("is-open", isOpen);
+  toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+}
+
+function openServiceAccordionById(id, allowScroll = false) {
+  const targetItem = document.getElementById(id);
+  if (!(targetItem instanceof HTMLElement)) return false;
+  serviceAccordionItems.forEach((item) => {
+    setServiceAccordionState(item, item === targetItem);
+  });
+  if (allowScroll) {
+    targetItem.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  return true;
+}
+
+serviceAccordionItems.forEach((item) => {
+  const toggle = item.querySelector(".services-accordion-toggle");
+  if (!(toggle instanceof HTMLButtonElement)) return;
+  toggle.addEventListener("click", () => {
+    const shouldOpen = !item.classList.contains("is-open");
+    serviceAccordionItems.forEach((entry) => setServiceAccordionState(entry, false));
+    if (shouldOpen) setServiceAccordionState(item, true);
+  });
+});
+
+function syncServiceAccordionFromHash(scroll = false) {
+  const id = window.location.hash.replace(/^#/, "");
+  if (!id) return;
+  openServiceAccordionById(id, scroll);
+}
+
+window.addEventListener("hashchange", () => syncServiceAccordionFromHash(true));
+window.addEventListener("load", () => syncServiceAccordionFromHash(false));
+</script>
+<script src="assets/shared-contact.js?v=20260505b"></script>
+<script src="assets/favorites.js?v=20260505a"></script>
+<script src="assets/secondary-menu.js?v=20260728a"></script>
+<script src="assets/shared-footer.js?v=20260505a"></script>
+</body>
+</html>

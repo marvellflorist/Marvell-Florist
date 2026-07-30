@@ -1,0 +1,21 @@
+{
+  "homeHero": {
+    "image": "/assets/uploads/home.jpg",
+    "eyebrow": "MARVELL FLORIST",
+    "heading": "For Moments That Matter",
+    "ctaLabel": "",
+    "ctaTarget": "gallery-entry"
+  },
+  "homePortfolio": {
+    "kicker": "OUR WORK",
+    "heading": "The Portfolio",
+    "lead": "A study of form, texture, and composition",
+    "requestNote": "Looking for something else?",
+    "requestButtonLabel": "Request a custom arrangement"
+  },
+  "galleryPage": {
+    "note": "Most pieces are custom made, so availability and flower selection must be confirmed first.",
+    "byRequestHook": "Didn't find what you were looking for?",
+    "consultButtonLabel": "Start a Custom Request"
+  }
+}

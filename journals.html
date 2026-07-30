@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Journals | Marvell Florist</title>
+<meta name="description" content="Browse The Journals by Marvell Florist: small visual lookbooks shaped through images and titles only.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://marvellflorist.com/journals">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/journals">
+<meta property="og:title" content="The Journals | Marvell Florist">
+<meta property="og:description" content="Browse The Journals by Marvell Florist: small visual lookbooks shaped through images and titles only.">
+<meta property="og:image" content="https://marvellflorist.com/assets/uploads/img_4322.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Journals | Marvell Florist">
+<meta name="twitter:description" content="Browse The Journals by Marvell Florist: small visual lookbooks shaped through images and titles only.">
+<meta name="twitter:image" content="https://marvellflorist.com/assets/uploads/img_4322.webp">
+<script defer src="assets/site-loader.js?v=20260727a"></script>
+<script src="assets/site-language.js?v=20260505a"></script>
+<script src="assets/header-template.js?v=20260505j"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+@font-face {
+  font-family: "RelationshipDisplay";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Relationship of Melodrame";
+  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
+       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --page-bg: #000;
+  --ink: #fff;
+  --muted: rgba(255, 255, 255, 0.68);
+  --line: rgba(255, 255, 255, 0.14);
+  --header-height: 72px;
+}
+html {
+  scroll-behavior: smooth;
+  background: var(--page-bg);
+}
+body {
+  background: var(--page-bg);
+  color: var(--ink);
+  font-family: "Inter Tight", sans-serif;
+}
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 80;
+  height: var(--header-height);
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+header::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--header-height);
+  background: var(--page-bg);
+  z-index: 1;
+}
+header,
+header::before,
+header::after {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.header-bar {
+  position: relative;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+  pointer-events: auto;
+}
+.header-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.header-logo-text {
+  font-family: "Imperial Script", cursive;
+  font-size: 32px;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.9);
+}
+.header-contact,
+.search-toggle,
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  background: transparent;
+  border: 0;
+}
+.search-toggle { margin-left: auto; }
+.search-toggle svg,
+.menu-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.menu-toggle { gap: 10px; }
+.menu-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-contact:hover,
+.header-contact:focus-visible,
+.search-toggle:hover,
+.search-toggle:focus-visible,
+.menu-toggle:hover,
+.menu-toggle:focus-visible,
+.header-logo:hover,
+.header-logo:focus-visible {
+  opacity: 0.84;
+  outline: none;
+}
+main {
+  min-height: 100vh;
+  padding: calc(var(--header-height) + 52px) 0 72px;
+}
+.stories-shell {
+  width: min(1220px, calc(100vw - 56px));
+  margin: 0 auto;
+}
+.stories-header {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  margin-bottom: 34px;
+}
+.stories-title {
+  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  text-transform: none;
+  font-size: clamp(42px, 5vw, 82px);
+  line-height: 0.9;
+  font-weight: 400;
+}
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px 18px;
+}
+.story-card {
+  display: grid;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+.story-card-media {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #000;
+}
+.story-card-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.44s ease, filter 0.32s ease;
+}
+.story-card:hover .story-card-media img,
+.story-card:focus-visible .story-card-media img {
+  transform: scale(1.025);
+  filter: grayscale(1) contrast(1.03);
+}
+.story-card-title {
+  font-size: 14px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
+  text-align: center;
+}
+.story-card-meta {
+  margin-top: -4px;
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+  text-align: center;
+}
+body[data-journal-theme="mono"] header::before {
+  background: #000 !important;
+}
+body[data-journal-theme="mono"] header,
+body[data-journal-theme="mono"] .header-bar,
+body[data-journal-theme="mono"] .mobile-header-actions {
+  background: #000 !important;
+}
+body[data-journal-theme="mono"] .header-logo-text,
+body[data-journal-theme="mono"] .header-contact,
+body[data-journal-theme="mono"] .contact-quick-trigger,
+body[data-journal-theme="mono"] .language-switcher,
+body[data-journal-theme="mono"] .language-switcher__button,
+body[data-journal-theme="mono"] .language-switcher__divider,
+body[data-journal-theme="mono"] .search-toggle,
+body[data-journal-theme="mono"] .search-mobile-trigger,
+body[data-journal-theme="mono"] .search-toggle .search-label,
+body[data-journal-theme="mono"] .menu-toggle,
+body[data-journal-theme="mono"] .menu-toggle .menu-label,
+body[data-journal-theme="mono"] .favorites-launcher,
+body[data-journal-theme="mono"] .favorites-launcher-btn,
+body[data-journal-theme="mono"] .favorites-launcher-label,
+body[data-journal-theme="mono"] .favorites-launcher-count,
+body[data-journal-theme="mono"] .search-toggle svg,
+body[data-journal-theme="mono"] .search-mobile-trigger svg,
+body[data-journal-theme="mono"] .menu-icon svg {
+  color: #fff !important;
+  stroke: #fff !important;
+}
+body[data-journal-theme="mono"] .favorites-launcher-btn,
+body[data-journal-theme="mono"] .language-switcher__button {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.34) !important;
+}
+body[data-journal-theme="mono"] #site-footer,
+body[data-journal-theme="mono"] #site-footer::before {
+  background: #000 !important;
+  color: #fff !important;
+  border-top-color: rgba(255, 255, 255, 0.16) !important;
+}
+body[data-journal-theme="mono"] #site-footer .footer-closing-quote,
+body[data-journal-theme="mono"] #site-footer .footer-closing-author,
+body[data-journal-theme="mono"] #site-footer .footer-col-title,
+body[data-journal-theme="mono"] #site-footer .footer-link,
+body[data-journal-theme="mono"] #site-footer .footer-descriptor p,
+body[data-journal-theme="mono"] #site-footer .footer-copyright,
+body[data-journal-theme="mono"] #site-footer .footer-legal-link,
+body[data-journal-theme="mono"] #site-footer .footer-brand,
+body[data-journal-theme="mono"] #site-footer .footer-brand-subline {
+  color: #fff !important;
+}
+body[data-journal-theme="mono"] #site-footer .footer-bottom,
+body[data-journal-theme="mono"] #site-footer .footer-col {
+  border-top-color: rgba(255, 255, 255, 0.14) !important;
+}
+.stories-empty {
+  padding: 18px 0 0;
+  display: grid;
+  gap: 10px;
+}
+.stories-empty[hidden] {
+  display: none !important;
+}
+.stories-empty-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+.stories-empty-copy {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.68;
+}
+@media (max-width: 900px) {
+  .stories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 14px;
+  }
+  .stories-grid.stories-grid--single {
+    grid-template-columns: 1fr;
+  }
+  .stories-grid > .story-card:only-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 768px) {
+  main {
+    padding-top: calc(var(--header-height) + 34px);
+  }
+  .stories-shell {
+    width: min(100vw - 28px, 760px);
+  }
+  .stories-title {
+    font-size: clamp(34px, 13vw, 54px);
+  }
+  .story-card {
+    gap: 10px;
+  }
+  .story-card-title {
+    font-size: 12px;
+    line-height: 1.28;
+  }
+  .story-card-meta {
+    margin-top: -2px;
+    font-size: 10px;
+    line-height: 1.25;
+    letter-spacing: 0.1em;
+  }
+}
+@media (max-width: 899px) {
+  body[data-journal-theme="mono"] header,
+  body[data-journal-theme="mono"] .header-bar,
+  body[data-journal-theme="mono"] .mobile-header-actions {
+    background: #000 !important;
+  }
+  body[data-journal-theme="mono"] header::before,
+  body[data-journal-theme="mono"] header::after {
+    background: #000 !important;
+  }
+}
+</style>
+</head>
+<body data-mobile-search-enabled="false" data-header-divider="none" data-journal-theme="mono">
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
+      <span class="header-logo-text">Marvell Florist</span>
+    </a>
+    <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+      </span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="stories-shell">
+    <div class="stories-header">
+      <h1 class="stories-title" id="stories-page-title">The Journals</h1>
+    </div>
+    <section class="stories-grid" id="stories-grid" aria-label="The Journals">
+      <a class="story-card" href="journal.html?journal=grad-26" aria-label="Reflection">
+        <div class="story-card-media">
+          <img src="/assets/uploads/img_4322.webp" alt="Reflection" loading="lazy" decoding="async">
+        </div>
+        <p class="story-card-title">Reflection</p>
+        <p class="story-card-meta">April 2026</p>
+      </a>
+      <a class="story-card" href="journal.html?journal=mothers-day-2026" aria-label="Origins and Arrivals">
+        <div class="story-card-media">
+          <img src="/assets/uploads/untitled168_20260504184434-1-.webp" alt="Origins and Arrivals" loading="lazy" decoding="async">
+        </div>
+        <p class="story-card-title">Origins and Arrivals</p>
+        <p class="story-card-meta">May 2026</p>
+      </a>
+    </section>
+    <div class="stories-empty" id="stories-empty" hidden style="display:none;">
+      <p class="stories-empty-title">No Journals Yet</p>
+      <p class="stories-empty-copy">Add journals from the CMS to fill this page.</p>
+    </div>
+  </section>
+</main>
+
+<script id="embedded-stories-json" type="application/json">
+{
+  "pageTitle": "The Journals",
+  "entries": [
+    {
+      "slug": "grad-26",
+      "title": "Reflection",
+      "monthYear": "April 2026",
+      "coverImage": "/assets/uploads/img_4322.webp",
+      "images": [
+        "/assets/uploads/img_4327.webp",
+        "/assets/uploads/img_4316.webp",
+        "/assets/uploads/img_4527.webp",
+        "/assets/uploads/img_4523.webp",
+        "/assets/uploads/img_4472.webp",
+        "/assets/uploads/img_4371.webp",
+        "/assets/uploads/img_4415.webp",
+        "/assets/uploads/img_4375.webp",
+        "/assets/uploads/img_4364.webp",
+        "/assets/uploads/img_4337.webp",
+        "/assets/uploads/img_4503.webp"
+      ]
+    },
+    {
+      "slug": "mothers-day-2026",
+      "monthYear": "May 2026",
+      "coverImage": "/assets/uploads/untitled168_20260504184434-1-.webp",
+      "images": [
+        "/assets/uploads/img_4664.webp",
+        "/assets/uploads/img_4659.webp",
+        "/assets/uploads/img_4657.webp",
+        "/assets/uploads/img_4649.webp",
+        "/assets/uploads/img_4642.webp"
+      ],
+      "title": "Origins and Arrivals"
+    }
+  ]
+}
+</script>
+
+<script>
+function getEmbeddedJsonPayload(scriptId) {
+  const element = document.getElementById(scriptId);
+  if (!(element instanceof HTMLScriptElement)) return null;
+  const raw = String(element.textContent || "").trim();
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw);
+  } catch (_error) {
+    return null;
+  }
+}
+
+function buildStoriesEndpoints() {
+  const stamp = Date.now();
+  return [
+    `/content/stories.json?v=${stamp}`,
+    `content/stories.json?v=${stamp}`,
+    "/content/stories.json",
+    "content/stories.json"
+  ];
+}
+
+function normalizeStoryImage(entry) {
+  if (!entry) return "";
+  if (typeof entry === "string") return entry.trim();
+  if (typeof entry === "object" && typeof entry.image === "string") return entry.image.trim();
+  return "";
+}
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeAttr(value) {
+  return escapeHTML(value);
+}
+
+async function fetchStoriesPayload() {
+  for (const endpoint of buildStoriesEndpoints()) {
+    try {
+      const response = await fetch(endpoint, { cache: "no-store" });
+      if (!response.ok) continue;
+      return await response.json();
+    } catch (_error) {
+    }
+  }
+  return getEmbeddedJsonPayload("embedded-stories-json");
+}
+
+function normalizeStoriesEntries(payload) {
+  const pageTitle = String(payload?.pageTitle || "The Journals").trim() || "The Journals";
+  const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+  return {
+    pageTitle,
+    entries: entries
+      .map((entry, index) => {
+        const slug = String(entry?.slug || "").trim() || `story-${index + 1}`;
+        const title = String(entry?.title || "").trim() || `Journal ${index + 1}`;
+        const monthYear = String(entry?.monthYear || "").trim();
+        const coverImage = normalizeStoryImage(entry?.coverImage);
+        const images = Array.isArray(entry?.images) ? entry.images.map(normalizeStoryImage).filter(Boolean) : [];
+        return {
+          slug,
+          title,
+          monthYear,
+          coverImage: coverImage || images[0] || "",
+          images
+        };
+      })
+      .filter((entry) => entry.coverImage);
+  };
+}
+
+function renderStoriesPage(data) {
+  const titleNode = document.getElementById("stories-page-title");
+  const grid = document.getElementById("stories-grid");
+  const emptyState = document.getElementById("stories-empty");
+  if (!(titleNode instanceof HTMLElement) || !(grid instanceof HTMLElement) || !(emptyState instanceof HTMLElement)) return;
+
+  titleNode.textContent = data.pageTitle;
+  document.title = `${data.pageTitle} | Marvell Florist`;
+  if (!data.entries.length) {
+    grid.classList.remove("stories-grid--single");
+    emptyState.hidden = false;
+    emptyState.style.display = "grid";
+    grid.innerHTML = "";
+    return;
+  }
+
+  grid.classList.toggle("stories-grid--single", data.entries.length === 1);
+  emptyState.hidden = true;
+  emptyState.style.display = "none";
+  grid.innerHTML = data.entries.map((entry) => `
+    <a class="story-card" href="journal.html?journal=${encodeURIComponent(entry.slug)}" aria-label="${escapeAttr(entry.title)}">
+      <div class="story-card-media">
+        <img src="${escapeAttr(entry.coverImage)}" alt="${escapeAttr(entry.title)}" loading="lazy" decoding="async">
+      </div>
+      <p class="story-card-title">${escapeHTML(entry.title)}</p>
+      ${entry.monthYear ? `<p class="story-card-meta">${escapeHTML(entry.monthYear)}</p>` : ""}
+    </a>
+  `).join("");
+}
+
+(async () => {
+  const payload = await fetchStoriesPayload();
+  renderStoriesPage(normalizeStoriesEntries(payload || {}));
+})();
+</script>
+<script src="assets/shared-contact.js?v=20260505b"></script>
+<script src="assets/favorites.js?v=20260505a"></script>
+<script src="assets/secondary-menu.js?v=20260728a"></script>
+<script src="assets/shared-footer.js?v=20260505a"></script>
+</body>
+</html>

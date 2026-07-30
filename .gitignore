@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+.vscode/
+
+assets/backup_png/
+assets/home.png
+assets/hoome.png
+cookiesgucci.png
+image.png
+image copy.png
+sizing.png
+skib.png
+
+__*.html
+tmp-*.js
+Parcels
