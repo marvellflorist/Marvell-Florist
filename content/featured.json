@@ -72,19 +72,7 @@
     {
       "heroImage": "/assets/valentine.webp",
       "start": "02-01",
-      "products": [
-        {
-          "src": "/assets/uploads/screenshot-2026-04-15-at-09.33.33.png",
-          "name": "JAV",
-          "price": 8127,
-          "filters": {
-            "type": "parcel",
-            "colors": [
-              "pink"
-            ]
-          }
-        }
-      ],
+      "products": [],
       "priority": 9,
       "forceActive": false,
       "kicker": "SEASONAL COLLECTION",
@@ -494,7 +482,10 @@
               "gompie",
               "aranthera-azimah"
             ]
-          }
+          },
+          "sku": "MD-01",
+          "slug": "sovereign",
+          "purchaseMode": "direct"
         },
         {
           "src": "/assets/uploads/img_4681.webp",
@@ -522,7 +513,10 @@
               "carnation",
               "lysianthus"
             ]
-          }
+          },
+          "sku": "MD-02",
+          "slug": "aube-de-soie",
+          "purchaseMode": "direct"
         },
         {
           "src": "/assets/uploads/img_4683.webp",
@@ -551,7 +545,10 @@
               "aster",
               "poms"
             ]
-          }
+          },
+          "sku": "MD-03",
+          "slug": "noire-citron",
+          "purchaseMode": "direct"
         },
         {
           "src": "/assets/uploads/img_4690.webp",
@@ -576,7 +573,10 @@
             "flowerTypes": [
               "mawar"
             ]
-          }
+          },
+          "sku": "MD-04",
+          "slug": "dentelle-classique",
+          "purchaseMode": "direct"
         },
         {
           "src": "/assets/uploads/img_4688.webp",
@@ -603,7 +603,10 @@
               "poms"
             ],
             "type": "bouquet"
-          }
+          },
+          "sku": "MD-05",
+          "slug": "aria",
+          "purchaseMode": "direct"
         },
         {
           "src": "/assets/uploads/img_4674.webp",
@@ -620,7 +623,10 @@
               "mawar",
               "hydrangea"
             ]
-          }
+          },
+          "sku": "MD-06",
+          "slug": "coeur",
+          "purchaseMode": "direct"
         },
         {
           "src": "/assets/uploads/img_4672.webp",
@@ -638,7 +644,10 @@
               "mawar",
               "babys-breath"
             ]
-          }
+          },
+          "sku": "MD-07",
+          "slug": "the-heirloom",
+          "purchaseMode": "direct"
         },
         {
           "src": "/assets/uploads/img_4755.webp",
@@ -659,11 +668,14 @@
               "carnation",
               "aster"
             ]
-          }
+          },
+          "sku": "MD-08",
+          "slug": "abundance",
+          "purchaseMode": "direct"
         }
       ],
       "priority": 7,
-      "forceActive": true,
+      "forceActive": false,
       "kicker": "SEASONAL COLLECTION",
       "title": "Mother's Day Collection",
       "end": "05-16",

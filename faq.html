@@ -27,8 +27,9 @@
   <meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
   <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
   <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
-<script src="assets/site-language.js?v=20260505a"></script>
-  <script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+  <script src="assets/marvell-icons.js?v=20260920e"></script>
+  <script src="assets/header-template.js?v=20260923a"></script>
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -36,16 +37,9 @@
   <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/type.css?v=20260920f">
   <style>
-    @font-face {
-      font-family: "Relationship of Melodrame";
-      src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-           url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-    }
     :root {
       --bg: #fff;
       --ink: #2f2923;
@@ -104,7 +98,7 @@
     }
     .header-logo-text {
       display: inline-block;
-      font-family: "Imperial Script", cursive;
+      font-family: "AdelioDisplayCondensed", sans-serif;
       font-size: 32px;
       line-height: 0.9;
       letter-spacing: 0.01em;
@@ -183,7 +177,7 @@
     }
     h1 {
       margin: 0;
-      font-family: "Relationship of Melodrame", serif;
+      font-family: "AdelioDisplayCondensed", sans-serif;
       font-size: clamp(48px, 7vw, 88px);
       line-height: 0.94;
       font-weight: 400;
@@ -311,9 +305,11 @@
     }
     .legal-suite-link,
     .legal-toc-link {
+      position: relative;
+      z-index: 3;
       display: block;
       min-height: 0;
-      padding: 0;
+      padding: 3px 0;
       border: 0;
       background: none;
       color: rgba(42, 33, 24, 0.82);
@@ -323,6 +319,9 @@
       letter-spacing: 0.02em;
       text-transform: none;
       overflow-wrap: anywhere;
+      pointer-events: auto;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(42, 33, 24, 0.12);
     }
     .legal-suite-link.is-active {
       color: rgba(42, 33, 24, 0.98);
@@ -421,7 +420,7 @@
     <div class="header-bar">
       <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Hubungi Kami</a>
       <a class="header-logo" href="index.html#home" aria-label="Go to home page">
-        <span class="header-logo-text">Marvell Florist</span>
+        <span class="header-logo-text">MARVELL FLORIST</span>
       </a>
       <a class="search-toggle" href="index.html?search" aria-label="Open search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
@@ -502,17 +501,18 @@
               <h2 class="legal-card-title">How is payment handled?</h2>
             </div>
             <div class="legal-card-body">
-              <p>Payment is arranged after consultation and is required before the order is confirmed. The website does not use a self-serve checkout, so production only begins after the order has been approved and payment has been received.</p>
+              <p>Payment is required before an order is confirmed. Where online checkout is available, payment is processed securely by our payment provider; orders arranged through consultation are paid through the method we agree with you. Production only begins once payment has been received.</p>
             </div>
           </section>
 
           <section class="legal-card" id="faq-07">
             <div class="legal-card-head">
               <p class="legal-card-index">07</p>
-              <h2 class="legal-card-title">Can I change or cancel an order?</h2>
+              <h2 class="legal-card-title">Can I change, cancel, or get a refund for an order?</h2>
             </div>
             <div class="legal-card-body">
-              <p>Changes may be possible before production starts. Cancellations are usually only possible before preparation begins, depending on the stage of the order.</p>
+              <p>Changes may be possible before production starts, depending on the stage of the order.</p>
+              <p>Paid orders are non-refundable and cannot be cancelled for a refund. The only exception is when an item becomes unavailable after payment and we cannot fulfil the order; the approved refund is then returned to the original payment method. See Refunds in our Terms &amp; Conditions.</p>
             </div>
           </section>
 
@@ -525,7 +525,9 @@
               <p>WhatsApp is the fastest way to begin. You can also reach us through Instagram or email for follow-up questions.</p>
               <ul>
                 <li>WhatsApp: +62 812 7501 7456</li>
-                <li>Email: floristmarvell@gmail.com</li>
+                <li>Email: hello@marvellflorist.com</li>
+                <li>Florist Boutique: Blok C.11, Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah, Teluk Tering, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia</li>
+                <li>Supplies Shop: Ruko Limindo Trade Centre, Blok B No. 06, Taman Baloi, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia</li>
               </ul>
             </div>
           </section>
@@ -550,7 +552,7 @@
               <a class="legal-toc-link" href="#faq-04" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-04', event) : true;">04. Custom requests</a>
               <a class="legal-toc-link" href="#faq-05" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-05', event) : true;">05. Reference accuracy</a>
               <a class="legal-toc-link" href="#faq-06" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-06', event) : true;">06. Payment</a>
-              <a class="legal-toc-link" href="#faq-07" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-07', event) : true;">07. Changes and cancellations</a>
+              <a class="legal-toc-link" href="#faq-07" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-07', event) : true;">07. Changes, cancellations and refunds</a>
               <a class="legal-toc-link" href="#faq-08" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('faq-08', event) : true;">08. Contact</a>
             </nav>
           </section>
@@ -559,22 +561,29 @@
     </div>
   </main>
 
-  <script src="assets/shared-contact.js?v=20260505b"></script>
-  <script src="assets/shared-footer.js?v=20260505a"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
+  <script src="assets/shared-contact.js?v=20260921f"></script>
+  <script src="assets/shared-footer.js?v=20260923c"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
   <script>
     (function () {
       window.MarvellLegalNav = window.MarvellLegalNav || {
         go: function (href, event) {
+          if (!href) return true;
+          if (event && (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return true;
           if (event) event.preventDefault();
-          window.location.href = href;
+          window.location.assign(href);
           return false;
         },
         jump: function (id, event) {
-          if (event) event.preventDefault();
           var target = document.getElementById(id);
-          if (!(target instanceof HTMLElement)) return false;
+          if (!(target instanceof HTMLElement)) return true;
+          if (event) event.preventDefault();
           var top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
           window.history.replaceState(null, "", "#" + id);
           window.scrollTo({ top: top, behavior: "smooth" });
@@ -615,8 +624,6 @@
             }
           } catch (_error) {}
 
-          event.preventDefault();
-          window.location.href = link.href;
         }, true);
       }
 

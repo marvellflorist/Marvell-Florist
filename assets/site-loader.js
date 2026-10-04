@@ -65,15 +65,26 @@
         align-items: center;
         justify-content: center;
         opacity: 1;
-        transition: opacity 0.36s ease;
+        transition: opacity 0.36s ease, backdrop-filter 0.36s ease, -webkit-backdrop-filter 0.36s ease;
         padding: 32px 0;
       }
+      /* The blur is released before the element goes, and again once it has.
+         A backdrop-filter that is still declared when its element flips to
+         display:none leaves its composited layer behind in WebKit and
+         Chromium: the page underneath stays blurred, with no overlay and no
+         loader to explain it, until something forces a repaint — which is
+         why it used to clear the moment you clicked. Taking the filter off
+         during the fade means there is no layer left to strand. */
       #site-loader.fade-out {
         opacity: 0;
         pointer-events: none;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
       }
       #site-loader.hidden {
         display: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
       body.loading {
         overflow: hidden;
@@ -102,7 +113,7 @@
       }
       @media (prefers-reduced-motion: reduce) {
         #site-loader {
-          transition: opacity 0.2s ease;
+          transition: opacity 0.2s ease, backdrop-filter 0.2s ease, -webkit-backdrop-filter 0.2s ease;
         }
       }
     `;
@@ -261,13 +272,23 @@
       node.addEventListener("error", handleEvent, { once: true });
     });
 
-    window.addEventListener("load", () => {
+    // If load has already been and gone — a late script, a cached page, a
+    // restore — the listener below would never fire, so the state is read
+    // rather than waited for.
+    if (document.readyState === "complete") {
       window.setTimeout(hideLoader, POST_LOAD_HIDE_MS);
-    }, { once: true });
+    } else {
+      window.addEventListener("load", () => {
+        window.setTimeout(hideLoader, POST_LOAD_HIDE_MS);
+      }, { once: true });
+    }
 
-    failSafeTimer = window.setTimeout(() => {
-      if (document.readyState === "complete") hideLoader();
-    }, FAILSAFE_MS);
+    // Unconditional. It used to hide only once the document had reached
+    // "complete", which meant a single hanging request left the loader — and
+    // its blur — over the page for as long as the request took to give up.
+    // Six seconds is already far past the point where covering the page is
+    // doing anybody a favour.
+    failSafeTimer = window.setTimeout(hideLoader, FAILSAFE_MS);
   }
 
   function startFallbackAnimation(loader) {
@@ -365,6 +386,15 @@
       waitForCriticalContent();
     });
   }
+
+  // Restoring from the back/forward cache replays the DOM as it was, which
+  // can include a loader mid-fade. The page has already been seen; it does
+  // not get covered again on the way back to it.
+  window.addEventListener("pageshow", (event) => {
+    if (!event || !event.persisted) return;
+    didHide = false;
+    hideLoader();
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initialize, { once: true });

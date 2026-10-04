@@ -28,8 +28,9 @@
   <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
   <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260505a"></script>
-<script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -37,27 +38,12 @@
   <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/type.css?v=20260920f">
   <style>
 @font-face {
   font-family: "Louis George Cafe";
   src: url("assets/fonts/behance-6926b1d086524/TT Turns Trial 1-000/TTF/TT_Turns_Trial_Regular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -73,7 +59,7 @@
 * { box-sizing:border-box; }
 html,body { margin:0; padding:0; }
 html { background: var(--page-bg); overflow-x: visible; }
-body { font-family:"Fraunces",serif; color:var(--ink); background:var(--page-bg); overflow-x: visible; }
+body { font-family:"Inter Tight", sans-serif; color:var(--ink); background:var(--page-bg); overflow-x: visible; }
 header {
   position: fixed; left: 0; width: 100%; max-width: 100vw; top: 0; padding: 0 24px; height: 72px; display: flex; align-items: center; z-index: 50; pointer-events: none; transition: top 0.5s ease;
 }
@@ -106,7 +92,7 @@ header::after {
 .header-logo { display:inline-flex; align-items:center; text-decoration:none; position:absolute; left:50%; transform:translateX(-50%); }
 .header-logo img { display:none; }
 .header-logo-text {
-  display:inline-block; font-family:"Imperial Script",cursive; font-size:32px; line-height:.9; letter-spacing:.01em;
+  display:inline-block; font-family:"AdelioDisplayCondensed", sans-serif; font-size:32px; line-height:.9; letter-spacing:.01em;
   color:rgba(42,33,24,.82); -webkit-text-fill-color:currentColor; -webkit-text-stroke:0;
 }
 .contact-quick-trigger {
@@ -148,7 +134,7 @@ header::after {
 }
 .brand-pinned-title {
   position: fixed; top: 26px; left: 50%; transform: translateX(-50%) translateY(-6px) scale(.96); z-index: 52;
-  font-family: "Imperial Script",cursive; font-size: clamp(20px,2.3vw,30px); line-height: .9; color: transparent;
+  font-family: "AdelioDisplayCondensed", sans-serif; font-size: clamp(20px,2.3vw,30px); line-height: .9; color: transparent;
   -webkit-text-fill-color: transparent; -webkit-text-stroke: .8px rgba(42,33,24,.82); pointer-events:none;
 }
 .product-breadcrumb {
@@ -336,7 +322,7 @@ main { padding-top: 0; max-width: none; margin: 0; }
 }
 .product-detail-title {
   margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(34px, 4.8vw, 56px);
   font-weight: 400;
   line-height: 0.96;
@@ -1350,10 +1336,69 @@ body.product-date-panel-open .product-date-panel {
   color: #151210;
   outline: none;
 }
+/* --- Direct purchase ----------------------------------------------------
+   Only rendered for purchaseMode "direct". Built from the same restrained
+   parts as the consultation button so the page reads as one product page
+   with two possible actions, not two product pages. */
+.product-purchase {
+  display: grid;
+  gap: 12px;
+  margin: 2px 0 4px;
+}
+/* An author `display` beats the browser's own `[hidden] { display: none }`,
+   so setting .hidden on either of these did nothing at all on screen: the
+   mode was resolved correctly in JS and then both actions were painted
+   anyway, which is how a Mother's Day piece came to show Add to Bag and
+   Consult via WhatsApp at the same time. */
+.product-purchase[hidden],
+.product-bag-btn[hidden],
+.product-whatsapp-btn[hidden],
+.product-unavailable[hidden],
+.product-purchase-test[hidden] {
+  display: none !important;
+}
+.product-purchase-test {
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px dashed rgba(29, 26, 24, 0.32);
+  background: rgba(29, 26, 24, 0.035);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  color: rgba(29, 26, 24, 0.74);
+}
+.product-purchase-availability {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(47, 41, 35, 0.58);
+}
+.product-purchase-availability[data-tone="low"] {
+  color: rgba(122, 74, 45, 0.9);
+}
+.product-purchase-row {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+/* Add to Bag and Konsultasi via WhatsApp are the same button.
+   A piece is either bought here or arranged in conversation, and which one it
+   is belongs to the piece, not to the page: a Mother's Day bouquet with a SKU
+   shows Add to Bag, a made-to-order standing arrangement shows Consult, and
+   they are the same black rectangle in the same place doing the same job.
+   Two differently-styled buttons would say the second kind of piece is a
+   lesser way to buy, which is backwards — it is most of what Marvell does.
+   Everything below is shared; only the label, and whether there is a quantity
+   beside it, differs. */
+.product-bag-btn,
 .product-whatsapp-btn {
+  flex: 1 1 auto;
   width: 100%;
-  max-width: none;
   min-width: 0;
+  max-width: none;
   min-height: 40px;
   padding: 0 22px;
   border: 1px solid #000;
@@ -1361,22 +1406,50 @@ body.product-date-panel-open .product-date-panel {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  text-decoration: none;
+  gap: 14px;
   background: #000;
   color: #fff;
+  text-decoration: none;
   font-family: "Inter Tight", sans-serif;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+  cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
   justify-self: stretch;
 }
+.product-bag-btn:hover,
+.product-bag-btn:focus-visible,
 .product-whatsapp-btn:hover,
 .product-whatsapp-btn:focus-visible {
-  background: #000;
-  color: #fff;
+  background: transparent;
+  color: #000;
   border-color: #000;
   opacity: 1;
+  outline: none;
+}
+.product-bag-btn:disabled {
+  background: rgba(47, 41, 35, 0.22);
+  border-color: transparent;
+  color: rgba(255, 255, 255, 0.82);
+  cursor: default;
+}
+/* The price sits at the right-hand end of the button, as Dior has it, so the
+   figure is on the control that commits to it. */
+.product-action-price {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+.product-unavailable {
+  margin: 2px 0 4px;
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(47, 41, 35, 0.68);
 }
 .product-faq {
   margin-top: 0;
@@ -1493,9 +1566,6 @@ body.product-date-panel-open .product-date-panel {
   border-top: 1px solid var(--line);
 }
 #site-footer .footer-inner { width:min(1160px,92vw); margin:0 auto; display:grid; gap:18px; }
-#site-footer .footer-closing { text-align:center; margin:0 auto 6px; }
-#site-footer .footer-closing-quote { margin:0; font-family:"Relationship of Melodrame","RelationshipDisplay",serif; font-size:clamp(34px,4.4vw,72px); line-height:1.25; color:#2a2118; }
-#site-footer .footer-closing-author { margin:8px 0 0; font-family:"Inter Tight",sans-serif; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:rgba(42,33,24,.6); }
 #site-footer .footer-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:40px; border-top:1px solid var(--line); padding-top:18px; align-items:start; }
 #site-footer .footer-col { display:grid; gap:0; }
 #site-footer .footer-col-title { margin:0 0 12px; font-family:"Inter Tight",sans-serif; font-size:13px; font-weight:600; letter-spacing:.04em; color:rgba(42,33,24,.72); display:flex; justify-content:space-between; align-items:center; width:100%; background:none; border:0; padding:0; text-transform:none; }
@@ -1513,7 +1583,7 @@ body.product-date-panel-open .product-date-panel {
 #site-footer .footer-legal-link:focus-visible { text-decoration: underline; text-underline-offset: .08em; }
 #site-footer .footer-brand {
   text-align: center;
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(24px, 3vw, 36px);
   line-height: 0.92;
   color: transparent;
@@ -1546,88 +1616,7 @@ body.product-date-panel-open .product-date-panel {
   .contact-quick-trigger, .brand-pinned-title, .menu-toggle .menu-label { display:none; }
   .search-toggle { display:none; }
   .menu-toggle { gap:0; padding:0; }
-  .menu-panel {
-    --mobile-menu-left-gutter: 14px;
-    --mobile-menu-right-gutter: 16px;
-    --mobile-menu-icon-track: 42px;
-    --menu-panel-single-width: 100vw;
-    --menu-panel-width: 100vw;
-    width: 100vw;
-    min-width: 100vw;
-    max-width: 100vw;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transform: translateY(calc(100% + 8px));
-    border-left: 0;
-    border-right: 0;
-    overflow: hidden;
-    visibility: hidden;
-  }
-  .menu-panel.is-open { visibility: visible; }
-  .menu-panel::after { display:none; }
-  .menu-panel.is-open { box-shadow:0 -20px 36px rgba(10, 12, 18, 0.22); }
-  .menu-close { width:40px; height:40px; font-size:22px; }
-  .menu-head { justify-content:flex-end; padding:14px var(--mobile-menu-right-gutter) 0 0; width:100vw; min-width:100vw; }
-  .menu-view { inset:62px 0 28px 0 !important; gap:24px; }
-  .menu-panel .menu-view,
-  .menu-panel .menu-link,
-  .menu-panel .menu-link-button {
-    max-width: calc(100vw - 36px) !important;
-    box-sizing: border-box;
-  }
-  .menu-view[data-menu-view="main"] { align-content:start; justify-items:stretch !important; text-align:left; gap:0; width:100% !important; }
-  .menu-view[data-menu-view="featured"],
-  .menu-view[data-menu-view="about"],
-  .menu-view[data-menu-view="services"],
-  .menu-view[data-menu-view="visit"],
-  .menu-view[data-menu-view="contact"] { justify-items:stretch !important; width:100% !important; }
-  .menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"],
-  .menu-panel[data-menu-current="featured"] .menu-view[data-menu-view="featured"],
-  .menu-panel[data-menu-current="about"] .menu-view[data-menu-view="about"],
-  .menu-panel[data-menu-current="services"] .menu-view[data-menu-view="services"],
-  .menu-panel[data-menu-current="visit"] .menu-view[data-menu-view="visit"],
-  .menu-panel[data-menu-current="contact"] .menu-view[data-menu-view="contact"] { left:0 !important; right:0 !important; inset:62px 0 28px 0 !important; transform:translateX(0) !important; }
-  .menu-main-layout { display:block; width:100% !important; }
-  .menu-main-quickpane { display:none; }
-  .menu-main-primary,.menu-main-secondary { justify-items:stretch !important; width:100% !important; }
-  .menu-main-primary { gap:18px; }
-  .menu-main-secondary { margin-top:22px; gap:18px; }
-  .menu-main-left { padding:0 22px !important; }
-  .menu-main-left { padding:0 !important; justify-items:stretch !important; width:100% !important; }
-  .menu-view[data-menu-view="about"],
-  .menu-view[data-menu-view="services"],
-  .menu-view[data-menu-view="visit"] { justify-items:stretch !important; gap:16px; width:100% !important; }
-  .menu-link,
-  .menu-link-button { display:grid !important; grid-template-columns:minmax(0, 1fr) var(--mobile-menu-icon-track) !important; align-items:center !important; width:100%; padding:6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important; font-size:clamp(18px,5.2vw,21px); line-height:1.24; box-sizing:border-box !important; column-gap:0 !important; justify-self:stretch !important; min-width:0 !important; }
-  .menu-link-secondary,.menu-link-button.menu-link-secondary { width:100%; font-size:17px; }
-  .menu-link::after, .menu-link-button::after { content:"›" !important; position:static !important; justify-self:center !important; align-self:center !important; opacity:.72; transform:none !important; width:auto !important; margin:0 !important; text-align:center; display:block !important; }
-  .menu-view[data-menu-view="featured"] .menu-back,
-  .menu-view[data-menu-view="about"] .menu-back,
-  .menu-view[data-menu-view="services"] .menu-back,
-  .menu-view[data-menu-view="visit"] .menu-back,
-  .menu-view[data-menu-view="contact"] .menu-back { grid-template-columns:minmax(0, 1fr) !important; width:100%; padding:6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important; font-size:10px !important; line-height:1.1 !important; letter-spacing:.14em !important; font-weight:500 !important; text-transform:uppercase !important; }
-  .menu-view[data-menu-view="featured"] .menu-back::after,
-  .menu-view[data-menu-view="about"] .menu-back::after,
-  .menu-view[data-menu-view="services"] .menu-back::after,
-  .menu-view[data-menu-view="visit"] .menu-back::after,
-  .menu-view[data-menu-view="contact"] .menu-back::after { content:none !important; display:none !important; }
-  .menu-link .nav-label,
-  .menu-link-button .nav-label { min-width:0; display:block; }
-  .menu-view[data-menu-view="featured"] .menu-link,
-  .menu-view[data-menu-view="about"] .menu-link,
-  .menu-view[data-menu-view="services"] .menu-link,
-  .menu-view[data-menu-view="visit"] .menu-link,
-  .menu-view[data-menu-view="contact"] .menu-link,
-  .menu-view[data-menu-view="featured"] .menu-link-button,
-  .menu-view[data-menu-view="about"] .menu-link-button,
-  .menu-view[data-menu-view="services"] .menu-link-button,
-  .menu-view[data-menu-view="visit"] .menu-link-button,
-  .menu-view[data-menu-view="contact"] .menu-link-button { width:100% !important; justify-self:stretch !important; padding:6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important; min-width:0 !important; }
-  .menu-view[data-menu-view="contact"] { justify-items:stretch !important; gap:18px; width:100% !important; }
   .contact-quick-body { gap:24px; padding:10px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter); }
-  .menu-link-contact { display:grid !important; }
   body { overflow-x: hidden; }
   main { padding-top: calc(72px + env(safe-area-inset-top, 0px) + var(--shared-header-top, 0px)); }
   .product-page,
@@ -1804,6 +1793,7 @@ body.product-date-panel-open .product-date-panel {
   .product-order-apply,
   .product-quick-toggle,
   .product-config-choice,
+  .product-bag-btn,
   .product-whatsapp-btn,
   .contact-quick-link,
   .menu-link,
@@ -1820,6 +1810,7 @@ body.product-date-panel-open .product-date-panel {
     font-size: 10px;
     gap: 3px;
   }
+  .product-bag-btn,
   .product-whatsapp-btn {
     display: flex;
     width: 100%;
@@ -1830,10 +1821,6 @@ body.product-date-panel-open .product-date-panel {
     line-height: 1.3;
     white-space: normal;
     overflow-wrap: anywhere;
-    background: #000;
-    color: #fff;
-    border-color: #000;
-    opacity: 1;
   }
   .product-breadcrumb-row {
     gap: 12px;
@@ -1955,7 +1942,7 @@ body.product-date-panel-open .product-date-panel {
   <div class="header-bar">
     <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Hubungi Kami</button>
     <a class="header-logo" href="index.html" aria-label="Go to home page">
-      <span class="header-logo-text">Marvell Florist</span>
+      <span class="header-logo-text">MARVELL FLORIST</span>
     </a>
     <a class="search-toggle" href="index.html?search" aria-label="Open search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
@@ -1999,60 +1986,10 @@ body.product-date-panel-open .product-date-panel {
   </div>
 </aside>
 
-<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1" hidden>
-  <div class="menu-head"><button class="menu-close" id="menu-close" type="button" aria-label="Close menu">&#10005;</button></div>
-  <div class="menu-body">
-    <div class="menu-view" data-menu-view="main">
-      <div class="menu-main-primary">
-        <button class="menu-link menu-link-button" type="button" data-menu-open="featured" data-seasonal-featured-link>Collections</button>
-        <a class="menu-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
-        <a class="menu-link" href="gallery.html?category=artificial-flowers">Table Arrangements</a>
-        <a class="menu-link" href="gallery.html?category=bouquets">Bouquets</a>
-        <a class="menu-link" href="gallery.html?category=papan-bunga">Papan Bunga</a>
-        <a class="menu-link" href="gallery.html?category=funerals">Funerals</a>
-        <a class="menu-link" href="gallery.html?category=parcels">Parcels</a>
-      </div>
-      <div class="menu-main-secondary">
-        <a class="menu-link menu-link-secondary" href="services.html">Services</a>
-        <a class="menu-link menu-link-secondary" href="about.html">About</a>
-        <a class="menu-link menu-link-secondary" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Visit Us</a>
-        <button class="menu-link menu-link-button menu-link-secondary menu-link-contact" type="button" data-menu-open="contact" data-menu-mobile-href="contact.html">Contact Us</button>
-      </div>
-    </div>
-    <div class="menu-view" data-menu-view="featured">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
-      <div data-featured-menu-list></div>
-    </div>
-    <div class="menu-view" data-menu-view="contact">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
-      <div class="contact-quick-body">
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Hubungi Kami</p>
-          <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Rangkaian Bunga</a>
-          <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Pesanan Kustom</a>
-          <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
-          <p class="contact-quick-text is-muted">Tersedia Senin – Sabtu</p>
-          <p class="contact-quick-text is-muted">8:00 – 18:00 (WIB)</p>
-        </div>
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Lokasi Kami</p>
-          <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Rangkaian</a>
-          <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
-        </div>
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Tetap Terhubung</p>
-          <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
-        </div>
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Belanja Online</p>
-          <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
-          <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</aside>
+<!-- assets/secondary-menu.js fills this and owns everything in it. A page
+     that keeps its own copy of the menu here has it overwritten on every
+     load, and the copy drifts in the meantime. -->
+<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1" hidden></aside>
 
 <main class="product-page">
   <div class="product-page-shell">
@@ -2092,6 +2029,22 @@ body.product-date-panel-open .product-date-panel {
             </button>
           </div>
         </section>
+        <!--
+          Direct purchase. Hidden unless this product's purchaseMode resolves
+          to "direct" (assets/purchase-mode.js); everything Marvell has
+          published so far is consultation work and stays that way.
+        -->
+        <section class="product-purchase" id="product-purchase" aria-label="Order this piece" hidden>
+          <p class="product-purchase-test" id="product-purchase-test" hidden></p>
+          <p class="product-purchase-availability" id="product-purchase-availability"></p>
+          <!-- No quantity here. One tap adds one piece, and how many you
+               want is settled in the bag, where the line can be changed
+               against what is actually in stock. -->
+          <div class="product-purchase-row">
+            <button class="product-bag-btn" id="product-bag-btn" type="button">Add to Bag</button>
+          </div>
+        </section>
+        <p class="product-unavailable" id="product-unavailable" hidden></p>
         <a id="product-whatsapp" class="product-whatsapp-btn" href="#" target="_blank" rel="noopener noreferrer">Konsultasi via WhatsApp</a>
         <section class="product-description" id="product-description" hidden>
           <p class="product-description-copy" id="product-description-copy"></p>
@@ -2211,7 +2164,7 @@ body.product-date-panel-open .product-date-panel {
               </div>
               <label class="product-config-field product-config-field--message" id="product-message-field-wrap" hidden>
                 <span class="product-config-field-label" id="product-message-label">Message</span>
-                <textarea class="product-config-input product-message-box" id="product-message-field" placeholder="Write your message..."></textarea>
+                <textarea class="product-config-input product-message-box" id="product-message-field" maxlength="500" placeholder="Write your message..."></textarea>
               </label>
             </div>
           </div>
@@ -2240,10 +2193,6 @@ body.product-date-panel-open .product-date-panel {
 
 <footer id="site-footer">
   <div class="footer-inner">
-    <div class="footer-closing">
-      <p class="footer-closing-quote">&ldquo;I must have flowers, always and always.&rdquo;</p>
-      <p class="footer-closing-author">Claude Monet</p>
-    </div>
     <div class="footer-grid">
       <section class="footer-col" aria-label="Contact links">
         <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
@@ -2282,16 +2231,22 @@ body.product-date-panel-open .product-date-panel {
       </section>
     </div>
     <div class="footer-bottom"><p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privasi</a> · <a class="footer-legal-link" href="terms-conditions.html">Ketentuan</a> · © 2006–2026 Marvell Florist</p></div>
-    <div class="footer-brand" aria-hidden="true">Marvell Florist</div>
+    <div class="footer-brand" aria-hidden="true">MARVELL FLORIST</div>
   </div>
 </footer>
 
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/purchase-mode.js?v=20260920a"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
 <script src="assets/consultation-config.js?v=20260501a"></script>
-<script type="module" src="/seasonal/seasonal-page.js?v=20260505f"></script>
+<script type="module" src="/seasonal/seasonal-page.js?v=20260921a"></script>
 <script>
 const FAQ_BY_GROUP_EN = {
   bouquets: [
@@ -2440,6 +2395,18 @@ const FAQ_BY_GROUP_ID = {
     { title: "Proses Pemesanan", content: "Pesanan diproses melalui konsultasi WhatsApp. Arah desain, harga, dan timeline dikonfirmasi terlebih dahulu sebelum persiapan dimulai." }
   ]
 };
+
+function normalizeLocalizedDescriptionFields(source = {}) {
+  const raw = source?.description;
+  const fromObject = raw && typeof raw === "object" ? raw : null;
+  return {
+    description: fromObject
+      ? String(fromObject.en || fromObject.id || "").trim()
+      : String(raw || "").trim(),
+    descriptionEn: String(source?.descriptionEn || source?.descriptionEN || source?.description_en || source?.descriptionEnglish || fromObject?.en || "").trim(),
+    descriptionId: String(source?.descriptionId || source?.descriptionID || source?.description_id || source?.descriptionIndonesian || fromObject?.id || "").trim()
+  };
+}
 
 function getFaqGroups() {
   const activeLanguage = typeof window.MarvellLanguage?.getLanguage === "function"
@@ -2599,10 +2566,10 @@ async function loadGalleryItems() {
           : null);
       return {
         ...item,
+        ...normalizeLocalizedDescriptionFields(item),
         title: String(item.title || item.name || "").trim(),
         category: String(item.category || fallbackCategory).trim(),
         price: normalizedPrice,
-        description: String(item.description || "").trim(),
         additionalImages: normalizeAdditionalImages(item.additionalImages)
       };
     };
@@ -2667,7 +2634,11 @@ async function loadFeaturedItems() {
           title,
           image,
           price,
-          description: String(product?.description || "").trim(),
+          // Retail opt-in. Absent on everything published so far, which is
+          // what keeps the archive on the consultation path.
+          sku: String(product?.sku || "").trim(),
+          purchaseMode: String(product?.purchaseMode || "").trim(),
+          ...normalizeLocalizedDescriptionFields(product),
           filters: product?.filters && typeof product.filters === "object" ? product.filters : {},
           additionalImages: normalizeAdditionalImages(product?.additionalImages)
         });
@@ -2711,6 +2682,164 @@ function formatRupiah(value) {
   if (numeric <= 0) return "";
   return `Rp${new Intl.NumberFormat("id-ID").format(Math.round(numeric))}`;
 }
+/* --- purchaseMode -------------------------------------------------------
+   product.html is one detail page for two commerce models. Which actions it
+   offers is decided here, from the product's own mode; the layout, media,
+   description and FAQ below are identical either way.
+
+   Consultation is the default and the fallback: if anything at all is
+   uncertain — no SKU, no catalogue row, the catalogue unreachable — the page
+   falls back to the WhatsApp flow it has always had rather than offering a
+   purchase it cannot honour. */
+
+function pmText(en, id) {
+  return window.MarvellShop?.t ? window.MarvellShop.t(en, id) : en;
+}
+
+/** Copy for what the catalogue says about a piece right now. */
+function purchaseAvailabilityCopy(product) {
+  if (!product || product.availability === "unavailable") {
+    return { text: pmText("Currently unavailable", "Belum tersedia"), tone: "", canBuy: false };
+  }
+  if (product.availability === "sold_out") {
+    return { text: pmText("Sold out", "Habis"), tone: "", canBuy: false };
+  }
+  if (product.availability === "not_for_sale") {
+    return { text: pmText("Not sold online", "Tidak dijual online"), tone: "", canBuy: false };
+  }
+  const left = Number(product.available_quantity) || 0;
+  if (left > 0 && left <= 3) {
+    return {
+      text: pmText(`Only ${left} left`, `Tinggal ${left}`),
+      tone: "low",
+      canBuy: true
+    };
+  }
+  return { text: pmText("Ready to order", "Siap dipesan"), tone: "", canBuy: true };
+}
+
+/**
+ * Switches the page between its three states and returns the resolved mode.
+ *
+ * `record` is the matched Featured or Gallery item. Everything else is read
+ * from the retail catalogue, which is the only authority for price and stock:
+ * a price shown here is never taken from the CMS when a SKU exists.
+ */
+async function applyPurchaseMode(record, { priceEl, waBtn }) {
+  const Purchase = window.MarvellPurchase;
+  const purchaseEl = document.getElementById("product-purchase");
+  const unavailableEl = document.getElementById("product-unavailable");
+  const bagBtn = document.getElementById("product-bag-btn");
+  const availabilityEl = document.getElementById("product-purchase-availability");
+  const testEl = document.getElementById("product-purchase-test");
+
+  const showConsultation = () => {
+    if (purchaseEl) purchaseEl.hidden = true;
+    if (unavailableEl) unavailableEl.hidden = true;
+    if (waBtn instanceof HTMLElement) waBtn.hidden = false;
+    return Purchase?.MODES.CONSULTATION || "consultation";
+  };
+
+  if (!Purchase || !purchaseEl) return showConsultation();
+
+  // Resolving the mode takes a catalogue round trip, and the consultation
+  // button is painted from the markup so that a script failure can never
+  // leave a page with no way to order at all. That means a piece that turns
+  // out to be bought here shows Consult via WhatsApp until the answer comes
+  // back. Hide it for the duration, but only when this page could produce a
+  // direct product in the first place — otherwise the guarantee above is
+  // quietly given up for every consultation piece on the site.
+  const mightBeDirect =
+    Purchase.declaredMode(record) === Purchase.MODES.DIRECT || Purchase.isCommerceTest();
+  if (mightBeDirect && waBtn instanceof HTMLElement) waBtn.hidden = true;
+
+  const declared = Purchase.declaredMode(record);
+  if (declared === Purchase.MODES.UNAVAILABLE) {
+    purchaseEl.hidden = true;
+    if (waBtn instanceof HTMLElement) waBtn.hidden = true;
+    if (unavailableEl) {
+      unavailableEl.hidden = false;
+      unavailableEl.textContent = pmText(
+        "This piece is not available at the moment. It remains here as a record of the work.",
+        "Rangkaian ini sedang tidak tersedia. Halaman ini tetap ada sebagai catatan karya tersebut."
+      );
+    }
+    return Purchase.MODES.UNAVAILABLE;
+  }
+
+  const retail = await Purchase.resolveRetail(record);
+  if (Purchase.resolve({ ...record, ...retail }) !== Purchase.MODES.DIRECT) return showConsultation();
+
+  // The SKU only means something if the server is serving it.
+  const product = await window.MarvellShop?.findProductBySku?.(retail.sku);
+  if (!product) return showConsultation();
+
+  const availability = purchaseAvailabilityCopy(product);
+
+  if (unavailableEl) unavailableEl.hidden = true;
+  if (waBtn instanceof HTMLElement) waBtn.hidden = true;
+  purchaseEl.hidden = false;
+
+  if (priceEl instanceof HTMLElement && product.price_idr != null) {
+    priceEl.textContent = formatRupiah(product.price_idr);
+    priceEl.hidden = false;
+  }
+
+  if (availabilityEl) {
+    availabilityEl.textContent = availability.text;
+    if (availability.tone) availabilityEl.dataset.tone = availability.tone;
+    else delete availabilityEl.dataset.tone;
+  }
+
+  if (testEl) {
+    // Nobody should be able to mistake the prototype for a live shop.
+    testEl.hidden = !retail.isCommerceTest;
+    if (retail.isCommerceTest) {
+      testEl.textContent = pmText(
+        "Commerce test. This collection is not on sale: the stock figures are invented and no order placed here is real.",
+        "Uji coba commerce. Koleksi ini tidak dijual: angka stok adalah contoh dan pesanan di sini tidak nyata."
+      );
+    }
+  }
+
+  if (bagBtn instanceof HTMLButtonElement) {
+    // Label on the left, price on the right — the figure belongs on the
+    // control that commits to it, not only in the heading above.
+    const label = availability.canBuy
+      ? pmText("Add to Bag", "Tambah ke Tas")
+      : availability.text;
+    const price = availability.canBuy && product.price_idr != null
+      ? formatRupiah(product.price_idr)
+      : "";
+    bagBtn.textContent = "";
+    bagBtn.append(document.createTextNode(label));
+    if (price) {
+      const amount = document.createElement("span");
+      amount.className = "product-action-price";
+      amount.textContent = price;
+      bagBtn.append(amount);
+    }
+    bagBtn.disabled = !availability.canBuy;
+    // bag.js binds this by attribute; it is only set once the server has
+    // confirmed the SKU is really purchasable.
+    if (availability.canBuy) bagBtn.dataset.bagAdd = retail.sku;
+    else delete bagBtn.dataset.bagAdd;
+  }
+
+  const saveBtn = document.getElementById("product-save");
+  if (saveBtn instanceof HTMLElement) {
+    if (availability.canBuy) {
+      saveBtn.dataset.favoriteSku = retail.sku;
+      saveBtn.dataset.favoritePurchaseMode = "direct";
+    } else {
+      delete saveBtn.dataset.favoriteSku;
+      delete saveBtn.dataset.favoritePurchaseMode;
+    }
+  }
+
+  return Purchase.MODES.DIRECT;
+}
+
 function isMoneyBouquetProduct(...values) {
   return values.some((value) => /\bmoney\b|moneypink|moneyblue/i.test(String(value || "")));
 }
@@ -3161,9 +3290,41 @@ async function initDetail() {
     || Boolean(config.timeWindow)
     || Boolean(String(config.notes || "").trim())
   );
+
+  /**
+   * Enough to put something in the bag, which is a higher bar than the one
+   * above.
+   *
+   * hasOrderConfiguration asks "has anything been chosen" — right for the
+   * consultation path, where the panel is a way of gathering your thoughts
+   * before messaging and any of it is worth having. The bag needs the three
+   * answers an order cannot be placed without: when it is wanted, which half
+   * of the day, and whether it is delivered or collected. A board is always
+   * delivered and set up, so it is not asked.
+   */
+  const hasCompleteOrderPlan = () => (
+    (Boolean(config.preferredDate) || preferredDateIsUnsure)
+    && Boolean(config.timeWindow)
+    && (isFlowerBoardProduct || Boolean(config.deliveryMode))
+    && (!config.giftingEnabled || config.cardChoice !== "add-message" || Boolean(config.message.trim()))
+  );
+
+  // Set while the bag is waiting on this panel: Apply then means "this order
+  // is settled", not "keep what I have chosen".
+  let collectingOrderPlanForBag = false;
+  let resolveOrderPlanRequest = null;
+
+  /** Ends the bag's wait, however the panel was left. */
+  function settleOrderPlanRequest() {
+    collectingOrderPlanForBag = false;
+    const resolve = resolveOrderPlanRequest;
+    resolveOrderPlanRequest = null;
+    if (typeof resolve === "function") resolve();
+  }
+
   const updateOrderApplyState = () => {
     if (!(orderApply instanceof HTMLButtonElement)) return;
-    const shouldEnable = hasOrderConfiguration();
+    const shouldEnable = collectingOrderPlanForBag ? hasCompleteOrderPlan() : hasOrderConfiguration();
     orderApply.disabled = !shouldEnable;
     orderApply.classList.toggle("is-disabled", !shouldEnable);
   };
@@ -3178,6 +3339,8 @@ async function initDetail() {
     updateOrderApplyState();
   };
   const setOrderPopupState = (isOpen, context = orderPopupContext) => {
+    // Closed without answering: the bag stops waiting and nothing is added.
+    if (!isOpen && collectingOrderPlanForBag) settleOrderPlanRequest();
     orderPopupContext = context;
     if (orderPopup instanceof HTMLElement) {
       orderPopup.hidden = false;
@@ -3291,7 +3454,7 @@ async function initDetail() {
   const renderDateOptions = () => {
     if (!(dateOptions instanceof HTMLElement)) return;
     dateOptions.innerHTML = availableDateOptions.map((option) => `
-      <button class="product-date-option${config.preferredDate === option.value ? " is-active" : ""}${option.isUnavailable ? " is-unavailable" : ""}" type="button" data-product-date-option="${escapeHtml(option.value)}"${option.isUnavailable ? " aria-disabled=\"true\"" : ""}>
+      <button class="product-date-option${config.preferredDate === option.value ? " is-active" : ""}${option.isUnavailable ? " is-unavailable" : ""}" type="button" data-product-date-option="${escapeHtml(option.value)}"${option.isUnavailable ? " aria-disabled=\"true\" disabled" : ""}>
         <span class="product-date-option-meta">
           <span class="product-date-option-copy">
             <span class="product-date-option-label">${escapeHtml(option.longLabel)}</span>
@@ -3462,6 +3625,12 @@ async function initDetail() {
       || resolveSpecialRetailPrice(category, productNumber || 1);
     priceEl.textContent = priceText;
     priceEl.hidden = !priceText;
+    // Decides between Add to Bag, consultation and an unavailable state, and
+    // may replace the price above with the catalogue's own.
+    void applyPurchaseMode(matchedFeaturedItem || matchedGalleryItem || { title, category }, {
+      priceEl,
+      waBtn
+    });
     if (saveBtn instanceof HTMLElement) {
       const favoriteId = window.MarvellFavorites?.buildItemId?.({
         title,
@@ -3646,12 +3815,49 @@ async function initDetail() {
     orderApply.dataset.bound = "1";
     orderApply.addEventListener("click", () => {
       if (orderApply.disabled) return;
+      if (collectingOrderPlanForBag) {
+        const saved = window.MarvellBag?.writeOrderPlan?.({
+          date: config.preferredDate,
+          dateUnsure: preferredDateIsUnsure,
+          timeWindow: config.timeWindow,
+          // A board is delivered and set up; there is nothing to collect.
+          fulfilment: isFlowerBoardProduct ? "delivery" : config.deliveryMode,
+          notes: config.notes
+        });
+        if (!saved) return;
+        hasReviewedOrderPlan = true;
+        if (config.giftingEnabled && config.cardChoice === "add-message") {
+          try { window.sessionStorage.setItem("marvell-cart-gift-message", config.message.trim()); } catch (_error) {}
+        }
+        settleOrderPlanRequest();
+        setOrderPopupState(false, "manual");
+        return;
+      }
       hasReviewedOrderPlan = true;
       setOrderPopupState(false, "manual");
       if (waBtn instanceof HTMLAnchorElement) {
         window.requestAnimationFrame(() => waBtn.focus());
       }
     });
+  }
+  /**
+   * The bag asks this page for the order, and waits.
+   *
+   * assets/bag.js will not add anything while the order is unsettled; it calls
+   * this, which opens the same Order details panel the consultation path uses,
+   * and holds until Apply settles it or the panel is closed on the question.
+   */
+  if (document.body instanceof HTMLElement && document.body.dataset.orderPlanCollectorBound !== "1") {
+    document.body.dataset.orderPlanCollectorBound = "1";
+    window.MarvellBag?.registerOrderPlanCollector?.(() => new Promise((resolve) => {
+      collectingOrderPlanForBag = true;
+      resolveOrderPlanRequest = resolve;
+      updateOrderApplyState();
+      setOrderPopupState(true, "bag");
+      if (orderPopupClose instanceof HTMLButtonElement) {
+        window.requestAnimationFrame(() => orderPopupClose.focus());
+      }
+    }));
   }
   if (orderPopupClose instanceof HTMLButtonElement && orderPopupClose.dataset.bound !== "1") {
     orderPopupClose.dataset.bound = "1";
@@ -3685,7 +3891,19 @@ async function initDetail() {
       if (orderToggle instanceof HTMLButtonElement) orderToggle.focus();
     });
   }
-  const baseDescription = String(matchedGalleryItem?.description || matchedFeaturedItem?.description || "").trim();
+  const productDescriptionSource = {
+    ...(matchedFeaturedItem || {}),
+    ...(matchedGalleryItem || {}),
+    category,
+    title,
+    image
+  };
+  const baseDescription = String(
+    window.MarvellLanguage?.localizeProductDescription?.(productDescriptionSource)
+      || matchedGalleryItem?.description
+      || matchedFeaturedItem?.description
+      || ""
+  ).trim();
   const moneyBouquetNote = isMoneyBouquetProduct(category, title, image, baseDescription)
     ? (window.MarvellConsultation?.t?.(
       "Money bouquet prices cover the arrangement service only. Please prepare and provide the cash amount you want included.",
@@ -4128,7 +4346,11 @@ function syncSeasonalMenuEntry(catalog) {
     featuredMenuList.innerHTML = `<a class="menu-link" data-seasonal-fallback="true" data-seasonal-managed="true" data-seasonal-label="${String(rawLabel).replace(/"/g, "&quot;")}" href="${directHref}">${label}</a>`;
   }
 }
-fetch("content/featured.json", { cache: "no-store" })
+// Only when this page is drawing its own menu. assets/secondary-menu.js owns
+// the shared one, and it names the entry "Collections" and nests every edition
+// under it; this would rename it back to whichever edition is running and drop
+// the rest, so the two must not both write to it.
+if (!SHARED_MENU_MANAGED) fetch("content/featured.json", { cache: "no-store" })
   .then((response) => (response.ok ? response.json() : null))
   .then((catalog) => {
     if (catalog) syncSeasonalMenuEntry(catalog);
@@ -4156,7 +4378,7 @@ if (menuPanel && !SHARED_MENU_MANAGED) {
     const openBtn = target.closest("[data-menu-open]");
     if (openBtn instanceof HTMLElement) {
       const mobileHref = String(openBtn.getAttribute("data-menu-mobile-href") || "").trim();
-      if (mobileHref && window.matchMedia("(max-width: 899px)").matches) { setMenuOpen(false); window.location.href = mobileHref; return; }
+      if (mobileHref && window.matchMedia("(max-width: 768px)").matches) { setMenuOpen(false); window.location.href = mobileHref; return; }
       const v = openBtn.getAttribute("data-menu-open");
       if (v) setMenuView(v);
       return;

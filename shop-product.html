@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Product | Marvell Florist</title>
+<meta name="description" content="An artificial floral arrangement from a Marvell Florist collection.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://marvellflorist.com/shop">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/shop">
+<meta property="og:title" content="Product | Marvell Florist">
+<meta property="og:description" content="An artificial floral arrangement from a Marvell Florist collection.">
+<meta property="og:image" content="https://marvellflorist.com/assets/uploads/art-greenwhitecrea.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Product | Marvell Florist">
+<meta name="twitter:description" content="An artificial floral arrangement from a Marvell Florist collection.">
+<script src="/assets/site-language.js?v=20261004a"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/marvell-icons.js?v=20260920e"></script>
+<script src="/assets/header-template.js?v=20260923a"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shop-pages.css?v=20260920f">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Inter Tight", sans-serif;
+  color: #2f2923;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Site header. header-template.js injects the control styling; these rules
+   only position the bar and reserve space for it, matching the other pages. */
+:root { --header-height: 72px; }
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 80;
+  height: var(--header-height);
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+header::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--header-height);
+  background: #fff;
+  z-index: 1;
+}
+header, header::before, header::after {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.header-bar {
+  position: relative;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+  pointer-events: auto;
+}
+.shop-main { padding-top: var(--header-height); }
+.product-heading-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+.product-heading-title .favorite-toggle { flex: 0 0 28px; }
+.product-plan-overlay[hidden] { display: none; }
+.product-plan-overlay {
+  position: fixed; inset: 0; z-index: 130; padding: 20px;
+  display: grid; place-items: center; background: rgba(0, 0, 0, 0.44);
+}
+.product-plan-form {
+  width: min(100%, 430px); max-height: calc(100vh - 40px); overflow: auto;
+  padding: 26px; background: #fff; display: grid; gap: 18px;
+}
+.product-plan-head { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.product-plan-title { font-size: 22px; font-weight: 500; line-height: 1.2; }
+.product-plan-close { border: 0; padding: 2px 5px; background: none; color: inherit; font: inherit; font-size: 20px; cursor: pointer; }
+.product-plan-copy { font-size: 14px; line-height: 1.5; color: rgba(0, 0, 0, 0.65); }
+.product-plan-field { display: grid; gap: 7px; font-size: 13px; }
+.product-plan-field input, .product-plan-field select {
+  width: 100%; min-height: 43px; padding: 9px 12px; border: 1px solid #bcbcbc;
+  border-radius: 0; background: #fff; color: inherit; font: inherit;
+}
+.product-plan-unsure { display: flex; gap: 9px; align-items: center; font-size: 13px; }
+.product-plan-error { color: #9d2424; font-size: 13px; }
+.product-plan-error[hidden] { display: none; }
+.product-plan-submit { min-height: 45px; border: 0; background: #222; color: #fff; font: inherit; cursor: pointer; }
+</style>
+</head>
+<body class="shop-page">
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="/" aria-label="Marvell Florist home">
+      <span class="header-logo-text">MARVELL FLORIST</span>
+    </a>
+    <a class="search-toggle" href="/gallery?entry=home-hero" aria-label="Browse arrangements">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+      </span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+
+<main class="shop-main" id="shop-product-main">
+  <div class="shop-loading" data-product-loading>Loading…</div>
+
+  <article class="product-layout" data-product-article hidden>
+    <div class="product-gallery" data-product-gallery></div>
+
+    <div class="product-panel">
+      <!--
+        A collection is a grouping in the catalogue, not a place: it has no
+        page of its own, and Featured is the single retail entry point. So the
+        collection is named here as plain text rather than linked, and it and
+        its separator drop out together for a SKU that belongs to none.
+      -->
+      <nav class="shop-breadcrumb" aria-label="Breadcrumb">
+        <a href="/featured">Collections</a>
+        <span aria-hidden="true">/</span>
+        <span data-product-collection-name hidden></span>
+        <span aria-hidden="true" data-product-collection-sep hidden>/</span>
+        <span data-product-crumb></span>
+      </nav>
+
+      <div class="product-heading">
+        <div class="product-heading-title">
+          <h1 class="product-name" data-product-name></h1>
+          <button class="favorite-toggle favorite-toggle--detail" type="button" data-favorite-toggle
+            aria-label="Save to wishlist">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3.2-3-3-5.5"/></svg>
+          </button>
+        </div>
+        <div class="product-price" data-product-price></div>
+        <div class="product-availability" data-product-availability></div>
+      </div>
+
+      <!-- Pathway A: the fixed-price, fixed-stock arrangement. -->
+      <!-- No quantity here. One tap adds one piece, and how many you want is
+           settled in the bag, where the line can be changed against what is
+           actually in stock. -->
+      <div class="product-buy" data-product-buy hidden>
+        <button class="bag-add-btn" type="button" data-product-add>Add to Bag</button>
+      </div>
+
+      <div data-product-unavailable hidden></div>
+
+      <!-- Pathway B: a fresh-flower interpretation, by consultation only. -->
+      <div class="product-fresh" data-product-fresh hidden>
+        <p class="product-fresh-note" data-product-fresh-note></p>
+        <a class="product-fresh-btn" data-product-fresh-link href="#" target="_blank" rel="noopener noreferrer">
+          Request Fresh Interpretation
+        </a>
+      </div>
+
+      <div class="product-details" data-product-details></div>
+    </div>
+  </article>
+
+  <div data-product-missing hidden></div>
+
+  <section data-product-related hidden>
+    <h2 class="shop-section-title" style="padding: clamp(50px,8vw,100px) 0 clamp(20px,3vw,32px);"
+      data-product-related-title></h2>
+    <ul class="shop-grid" data-product-related-grid></ul>
+  </section>
+</main>
+
+<div class="product-plan-overlay" data-product-plan-overlay hidden>
+  <form class="product-plan-form" data-product-plan-form role="dialog" aria-modal="true" aria-labelledby="product-plan-title">
+    <div class="product-plan-head">
+      <h2 class="product-plan-title" id="product-plan-title" data-product-plan-title>Order details</h2>
+      <button class="product-plan-close" type="button" data-product-plan-close aria-label="Close">×</button>
+    </div>
+    <p class="product-plan-copy" data-product-plan-copy>Choose when and how you would like to receive your order before adding it to your bag.</p>
+    <label class="product-plan-field"><span data-product-plan-date-label>Preferred date</span>
+      <input type="date" name="date" required data-product-plan-date>
+    </label>
+    <label class="product-plan-unsure"><input type="checkbox" data-product-plan-unsure><span data-product-plan-unsure-label>Date to be confirmed</span></label>
+    <label class="product-plan-field"><span data-product-plan-time-label>Choose time</span>
+      <select name="timeWindow" required data-product-plan-time>
+        <option value="" data-product-plan-time-placeholder>Choose a time</option>
+        <option value="morning" data-product-plan-morning>Morning, 08:00-13:00</option>
+        <option value="afternoon" data-product-plan-afternoon>Afternoon, 13:00-18:00</option>
+      </select>
+    </label>
+    <label class="product-plan-field"><span data-product-plan-method-label>Delivery or pickup</span>
+      <select name="fulfilment" required data-product-plan-method>
+        <option value="" data-product-plan-method-placeholder>Choose how</option>
+        <option value="delivery" data-product-plan-delivery>Delivered in Batam</option>
+        <option value="pickup" data-product-plan-pickup>Collected from the boutique</option>
+      </select>
+    </label>
+    <p class="product-plan-error" data-product-plan-error hidden></p>
+    <button class="product-plan-submit" type="submit" data-product-plan-submit>Save and add to bag</button>
+  </form>
+</div>
+
+<script>
+(function () {
+  const Shop = window.MarvellShop;
+  const { escapeHtml, formatIdr, safeImage, paragraphs, t } = Shop;
+
+  // The number the rest of the site already uses for custom and by-request work.
+  const CUSTOM_REQUEST_PHONE = "628116667457";
+
+  const el = (selector) => document.querySelector(selector);
+  const loading = el("[data-product-loading]");
+  const article = el("[data-product-article]");
+  const missing = el("[data-product-missing]");
+
+  const planOverlay = el("[data-product-plan-overlay]");
+  const planForm = el("[data-product-plan-form]");
+  const planDate = el("[data-product-plan-date]");
+  const planUnsure = el("[data-product-plan-unsure]");
+  const planTime = el("[data-product-plan-time]");
+  const planMethod = el("[data-product-plan-method]");
+  let resolvePlanRequest = null;
+
+  function closePlanForm() {
+    planOverlay.hidden = true;
+    const resolve = resolvePlanRequest;
+    resolvePlanRequest = null;
+    if (resolve) resolve();
+    el("[data-product-add]")?.focus();
+  }
+
+  function syncPlanDate() {
+    planDate.disabled = planUnsure.checked;
+    planDate.required = !planUnsure.checked;
+    if (planUnsure.checked) planDate.value = "";
+  }
+
+  window.MarvellBag?.registerOrderPlanCollector?.(() => new Promise((resolve) => {
+    resolvePlanRequest = resolve;
+    planForm.reset();
+    const dateParts = Object.fromEntries(new Intl.DateTimeFormat("en", {
+      timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit"
+    }).formatToParts(new Date()).map((part) => [part.type, part.value]));
+    planDate.min = `${dateParts.year}-${dateParts.month}-${dateParts.day}`;
+    syncPlanDate();
+    el("[data-product-plan-error]").hidden = true;
+    planOverlay.hidden = false;
+    planDate.focus();
+  }));
+  planUnsure.addEventListener("change", syncPlanDate);
+  el("[data-product-plan-close]").addEventListener("click", closePlanForm);
+  planOverlay.addEventListener("click", (event) => {
+    if (event.target === planOverlay) closePlanForm();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !planOverlay.hidden) closePlanForm();
+  });
+  planForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!planForm.reportValidity()) return;
+    const saved = window.MarvellBag?.writeOrderPlan?.({
+      date: planDate.value,
+      dateUnsure: planUnsure.checked,
+      timeWindow: planTime.value,
+      fulfilment: planMethod.value
+    });
+    if (saved) closePlanForm();
+    else {
+      const error = el("[data-product-plan-error]");
+      error.textContent = t("Please complete all order details.", "Lengkapi semua detail pesanan.");
+      error.hidden = false;
+    }
+  });
+
+  [
+    ["[data-product-plan-title]", "Order details", "Detail pesanan"],
+    ["[data-product-plan-copy]", "Choose when and how you would like to receive your order before adding it to your bag.", "Pilih waktu dan cara menerima pesanan sebelum menambahkannya ke tas."],
+    ["[data-product-plan-date-label]", "Preferred date", "Tanggal pilihan"],
+    ["[data-product-plan-unsure-label]", "Date to be confirmed", "Tanggal menyusul"],
+    ["[data-product-plan-time-label]", "Choose time", "Pilih waktu"],
+    ["[data-product-plan-time-placeholder]", "Choose a time", "Pilih waktu"],
+    ["[data-product-plan-morning]", "Morning, 08:00-13:00", "Pagi, 08.00-13.00"],
+    ["[data-product-plan-afternoon]", "Afternoon, 13:00-18:00", "Siang, 13.00-18.00"],
+    ["[data-product-plan-method-label]", "Delivery or pickup", "Pengantaran atau ambil sendiri"],
+    ["[data-product-plan-method-placeholder]", "Choose how", "Pilih cara"],
+    ["[data-product-plan-delivery]", "Delivered in Batam", "Dikirim di Batam"],
+    ["[data-product-plan-pickup]", "Collected from the boutique", "Diambil di butik"],
+    ["[data-product-plan-submit]", "Save and add to bag", "Simpan dan tambah ke tas"]
+  ].forEach(([selector, en, id]) => { el(selector).textContent = t(en, id); });
+  el("[data-product-plan-close]").setAttribute("aria-label", t("Close", "Tutup"));
+
+  /** /product/soft-tones-no-1 -> "soft-tones-no-1". Also accepts ?slug=. */
+  function readSlug() {
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    const index = parts.indexOf("product");
+    const fromPath = index >= 0 ? parts[index + 1] : "";
+    const params = new URLSearchParams(window.location.search);
+    const raw = String(fromPath || params.get("slug") || "").toLowerCase();
+    return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(raw) ? raw : "";
+  }
+
+  function renderNotFound() {
+    loading.hidden = true;
+    missing.hidden = false;
+    missing.className = "shop-empty";
+    missing.innerHTML = `
+      <p>${escapeHtml(t(
+        "We could not find that piece. It may have been part of a collection that has now closed.",
+        "Kami tidak dapat menemukan rangkaian tersebut. Mungkin bagian dari koleksi yang sudah ditutup."
+      ))}</p>
+      <a class="shop-btn is-ghost" href="/featured">${escapeHtml(t("Back to collections", "Kembali ke koleksi"))}</a>
+      <a class="shop-btn is-ghost" href="/gallery">${escapeHtml(t("View the Portfolio", "Lihat Portofolio"))}</a>
+    `;
+  }
+
+  function renderGallery(product) {
+    const gallery = el("[data-product-gallery]");
+    const images = (product.images || []).filter((entry) => safeImage(entry.image));
+
+    if (!images.length) {
+      gallery.innerHTML = `<div class="product-gallery-item"></div>`;
+      return;
+    }
+
+    gallery.innerHTML = images.map((entry, index) => `
+      <div class="product-gallery-item">
+        <img src="${escapeHtml(safeImage(entry.image))}"
+          alt="${escapeHtml(entry.alt || product.name)}"
+          ${index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">
+      </div>
+    `).join("");
+  }
+
+  /**
+   * Returns true when the piece is bought here, false when it is arranged in
+   * conversation. The caller uses it to decide which of the two actions the
+   * page draws, because it is never both.
+   */
+  function renderAvailability(product) {
+    const node = el("[data-product-availability]");
+    const buy = el("[data-product-buy]");
+    const unavailable = el("[data-product-unavailable]");
+
+    if (product.availability === "in_stock") {
+      buy.hidden = false;
+      node.className = product.available_quantity <= 3
+        ? "product-availability is-low"
+        : "product-availability";
+      node.textContent = product.available_quantity <= 3
+        ? (product.available_quantity === 1
+            ? t("Last one available", "Tinggal satu tersedia")
+            : t(`Only ${product.available_quantity} available`, `Hanya ${product.available_quantity} tersedia`))
+        : t("In stock", "Tersedia");
+
+      return true;
+    }
+
+    node.className = "product-availability is-out";
+    unavailable.hidden = false;
+    unavailable.className = "shop-notice is-quiet";
+
+    if (product.availability === "sold_out") {
+      node.textContent = t("Sold out", "Habis");
+      unavailable.textContent = t(
+        "This piece has sold out. A fresh-flower interpretation can still be requested below.",
+        "Rangkaian ini sudah habis. Versi bunga segar masih bisa diminta di bawah."
+      );
+    } else {
+      node.textContent = t("Not available", "Tidak tersedia");
+      unavailable.textContent = t(
+        "This piece is not available to order online at the moment.",
+        "Rangkaian ini belum bisa dipesan online saat ini."
+      );
+    }
+    return false;
+  }
+
+  /**
+   * Pathway B. Never an instant purchase: fresh flowers are seasonal, so both
+   * availability and price have to be confirmed by a person before anything
+   * is agreed. The SKU and product name travel with the message so the
+   * conversation starts from the right piece.
+   */
+  /**
+   * Add to Bag and the WhatsApp consultation are two different buttons, and
+   * only one of them is ever on screen.
+   *
+   * They used to appear together: an in-stock piece drew Add to Bag and then
+   * drew "Request Fresh Interpretation" underneath it, so the page asked for a
+   * decision it had already made and offered two ways to buy one thing. The
+   * consultation is what the page falls back to when the piece cannot be
+   * bought here — sold out, not for sale online — not a second checkout
+   * standing beside the first.
+   */
+  function renderFreshPathway(product, canBuyHere) {
+    if (canBuyHere) return;
+    if (!product.fresh_interpretation_available) return;
+
+    const section = el("[data-product-fresh]");
+    const link = el("[data-product-fresh-link]");
+    const note = el("[data-product-fresh-note]");
+
+    section.hidden = false;
+    link.textContent = t("Request Fresh Interpretation", "Minta Versi Bunga Segar");
+    note.textContent = t(
+      "This arrangement can be interpreted in fresh flowers. Fresh stems are seasonal, so availability and final price are confirmed with you before anything is agreed.",
+      "Rangkaian ini dapat dibuat dalam versi bunga segar. Bunga segar bersifat musiman, sehingga ketersediaan dan harga akhir dikonfirmasi lebih dulu bersama Anda."
+    );
+
+    const message = window.MarvellConsultation?.buildProductHref
+      ? window.MarvellConsultation.buildProductHref(CUSTOM_REQUEST_PHONE, {
+          productName: `${product.name} (${product.sku}) — ${t("fresh interpretation", "versi bunga segar")}`,
+          link: window.location.href
+        })
+      : `https://wa.me/${CUSTOM_REQUEST_PHONE}?text=${encodeURIComponent(
+          `Hello, I'm interested in a fresh interpretation of ${product.name} (${product.sku}). ${window.location.href}`
+        )}`;
+
+    link.href = message;
+  }
+
+  function renderDetails(product) {
+    const container = el("[data-product-details]");
+    const sections = [
+      { label: t("Description", "Deskripsi"), body: product.description, open: true },
+      { label: t("Materials", "Bahan"), body: product.composition },
+      { label: t("Dimensions", "Dimensi"), body: product.dimensions },
+      { label: t("Care", "Perawatan"), body: product.care_notes },
+      { label: t("Styling", "Penataan"), body: product.styling_notes }
+    ].filter((section) => String(section.body || "").trim());
+
+    container.innerHTML = sections.map((section) => `
+      <details class="product-detail"${section.open ? " open" : ""}>
+        <summary class="product-detail-toggle">${escapeHtml(section.label)}</summary>
+        <div class="product-detail-body">${paragraphs(section.body)}</div>
+      </details>
+    `).join("");
+  }
+
+  async function renderRelated(product) {
+    const catalog = await Shop.getCatalog();
+    const collection = catalog.collections.find((entry) => entry.id === product.collection_id);
+    if (!collection) return;
+
+    const others = (collection.products || []).filter((entry) => entry.sku !== product.sku).slice(0, 4);
+    if (!others.length) return;
+
+    const section = el("[data-product-related]");
+    section.hidden = false;
+    el("[data-product-related-title]").textContent = t(
+      `More from ${collection.title}`,
+      `Lainnya dari ${collection.title}`
+    );
+
+    el("[data-product-related-grid]").innerHTML = others.map((entry) => {
+      const image = safeImage(entry.images?.[0]?.image);
+      return `
+        <li class="shop-card">
+          <a class="shop-card-link" href="/product/${encodeURIComponent(entry.slug)}">
+            <div class="shop-card-media">
+              ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(entry.name)}" loading="lazy" decoding="async">` : ""}
+              ${entry.availability === "sold_out"
+                ? `<span class="shop-badge is-quiet">${escapeHtml(t("Sold out", "Habis"))}</span>`
+                : ""}
+            </div>
+            <div class="shop-card-body">
+              <h3 class="shop-card-name">${escapeHtml(entry.name)}</h3>
+              <span class="shop-card-price">${escapeHtml(
+                entry.price_idr != null ? formatIdr(entry.price_idr) : t("Price on request", "Harga sesuai permintaan")
+              )}</span>
+            </div>
+          </a>
+        </li>
+      `;
+    }).join("");
+  }
+
+  (async () => {
+    const slug = readSlug();
+    if (!slug) return renderNotFound();
+
+    const product = await Shop.findProductBySlug(slug);
+    if (!product) return renderNotFound();
+
+    loading.hidden = true;
+    article.hidden = false;
+
+    document.title = `${product.name} | Marvell Florist`;
+    if (product.description) {
+      document.querySelector('meta[name="description"]')?.setAttribute("content", product.description.slice(0, 300));
+    }
+    document.querySelector('link[rel="canonical"]')
+      ?.setAttribute("href", `https://marvellflorist.com/product/${product.slug}`);
+
+    el("[data-product-crumb]").textContent = product.name;
+    el("[data-product-name]").textContent = product.name;
+    el("[data-product-price]").textContent = product.price_idr != null
+      ? formatIdr(product.price_idr)
+      : t("Price on request", "Harga sesuai permintaan");
+
+    const saveButton = el("[data-favorite-toggle]");
+    if (saveButton) {
+      saveButton.dataset.favoriteTitle = product.name;
+      saveButton.dataset.favoriteImage = safeImage(product.images?.[0]?.image || "");
+      saveButton.dataset.favoriteHref = `/product/${encodeURIComponent(product.slug)}`;
+      saveButton.dataset.favoritePrice = product.price_idr != null ? formatIdr(product.price_idr) : "";
+      saveButton.dataset.favoriteCategory = product.collection_id || "";
+      saveButton.dataset.favoriteSource = "retail";
+      saveButton.dataset.favoriteSku = product.sku;
+      saveButton.dataset.favoritePurchaseMode = "direct";
+      saveButton.setAttribute("aria-label", t(`Save ${product.name} to wishlist`, `Simpan ${product.name} ke wishlist`));
+      window.MarvellFavorites?.syncButtons?.(document);
+    }
+
+    const addButton = el("[data-product-add]");
+    addButton.textContent = t("Add to Bag", "Tambah ke Tas");
+    addButton.dataset.bagAdd = product.sku;
+    addButton.dataset.bagName = product.name;
+    // The bag panel shows what was just added, so it needs the same still the
+    // page is showing.
+    addButton.dataset.bagImage = safeImage(product.images?.[0]?.image || "");
+
+    const catalog = await Shop.getCatalog();
+    const collection = catalog.collections.find((entry) => entry.id === product.collection_id);
+    if (collection) {
+      const crumb = el("[data-product-collection-name]");
+      crumb.textContent = collection.title;
+      crumb.hidden = false;
+      el("[data-product-collection-sep]").hidden = false;
+    }
+
+    renderGallery(product);
+    const canBuyHere = renderAvailability(product);
+    renderFreshPathway(product, canBuyHere);
+    renderDetails(product);
+    renderRelated(product);
+  })();
+})();
+</script>
+
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="/assets/shared-contact.js?v=20260921f"></script>
+<script src="/assets/favorites.js?v=20260923a"></script>
+<script src="/assets/accordion-motion.js?v=20260922a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="/assets/secondary-menu.js?v=20260923a"></script>
+<script src="/assets/shared-footer.js?v=20260923c"></script>
+</body>
+</html>

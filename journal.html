@@ -19,8 +19,9 @@
 <meta name="twitter:description" content="A Marvell Florist journal presented as a simple visual lookbook.">
 <meta name="twitter:image" content="https://marvellflorist.com/assets/uploads/img_4322.webp">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260505a"></script>
-<script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -28,25 +29,10 @@
 <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-@font-face {
-  font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
 :root {
   --page-bg: #000;
   --ink: #fff;
@@ -107,7 +93,7 @@ header::after {
   text-decoration: none;
 }
 .header-logo-text {
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: 32px;
   line-height: 0.9;
   letter-spacing: 0.01em;
@@ -173,7 +159,7 @@ main {
   gap: 8px;
 }
 .story-title {
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(26px, 2.5vw, 40px);
   line-height: 1.02;
   font-weight: 400;
@@ -268,7 +254,7 @@ main {
   color: rgba(255, 255, 255, 0.56);
 }
 .related-journals-title {
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(28px, 3vw, 42px);
   line-height: 0.96;
   font-weight: 400;
@@ -351,8 +337,6 @@ body[data-journal-theme="mono"] #site-footer::before {
   color: #fff !important;
   border-top-color: rgba(255, 255, 255, 0.16) !important;
 }
-body[data-journal-theme="mono"] #site-footer .footer-closing-quote,
-body[data-journal-theme="mono"] #site-footer .footer-closing-author,
 body[data-journal-theme="mono"] #site-footer .footer-col-title,
 body[data-journal-theme="mono"] #site-footer .footer-link,
 body[data-journal-theme="mono"] #site-footer .footer-descriptor p,
@@ -433,7 +417,7 @@ body[data-journal-theme="mono"] #site-footer .footer-col {
   <div class="header-bar">
     <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
     <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
-      <span class="header-logo-text">Marvell Florist</span>
+      <span class="header-logo-text">MARVELL FLORIST</span>
     </a>
     <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
@@ -598,6 +582,34 @@ function setStoryMeta(title, image) {
   if (image && twitterImage) twitterImage.setAttribute("content", new URL(image, window.location.origin).href);
 }
 
+function activateJournalImages(scope = document) {
+  const images = Array.from(scope.querySelectorAll("img[data-src]"));
+  if (!images.length) return;
+  const loadImage = (image) => {
+    if (!(image instanceof HTMLImageElement)) return;
+    const src = String(image.dataset.src || "").trim();
+    if (!src) return;
+    image.src = src;
+    delete image.dataset.src;
+  };
+  if (typeof IntersectionObserver === "undefined") {
+    images.forEach(loadImage);
+    return;
+  }
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      loadImage(entry.target);
+      obs.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: "320px 0px",
+    threshold: 0
+  });
+  images.forEach((image) => observer.observe(image));
+}
+
 function renderRelatedJournals(entries, currentSlug) {
   const section = document.getElementById("related-journals");
   const grid = document.getElementById("related-journals-grid");
@@ -617,12 +629,13 @@ function renderRelatedJournals(entries, currentSlug) {
   grid.innerHTML = related.map((entry) => `
     <a class="related-journal-card" href="journal.html?journal=${encodeURIComponent(entry.slug)}" aria-label="${escapeAttr(entry.title)}">
       <div class="related-journal-media">
-        <img src="${escapeAttr(entry.coverImage)}" alt="${escapeAttr(entry.title)}" loading="lazy" decoding="async">
+        <img data-src="${escapeAttr(entry.coverImage)}" alt="${escapeAttr(entry.title)}" loading="lazy" decoding="async">
       </div>
       <p class="related-journal-name">${escapeHTML(entry.title)}</p>
       ${entry.monthYear ? `<p class="related-journal-meta">${escapeHTML(entry.monthYear)}</p>` : ""}
     </a>
   `).join("");
+  activateJournalImages(grid);
 }
 
 function setupDesktopStoryScroll() {
@@ -673,16 +686,22 @@ function setupDesktopStoryScroll() {
   section.hidden = false;
   track.innerHTML = entry.images.map((image, index) => `
     <figure class="story-figure">
-      <img src="${escapeAttr(image)}" alt="${escapeAttr(`${entry.title} image ${index + 1}`)}" loading="lazy" decoding="async">
+      <img data-src="${escapeAttr(image)}" alt="${escapeAttr(`${entry.title} image ${index + 1}`)}" loading="lazy" decoding="async">
     </figure>
   `).join("");
+  activateJournalImages(track);
   renderRelatedJournals(entries, entry.slug);
   setupDesktopStoryScroll();
 })();
 </script>
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
 </body>
 </html>

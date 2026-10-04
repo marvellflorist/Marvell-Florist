@@ -1,1012 +1,711 @@
+/**
+ * The wishlist page — the room, where the quick panel is the doorway.
+ *
+ * The panel exists to save a piece in one tap and get out of the way. This
+ * page is the other half: everything saved, large enough to look at, and the
+ * only place lists are made, named, shared or taken apart.
+ *
+ * It is deliberately not the bag. A bag is decisions already made, so it is a
+ * column of rows with quantities and a total. A wishlist is things still being
+ * considered, so it is photography on a grid and nothing is counted up.
+ *
+ * Two audiences, one page:
+ *
+ *   signed out   one list, kept in this browser. No index, because there is
+ *                nothing to choose between, and no sharing, because there is
+ *                no account to share from.
+ *   signed in    every list, starting at the index. The default list is the
+ *                one the heart writes to and is never deletable.
+ *
+ * All account writes go through MarvellFavorites.accountOperation, which is
+ * the same serialized queue the heart uses. That is what keeps this page and
+ * the panel from ever holding different ideas of the same list.
+ */
 (function () {
-  if (typeof document === "undefined") return;
+  if (typeof window === "undefined") return;
 
-  const WISHLIST_CONSULTATION_CONFIG_STORAGE_KEY = "marvell-wishlist-consultation-config-v1";
-  const AVAILABLE_DATE_OPTIONS = window.MarvellConsultation?.getAvailableDateOptions?.(7) || [];
+  const main = document.getElementById("wishlist-main");
+  if (!main) return;
+
+  const state = { busy: false, renaming: false, renamingCard: "" };
+
+  const Favorites = () => window.MarvellFavorites;
+
+  /**
+   * Three states, not two.
+   *
+   *   guest        nobody is signed in. One list, kept in this browser, and
+   *                the offer to sign in at the foot.
+   *   customer     signed in and their lists are loaded. The index, sharing,
+   *                renaming — everything Dior's account wishlist has.
+   *   unreachable  signed in, but the wishlist store would not answer. The
+   *                pieces on this device are shown so nothing looks lost,
+   *                and the reason is said plainly.
+   *
+   * `signedIn()` used to mean the middle one and was used for all three,
+   * which meant an unreachable store presented a signed-in customer with a
+   * guest's page — no lists, and an invitation to sign in that they could
+   * not act on because they already had.
+   */
+  const accountState = () => Favorites()?.accountState?.()
+    || { signedIn: false, synced: Boolean(Favorites()?.isAccountWishlist?.()), unavailable: false };
+  /** The person. Decides what the page says. */
+  const signedIn = () => Boolean(accountState().signedIn);
+  /** The store. Decides what the page can show. */
+  const listsLoaded = () => Boolean(accountState().synced);
+  const snapshot = () => Favorites()?.accountSnapshot?.() || { listId: "", lists: [], items: {} };
 
   function getLanguage() {
     return window.MarvellLanguage?.getLanguage?.() === "id" ? "id" : "en";
   }
-
   function t(en, id) {
     return getLanguage() === "id" ? id : en;
   }
-
   function escapeHtml(value) {
     return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
+  const el = (selector) => main.querySelector(selector);
+  const els = (selector) => Array.from(main.querySelectorAll(selector));
+  const editIcon = () => '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/></svg>';
+  const optionsIcon = () => '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg>';
 
-  function localizedHref(href) {
-    const raw = String(href || "").trim();
-    if (!raw) return "";
-    try {
-      const url = new URL(raw, window.location.origin);
-      if (url.origin !== window.location.origin) return url.toString();
-      url.searchParams.set("lang", getLanguage());
-      return `${url.pathname}${url.search}${url.hash}`;
-    } catch (_error) {
-      return raw;
-    }
-  }
-
-  function getFavorites() {
-    return window.MarvellFavorites?.getFavorites?.() || [];
-  }
-
-  function setText(id, value) {
-    const node = document.getElementById(id);
-    if (node) node.textContent = value;
-  }
-
-  function sanitizeConsultationConfig(raw) {
-    const source = raw && typeof raw === "object" ? raw : {};
-    return {
-      giftingEnabled: source.giftingEnabled === true,
-      cardChoice: source.cardChoice === "add-message" ? "add-message" : "blank-card",
-      message: String(source.message || ""),
-      preferredDate: window.MarvellConsultation?.toIsoDate?.(source.preferredDate) || "",
-      preferredDateUnsure: source.preferredDateUnsure === true,
-      deliveryMode: source.deliveryMode === "pickup" ? "pickup" : source.deliveryMode === "delivery" ? "delivery" : "",
-      timeWindow: source.timeWindow === "afternoon" ? "afternoon" : source.timeWindow === "morning" ? "morning" : "",
-      notes: String(source.notes || "")
-    };
-  }
-
-  function readConsultationConfig() {
-    try {
-      const raw = window.localStorage.getItem(WISHLIST_CONSULTATION_CONFIG_STORAGE_KEY);
-      if (!raw) return sanitizeConsultationConfig();
-      return sanitizeConsultationConfig(JSON.parse(raw));
-    } catch (_error) {
-      return sanitizeConsultationConfig();
-    }
-  }
-
-  function writeConsultationConfig(config) {
-    try {
-      window.localStorage.setItem(
-        WISHLIST_CONSULTATION_CONFIG_STORAGE_KEY,
-        JSON.stringify(sanitizeConsultationConfig(config))
-      );
-    } catch (_error) {
-      // Ignore storage failures.
-    }
-  }
-
-  let consultationConfig = readConsultationConfig();
-  let wishlistDateCustomPickerOpen = false;
-  let hasReviewedOrderDetails = false;
-  let wishlistOrderPanelOpenFrame = 0;
-  let wishlistOrderPopupView = "main";
-  let wishlistScrollLockY = 0;
-  let wishlistPageScrollLocked = false;
-
-  function markOrderDetailsDirty() {
-    hasReviewedOrderDetails = false;
-  }
-
-  function normalizeCategory(value) {
-    return String(value || "").trim().toLowerCase().replace(/\s+/g, " ");
-  }
-
-  function isFloralBoardCategory(category) {
-    const normalized = normalizeCategory(category);
-    return normalized === "papan bunga"
-      || normalized === "flower boards"
-      || normalized === "flower board"
-      || normalized === "papan";
-  }
-
-  function favoritesAreFlowerBoards(favorites = getFavorites()) {
-    const items = Array.isArray(favorites) ? favorites : [];
-    return items.some((item) => isFloralBoardCategory(item?.category));
-  }
-
-  function getFloralBoardCount(item) {
-    const source = [
-      String(item?.title || ""),
-      String(item?.image || ""),
-      String(item?.href || ""),
-      String(item?.category || "")
-    ].join(" ").toLowerCase();
-
-    if (source.includes("3papan") || source.includes("3 papan") || source.includes("papan3") || source.includes("triple")) return 3;
-    if (source.includes("2papan") || source.includes("2 papan") || source.includes("papan2") || source.includes("double")) return 2;
-    if (source.includes("1papan") || source.includes("1 papan") || source.includes("papan1") || source.includes("single")) return 1;
-    return 1;
-  }
-
-  function getEffectiveConsultationConfig(_favorites = getFavorites(), config = consultationConfig) {
-    return sanitizeConsultationConfig(config);
-  }
-
-  function hasEffectiveOrderDetails(favorites = getFavorites(), config = consultationConfig) {
-    const effectiveConfig = getEffectiveConsultationConfig(favorites, config);
-    return Boolean(effectiveConfig.giftingEnabled)
-      || Boolean(effectiveConfig.preferredDate)
-      || Boolean(effectiveConfig.preferredDateUnsure)
-      || Boolean(effectiveConfig.deliveryMode)
-      || Boolean(effectiveConfig.timeWindow)
-      || Boolean(String(effectiveConfig.notes || "").trim());
-  }
-
-  function getEffectiveOrderDetailCount(favorites = getFavorites(), config = consultationConfig) {
-    const effectiveConfig = getEffectiveConsultationConfig(favorites, config);
-    return [
-      Boolean(effectiveConfig.giftingEnabled),
-      Boolean(effectiveConfig.preferredDate),
-      Boolean(effectiveConfig.preferredDateUnsure),
-      Boolean(effectiveConfig.deliveryMode),
-      Boolean(effectiveConfig.timeWindow),
-      Boolean(String(effectiveConfig.notes || "").trim())
-    ].filter(Boolean).length;
-  }
-
-  function buildConsultationHref(favorites, config) {
-    const effectiveConfig = getEffectiveConsultationConfig(favorites, config);
-    const items = Array.isArray(favorites) ? favorites : [];
-    const listedTitles = items
-      .map((item) => {
-        const title = String(item?.title || "").trim();
-        if (!title) return "";
-        const quantity = Math.max(1, Number.parseInt(String(item?.quantity ?? 1), 10) || 1);
-        return quantity > 1 ? `- ${title} (${t("Qty", "Jml")}: ${quantity})` : `- ${title}`;
-      })
-      .filter(Boolean)
-      .slice(0, 12);
-
-    const lines = [
-      getLanguage() === "id"
-        ? "Halo Marvell Florist, saya ingin berkonsultasi mengenai wishlist saya."
-        : "Hello Marvell Florist, I would like to consult about my wishlist selections."
-    ];
-
-    if (listedTitles.length) {
-      lines.push("");
-      listedTitles.forEach((line) => lines.push(line));
-    }
-
-    if (effectiveConfig.giftingEnabled) {
-      lines.push(`${t("Card", "Kartu")}: ${effectiveConfig.cardChoice === "add-message" ? t("Add a message", "Tambah pesan") : t("Blank card", "Kartu kosong")}`);
-    }
-    if (effectiveConfig.giftingEnabled && effectiveConfig.cardChoice === "add-message") {
-      const message = window.MarvellConsultation?.normalizeSingleLine?.(effectiveConfig.message) || String(effectiveConfig.message || "").trim();
-      if (message) lines.push(`${t("Message", "Pesan")}: ${message}`);
-    }
-    if (effectiveConfig.preferredDateUnsure) {
-      lines.push(`${t("Date", "Tanggal")}: ${t("Not sure yet", "Belum yakin")}`);
-    } else if (effectiveConfig.preferredDate) {
-      lines.push(`${t("Date", "Tanggal")}: ${window.MarvellConsultation?.formatPreferredDate?.(effectiveConfig.preferredDate) || effectiveConfig.preferredDate}`);
-    }
-    if (effectiveConfig.deliveryMode) {
-      const deliveryLabel = effectiveConfig.deliveryMode === "pickup" ? t("Pickup", "Ambil sendiri") : t("Delivery", "Pengantaran");
-      lines.push(`${t("Delivery or pickup", "Pengantaran atau ambil sendiri")}: ${deliveryLabel}`);
-      if (effectiveConfig.deliveryMode === "pickup") {
-        lines.push(`${t("Pickup point", "Titik pengambilan")}: Ruko Kintamani, Jl. Raja H. Fisabilillah Blok C11.`);
+  /** Only ever a path on this site, never a URL somebody else supplied. */
+  function safeHref(value) {
+    const raw = String(value || "").trim();
+    if (!raw || raw.startsWith("//")) return "";
+    if (/^https?:/i.test(raw)) {
+      try {
+        const url = new URL(raw);
+        return url.origin === window.location.origin ? url.pathname + url.search : "";
+      } catch (_error) {
+        return "";
       }
     }
-    if (effectiveConfig.timeWindow) {
-      const timeLabel = effectiveConfig.timeWindow === "afternoon"
-        ? `${t("Afternoon", "Siang")} (13:00-18:00)`
-        : `${t("Morning", "Pagi")} (08:00-13:00)`;
-      lines.push(`${t("Time", "Waktu")}: ${timeLabel}`);
-    }
-    const notes = window.MarvellConsultation?.normalizeSingleLine?.(effectiveConfig.notes) || String(effectiveConfig.notes || "").trim();
-    if (notes) {
-      lines.push(`${t("Notes", "Catatan")}: ${notes}`);
-    }
-
-    return `https://wa.me/6281275017456?text=${encodeURIComponent(lines.join("\n").trim())}`;
+    return raw.startsWith("/") ? raw : "";
   }
 
-  function syncFooterPlacement() {
-    const footer = document.getElementById("site-footer");
-    const page = document.getElementById("wishlist-page");
-    if (!(footer instanceof HTMLElement) || !(page instanceof HTMLElement)) return;
+  // -- which view, and which list ------------------------------------------
 
-    const mode = page.dataset.mode === "filled" ? "filled" : "empty";
-    const target = document.querySelector(mode === "filled" ? ".wishlist-filled-content" : ".wishlist-empty-content");
-    if (!(target instanceof HTMLElement)) return;
-    if (footer.parentElement === target) return;
-    target.appendChild(footer);
-  }
-
-  function isPresetDate(value) {
-    return AVAILABLE_DATE_OPTIONS.some((option) => option.value === value);
-  }
-
-  function setOrderPopupView(view = "main") {
-    wishlistOrderPopupView = view === "dates" ? "dates" : "main";
-    const popup = document.getElementById("wishlist-order-popup");
-    const trigger = document.getElementById("wishlist-date-trigger");
-    const group = document.getElementById("wishlist-date-group");
-    if (popup instanceof HTMLElement) {
-      popup.classList.toggle("is-date-view", wishlistOrderPopupView === "dates");
-    }
-    if (group instanceof HTMLElement) {
-      group.classList.toggle("is-open", wishlistOrderPopupView === "dates");
-    }
-    if (trigger instanceof HTMLButtonElement) {
-      trigger.setAttribute("aria-expanded", wishlistOrderPopupView === "dates" ? "true" : "false");
+  /**
+   * The list in the address bar. A signed-out visitor has exactly one list
+   * and never carries an id, so the parameter is ignored for them entirely.
+   */
+  function readListFromUrl() {
+    try {
+      return String(new URL(window.location.href).searchParams.get("list") || "").trim();
+    } catch (_error) {
+      return "";
     }
   }
 
-  function setScrollLock(isLocked) {
-    const root = document.documentElement;
-    if (!(document.body instanceof HTMLElement) || !(root instanceof HTMLElement) || isLocked === wishlistPageScrollLocked) return;
-    if (isLocked) {
-      wishlistScrollLockY = window.scrollY || window.pageYOffset || 0;
-      wishlistPageScrollLocked = true;
-      root.classList.add("wishlist-order-popup-open");
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${wishlistScrollLockY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
-      return;
-    }
-    wishlistPageScrollLocked = false;
-    root.classList.remove("wishlist-order-popup-open");
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.left = "";
-    document.body.style.right = "";
-    document.body.style.width = "";
-    window.scrollTo(0, wishlistScrollLockY);
+  /**
+   * The open list is read from the address, never held beside it.
+   *
+   * Holding it in state meant reading the sign-in flag at the moment the
+   * account-change event fired, which is a race: this page and favorites.js
+   * both listen for that event, and whichever runs first decides what the
+   * other sees. The address is already the truth, survives a reload and a
+   * shared link, and cannot disagree with itself.
+   */
+  function activeListId() {
+    return listsLoaded() ? readListFromUrl() : "";
   }
 
-  function closeDatePanel() {
-    wishlistDateCustomPickerOpen = false;
-    setOrderPopupView("main");
+  function setListInUrl(listId, { replace = false } = {}) {
+    try {
+      const url = new URL(window.location.href);
+      if (listId) url.searchParams.set("list", listId);
+      else url.searchParams.delete("list");
+      window.history[replace ? "replaceState" : "pushState"]({ list: listId }, "", url);
+    } catch (_error) {
+      // A browser without history is still shown the right view.
+    }
   }
 
-  function setOrderPanelOpen(isOpen) {
-    const panel = document.getElementById("wishlist-order-popup");
-    const backdrop = document.getElementById("wishlist-order-backdrop");
-    const toggle = document.getElementById("wishlist-order-toggle");
-    if (wishlistOrderPanelOpenFrame) {
-      window.cancelAnimationFrame(wishlistOrderPanelOpenFrame);
-      wishlistOrderPanelOpenFrame = 0;
-    }
-    if (panel instanceof HTMLElement) {
-      panel.hidden = false;
-      panel.setAttribute("aria-hidden", isOpen ? "false" : "true");
-    }
-    if (backdrop instanceof HTMLElement) backdrop.setAttribute("aria-hidden", isOpen ? "false" : "true");
-    if (toggle instanceof HTMLButtonElement) toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    if (isOpen) {
-      document.body.classList.remove("wishlist-order-popup-open");
-      wishlistOrderPanelOpenFrame = window.requestAnimationFrame(() => {
-        wishlistOrderPanelOpenFrame = 0;
-        document.body.classList.add("wishlist-order-popup-open");
-      });
-      setScrollLock(true);
-      setOrderPopupView("main");
-      return;
-    }
-    document.body.classList.remove("wishlist-order-popup-open");
-    setScrollLock(false);
-    setOrderPopupView("main");
+  function currentList() {
+    const { lists, listId } = snapshot();
+    const wanted = activeListId();
+    return lists.find((list) => list.id === wanted)
+      || lists.find((list) => list.id === listId)
+      || null;
   }
 
-  function renderDateOptions() {
-    const optionsWrap = document.getElementById("wishlist-date-options");
-    const customWrap = document.getElementById("wishlist-date-custom-wrap");
-    const customInput = document.getElementById("wishlist-date-custom-input");
-    if (!(optionsWrap instanceof HTMLElement)) return;
+  /** The pieces on screen: the account's list, or the device's one list. */
+  function currentItems() {
+    if (!listsLoaded()) return Favorites()?.getFavorites?.() || [];
+    const list = currentList();
+    return list ? (snapshot().items[list.id] || []) : [];
+  }
 
-    optionsWrap.innerHTML = AVAILABLE_DATE_OPTIONS.map((option) => `
-      <button class="wishlist-date-option${consultationConfig.preferredDate === option.value ? " is-active" : ""}${option.isUnavailable ? " is-unavailable" : ""}" type="button" data-wishlist-date-option="${escapeHtml(option.value)}"${option.isUnavailable ? " aria-disabled=\"true\"" : ""}>
-        <span class="wishlist-date-option-meta">
-          <span class="wishlist-date-option-copy">
-            <span class="wishlist-date-option-label">${escapeHtml(option.longLabel)}</span>
-          </span>
-          ${option.availabilityNote ? `<span class="wishlist-date-option-state">${escapeHtml(option.availabilityNote)}</span>` : ""}
-        </span>
-      </button>
-    `).join("") + `
-      <button class="wishlist-date-option${consultationConfig.preferredDateUnsure ? " is-active" : ""}" type="button" data-wishlist-date-option="unsure">
-        <span class="wishlist-date-option-meta">
-          <span class="wishlist-date-option-copy">
-            <span class="wishlist-date-option-label">${escapeHtml(t("Not sure yet", "Belum yakin"))}</span>
-          </span>
-        </span>
-      </button>
-    ` + `
-      <button class="wishlist-date-option wishlist-date-option--other${wishlistDateCustomPickerOpen ? " is-active" : ""}" type="button" data-wishlist-date-option="other" aria-expanded="${wishlistDateCustomPickerOpen ? "true" : "false"}" aria-controls="wishlist-date-custom-wrap">
-        <span class="wishlist-date-option-meta">
-          <span class="wishlist-date-option-copy">
-            <span class="wishlist-date-option-label">${escapeHtml(t("Others", "Lainnya"))}</span>
-            <span class="wishlist-date-option-short">${escapeHtml(t("Use calendar", "Pilih dari kalender"))}</span>
-          </span>
-          <span class="wishlist-date-option-accordion-icon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </span>
-        </span>
-      </button>
+  // -- drawing --------------------------------------------------------------
+
+  function note(target, message, tone = "") {
+    const node = el(target);
+    if (!node) return;
+    node.textContent = message || "";
+    node.hidden = !message;
+    if (tone) node.dataset.tone = tone;
+    else delete node.dataset.tone;
+  }
+
+  function itemMarkup(item) {
+    const href = safeHref(item.href);
+    const media = `<span class="shop-card-media">${item.image
+      ? `<img src="${escapeHtml(item.image)}" alt="" loading="lazy" decoding="async">` : ""}</span>`;
+    const name = escapeHtml(item.title || t("Saved arrangement", "Rangkaian tersimpan"));
+    return `
+      <li class="shop-card" data-wl-item="${escapeHtml(item.id)}">
+        ${href
+          ? `<a class="wl-media-link" href="${escapeHtml(href)}">${media}</a>` : media}
+        <div class="wl-product-copy">
+          <div class="wl-card-foot">
+            ${href ? `<a class="wl-product-title" href="${escapeHtml(href)}">${name}</a>` : `<span class="wl-product-title">${name}</span>`}
+            ${item.price ? `<span class="wl-product-price">${escapeHtml(item.price)}</span>` : ""}
+          </div>
+          <div class="wl-item-actions">
+            <button class="wl-text-action" type="button" data-wishlist-bag="${escapeHtml(item.id)}" hidden>${escapeHtml(t("Add to bag", "Tambah ke tas"))}</button>
+            ${signedIn() && listsLoaded() ? "" : `<button class="wl-text-action" type="button" data-wl-remove="${escapeHtml(item.id)}">${escapeHtml(t("Remove", "Hapus"))}</button>`}
+          </div>
+        </div>
+        ${signedIn() && listsLoaded() ? `<div class="wl-item-menu" data-open="false">
+          <button class="wl-item-menu-trigger" type="button" data-wl-item-menu-trigger aria-expanded="false">
+            ${editIcon()}<span>${escapeHtml(t("Edit", "Ubah"))}</span>
+          </button>
+          <div class="wl-item-menu-list">
+            <div class="wl-item-menu-head"><span>${escapeHtml(t("Organise piece", "Atur rangkaian"))}</span><button type="button" data-wl-item-menu-close aria-label="${escapeHtml(t("Close", "Tutup"))}">×</button></div>
+            <button class="wl-item-menu-choice" type="button" data-wl-create-for-item="${escapeHtml(item.id)}">${escapeHtml(t("Create a new wishlist", "Buat wishlist baru"))}</button>
+            ${snapshot().lists.length > 1 ? ["move", "copy"].map((action) => `
+              <p class="wl-item-menu-label">${escapeHtml(action === "move" ? t("Move to", "Pindahkan ke") : t("Copy to", "Salin ke"))}</p>
+              ${snapshot().lists.filter((list) => list.id !== currentList()?.id).map((list) => `
+                <button class="wl-item-menu-choice" type="button" data-wl-transfer="${action}" data-wl-to="${escapeHtml(list.id)}" data-wl-item="${escapeHtml(item.id)}">${escapeHtml(list.name)}</button>
+              `).join("")}
+            `).join("") : ""}
+            <button class="wl-item-menu-remove" type="button" data-wl-remove="${escapeHtml(item.id)}">${escapeHtml(t("Remove", "Hapus"))}</button>
+          </div>
+        </div>` : ""}
+      </li>
     `;
-
-    if (customWrap instanceof HTMLElement) {
-      customWrap.hidden = false;
-      customWrap.classList.toggle("is-open", wishlistDateCustomPickerOpen);
-    }
-    if (customInput instanceof HTMLInputElement) {
-      const firstAvailable = AVAILABLE_DATE_OPTIONS.find((option) => !option.isUnavailable)?.value || AVAILABLE_DATE_OPTIONS[0]?.value || "";
-      if (firstAvailable) customInput.min = firstAvailable;
-      customInput.value = consultationConfig.preferredDate && !consultationConfig.preferredDateUnsure && !isPresetDate(consultationConfig.preferredDate)
-        ? consultationConfig.preferredDate
-        : "";
-    }
   }
 
-  function syncConsultationUI(favorites = getFavorites()) {
-    const effectiveConfig = getEffectiveConsultationConfig(favorites, consultationConfig);
-    const giftingToggle = document.getElementById("wishlist-gifting-toggle");
-    const giftingGroup = document.getElementById("wishlist-gifting-group");
-    const giftingPanel = document.getElementById("wishlist-gifting-panel");
-    const cardChoiceButtons = Array.from(document.querySelectorAll("[data-wishlist-card-choice]"));
-    const messageFieldWrap = document.getElementById("wishlist-message-field-wrap");
-    const messageField = document.getElementById("wishlist-message-field");
-    const notesField = document.getElementById("wishlist-notes-field");
-    const consultButton = document.getElementById("wishlist-consult-button");
-    const dateTriggerValue = document.getElementById("wishlist-date-value");
-    const timeTriggerValue = document.getElementById("wishlist-time-value");
-    const timeGroup = document.getElementById("wishlist-time-group");
-    const timePanel = document.getElementById("wishlist-time-panel");
-    const timeIcon = document.getElementById("wishlist-time-icon");
-    const timeChoiceButtons = Array.from(document.querySelectorAll("[data-wishlist-time-window]"));
-    const shippingChoiceButtons = Array.from(document.querySelectorAll("[data-wishlist-shipping-choice]"));
-    const orderToggleValue = document.getElementById("wishlist-order-toggle-value");
-    const orderPopupTitleDates = document.getElementById("wishlist-order-popup-title-dates");
-    const orderApply = document.getElementById("wishlist-order-apply");
-    const hasAnyOrderDetails = hasEffectiveOrderDetails(favorites, consultationConfig);
-
-    setText("wishlist-message-title", t("Order details", "Detail pesanan"));
-    setText("wishlist-order-toggle-label", t("Review details", "Tinjau detail"));
-    setText("wishlist-order-popup-title", t("Order details", "Detail pesanan"));
-    setText("wishlist-order-popup-title-dates", t("Dates", "Tanggal"));
-    setText("wishlist-gifting-label", t("Message card", "Kartu pesan"));
-    setText("wishlist-message-label", t("Message", "Pesan"));
-    setText("wishlist-date-label", t("Preferred date", "Tanggal pilihan"));
-    setText("wishlist-time-label", t("Choose time", "Pilih waktu"));
-    setText("wishlist-time-morning-label", t("Morning", "Pagi"));
-    setText("wishlist-time-afternoon-label", t("Afternoon", "Siang"));
-    setText("wishlist-shipping-label", t("Delivery or pickup", "Pengantaran atau ambil sendiri"));
-    setText("wishlist-shipping-delivery-label", t("Delivery", "Pengantaran"));
-    setText("wishlist-shipping-delivery-note", t("Batam only. Any fee is discussed separately.", "Khusus area Batam. Biaya dibicarakan terpisah."));
-    setText("wishlist-shipping-pickup-label", t("Pickup", "Ambil sendiri"));
-    setText("wishlist-shipping-pickup-note", t("Ruko Kintamani, Jl. Raja H. Fisabilillah Blok C11.", "Ruko Kintamani, Jl. Raja H. Fisabilillah Blok C11."));
-    setText("wishlist-order-date-kicker", t("Dates", "Tanggal"));
-    setText("wishlist-date-other-label", t("Others", "Lainnya"));
-    setText("wishlist-notes-label", t("Notes", "Catatan"));
-    const blankButton = document.getElementById("wishlist-card-blank");
-    const messageButton = document.getElementById("wishlist-card-message");
-    const blankButtonLabel = blankButton?.querySelector?.(".wishlist-config-choice-label");
-    const messageButtonLabel = messageButton?.querySelector?.(".wishlist-config-choice-label");
-    if (blankButtonLabel instanceof HTMLElement) blankButtonLabel.textContent = t("Blank card", "Kartu kosong");
-    if (messageButtonLabel instanceof HTMLElement) messageButtonLabel.textContent = t("Personal message", "Pesan pribadi");
-
-    if (messageField instanceof HTMLTextAreaElement) {
-      if (messageField.value !== consultationConfig.message) messageField.value = consultationConfig.message;
-      messageField.placeholder = t("Write your message...", "Tulis pesan Anda...");
-    }
-    if (notesField instanceof HTMLTextAreaElement) {
-      if (notesField.value !== consultationConfig.notes) notesField.value = consultationConfig.notes;
-      notesField.placeholder = t("Additional notes (optional)", "Catatan tambahan (opsional)");
-    }
-
-    if (giftingGroup instanceof HTMLElement) giftingGroup.classList.toggle("is-open", consultationConfig.giftingEnabled);
-    if (giftingToggle instanceof HTMLButtonElement) {
-      giftingToggle.setAttribute("aria-pressed", consultationConfig.giftingEnabled ? "true" : "false");
-      giftingToggle.setAttribute("aria-expanded", consultationConfig.giftingEnabled ? "true" : "false");
-    }
-    if (giftingPanel instanceof HTMLElement) giftingPanel.hidden = false;
-    cardChoiceButtons.forEach((button) => {
-      if (!(button instanceof HTMLButtonElement)) return;
-      const isActive = button.dataset.wishlistCardChoice === consultationConfig.cardChoice;
-      button.classList.toggle("is-active", isActive);
-      button.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
-    if (messageFieldWrap instanceof HTMLElement) {
-      messageFieldWrap.hidden = false;
-      messageFieldWrap.classList.toggle("is-visible", consultationConfig.giftingEnabled && consultationConfig.cardChoice === "add-message");
-    }
-
-    if (dateTriggerValue instanceof HTMLElement) {
-      const displayLabel = consultationConfig.preferredDateUnsure
-        ? t("Not sure yet", "Belum yakin")
-        : (window.MarvellConsultation?.formatPreferredDate?.(consultationConfig.preferredDate) || "");
-      dateTriggerValue.textContent = displayLabel;
-      dateTriggerValue.classList.toggle("is-selected", Boolean(displayLabel));
-    }
-    if (consultationConfig.timeWindow === "morning" && window.MarvellConsultation?.isMorningTimeUnavailable?.(consultationConfig.preferredDate)) {
-      consultationConfig.timeWindow = "";
-      writeConsultationConfig(consultationConfig);
-      markOrderDetailsDirty();
-    }
-    if (timeTriggerValue instanceof HTMLElement) {
-      const displayLabel = consultationConfig.timeWindow === "afternoon"
-        ? t("Afternoon", "Siang")
-        : consultationConfig.timeWindow === "morning"
-          ? t("Morning", "Pagi")
-          : "";
-      timeTriggerValue.textContent = displayLabel;
-      timeTriggerValue.classList.toggle("is-selected", Boolean(displayLabel));
-    }
-    const timeIsOpen = timeGroup instanceof HTMLElement && timeGroup.classList.contains("is-open");
-    if (timePanel instanceof HTMLElement) timePanel.hidden = false;
-    if (timeIcon instanceof HTMLElement) timeIcon.classList.toggle("is-open", timeIsOpen);
-    timeChoiceButtons.forEach((button) => {
-      if (!(button instanceof HTMLButtonElement)) return;
-      const isUnavailable = button.dataset.wishlistTimeWindow === "morning" && window.MarvellConsultation?.isMorningTimeUnavailable?.(consultationConfig.preferredDate);
-      const isActive = button.dataset.wishlistTimeWindow === consultationConfig.timeWindow;
-      button.classList.toggle("is-active", isActive);
-      button.classList.toggle("is-unavailable", Boolean(isUnavailable));
-      button.disabled = Boolean(isUnavailable);
-      button.setAttribute("aria-disabled", isUnavailable ? "true" : "false");
-      button.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
-    shippingChoiceButtons.forEach((button) => {
-      if (!(button instanceof HTMLButtonElement)) return;
-      const isActive = button.dataset.wishlistShippingChoice === consultationConfig.deliveryMode;
-      button.classList.toggle("is-active", isActive);
-      button.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
-    if (orderToggleValue instanceof HTMLElement) {
-      orderToggleValue.textContent = "";
-    }
-    if (orderApply instanceof HTMLButtonElement) {
-      orderApply.textContent = t("Apply", "Terapkan");
-      orderApply.disabled = !hasAnyOrderDetails;
-      orderApply.classList.toggle("is-disabled", !hasAnyOrderDetails);
-    }
-    renderDateOptions();
-    setOrderPopupView(wishlistOrderPopupView);
-
-    if (consultButton instanceof HTMLAnchorElement) {
-      consultButton.textContent = t("Consult on WhatsApp", "Konsultasi via WhatsApp");
-      consultButton.href = hasAnyOrderDetails && hasReviewedOrderDetails
-        ? buildConsultationHref(favorites, effectiveConfig)
-        : "#";
-      consultButton.classList.remove("is-disabled");
-      consultButton.setAttribute("aria-disabled", "false");
-    }
+  /**
+   * The name a new list is born with.
+   *
+   * Naming a list before it exists is a form to fill in before anything has
+   * been saved to it, which is the wrong order: the list is the point, the
+   * name is an afterthought. So it arrives as "Wishlist 2" and is renamed
+   * later, from its own Options menu, if it is ever worth naming.
+   *
+   * The first free number is used rather than the count, so deleting
+   * "Wishlist 2" and making another does not produce two of them.
+   */
+  function nextListName() {
+    const taken = new Set(
+      snapshot().lists.map((list) => String(list.name || "").trim().toLowerCase())
+    );
+    const base = t("Wishlist", "Wishlist");
+    let index = 1;
+    while (taken.has(`${base} ${index}`.toLowerCase())) index += 1;
+    return `${base} ${index}`;
   }
 
-  function renderWishlist() {
-    const favorites = getFavorites();
-    const hasItems = favorites.length > 0;
-    document.title = t("Wishlist | Marvell Florist", "Wishlist | Marvell Florist");
+  function renderIndex() {
+    const { lists, items, listId: defaultId } = snapshot();
+    el("[data-wl-tally]").textContent = ` (${lists.length})`;
+    const create = el("[data-wl-create]");
+    create.textContent = t("Create a new wishlist", "Buat wishlist baru");
+    create.disabled = state.busy;
 
-    const emptyStage = document.getElementById("wishlist-empty-stage");
-    const filledStage = document.getElementById("wishlist-filled-stage");
-    const list = document.getElementById("wishlist-list");
-    const clearButton = document.getElementById("wishlist-clear");
-    const page = document.getElementById("wishlist-page");
-
-    if (page instanceof HTMLElement) page.dataset.mode = hasItems ? "filled" : "empty";
-    if (emptyStage instanceof HTMLElement) {
-      emptyStage.hidden = hasItems;
-      emptyStage.setAttribute("aria-hidden", hasItems ? "true" : "false");
-    }
-    if (filledStage instanceof HTMLElement) {
-      filledStage.hidden = !hasItems;
-      filledStage.setAttribute("aria-hidden", hasItems ? "false" : "true");
-    }
-    if (clearButton instanceof HTMLButtonElement) clearButton.hidden = !hasItems;
-
-    setText("wishlist-empty-kicker", t("Your selections", "Pilihan Anda"));
-    setText("wishlist-empty-title", t("Wishlist is empty.", "Wishlist masih kosong."));
-    setText(
-      "wishlist-empty-text",
-      t(
-        "Tap the heart on any arrangement to save it here, then return to compare them quietly in one place.",
-        "Ketuk ikon hati pada rangkaian mana pun untuk menyimpannya di sini, lalu kembali untuk membandingkannya dengan tenang di satu tempat."
-      )
-    );
-    setText("wishlist-empty-primary", t("Continue Exploring", "Lanjut Menjelajah"));
-    setText("wishlist-empty-secondary", t("Explore Collections", "Jelajahi Koleksi"));
-    setText("wishlist-side-help-title", t("May we help?", "Bisa kami bantu?"));
-    setText(
-      "wishlist-side-help-copy",
-      t(
-        "Saved arrangements stay only on this device, so you can revisit them and compare details quietly later.",
-        "Rangkaian yang disimpan hanya tersimpan di perangkat ini, jadi Anda bisa membukanya kembali dan membandingkan detailnya nanti dengan tenang."
-      )
-    );
-    setText("wishlist-side-compare-title", t("How comparison works", "Cara membandingkan"));
-    setText(
-      "wishlist-side-compare-copy",
-      t(
-        "Use the hearts across portfolio, collections, and product pages. Each saved arrangement appears here with its image, category, and price when available.",
-        "Gunakan ikon hati di portfolio, koleksi, dan halaman produk. Setiap rangkaian yang disimpan akan muncul di sini dengan gambar, kategori, dan harga bila tersedia."
-      )
-    );
-    setText("wishlist-side-device-title", t("Device only", "Hanya di perangkat ini"));
-    setText(
-      "wishlist-side-device-copy",
-      t(
-        "Your wishlist is stored locally in this browser, so it will not automatically appear on another phone or laptop.",
-        "Wishlist Anda disimpan secara lokal di browser ini, jadi tidak akan otomatis muncul di ponsel atau laptop lain."
-      )
-    );
-    setText("wishlist-filled-title", t("Wishlist", "Wishlist"));
-    setText("wishlist-flow-step-wishlist", t("Wishlist", "Wishlist"));
-    setText("wishlist-flow-step-consultation", t("Consultation", "Konsultasi"));
-    setText("wishlist-flow-step-confirmation", t("Confirmation", "Konfirmasi"));
-    setText("wishlist-selections-kicker", favorites.length === 1 ? t("Your Selection", "Pilihan Anda") : t("Your Selections", "Pilihan Anda"));
-    setText(
-      "wishlist-selections-count",
-      favorites.length === 1 ? t("1 saved arrangement", "1 rangkaian tersimpan") : t(`${favorites.length} saved arrangements`, `${favorites.length} rangkaian tersimpan`)
-    );
-    setText("wishlist-clear", t("Clear Wishlist", "Hapus Wishlist"));
-    setText("wishlist-details-title", t("View details", "Lihat detail"));
-    setText(
-      "wishlist-details-copy",
-      t(
-        "Open any saved arrangement to review the original product page, reference images, and pricing before consultation.",
-        "Buka rangkaian yang disimpan untuk melihat halaman produk asli, gambar referensi, dan harga sebelum berkonsultasi."
-      )
-    );
-    setText("wishlist-service-title", t("Customer service", "Layanan pelanggan"));
-    setText("wishlist-service-hours-label", t("Consultation hours", "Jam konsultasi"));
-    setText("wishlist-service-hours-days", t("Monday to Saturday 8am-6pm WIB", "Senin sampai Sabtu 08.00-18.00 WIB"));
-    setText("wishlist-service-copy", t(
-      "Send your wishlist on WhatsApp and we will review each arrangement with you before anything is finalized.",
-      "Kirim wishlist Anda lewat WhatsApp dan kami akan meninjau setiap rangkaian bersama Anda sebelum semuanya dipastikan."
-    ));
-    setText("wishlist-service-step-1", t(
-      "Share your saved wishlist and any notes you want us to consider.",
-      "Bagikan wishlist yang sudah disimpan beserta catatan yang ingin Anda sampaikan."
-    ));
-    setText("wishlist-service-step-2", t(
-      "We confirm design direction, availability, delivery timing, and final pricing with you.",
-      "Kami mengonfirmasi arah desain, ketersediaan, waktu pengiriman, dan harga akhir bersama Anda."
-    ));
-    setText("wishlist-service-step-3", t(
-      "After confirmation, payment and preparation continue according to the agreed arrangement.",
-      "Setelah dikonfirmasi, pembayaran dan persiapan akan dilanjutkan sesuai rangkaian yang sudah disepakati."
-    ));
-    setText("wishlist-service-note", t(
-      "Orders confirmed after 6pm WIB are scheduled from the next available day.",
-      "Pesanan yang dikonfirmasi setelah pukul 18.00 WIB akan dijadwalkan mulai hari tersedia berikutnya."
-    ));
-    setText("wishlist-assurance-custom-title", t("Customizable", "Dapat disesuaikan"));
-    setText("wishlist-assurance-availability-title", t("Availability Discussed", "Ketersediaan Dibahas"));
-    setText("wishlist-assurance-delivery-title", t("Delivery Coordinated", "Pengiriman Dikoordinasikan"));
-
-    const emptyPrimary = document.getElementById("wishlist-empty-primary");
-    if (emptyPrimary instanceof HTMLAnchorElement) emptyPrimary.href = localizedHref("gallery.html?entry=home-cta");
-    const emptySecondary = document.getElementById("wishlist-empty-secondary");
-    if (emptySecondary instanceof HTMLAnchorElement) emptySecondary.href = localizedHref("featured.html");
-
-    if (!(list instanceof HTMLElement)) return;
-    if (!hasItems) {
-      list.innerHTML = "";
-      syncConsultationUI(favorites);
-      syncFooterPlacement();
-      return;
-    }
-
-    list.innerHTML = favorites.map((item) => {
-      const href = localizedHref(item.href || "");
-      const quantity = Math.max(1, Number.parseInt(String(item.quantity ?? 1), 10) || 1);
-      const usesBoardAmount = isFloralBoardCategory(item.category);
-      const boardCount = getFloralBoardCount(item);
-      const boardAmountLabel = boardCount === 1 ? t("1 Board", "1 Papan") : t(`${boardCount} Boards`, `${boardCount} Papan`);
-      const quantityOptions = Array.from({ length: 9 }, (_, index) => {
-        const value = index + 1;
-        return `
-          <button
-            class="wishlist-card-qty-option${value === quantity ? " is-active" : ""}"
-            type="button"
-            data-wishlist-quantity-option="${escapeHtml(item.id)}"
-            data-quantity-value="${value}"
-            role="option"
-            aria-selected="${value === quantity ? "true" : "false"}"
-          >${value}</button>
-        `;
+    el("[data-wl-lists]").innerHTML = lists.map((list) => {
+      const allRows = items[list.id] || [];
+      const rows = allRows.slice(0, 4);
+      const cells = (rows.length ? rows : [null]).map((item, index) => {
+        return `<span class="wl-collage-cell">${item?.image
+          ? `<img src="${escapeHtml(item.image)}" alt="" loading="lazy" decoding="async">` : ""}${index === 3 && allRows.length > 4
+          ? `<span class="wl-collage-more">+${allRows.length - 4}</span>` : ""}</span>`;
       }).join("");
-      return `
-        <article class="wishlist-card">
-          <a class="wishlist-card-media" href="${escapeHtml(href)}">
-            ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title || t("Saved arrangement", "Rangkaian tersimpan"))}" loading="lazy" decoding="async">` : `<div class="wishlist-card-placeholder" aria-hidden="true"></div>`}
-          </a>
-          <div class="wishlist-card-body">
-            <div class="wishlist-card-topline">
-              <div class="wishlist-card-copy">
-                ${item.category ? `<p class="wishlist-card-category">${escapeHtml(item.category)}</p>` : ""}
-                <h2 class="wishlist-card-title">${escapeHtml(item.title || t("Saved arrangement", "Rangkaian tersimpan"))}</h2>
-                ${item.price ? `<p class="wishlist-card-price">${escapeHtml(item.price)}</p>` : ""}
-                ${usesBoardAmount ? `<p class="wishlist-card-amount">${escapeHtml(boardAmountLabel)}</p>` : ""}
+      const collage = `<span class="wl-collage" data-count="${rows.length}">${cells}</span>`;
+      // Renaming happens where the name is, rather than by opening the list
+      // to find the control. The card turns into its own field.
+      if (state.renamingCard === list.id) {
+        return `
+          <li class="wl-list-card">
+            ${collage}
+            <form class="wl-card-rename" data-wl-card-rename-form="${escapeHtml(list.id)}">
+              <input type="text" maxlength="80" value="${escapeHtml(list.name)}"
+                data-wl-card-rename-input aria-label="${escapeHtml(t("List name", "Nama daftar"))}">
+              <div class="wl-card-rename-actions">
+                <button type="submit">${escapeHtml(t("Save", "Simpan"))}</button>
+                <button type="button" data-wl-card-rename-cancel>${escapeHtml(t("Cancel", "Batal"))}</button>
               </div>
-              ${usesBoardAmount ? "" : `
-                <div class="wishlist-card-qty">
-                  <span class="wishlist-card-qty-label">${escapeHtml(t("Qty:", "Jumlah:"))}</span>
-                  <button
-                    class="wishlist-card-qty-trigger"
-                    type="button"
-                    data-wishlist-quantity-trigger="${escapeHtml(item.id)}"
-                    aria-haspopup="listbox"
-                    aria-expanded="false"
-                    aria-label="${escapeHtml(t("Quantity", "Jumlah"))}"
-                  >
-                    <span class="wishlist-card-qty-trigger-label">${escapeHtml(t("Qty:", "Jml:"))}</span>
-                    <span class="wishlist-card-qty-trigger-value">${quantity}</span>
-                  </button>
-                  <div class="wishlist-card-qty-menu" role="listbox" aria-label="${escapeHtml(t("Quantity", "Jumlah"))}">
-                    ${quantityOptions}
-                  </div>
-                </div>
-              `}
-            </div>
-            <div class="wishlist-card-actions">
-              <a class="wishlist-card-link" href="${escapeHtml(href)}">${escapeHtml(t("View Product", "Lihat Produk"))}</a>
-              <button class="wishlist-card-remove" type="button" data-wishlist-remove="${escapeHtml(item.id)}">${escapeHtml(t("Remove", "Hapus"))}</button>
+            </form>
+          </li>
+        `;
+      }
+      return `
+        <li class="wl-list-card">
+          <a class="wl-collage" data-count="${rows.length}" href="/wishlist?list=${encodeURIComponent(list.id)}"
+            data-wl-open="${escapeHtml(list.id)}" aria-label="${escapeHtml(list.name)}">${cells}</a>
+          <div class="wl-list-foot">
+            <a class="wl-list-name" href="/wishlist?list=${encodeURIComponent(list.id)}"
+              data-wl-open="${escapeHtml(list.id)}">${escapeHtml(list.name)}</a>
+            <div class="wl-menu" data-open="false">
+              <button class="wl-card-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false"
+                data-wl-card-menu-trigger
+                aria-label="${escapeHtml(t(`Options for ${list.name}`, `Opsi untuk ${list.name}`))}">${optionsIcon()}</button>
+              <ul class="wl-menu-list" data-align="end">
+                <li><button type="button" data-wl-card-share="${escapeHtml(list.id)}">${escapeHtml(
+                  list.shared_with_marvell ? t("Stop sharing with Marvell", "Berhenti berbagi dengan Marvell") : t("Share with Marvell", "Bagikan dengan Marvell")
+                )}</button></li>
+                <li><button type="button" data-wl-card-rename="${escapeHtml(list.id)}">${escapeHtml(
+                  t("Rename list", "Ganti nama daftar")
+                )}</button></li>
+                ${list.id === defaultId ? "" : `<li><button type="button" data-destructive data-wl-card-delete="${escapeHtml(list.id)}">${escapeHtml(
+                  t("Delete list", "Hapus daftar")
+                )}</button></li>`}
+              </ul>
             </div>
           </div>
-        </article>
+        </li>
       `;
     }).join("");
-
-    syncConsultationUI(favorites);
-    syncFooterPlacement();
   }
 
-  function bindAccordionScope(scope) {
-    if (!(scope instanceof HTMLElement)) return;
-    scope.addEventListener("click", (event) => {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const trigger = target.closest(".wishlist-side-trigger");
-      if (!(trigger instanceof HTMLElement)) return;
-      const parent = trigger.parentElement;
-      if (parent instanceof HTMLElement) parent.classList.toggle("is-open");
-    });
+  function renderDetail() {
+    const account = listsLoaded();
+    const person = signedIn();
+    const list = account ? currentList() : null;
+    const items = currentItems();
+    const isDefault = Boolean(list?.is_default);
+
+    el("[data-wl-detail-top]").hidden = !account;
+    el("[data-wl-back-label]").textContent = t("Back to all wishlists", "Kembali ke semua wishlist");
+    const tally = items.length === 1
+      ? escapeHtml(t("1 item", "1 item"))
+      : escapeHtml(t(`${items.length} items`, `${items.length} item`));
+    const detailName = el("[data-wl-detail-name]");
+    detailName.innerHTML = `${escapeHtml(
+      account ? (list?.name || t("Saved", "Tersimpan")) : t("Saved", "Tersimpan")
+    )}<span class="wl-tally">${tally}</span>`;
+    // Renaming replaces the title itself. Keeping the heading in the layout
+    // while placing a second form farther down the sidebar made the control
+    // feel detached from the name it was changing.
+    detailName.hidden = state.renaming;
+
+    // No caption. A wishlist that has pieces in it does not need a line
+    // explaining where they are kept — the account already says that, and
+    // repeating it on every visit turns the room into a status readout.
+    // The only thing worth saying is said at the bottom, once, and only to
+    // somebody who is not signed in.
+    const sub = el("[data-wl-detail-sub]");
+    sub.textContent = "";
+    sub.hidden = true;
+
+    // Somebody already signed in is never invited to sign in. If their lists
+    // could not be reached, that is what the foot says instead — the pieces
+    // above it are this device's, and saying so is the honest version of
+    // what used to be a sign-in prompt they could do nothing with.
+    const foot = el("[data-wl-foot]");
+    if (foot) {
+      if (person && !account) {
+        foot.hidden = false;
+        foot.textContent = t(
+          "We could not reach your saved lists just now. These are the pieces saved on this device.",
+          "Kami belum bisa menjangkau daftar tersimpan Anda. Ini adalah rangkaian yang tersimpan di perangkat ini."
+        );
+      } else if (!person && items.length) {
+        foot.hidden = false;
+        foot.innerHTML = `<button class="wl-linkish" type="button" data-account-open>${escapeHtml(
+          t("Sign in to keep your wishlist anywhere.", "Masuk untuk menyimpan wishlist Anda di mana saja.")
+        )}</button>`;
+      } else {
+        foot.hidden = true;
+        foot.innerHTML = "";
+      }
+    }
+
+    // Sharing is an account's to give, so a signed-out visitor is not offered
+    // it. Off unless the customer turned it on, and separate from any
+    // personalisation preference on their profile.
+    const share = el("[data-wl-share]");
+    share.hidden = !account;
+    if (account) {
+      el("[data-wl-share-input]").checked = Boolean(list?.shared_with_marvell);
+      el("[data-wl-share-input]").disabled = state.busy;
+      el("[data-wl-share-label]").textContent = t("Share this wishlist with Marvell", "Bagikan wishlist ini dengan Marvell");
+      el("[data-wl-share-note]").textContent = t(
+        "Share this list with Marvell if you would like our team to use it when assisting you. It is not public.",
+        "Bagikan daftar ini dengan Marvell jika Anda ingin tim kami menggunakannya saat membantu Anda. Daftar ini tidak terbuka untuk umum."
+      );
+    }
+
+    const menu = el("[data-wl-detail-menu]");
+    menu.hidden = !account;
+    el("[data-wl-detail-create]").hidden = !account;
+    el("[data-wl-detail-create]").textContent = t("Create a new wishlist", "Buat wishlist baru");
+    const detailMenuTrigger = el("[data-wl-detail-menu-trigger]");
+    detailMenuTrigger.innerHTML = optionsIcon();
+    detailMenuTrigger.setAttribute("aria-label", t("List options", "Opsi wishlist"));
+    el("[data-wl-detail-menu-list]").innerHTML = account ? `
+      <li><button type="button" data-wl-rename>${escapeHtml(t("Rename list", "Ganti nama daftar"))}</button></li>
+      ${isDefault ? "" : `<li><button type="button" data-destructive data-wl-delete>${escapeHtml(t("Delete list", "Hapus daftar"))}</button></li>`}
+    ` : "";
+
+    el("[data-wl-rename-form]").hidden = !state.renaming;
+    el("[data-wl-rename-save]").textContent = t("Save", "Simpan");
+    el("[data-wl-rename-cancel]").textContent = t("Cancel", "Batal");
+
+    el("[data-wl-items]").innerHTML = items.map((item) => itemMarkup(item)).join("");
+    Favorites()?.bindBagActions?.(el("[data-wl-items]"), items);
+    const empty = el("[data-wl-empty]");
+    empty.hidden = Boolean(items.length);
+    // Emptied as well as hidden. It used to keep whatever the last empty
+    // render left in it, so a sign-in offer written while signed out stayed
+    // in the page — invisible, but still there to be found.
+    if (items.length) empty.innerHTML = "";
+    // An empty list is the one place a sentence earns its keep: there is
+    // nothing else on screen to explain what this room is for.
+    if (!items.length) {
+      empty.innerHTML = `
+        <p class="wl-empty-lead">${escapeHtml(t("Nothing saved here yet", "Belum ada yang tersimpan di sini"))}</p>
+        <p>${escapeHtml(t(
+          "Tap the heart on any arrangement to keep it here.",
+          "Ketuk ikon hati pada rangkaian mana pun untuk menyimpannya di sini."
+        ))}</p>
+        ${person ? "" : `<p><button class="wl-linkish" type="button" data-account-open>${escapeHtml(
+          t("Sign in to keep your wishlist anywhere.", "Masuk untuk menyimpan wishlist Anda di mana saja.")
+        )}</button></p>`}
+      `;
+    }
   }
 
-  function bindWishlistPage() {
-    const clearButton = document.getElementById("wishlist-clear");
-    const list = document.getElementById("wishlist-list");
-    const page = document.getElementById("wishlist-page");
-    const orderToggle = document.getElementById("wishlist-order-toggle");
-    const orderPopupClose = document.getElementById("wishlist-order-popup-close");
-    const orderBackdrop = document.getElementById("wishlist-order-backdrop");
-    const orderApply = document.getElementById("wishlist-order-apply");
-    const giftingToggle = document.getElementById("wishlist-gifting-toggle");
-    const cardChoiceButtons = Array.from(document.querySelectorAll("[data-wishlist-card-choice]"));
-    const messageField = document.getElementById("wishlist-message-field");
-    const notesField = document.getElementById("wishlist-notes-field");
-    const dateTrigger = document.getElementById("wishlist-date-trigger");
-    const timeTrigger = document.getElementById("wishlist-time-trigger");
-    const timeGroup = document.getElementById("wishlist-time-group");
-    const timePanel = document.getElementById("wishlist-time-panel");
-    const timeChoiceButtons = Array.from(document.querySelectorAll("[data-wishlist-time-window]"));
-    const shippingChoiceButtons = Array.from(document.querySelectorAll("[data-wishlist-shipping-choice]"));
-    const consultButton = document.getElementById("wishlist-consult-button");
-    const dateOptions = document.getElementById("wishlist-date-options");
-    const dateCustomInput = document.getElementById("wishlist-date-custom-input");
-    const dateCustomWrap = document.getElementById("wishlist-date-custom-wrap");
+  function render() {
+    // A signed-out visitor has one list, so the index would be a page with a
+    // single card on it. They go straight to the pieces — and so does a
+    // customer whose lists could not be loaded, because an index of nothing
+    // is worse than their pieces with an explanation under them.
+    const showIndex = listsLoaded() && !activeListId();
+    const accountNav = document.querySelector("[data-wl-account-nav]");
+    if (accountNav) accountNav.hidden = !signedIn();
+    el('[data-wl-view="index"]').hidden = !showIndex;
+    el('[data-wl-view="detail"]').hidden = showIndex;
+    if (showIndex) renderIndex();
+    else renderDetail();
+    window.MarvellIcons?.adopt?.(main);
+  }
 
-    if (orderToggle instanceof HTMLButtonElement && orderToggle.dataset.bound !== "1") {
-      orderToggle.dataset.bound = "1";
-      orderToggle.addEventListener("click", () => {
-        const isOpen = document.body.classList.contains("wishlist-order-popup-open");
-        setOrderPanelOpen(!isOpen);
-      });
+  // -- account writes -------------------------------------------------------
+
+  /**
+   * Every list change goes through the heart's queue, so this page and the
+   * quick panel can never hold different ideas of the same list. The page is
+   * redrawn from the snapshot the server returned, never from a guess.
+   */
+  async function operate(body, { noteTarget = "[data-wl-detail-note]" } = {}) {
+    if (state.busy) return false;
+    state.busy = true;
+    note(noteTarget, "");
+    try {
+      await Favorites()?.accountOperation?.(body);
+      return true;
+    } catch (_error) {
+      note(noteTarget, t("Please try again shortly.", "Silakan coba lagi sebentar."), "error");
+      return false;
+    } finally {
+      state.busy = false;
+      render();
     }
+  }
 
-    if (orderPopupClose instanceof HTMLButtonElement && orderPopupClose.dataset.bound !== "1") {
-      orderPopupClose.dataset.bound = "1";
-      orderPopupClose.addEventListener("click", () => {
-        setOrderPanelOpen(false);
-        if (orderToggle instanceof HTMLButtonElement) orderToggle.focus();
-      });
+  async function createList({ moveItemId = "" } = {}) {
+    const before = new Set(snapshot().lists.map((list) => list.id));
+    const sourceId = currentList()?.id;
+    if (!await operate({ operation: "create_list", name: nextListName() }, { noteTarget: "[data-wl-note]" })) return;
+    const made = snapshot().lists.find((list) => !before.has(list.id));
+    if (!made) return;
+    if (moveItemId && sourceId) {
+      await operate({ operation: "move_item", from_list_id: sourceId,
+        to_list_id: made.id, item_key: moveItemId });
     }
-
-    if (orderBackdrop instanceof HTMLElement && orderBackdrop.dataset.bound !== "1") {
-      orderBackdrop.dataset.bound = "1";
-      orderBackdrop.addEventListener("click", () => {
-        setOrderPanelOpen(false);
-      });
+    // Made, then named. The list opens with its number already in the field,
+    // so naming it is one gesture away and skipping it costs nothing — which
+    // is the whole point of not asking for a name up front.
+    state.renaming = true;
+    setListInUrl(made.id);
+    render();
+    const input = el("[data-wl-rename-input]");
+    if (input) {
+      input.value = made.name || "";
+      input.focus();
     }
+  }
 
-    if (clearButton instanceof HTMLButtonElement && clearButton.dataset.bound !== "1") {
-      clearButton.dataset.bound = "1";
-      clearButton.addEventListener("click", () => {
-        window.MarvellFavorites?.clearFavorites?.();
-        renderWishlist();
-      });
-    }
-
-    if (list instanceof HTMLElement && list.dataset.bound !== "1") {
-      list.dataset.bound = "1";
-      list.addEventListener("click", (event) => {
-        const target = event.target;
-        if (!(target instanceof Element)) return;
-        const qtyOption = target.closest("[data-wishlist-quantity-option]");
-        if (qtyOption instanceof HTMLElement) {
-          event.preventDefault();
-          const itemId = qtyOption.getAttribute("data-wishlist-quantity-option");
-          const value = qtyOption.getAttribute("data-quantity-value");
-          if (!itemId || !value) return;
-          window.MarvellFavorites?.setFavoriteQuantity?.(itemId, value);
-          renderWishlist();
-          return;
-        }
-        const qtyTrigger = target.closest("[data-wishlist-quantity-trigger]");
-        if (qtyTrigger instanceof HTMLElement) {
-          event.preventDefault();
-          const container = qtyTrigger.closest(".wishlist-card-qty");
-          if (!(container instanceof HTMLElement)) return;
-          const shouldOpen = !container.classList.contains("is-open");
-          list.querySelectorAll(".wishlist-card-qty.is-open").forEach((node) => {
-            if (node instanceof HTMLElement) {
-              node.classList.remove("is-open");
-              node.querySelector(".wishlist-card-qty-trigger")?.setAttribute("aria-expanded", "false");
-            }
-          });
-          if (shouldOpen) {
-            container.classList.add("is-open");
-            qtyTrigger.setAttribute("aria-expanded", "true");
-          }
-          return;
-        }
-        const remove = target.closest("[data-wishlist-remove]");
-        if (remove instanceof HTMLElement) {
-          event.preventDefault();
-          const itemId = remove.getAttribute("data-wishlist-remove");
-          if (!itemId) return;
-          window.MarvellFavorites?.removeFavorite?.(itemId);
-          renderWishlist();
-        }
-      });
-    }
-
-    if (giftingToggle instanceof HTMLButtonElement && giftingToggle.dataset.bound !== "1") {
-      giftingToggle.dataset.bound = "1";
-      giftingToggle.addEventListener("click", () => {
-        consultationConfig.giftingEnabled = !consultationConfig.giftingEnabled;
-        if (!consultationConfig.giftingEnabled) {
-          consultationConfig.cardChoice = "blank-card";
-          consultationConfig.message = "";
-          if (messageField instanceof HTMLTextAreaElement) messageField.value = "";
-        }
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      });
-    }
-
-    cardChoiceButtons.forEach((button) => {
-      if (!(button instanceof HTMLButtonElement) || button.dataset.bound === "1") return;
-      button.dataset.bound = "1";
-      button.addEventListener("click", () => {
-        consultationConfig.cardChoice = button.dataset.wishlistCardChoice === "add-message" ? "add-message" : "blank-card";
-        if (consultationConfig.cardChoice !== "add-message") {
-          consultationConfig.message = "";
-          if (messageField instanceof HTMLTextAreaElement) messageField.value = "";
-        } else if (messageField instanceof HTMLTextAreaElement) {
-          window.requestAnimationFrame(() => messageField.focus());
-        }
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      });
-    });
-
-    if (messageField instanceof HTMLTextAreaElement && messageField.dataset.bound !== "1") {
-      messageField.dataset.bound = "1";
-      messageField.addEventListener("input", () => {
-        consultationConfig.message = messageField.value;
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      });
-    }
-
-    if (notesField instanceof HTMLTextAreaElement && notesField.dataset.bound !== "1") {
-      notesField.dataset.bound = "1";
-      notesField.addEventListener("input", () => {
-        consultationConfig.notes = notesField.value;
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      });
-    }
-
-    if (timeTrigger instanceof HTMLButtonElement && timeTrigger.dataset.bound !== "1") {
-      timeTrigger.dataset.bound = "1";
-      timeTrigger.addEventListener("click", () => {
-        if (!(timeGroup instanceof HTMLElement)) return;
-        const isOpen = timeGroup.classList.contains("is-open");
-        timeGroup.classList.toggle("is-open", !isOpen);
-        timeTrigger.setAttribute("aria-expanded", !isOpen ? "true" : "false");
-        syncConsultationUI();
-      });
-    }
-
-    timeChoiceButtons.forEach((button) => {
-      if (!(button instanceof HTMLButtonElement) || button.dataset.bound === "1") return;
-      button.dataset.bound = "1";
-      button.addEventListener("click", () => {
-        if (button.disabled || button.classList.contains("is-unavailable")) return;
-        const value = button.dataset.wishlistTimeWindow === "afternoon" ? "afternoon" : "morning";
-        consultationConfig.timeWindow = consultationConfig.timeWindow === value ? "" : value;
-        if (timeGroup instanceof HTMLElement && consultationConfig.timeWindow) {
-          timeGroup.classList.remove("is-open");
-        }
-        if (timeTrigger instanceof HTMLButtonElement) {
-          timeTrigger.setAttribute("aria-expanded", "false");
-        }
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      });
-    });
-
-    shippingChoiceButtons.forEach((button) => {
-      if (!(button instanceof HTMLButtonElement) || button.dataset.bound === "1") return;
-      button.dataset.bound = "1";
-      button.addEventListener("click", () => {
-        const value = button.dataset.wishlistShippingChoice === "pickup" ? "pickup" : "delivery";
-        consultationConfig.deliveryMode = consultationConfig.deliveryMode === value ? "" : value;
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      });
-    });
-
-    if (dateTrigger instanceof HTMLButtonElement && dateTrigger.dataset.bound !== "1") {
-      dateTrigger.dataset.bound = "1";
-      dateTrigger.addEventListener("click", () => {
-        wishlistDateCustomPickerOpen = false;
-        setOrderPopupView("dates");
-        renderDateOptions();
-      });
-    }
-
-    if (dateOptions instanceof HTMLElement && dateOptions.dataset.bound !== "1") {
-      dateOptions.dataset.bound = "1";
-      dateOptions.addEventListener("click", (event) => {
-        const target = event.target;
-        if (!(target instanceof Element)) return;
-        const option = target.closest("[data-wishlist-date-option]");
-        if (!(option instanceof HTMLElement)) return;
-        const value = option.getAttribute("data-wishlist-date-option");
-        if (!value) return;
-        if (option.classList.contains("is-unavailable")) return;
-        if (value === "other") {
-          wishlistDateCustomPickerOpen = !wishlistDateCustomPickerOpen;
-          if (dateCustomInput instanceof HTMLInputElement) {
-            window.requestAnimationFrame(() => dateCustomInput.focus());
-          }
-          consultationConfig.preferredDateUnsure = false;
-          consultationConfig.preferredDate = consultationConfig.preferredDate && !isPresetDate(consultationConfig.preferredDate)
-            ? consultationConfig.preferredDate
-            : "";
-        } else if (value === "unsure") {
-          wishlistDateCustomPickerOpen = false;
-          consultationConfig.preferredDate = "";
-          consultationConfig.preferredDateUnsure = true;
-          closeDatePanel();
-        } else {
-          wishlistDateCustomPickerOpen = false;
-          consultationConfig.preferredDate = value;
-          consultationConfig.preferredDateUnsure = false;
-          closeDatePanel();
-        }
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      });
-    }
-
-    if (dateCustomInput instanceof HTMLInputElement && dateCustomInput.dataset.bound !== "1") {
-      dateCustomInput.dataset.bound = "1";
-      const syncCustomDate = () => {
-        wishlistDateCustomPickerOpen = true;
-        consultationConfig.preferredDate = window.MarvellConsultation?.toIsoDate?.(dateCustomInput.value) || "";
-        consultationConfig.preferredDateUnsure = false;
-        markOrderDetailsDirty();
-        writeConsultationConfig(consultationConfig);
-        syncConsultationUI();
-      };
-      dateCustomInput.addEventListener("input", syncCustomDate);
-      dateCustomInput.addEventListener("change", () => {
-        syncCustomDate();
-        if (consultationConfig.preferredDate) closeDatePanel();
-      });
-    }
-
-    if (orderApply instanceof HTMLButtonElement && orderApply.dataset.bound !== "1") {
-      orderApply.dataset.bound = "1";
-      orderApply.addEventListener("click", () => {
-        if (orderApply.disabled || !hasEffectiveOrderDetails(getFavorites(), consultationConfig)) return;
-        hasReviewedOrderDetails = true;
-        setOrderPanelOpen(false);
-        syncConsultationUI();
-        if (consultButton instanceof HTMLAnchorElement) {
-          window.requestAnimationFrame(() => consultButton.focus());
-        }
-      });
-    }
-
-    if (consultButton instanceof HTMLAnchorElement && consultButton.dataset.bound !== "1") {
-      consultButton.dataset.bound = "1";
-      consultButton.addEventListener("click", (event) => {
-        if (!hasEffectiveOrderDetails(getFavorites(), consultationConfig) || !hasReviewedOrderDetails) {
-          event.preventDefault();
-          setOrderPanelOpen(true);
-        }
-      });
-    }
-
-    if (page instanceof HTMLElement && page.dataset.wishlistOutsideBound !== "1") {
-      page.dataset.wishlistOutsideBound = "1";
-      page.addEventListener("click", (event) => {
-        const target = event.target;
-        if (!(target instanceof Element)) return;
-        if (target.closest(".wishlist-card-qty")) return;
-        page.querySelectorAll(".wishlist-card-qty.is-open").forEach((node) => {
-          if (node instanceof HTMLElement) {
-            node.classList.remove("is-open");
-            node.querySelector(".wishlist-card-qty-trigger")?.setAttribute("aria-expanded", "false");
-          }
-        });
-      });
-    }
-
-    if (document.body instanceof HTMLElement && document.body.dataset.wishlistDateEscapeBound !== "1") {
-      document.body.dataset.wishlistDateEscapeBound = "1";
-      document.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape") return;
-        if (document.body.classList.contains("wishlist-order-popup-open") && wishlistOrderPopupView === "dates") {
-          closeDatePanel();
-          if (dateTrigger instanceof HTMLButtonElement) dateTrigger.focus();
-          return;
-        }
-        if (document.body.classList.contains("wishlist-order-popup-open")) {
-          setOrderPanelOpen(false);
-          if (orderToggle instanceof HTMLButtonElement) orderToggle.focus();
-          return;
-        }
-      });
-    }
-
-    bindAccordionScope(page);
-    window.addEventListener("storage", () => {
-      consultationConfig = readConsultationConfig();
-      hasReviewedOrderDetails = false;
-      renderWishlist();
-    });
-    window.addEventListener("pageshow", () => {
-      consultationConfig = readConsultationConfig();
-      hasReviewedOrderDetails = false;
-      renderWishlist();
+  function closeMenus() {
+    els("[data-open]").forEach((menu) => {
+      menu.dataset.open = "false";
+      menu.querySelector("[aria-expanded]")?.setAttribute("aria-expanded", "false");
     });
   }
 
-  function initialize() {
-    bindWishlistPage();
-    renderWishlist();
-    syncFooterPlacement();
-    if (document.body instanceof HTMLElement && typeof MutationObserver === "function") {
-      const observer = new MutationObserver(() => syncFooterPlacement());
-      observer.observe(document.body, { childList: true, subtree: true });
+  // -- events ---------------------------------------------------------------
+
+  main.addEventListener("click", async (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const open = target.closest("[data-wl-open]");
+    if (open) {
+      event.preventDefault();
+      state.renamingCard = "";
+      setListInUrl(open.getAttribute("data-wl-open") || "");
+      render();
+      return;
     }
+
+    const itemTrigger = target.closest("[data-wl-item-menu-trigger]");
+    if (itemTrigger) {
+      const menu = itemTrigger.closest("[data-open]");
+      const next = menu.dataset.open !== "true";
+      closeMenus();
+      menu.dataset.open = next ? "true" : "false";
+      itemTrigger.setAttribute("aria-expanded", next ? "true" : "false");
+      return;
+    }
+    if (target.closest("[data-wl-item-menu-close]")) {
+      closeMenus();
+      return;
+    }
+
+    if (target.closest("[data-wl-back]")) {
+      event.preventDefault();
+      state.renaming = false;
+      setListInUrl("");
+      render();
+      return;
+    }
+
+    const cardTrigger = target.closest("[data-wl-card-menu-trigger]");
+    if (cardTrigger) {
+      const menu = cardTrigger.closest("[data-open]");
+      const next = menu.dataset.open !== "true";
+      closeMenus();
+      menu.dataset.open = next ? "true" : "false";
+      cardTrigger.setAttribute("aria-expanded", next ? "true" : "false");
+      return;
+    }
+
+    const cardRename = target.closest("[data-wl-card-rename]");
+    if (cardRename) {
+      closeMenus();
+      state.renamingCard = cardRename.getAttribute("data-wl-card-rename") || "";
+      render();
+      el("[data-wl-card-rename-input]")?.focus();
+      return;
+    }
+    const cardShare = target.closest("[data-wl-card-share]");
+    if (cardShare) {
+      closeMenus();
+      const list = snapshot().lists.find((entry) => entry.id === cardShare.getAttribute("data-wl-card-share"));
+      if (!list) return;
+      await operate({ operation: "set_share", list_id: list.id, shared: !list.shared_with_marvell },
+        { noteTarget: "[data-wl-note]" });
+      return;
+    }
+    if (target.closest("[data-wl-card-rename-cancel]")) {
+      state.renamingCard = "";
+      render();
+      return;
+    }
+
+    const cardDelete = target.closest("[data-wl-card-delete]");
+    if (cardDelete) {
+      closeMenus();
+      const id = cardDelete.getAttribute("data-wl-card-delete") || "";
+      const list = snapshot().lists.find((entry) => entry.id === id);
+      if (!list || list.is_default) return;
+      const confirmed = window.confirm(t(
+        `Delete "${list.name}"? The pieces in it are not deleted from anywhere else.`,
+        `Hapus "${list.name}"? Rangkaian di dalamnya tidak dihapus dari tempat lain.`
+      ));
+      if (!confirmed) return;
+      await operate({ operation: "delete_list", list_id: id }, { noteTarget: "[data-wl-note]" });
+      return;
+    }
+
+    const trigger = target.closest("[data-wl-detail-menu-trigger]");
+    if (trigger) {
+      const menu = trigger.closest("[data-open]");
+      const next = menu.dataset.open !== "true";
+      closeMenus();
+      menu.dataset.open = next ? "true" : "false";
+      trigger.setAttribute("aria-expanded", next ? "true" : "false");
+      return;
+    }
+
+    if (target.closest("[data-wl-create]")) {
+      await createList();
+      return;
+    }
+
+    if (target.closest("[data-wl-create-from-detail]")) {
+      closeMenus();
+      await createList();
+      return;
+    }
+
+    const createForItem = target.closest("[data-wl-create-for-item]");
+    if (createForItem) {
+      closeMenus();
+      await createList({ moveItemId: createForItem.getAttribute("data-wl-create-for-item") || "" });
+      return;
+    }
+
+    if (target.closest("[data-wl-rename]")) {
+      closeMenus();
+      state.renaming = true;
+      render();
+      const input = el("[data-wl-rename-input]");
+      input.value = currentList()?.name || "";
+      input.focus();
+      return;
+    }
+    if (target.closest("[data-wl-rename-cancel]")) {
+      state.renaming = false;
+      render();
+      return;
+    }
+
+    const remove = target.closest("[data-wl-remove]");
+    if (remove) {
+      const id = remove.getAttribute("data-wl-remove") || "";
+      if (!signedIn()) {
+        // The device list is the heart's own store; removing goes through it
+        // so the panel and the page stay one list.
+        Favorites()?.removeFavorite?.(id);
+        render();
+        return;
+      }
+      await operate({ operation: "remove_item", list_id: currentList()?.id, item_key: id });
+      return;
+    }
+
+    const transfer = target.closest("[data-wl-transfer]");
+    if (transfer) {
+      const from = currentList();
+      const action = transfer.getAttribute("data-wl-transfer");
+      const toId = transfer.getAttribute("data-wl-to");
+      if (!from || !["move", "copy"].includes(action)) return;
+      closeMenus();
+      await operate({ operation: action === "move" ? "move_item" : "copy_item",
+        from_list_id: from.id, to_list_id: toId, item_key: transfer.getAttribute("data-wl-item") });
+      return;
+    }
+
+    if (target.closest("[data-wl-delete]")) {
+      closeMenus();
+      const list = currentList();
+      if (!list || list.is_default) return;
+      const confirmed = window.confirm(t(
+        `Delete "${list.name}"? The pieces in it are not deleted from anywhere else.`,
+        `Hapus "${list.name}"? Rangkaian di dalamnya tidak dihapus dari tempat lain.`
+      ));
+      if (!confirmed) return;
+      if (await operate({ operation: "delete_list", list_id: list.id })) {
+        setListInUrl("");
+        render();
+      }
+      return;
+    }
+
+    if (!target.closest("[data-open]")) closeMenus();
+  });
+
+  document.querySelector("[data-wl-signout]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    try {
+      const response = await fetch("/api/account/session", { method: "DELETE", credentials: "same-origin" });
+      if (!response.ok) throw new Error("sign out failed");
+      window.location.assign("/wishlist");
+    } catch (_error) {
+      button.disabled = false;
+      button.textContent = t("Please try again", "Coba lagi");
+    }
+  });
+
+  main.addEventListener("change", async (event) => {
+    if (!(event.target instanceof HTMLInputElement)) return;
+    if (!event.target.matches("[data-wl-share-input]")) return;
+    const list = currentList();
+    if (!list) return;
+    const shared = event.target.checked;
+    // Sharing is stored server-side and enforced there. Nothing about this
+    // checkbox makes the list public or reachable by a guessable address.
+    await operate({ operation: "set_share", list_id: list.id, shared });
+  });
+
+  main.addEventListener("submit", async (event) => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    event.preventDefault();
+
+    const cardForm = form.closest("[data-wl-card-rename-form]");
+    if (cardForm) {
+      const id = cardForm.getAttribute("data-wl-card-rename-form") || "";
+      const input = cardForm.querySelector("[data-wl-card-rename-input]");
+      const name = String(input?.value || "").trim();
+      if (!name || !id) return void input?.focus();
+      if (await operate({ operation: "rename_list", list_id: id, name }, { noteTarget: "[data-wl-note]" })) {
+        state.renamingCard = "";
+        render();
+      }
+      return;
+    }
+
+    if (form.matches("[data-wl-rename-form]")) {
+      const input = el("[data-wl-rename-input]");
+      const name = String(input.value || "").trim();
+      const list = currentList();
+      if (!name || !list) return void input.focus();
+      if (await operate({ operation: "rename_list", list_id: list.id, name })) {
+        state.renaming = false;
+        render();
+      }
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenus();
+  });
+  document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element) || !event.target.closest("[data-open]")) closeMenus();
+  });
+
+  window.addEventListener("popstate", () => render());
+
+  // The list can change under this page from three directions: the heart on
+  // another tab, the quick panel on this one, and signing in or out.
+  window.addEventListener("marvell:favorites-change", () => render());
+  // Signing in or out changes which view is right, and the address already
+  // says which list. Both orderings of this event render the same thing.
+  window.addEventListener("marvell:account-change", () => render());
+
+  /**
+   * The account page keeps this room in a tab, and a tab is display:none
+   * until it is chosen. An auto-fill grid measured inside a hidden panel has
+   * no width to divide, so it comes back one column wide; the tab asks for a
+   * redraw on the way in rather than this file watching for one.
+   */
+  window.MarvellWishlistPage = { render };
+
+  function boot() {
+    render();
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initialize, { once: true });
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
   } else {
-    initialize();
+    boot();
   }
 })();

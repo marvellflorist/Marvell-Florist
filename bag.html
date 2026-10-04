@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Shopping Bag | Marvell Florist</title>
+<meta name="description" content="Review the arrangements in your Marvell Florist bag before checkout.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://marvellflorist.com/bag">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/bag">
+<meta property="og:title" content="Shopping Bag | Marvell Florist">
+<meta property="og:description" content="Review the arrangements in your Marvell Florist bag before checkout.">
+<meta property="og:image" content="https://marvellflorist.com/assets/uploads/art-greenwhitecrea.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shopping Bag | Marvell Florist">
+<meta name="twitter:description" content="Review the arrangements in your Marvell Florist bag before checkout.">
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shop-pages.css?v=20260920f">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* The bag keeps product decisions left and checkout decisions right. */
+
+:root {
+  --paper: #fff;
+  --ink: #000;
+  --line: rgba(0, 0, 0, 0.16);
+  --soft: #f0f0f0;
+}
+html { background: var(--paper); }
+body {
+  font-family: "Inter Tight", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Site header. header-template.js injects the control styling; these rules
+   only position the bar and reserve space for it, matching the other pages. */
+:root { --header-height: 72px; }
+body > header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  z-index: 80; height: var(--header-height);
+  padding: 0 24px; display: flex; align-items: center;
+  pointer-events: none;
+}
+body > header::before {
+  content: ""; position: fixed; inset: 0 0 auto;
+  height: var(--header-height); background: var(--paper);
+  border-bottom: 1px solid var(--line); z-index: 1;
+}
+body > header, body > header::after { border: 0 !important; box-shadow: none !important; }
+.header-bar {
+  position: relative; width: 100%; height: var(--header-height);
+  display: flex; align-items: center; gap: 14px; z-index: 2; pointer-events: auto;
+}
+
+.bag-page[data-mode="filled"] .bag-empty-stage,
+.bag-page[data-mode="empty"] .bag-filled-stage { display: none; }
+.bag-page[data-mode="empty"] .bag-empty-stage,
+.bag-page[data-mode="filled"] .bag-filled-stage { display: block; }
+
+/* -- empty ---------------------------------------------------------------- */
+
+.bag-empty-stage {
+  --bag-empty-hero-height: min(calc(100vh - var(--header-height)), 760px);
+  position: relative; z-index: 0;
+  min-height: calc(100vh - var(--header-height));
+}
+.bag-empty-hero {
+  position: sticky; top: var(--header-height); z-index: 0;
+  min-height: var(--bag-empty-hero-height);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.18) 34%, rgba(255, 255, 255, 0.02) 58%),
+    url("assets/empty.webp") center center / cover no-repeat;
+}
+.bag-empty-content {
+  position: relative; z-index: 1; width: 100%;
+  margin-top: calc(-1 * var(--bag-empty-hero-height));
+  padding-bottom: 44px;
+}
+.bag-empty-shell {
+  width: min(1180px, 92vw); margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start; gap: clamp(24px, 4vw, 40px);
+  min-height: var(--bag-empty-hero-height);
+  padding-top: clamp(118px, 12vw, 150px); padding-bottom: 42px;
+}
+.bag-empty-copy-wrap { max-width: 520px; color: #fff; }
+.bag-kicker {
+  font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+.bag-divider { margin-top: 10px; width: min(100%, 620px); height: 1px; background: rgba(255, 255, 255, 0.5); }
+.bag-empty-title {
+  margin-top: 14px;
+  font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif;
+  font-size: clamp(30px, 3.4vw, 48px); font-weight: 300;
+  line-height: 1.02; letter-spacing: 0.02em;
+}
+.bag-empty-text {
+  margin-top: 14px; max-width: 460px;
+  font-size: 16px; line-height: 1.7; color: rgba(255, 255, 255, 0.88);
+}
+.bag-empty-actions { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; }
+.bag-empty-button, .bag-empty-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 38px; padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(0, 0, 0, 0.84); color: #fff;
+  text-decoration: none; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bag-empty-link { background: rgba(255, 255, 255, 0.08); }
+.bag-side-panel {
+  align-self: start; width: min(100%, 320px);
+  background: rgba(255, 255, 255, 0.96); border: 1px solid rgba(0, 0, 0, 0.14);
+  padding: 18px 16px; display: grid; gap: 0; margin-top: 6px;
+}
+.bag-side-item { display: grid; gap: 0; border-top: 1px solid rgba(0, 0, 0, 0.12); padding: 12px 0; }
+.bag-side-item:first-child { border-top: 0; padding-top: 0; }
+.bag-side-trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  border: 0; padding: 0; background: transparent; cursor: pointer;
+  font-family: "Inter Tight", sans-serif; font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+}
+/* The plus turns into a cross, and is seen to turn: the rotation was already
+   here, without a transition to carry it. */
+.bag-side-icon { font-size: 15px; line-height: 1; color: rgba(0, 0, 0, 0.6); transition: transform 0.24s ease, color 0.24s ease; }
+.bag-side-panel-copy {
+  max-height: 0; overflow: hidden; opacity: 0; margin-top: 0;
+  font-size: 13px; line-height: 1.68; color: rgba(0, 0, 0, 0.74);
+  transition: max-height 300ms cubic-bezier(.22, 1, .36, 1), opacity 200ms ease, margin-top 300ms ease;
+}
+.bag-side-item.is-open .bag-side-panel-copy { max-height: 240px; opacity: 1; margin-top: 10px; }
+.bag-side-item.is-open .bag-side-icon { transform: rotate(45deg); color: rgba(0, 0, 0, 0.82); }
+
+/* -- filled --------------------------------------------------------------- */
+
+.bag-filled-stage { position: relative; padding-top: var(--header-height); }
+.bag-filled-hero {
+  position: sticky; top: var(--header-height); z-index: 0;
+  min-height: min(44vw, 420px);
+  background:
+    linear-gradient(180deg, rgba(10, 7, 5, 0.08) 0%, rgba(10, 7, 5, 0.18) 46%, rgba(10, 7, 5, 0.32) 100%),
+    url("assets/wishlist.webp") center 28% / cover no-repeat;
+}
+.bag-filled-content {
+  position: relative; z-index: 1; width: 100%; display: flow-root;
+  background: var(--paper);
+}
+.bag-filled-title-wrap {
+  width: min(1280px, 92vw); margin: clamp(-84px, -9vw, -52px) auto 0;
+  padding: 0 0 16px; position: relative; z-index: 2; text-align: center;
+}
+.bag-filled-title {
+  font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif;
+  font-size: clamp(42px, 5.2vw, 60px); font-weight: 300;
+  letter-spacing: 0.035em; color: #f6f0e8; line-height: 0.96;
+  text-align: center;
+  text-shadow: 0 12px 28px rgba(16, 12, 10, 0.24);
+}
+.bag-filled-shell { width: min(1280px, 92vw); margin: 0 auto; padding: 20px 0 72px; }
+
+.bag-filled-grid {
+  display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(360px, 0.92fr);
+  gap: clamp(30px, 4vw, 56px); align-items: start;
+}
+.bag-selections {
+  border: 0; background: transparent;
+  padding: 0; display: grid; gap: 24px;
+}
+.bag-selections-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  border-bottom: 1px solid var(--line); padding-bottom: 12px;
+}
+.bag-selections-copy { display: grid; gap: 6px; }
+.bag-selections-kicker { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0, 0, 0, 0.58); }
+.bag-selections-count { font-size: 13px; line-height: 1.45; color: rgba(0, 0, 0, 0.86); }
+.bag-clear {
+  border: 0; background: transparent; color: var(--ink);
+  font-family: "Inter Tight", sans-serif; font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 0.18em;
+}
+
+.cart-lines, .bag-list { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
+.cart-line {
+  display: grid; grid-template-columns: 156px minmax(0, 1fr);
+  gap: 18px; align-items: start;
+  padding: 20px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 0;
+}
+.cart-line:first-child { padding-top: 0; border-top: 0; }
+.cart-line-media {
+  display: block; aspect-ratio: 4 / 5; overflow: hidden;
+  background: var(--soft); align-self: start;
+}
+.cart-line-media img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.cart-line-body {
+  display: grid; grid-template-rows: minmax(0, 1fr) auto;
+  align-content: start; gap: 14px; min-height: 100%; min-width: 0;
+  padding: 0;
+}
+.bag-card-topline { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+.bag-card-copy { display: grid; gap: 7px; min-width: 0; }
+.bag-card-category { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0, 0, 0, 0.46); }
+.cart-line-name {
+  margin: 0;
+  font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif;
+  font-size: 26px; font-weight: 300; line-height: 1.1;
+  letter-spacing: 0.02em; color: var(--ink); overflow-wrap: anywhere;
+}
+.cart-line-name a { color: inherit; text-decoration: none; }
+.cart-line-name a:hover { opacity: 0.72; }
+.bag-card-price { font-size: 12px; letter-spacing: 0.03em; text-transform: uppercase; color: rgba(0, 0, 0, 0.68); }
+.cart-line-total {
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.56); font-variant-numeric: tabular-nums;
+  text-align: left; padding: 0;
+}
+.bag-line-flag {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #000;
+}
+
+/* The quantity control the old page used: a line that opens, not a stepper. */
+.bag-card-qty { position: relative; display: grid; gap: 0; justify-items: start; }
+.bag-card-qty-trigger {
+  min-width: 66px; min-height: 32px; padding: 0 22px 0 8px;
+  border: 1px solid rgba(0, 0, 0, 0.32); border-radius: 0;
+  background:
+    linear-gradient(45deg, transparent 50%, rgba(0, 0, 0, 0.82) 50%) calc(100% - 11px) calc(50% - 2px) / 4px 4px no-repeat,
+    linear-gradient(135deg, rgba(0, 0, 0, 0.82) 50%, transparent 50%) calc(100% - 8px) calc(50% - 2px) / 4px 4px no-repeat,
+    #fff;
+  color: var(--ink); font-family: "Inter Tight", sans-serif;
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+  text-align: left; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.bag-card-qty-trigger-label { color: rgba(0, 0, 0, 0.8); }
+.bag-card-qty-trigger-value { min-width: 1ch; color: var(--ink); }
+.bag-card-qty-trigger:hover, .bag-card-qty-trigger:focus-visible { outline: none; border-color: rgba(0, 0, 0, 0.52); }
+.bag-card-qty.is-open .bag-card-qty-trigger { border-color: rgba(0, 0, 0, 0.4); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08); }
+.bag-card-qty-menu {
+  position: absolute; top: calc(100% - 1px); left: 0; min-width: 66px;
+  border: 1px solid rgba(0, 0, 0, 0.22); background: #fff;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  display: none; z-index: 8; max-height: 124px; overflow-y: auto;
+  overscroll-behavior: contain; scrollbar-width: thin;
+}
+.bag-card-qty.is-open .bag-card-qty-menu { display: grid; }
+.bag-card-qty-option {
+  border: 0; background: transparent; min-height: 31px; padding: 0 8px;
+  color: var(--ink); font-family: "Inter Tight", sans-serif;
+  font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  text-align: left; cursor: pointer; border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.bag-card-qty-option:first-child { border-top: 0; }
+.bag-card-qty-option:hover, .bag-card-qty-option:focus-visible, .bag-card-qty-option.is-active {
+  outline: none; background: rgba(0, 0, 0, 0.12);
+}
+.bag-card-actions { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; align-self: end; }
+.bag-card-link, .bag-card-remove {
+  display: inline-flex; align-items: center;
+  font-family: "Inter Tight", sans-serif; font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+  border: 0; background: transparent; padding: 0; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 0.18em;
+}
+
+.bag-notice {
+  border: 0; border-left: 2px solid #000; background: transparent;
+  padding: 2px 0 2px 14px; display: grid; gap: 6px;
+}
+.bag-notice span { font-size: 13px; line-height: 1.6; color: #000; }
+.bag-notice[hidden] { display: none; }
+
+.bag-message-box { padding-top: 18px; border-top: 1px solid rgba(0, 0, 0, 0.12); display: grid; gap: 12px; }
+.bag-message-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.bag-message-copy-wrap { display: grid; gap: 8px; }
+.bag-message-title { font-family: "Inter Tight", sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink); }
+.bag-message-copy { max-width: 560px; font-size: 13px; line-height: 1.65; color: rgba(0, 0, 0, 0.72); }
+.bag-message-toggle {
+  width: 22px; height: 22px; min-width: 22px;
+  border: 1px solid rgba(0, 0, 0, 0.24); background: transparent; color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0; cursor: pointer; transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.bag-message-toggle svg {
+  width: 13px; height: 13px; display: block; stroke: currentColor; fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  opacity: 0; transition: opacity 0.18s ease;
+}
+.bag-message-toggle[aria-pressed="true"] { background: #000; border-color: #000; color: #fff; }
+.bag-message-toggle[aria-pressed="true"] svg { opacity: 1; }
+.bag-message-body { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 280ms cubic-bezier(.22, 1, .36, 1), opacity 200ms ease; }
+.bag-message-body-inner { display: grid; gap: 12px; min-height: 0; overflow: hidden; }
+.bag-message-box.is-open .bag-message-body { grid-template-rows: 1fr; opacity: 1; }
+.bag-message-field {
+  width: 100%; min-height: 132px; resize: vertical;
+  border: 1px solid rgba(0, 0, 0, 0.16); border-radius: 0;
+  background: rgba(255, 255, 255, 0.72); padding: 14px 16px;
+  color: var(--ink); font-family: "Inter Tight", sans-serif; font-size: 13px; line-height: 1.7;
+}
+.bag-message-field:focus-visible { outline: none; border-color: rgba(0, 0, 0, 0.34); }
+
+.bag-bottom-cta { display: grid; }
+.bag-checkout-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 46px; width: 100%; padding: 0 22px;
+  border: 1px solid rgba(0, 0, 0, 0.72); background: #000; color: #fff;
+  text-decoration: none; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+}
+
+/* -- the counsel column --------------------------------------------------- */
+
+.bag-filled-side { display: grid; gap: 16px; }
+.bag-info-box {
+  border: 1px solid rgba(0, 0, 0, 0.14); background: rgba(255, 255, 255, 0.9);
+  padding: 20px 16px; display: grid; gap: 14px;
+}
+.bag-info-title {
+  font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif;
+  font-size: 32px; font-weight: 300; line-height: 1.04; letter-spacing: 0.02em; color: var(--ink);
+}
+.bag-info-copy { font-size: 14px; line-height: 1.72; color: rgba(0, 0, 0, 0.74); }
+.bag-card-plan {
+  grid-column: 1 / -1; margin: 2px 0 0; padding: 0;
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px;
+}
+.bag-card-plan-text { margin: 0; font-size: 12px; line-height: 1.5; color: rgba(0, 0, 0, 0.48); }
+.bag-card-plan-edit { color: rgba(0, 0, 0, 0.68); font-size: 11px; text-underline-offset: 3px; }
+.bag-card-plan-edit:hover, .bag-card-plan-edit:focus-visible { color: #000; }
+.bag-summary-lines { display: grid; gap: 10px; }
+.bag-summary-line { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; font-size: 14px; }
+.bag-summary-line span:last-child { font-variant-numeric: tabular-nums; }
+.bag-summary-line.is-total {
+  border-top: 1px solid rgba(0, 0, 0, 0.16); padding-top: 12px;
+  font-size: 16px; letter-spacing: 0.01em;
+}
+.bag-service-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.bag-service-label { flex: 0 0 100%; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0, 0, 0, 0.52); }
+.bag-service-line { white-space: nowrap; font-size: 14px; line-height: 1.5; color: rgba(0, 0, 0, 0.82); }
+.bag-service-steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.bag-service-step {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: start;
+  font-size: 13px; line-height: 1.58; color: rgba(0, 0, 0, 0.76);
+}
+.bag-service-step::before {
+  content: attr(data-step); display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; border: 1px solid rgba(0, 0, 0, 0.16); border-radius: 999px;
+  font-size: 10px; color: rgba(0, 0, 0, 0.72);
+}
+.bag-service-note { font-size: 12px; line-height: 1.58; color: rgba(0, 0, 0, 0.62); }
+.bag-info-links { display: grid; gap: 10px; }
+.bag-info-link {
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+  text-decoration: underline; text-underline-offset: 0.18em; width: fit-content;
+}
+.bag-help { border: 1px solid rgba(0, 0, 0, 0.14); background: rgba(255, 255, 255, 0.9); }
+.bag-help summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 19px 16px; list-style: none; cursor: pointer;
+  font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif;
+  font-size: 28px; font-weight: 300; line-height: 1.1;
+}
+.bag-help summary::-webkit-details-marker { display: none; }
+.bag-help summary::after { content: "+"; font: 300 24px/1 "Inter Tight", sans-serif; }
+.bag-help[open] summary::after { content: "−"; }
+.bag-help summary:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; }
+.bag-help-content { display: grid; gap: 18px; padding: 0 16px 20px; }
+.bag-help-copy { font-size: 13px; line-height: 1.65; color: rgba(0, 0, 0, 0.72); }
+.bag-contact-methods { display: grid; gap: 14px; }
+.bag-contact-method { display: grid; gap: 3px; }
+.bag-contact-method span { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(0,0,0,.52); }
+.bag-contact-method a { width: fit-content; color: var(--ink); font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
+.bag-payment-section { border: 0; background: transparent; padding: 4px 0; }
+.bag-payment-options { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; align-items: center; }
+.bag-payment-logo {
+  display: inline-flex; width: 100%; height: 42px; align-items: center; justify-content: center;
+  background: transparent;
+}
+.bag-payment-logo img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.bag-payment-logo--ovo img { filter: brightness(0) saturate(100%) invert(16%) sepia(53%) saturate(2036%) hue-rotate(248deg) brightness(88%) contrast(95%); }
+.bag-payment-logo--gopay img { width: 100%; max-width: 118px; max-height: none; height: auto; }
+.bag-payment-note { font-size: 11px; line-height: 1.55; color: rgba(0,0,0,.58); }
+.bag-reassurance-strip { margin-top: 4px; padding-top: 16px; border-top: 1px solid rgba(0, 0, 0, 0.12); }
+.bag-reassurance-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.bag-reassurance-item { display: grid; justify-items: center; text-align: center; gap: 10px; align-content: start; }
+.bag-reassurance-icon {
+  width: 22px; height: 22px; display: block; stroke: rgba(0, 0, 0, 0.9);
+  fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+}
+.bag-reassurance-title { font-family: "Inter Tight", sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
+
+.bag-loading { padding: 40px 0; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0, 0, 0, 0.56); }
+.bag-loading[hidden] { display: none; }
+
+/* -- saved pieces, still one tap from the bag ----------------------------- */
+
+.saved-section {
+  width: min(1180px, 92vw); margin: clamp(34px, 5vw, 62px) auto 0;
+  padding-bottom: clamp(40px, 6vw, 80px);
+}
+.saved-section[hidden] { display: none; }
+.saved-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px; }
+.saved-head h2 { font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif; font-size: 26px; font-weight: 300; letter-spacing: 0.02em; }
+.saved-head span { font-size: 13px; color: rgba(0, 0, 0, 0.56); }
+.saved-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: clamp(18px, 2.4vw, 32px); list-style: none; margin: 0; padding: 0;
+}
+.saved-card { display: grid; gap: 10px; align-content: start; }
+.saved-card-media { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--soft); }
+.saved-card-media img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.saved-card-category { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(0, 0, 0, 0.46); }
+.saved-card-name { margin: 0; font-size: 15px; font-weight: 400; line-height: 1.4; }
+.saved-card-name a { color: inherit; text-decoration: none; }
+.saved-card-name a:hover { opacity: 0.7; }
+.saved-card-price { font-size: 13px; color: rgba(0, 0, 0, 0.7); }
+.saved-card-remove {
+  justify-self: start; border: 0; padding: 0; background: none;
+  font-family: "Inter Tight", sans-serif; font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink);
+  cursor: pointer; text-decoration: underline; text-underline-offset: 0.18em;
+}
+
+@media (max-width: 899px) {
+  .bag-filled-grid { grid-template-columns: minmax(0, 1fr); }
+  .bag-empty-shell { grid-template-columns: minmax(0, 1fr); }
+  .bag-side-panel { width: 100%; }
+  .bag-filled-hero { top: calc(var(--header-height) + env(safe-area-inset-top, 0px)); min-height: 300px; background-position: center 24%; }
+  .bag-filled-title-wrap { width: min(1280px, calc(100vw - 28px)); margin-top: clamp(-72px, -14vw, -44px); padding-bottom: 14px; }
+  .bag-filled-title { font-size: clamp(34px, 9vw, 48px); }
+  .cart-line { grid-template-columns: 112px minmax(0, 1fr); gap: 14px; }
+  .cart-line-name { font-size: 21px; }
+  .bag-card-topline { grid-template-columns: minmax(0, 1fr); }
+  .bag-reassurance-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .bag-payment-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bag-side-icon, .bag-side-panel-copy, .bag-message-body { transition-duration: 0ms; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
+      <span class="header-logo-text">MARVELL FLORIST</span>
+    </a>
+    <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+      </span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+<main id="cart-main">
+  <h1 class="sr-only" data-cart-page-title>Shopping Bag</h1>
+  <div class="bag-loading" data-cart-loading>Checking availability…</div>
+
+  <div class="bag-page" id="bag-page" data-mode="empty">
+
+    <!-- Nothing in it. The same stage the old page used, with the same
+         photograph behind it. -->
+    <section class="bag-empty-stage" data-cart-empty>
+      <div class="bag-empty-hero" aria-hidden="true"></div>
+      <div class="bag-empty-content">
+        <div class="bag-empty-shell">
+          <div class="bag-empty-copy-wrap">
+            <p class="bag-kicker" data-bag-empty-kicker>Your selections</p>
+            <div class="bag-divider" aria-hidden="true"></div>
+            <h2 class="bag-empty-title" data-bag-empty-title>Your shopping bag is empty.</h2>
+            <p class="bag-empty-text" data-bag-empty-text>Add an arrangement to your bag and it will wait here, with its price and availability, until you are ready.</p>
+            <div class="bag-empty-actions">
+              <a class="bag-empty-button" href="/featured" data-bag-empty-primary>Browse collections</a>
+              <a class="bag-empty-link" href="custom-arrangements.html" data-bag-empty-secondary>Request something custom</a>
+            </div>
+          </div>
+          <aside class="bag-side-panel" aria-label="Bag help">
+            <div class="bag-side-item is-open" data-bag-side>
+              <button class="bag-side-trigger" type="button">
+                <span data-bag-side-help-title>May we help?</span>
+                <span class="bag-side-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="bag-side-panel-copy" data-bag-side-help-copy>Every piece is prepared to order in our Batam atelier. If you would rather talk it through first, we are on WhatsApp.</div>
+            </div>
+            <div class="bag-side-item" data-bag-side>
+              <button class="bag-side-trigger" type="button">
+                <span data-bag-side-hold-title>How holding works</span>
+                <span class="bag-side-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="bag-side-panel-copy" data-bag-side-hold-copy>A piece is only held for you once the order is placed. Until then its availability is checked each time you open this page.</div>
+            </div>
+            <div class="bag-side-item" data-bag-side>
+              <button class="bag-side-trigger" type="button">
+                <span data-bag-side-saved-title>Saved for later</span>
+                <span class="bag-side-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="bag-side-panel-copy" data-bag-side-saved-copy>Anything you kept with the heart is on your wishlist, and moves into the bag from there whenever you want it.</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pieces in it. -->
+    <section class="bag-filled-stage" data-cart-layout>
+      <div class="bag-filled-hero" aria-hidden="true"></div>
+      <div class="bag-filled-title-wrap">
+        <p class="bag-filled-title" data-bag-title>SHOPPING BAG</p>
+      </div>
+      <div class="bag-filled-content">
+        <div class="bag-filled-shell">
+          <div class="bag-filled-grid">
+            <section class="bag-selections" aria-label="Your bag">
+              <div class="bag-selections-head">
+                <div class="bag-selections-copy">
+                  <p class="bag-selections-kicker" data-cart-pieces-title>Your selections</p>
+                  <p class="bag-selections-count" data-cart-item-count></p>
+                </div>
+                <button class="bag-clear" type="button" data-bag-clear>Clear all</button>
+              </div>
+
+              <div class="bag-notice" data-cart-notice hidden></div>
+
+              <ul class="cart-lines bag-list" data-cart-lines></ul>
+
+              <section class="bag-message-box" data-bag-message-box aria-label="Card message">
+                <div class="bag-message-head">
+                  <div class="bag-message-copy-wrap">
+                    <h2 class="bag-message-title" data-cart-gift-label>Add a message</h2>
+                    <p class="bag-message-copy" data-cart-presentation-copy>Each arrangement is prepared for its journey. Add a personal card message and we will include it with your order.</p>
+                  </div>
+                  <button class="bag-message-toggle" type="button" data-bag-message-toggle aria-pressed="false" aria-expanded="false" aria-controls="cart-gift-message">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L19 8"></path></svg>
+                  </button>
+                </div>
+                <div class="bag-message-body" inert>
+                  <div class="bag-message-body-inner">
+                    <textarea class="bag-message-field" id="cart-gift-message" maxlength="500" rows="4" data-cart-gift-message></textarea>
+                    <p class="bag-service-note" data-cart-gift-note>You can review this message at checkout.</p>
+                  </div>
+                </div>
+              </section>
+
+            </section>
+
+            <aside class="bag-filled-side" aria-label="Order information">
+              <!-- Where the old page said "View details", because a bag has
+                   a number at the bottom and a wishlist does not. -->
+              <section class="bag-info-box" aria-label="Order summary">
+                <h2 class="bag-info-title" data-cart-summary-title>Order Summary</h2>
+                <div class="bag-summary-lines">
+                  <div class="bag-summary-line">
+                    <span data-cart-subtotal-label>Subtotal</span>
+                    <span data-cart-subtotal>—</span>
+                  </div>
+                  <div class="bag-summary-line">
+                    <span data-cart-delivery-label>Delivery</span>
+                    <span data-cart-delivery>—</span>
+                  </div>
+                  <div class="bag-summary-line is-total">
+                    <span data-cart-total-label>Total</span>
+                    <span data-cart-total>—</span>
+                  </div>
+                </div>
+                <p class="bag-service-note" data-cart-note></p>
+                <div class="bag-bottom-cta">
+                  <a class="bag-checkout-button" href="/checkout.html" data-cart-checkout>Continue to checkout</a>
+                </div>
+              </section>
+
+              <section class="bag-info-box bag-payment-section" aria-label="Available payment options">
+                <p class="bag-service-label" data-bag-payment-label>Available payment options</p>
+                <div class="bag-payment-options" aria-label="Possible payment methods at checkout">
+                  <span class="bag-payment-logo"><img src="/assets/payment-logos/qris.png" alt="QRIS" loading="lazy" decoding="async"></span>
+                  <span class="bag-payment-logo bag-payment-logo--ovo"><img src="/assets/payment-logos/ovo.png" alt="OVO" loading="lazy" decoding="async"></span>
+                  <span class="bag-payment-logo"><img src="/assets/payment-logos/bca.png" alt="BCA" loading="lazy" decoding="async"></span>
+                  <span class="bag-payment-logo bag-payment-logo--gopay"><img src="/assets/payment-logos/gopay.png" alt="GoPay" loading="lazy" decoding="async"></span>
+                </div>
+                <p class="bag-payment-note" data-bag-payment-note>Available options are confirmed in iPaymu sandbox checkout.</p>
+              </section>
+
+              <details class="bag-help">
+                <summary data-bag-service-title>May we help?</summary>
+                <div class="bag-help-content">
+                  <p class="bag-help-copy" data-bag-help-copy>Our team is available Monday to Saturday in Batam. For help with an arrangement, delivery, or your order, call or message us. Messages sent outside service hours will be answered when our team returns.</p>
+                  <div class="bag-contact-methods">
+                    <div class="bag-contact-method"><span data-bag-call-label>Call us</span><a href="tel:+6281275017456">+62 812 7501 7456</a></div>
+                    <div class="bag-contact-method"><span>WhatsApp</span><a href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer" data-bag-whatsapp-label>Message Marvell</a></div>
+                  </div>
+                </div>
+              </details>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Saved pieces. The wishlist is its own page again; this is the shortcut
+       from kept-for-later into the bag, so a piece does not need a second
+       trip across the site. -->
+  <section class="saved-section" id="saved" aria-labelledby="saved-title" hidden data-saved-section>
+    <div class="saved-head">
+      <h2 id="saved-title" data-saved-title>Saved</h2>
+      <span data-saved-count></span>
+    </div>
+    <ul class="saved-list" data-saved-list></ul>
+  </section>
+</main>
+
+<script>
+(function () {
+  const Shop = window.MarvellShop;
+  const Bag = window.MarvellBag;
+  const { escapeHtml, formatIdr, safeImage, t } = Shop;
+
+  const el = (selector) => document.querySelector(selector);
+  const page = el("#bag-page");
+  const loading = el("[data-cart-loading]");
+
+  let featuredLinksPromise;
+  function loadFeaturedLinks() {
+    if (featuredLinksPromise) return featuredLinksPromise;
+    featuredLinksPromise = fetch("/content/featured.json")
+      .then((response) => response.ok ? response.json() : null)
+      .then((content) => {
+        const links = new Map();
+        for (const event of Array.isArray(content?.events) ? content.events : []) {
+          for (const product of Array.isArray(event?.products) ? event.products : []) {
+            const sku = String(product?.sku || "").trim().toUpperCase();
+            if (!sku || !product?.src || !product?.name) continue;
+            const url = new URL("/product", window.location.origin);
+            url.searchParams.set("category", String(event?.title || "Featured Collection"));
+            url.searchParams.set("title", String(product.name));
+            url.searchParams.set("image", String(product.src));
+            const price = formatIdr(product.price);
+            if (price) url.searchParams.set("price", price);
+            const lang = window.MarvellLanguage?.getLanguage?.() || document.documentElement.lang;
+            if (lang === "en" || lang === "id") url.searchParams.set("lang", lang);
+            if (new URLSearchParams(window.location.search).get("commerce-test") === "1") {
+              url.searchParams.set("commerce-test", "1");
+            }
+            links.set(sku, `${url.pathname}${url.search}`);
+          }
+        }
+        return links;
+      })
+      .catch(() => new Map());
+    return featuredLinksPromise;
+  }
+
+  /** Empty or filled. The two stages are the page; nothing else moves. */
+  function setMode(mode) {
+    page.dataset.mode = mode;
+  }
+
+  function applyStaticCopy() {
+    el("[data-cart-page-title]").textContent = t("Shopping Bag", "Tas Belanja");
+    el("[data-bag-title]").textContent = t("SHOPPING BAG", "TAS BELANJA");
+    el("[data-cart-pieces-title]").textContent = t("Your selections", "Pilihan Anda");
+    el("[data-bag-clear]").textContent = t("Clear all", "Hapus semua");
+    el("[data-cart-gift-label]").textContent = t("Add a message", "Tambahkan pesan");
+    el("[data-cart-presentation-copy]").textContent = t(
+      "Each arrangement is prepared for its journey. Add a personal card message and we will include it with your order.",
+      "Setiap rangkaian disiapkan untuk perjalanannya. Tambahkan pesan kartu personal dan kami akan menyertakannya bersama pesanan Anda."
+    );
+    el("[data-cart-gift-note]").textContent = t("You can review this message at checkout.", "Anda dapat meninjau pesan ini saat checkout.");
+    el("[data-cart-checkout]").textContent = t("Continue to checkout", "Lanjut ke checkout");
+    el("[data-cart-summary-title]").textContent = t("Order Summary", "Ringkasan Pesanan");
+    el("[data-cart-subtotal-label]").textContent = t("Subtotal", "Subtotal");
+    el("[data-cart-delivery-label]").textContent = t("Delivery", "Pengantaran");
+    el("[data-cart-total-label]").textContent = t("Total", "Total");
+    el("[data-cart-note]").textContent = t(
+      "Pieces are held for you only once your order is placed. Delivery is confirmed at checkout.",
+      "Rangkaian baru ditahan untuk Anda setelah pesanan dibuat. Pengantaran dikonfirmasi saat checkout."
+    );
+
+    el("[data-bag-empty-kicker]").textContent = t("Your selections", "Pilihan Anda");
+    el("[data-bag-empty-title]").textContent = t("Your shopping bag is empty.", "Tas belanja Anda masih kosong.");
+    el("[data-bag-empty-text]").textContent = t(
+      "Add an arrangement to your bag and it will wait here, with its price and availability, until you are ready.",
+      "Tambahkan rangkaian ke tas Anda dan ia akan menunggu di sini, dengan harga dan ketersediaannya, sampai Anda siap."
+    );
+    el("[data-bag-empty-primary]").textContent = t("Browse collections", "Lihat koleksi");
+    el("[data-bag-empty-secondary]").textContent = t("Request something custom", "Minta rangkaian kustom");
+    el("[data-bag-side-help-title]").textContent = t("May we help?", "Ada yang bisa kami bantu?");
+    el("[data-bag-side-hold-title]").textContent = t("How holding works", "Cara penahanan bekerja");
+    el("[data-bag-side-saved-title]").textContent = t("Saved for later", "Disimpan untuk nanti");
+    el("[data-bag-service-title]").textContent = t("May we help?", "Ada yang bisa kami bantu?");
+    el("[data-bag-help-copy]").textContent = t(
+      "Our team is available Monday to Saturday in Batam. For help with an arrangement, delivery, or your order, call or message us. Messages sent outside service hours will be answered when our team returns.",
+      "Tim kami tersedia Senin hingga Sabtu di Batam. Jika Anda memerlukan bantuan tentang rangkaian, pengantaran, atau pesanan, hubungi kami melalui telepon atau WhatsApp. Pesan di luar jam layanan akan dijawab saat tim kami kembali."
+    );
+    el("[data-bag-call-label]").textContent = t("Call us", "Telepon kami");
+    el("[data-bag-whatsapp-label]").textContent = t("Message Marvell", "Hubungi Marvell");
+    el("[data-bag-payment-label]").textContent = t("Available payment options", "Pilihan pembayaran yang tersedia");
+    el("[data-bag-payment-note]").textContent = t(
+      "Available options are confirmed in iPaymu sandbox checkout.",
+      "Pilihan yang tersedia dikonfirmasi saat checkout sandbox iPaymu."
+    );
+  }
+
+  function renderEmpty() {
+    loading.hidden = true;
+    setMode("empty");
+  }
+
+  /**
+   * One selection, in the shape the old page drew it: the photograph at
+   * 156px, the name under its category, the price, and the quantity as a
+   * line that opens rather than a pair of steppers.
+   */
+  function lineMarkup(line, featuredLinks, orderPlanMarkup) {
+    const image = safeImage(line.image);
+    const href = featuredLinks.get(String(line.sku || "").toUpperCase())
+      || (line.slug ? `/product/${encodeURIComponent(line.slug)}` : "");
+    const ceiling = Math.max(1, Math.min(line.available_quantity || Shop.MAX_QUANTITY, Shop.MAX_QUANTITY));
+    const options = Array.from({ length: ceiling }, (_, index) => {
+      const value = index + 1;
+      return `<button class="bag-card-qty-option${value === line.quantity ? " is-active" : ""}" type="button"
+        role="option" aria-selected="${value === line.quantity}"
+        data-bag-qty-option="${value}">${value}</button>`;
+    }).join("");
+
+    return `
+      <li class="cart-line bag-card" data-line="${escapeHtml(line.sku)}">
+        ${href
+          ? `<a class="cart-line-media" href="${escapeHtml(href)}" tabindex="-1" aria-hidden="true">${
+              image ? `<img src="${escapeHtml(image)}" alt="" loading="lazy" decoding="async">` : ""
+            }</a>`
+          : `<span class="cart-line-media">${
+              image ? `<img src="${escapeHtml(image)}" alt="" loading="lazy" decoding="async">` : ""
+            }</span>`}
+        <div class="cart-line-body">
+          <div class="bag-card-topline">
+            <div class="bag-card-copy">
+              ${line.category ? `<span class="bag-card-category">${escapeHtml(line.category)}</span>` : ""}
+              <h2 class="cart-line-name">${href
+                ? `<a href="${escapeHtml(href)}">${escapeHtml(line.name)}</a>`
+                : escapeHtml(line.name)}</h2>
+              <span class="bag-card-price">${escapeHtml(formatIdr(line.line_total_idr))}</span>
+            </div>
+            <div class="bag-card-qty" data-bag-qty="${escapeHtml(line.sku)}">
+              <button class="bag-card-qty-trigger" type="button" aria-haspopup="listbox" aria-expanded="false"
+                data-bag-qty-trigger>
+                <span class="bag-card-qty-trigger-label">${escapeHtml(t("Qty", "Jml"))}</span>
+                <span class="bag-card-qty-trigger-value">${escapeHtml(String(line.quantity))}</span>
+              </button>
+              <div class="bag-card-qty-menu" role="listbox"
+                aria-label="${escapeHtml(t("Quantity", "Jumlah"))}">${options}</div>
+            </div>
+          </div>
+          <div class="bag-card-actions">
+            ${href ? `<a class="bag-card-link" href="${escapeHtml(href)}">${escapeHtml(t("View", "Lihat"))}</a>` : ""}
+            <button class="bag-card-remove" type="button" data-bag-remove="${escapeHtml(line.sku)}">${escapeHtml(
+              t("Remove", "Hapus")
+            )}</button>
+          </div>
+        </div>
+        ${orderPlanMarkup}
+      </li>
+    `;
+  }
+
+  let refreshing = false;
+  let refreshQueued = false;
+
+  async function refresh() {
+    // applyCorrections writes to storage, which re-fires marvell:bag-change.
+    // Without this guard the page would re-enter its own refresh mid-flight.
+    if (refreshing) {
+      refreshQueued = true;
+      return;
+    }
+    refreshing = true;
+    try {
+      await runRefresh();
+    } finally {
+      refreshing = false;
+      if (refreshQueued) {
+        refreshQueued = false;
+        refresh();
+      }
+    }
+  }
+
+  async function runRefresh() {
+    if (!Bag.count()) return renderEmpty();
+
+    loading.hidden = false;
+    const featuredLinksPending = loadFeaturedLinks();
+    let cart = await Shop.validateBag();
+
+    // Bring local storage in line with what the server will actually honour,
+    // then re-price against the corrected bag.
+    if (cart?.ok && Shop.applyCorrections(cart.corrections)) {
+      const corrections = cart.corrections;
+      cart = await Shop.validateBag();
+      if (cart?.ok) cart.corrections = corrections;
+    }
+
+    const featuredLinks = await featuredLinksPending;
+    loading.hidden = true;
+
+    if (!cart?.ok) {
+      setMode("empty");
+      el("[data-bag-empty-title]").textContent = t(
+        "We could not check your shopping bag just now.",
+        "Kami belum bisa memeriksa tas belanja Anda."
+      );
+      el("[data-bag-empty-text]").textContent = cart?.message || t(
+        "Please refresh and try again.",
+        "Silakan muat ulang dan coba lagi."
+      );
+      return;
+    }
+
+    if (!cart.lines.length) return renderEmpty();
+
+    setMode("filled");
+
+    const notice = el("[data-cart-notice]");
+    if (cart.corrections?.length) {
+      notice.hidden = false;
+      notice.innerHTML = cart.corrections
+        .map((correction) => `<span>${escapeHtml(correction.message || "")}</span>`)
+        .join("");
+    } else {
+      notice.hidden = true;
+      notice.innerHTML = "";
+    }
+
+    const orderPlanMarkup = renderOrderPlan();
+    el("[data-cart-lines]").innerHTML = cart.lines.map((line) => lineMarkup(line, featuredLinks, orderPlanMarkup)).join("");
+    el("[data-cart-item-count]").textContent = t(
+      `${cart.lines.length} ${cart.lines.length === 1 ? "saved arrangement" : "saved arrangements"}`,
+      `${cart.lines.length} rangkaian`
+    );
+    el("[data-cart-subtotal]").textContent = formatIdr(cart.subtotal_idr);
+    el("[data-cart-delivery]").textContent = t("Confirmed at checkout", "Dikonfirmasi saat checkout");
+    el("[data-cart-total]").textContent = formatIdr(cart.total_idr);
+  }
+
+  /**
+   * The order, as it was settled before any of this reached the bag.
+   *
+   * It is shown rather than asked, because it has already been answered — and
+   * it is shown here rather than only at checkout so that a date chosen days
+   * ago is in front of somebody before they carry on with it.
+   */
+  function renderOrderPlan() {
+    const plan = window.MarvellBag?.readOrderPlan?.();
+    if (!plan) return "";
+
+    const windows = {
+      morning: t("Morning, 08:00-13:00", "Pagi, 08.00-13.00"),
+      afternoon: t("Afternoon, 13:00-18:00", "Siang, 13.00-18.00")
+    };
+    const when = plan.dateUnsure
+      ? t("Date to be confirmed", "Tanggal menyusul")
+      : `${plan.date}${plan.timeWindow ? ` · ${windows[plan.timeWindow] || ""}` : ""}`;
+    const whenText = plan.dateUnsure && plan.timeWindow
+      ? `${when} · ${windows[plan.timeWindow] || ""}`
+      : when;
+    const howText = plan.fulfilment === "pickup"
+      ? t("Collected from the boutique", "Diambil di butik")
+      : t("Delivered in Batam", "Dikirim di Batam");
+    const editLabel = t("Edit", "Ubah");
+    return `<div class="bag-card-plan" aria-label="${escapeHtml(t("Delivery details", "Detail pengantaran"))}">
+      <span class="bag-card-plan-text">${escapeHtml(`${whenText} · ${howText}`)}</span>
+      <a class="bag-card-plan-edit" data-bag-plan-edit href="/checkout.html?edit=delivery">${escapeHtml(editLabel)}</a>
+    </div>`;
+  }
+
+  // -- the quantity control -------------------------------------------------
+
+  function closeQuantityMenus(except) {
+    document.querySelectorAll(".bag-card-qty.is-open").forEach((node) => {
+      if (node === except) return;
+      node.classList.remove("is-open");
+      node.querySelector("[data-bag-qty-trigger]")?.setAttribute("aria-expanded", "false");
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const trigger = target.closest("[data-bag-qty-trigger]");
+    if (trigger) {
+      const control = trigger.closest("[data-bag-qty]");
+      const willOpen = !control.classList.contains("is-open");
+      closeQuantityMenus(control);
+      control.classList.toggle("is-open", willOpen);
+      trigger.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      return;
+    }
+
+    const option = target.closest("[data-bag-qty-option]");
+    if (option) {
+      const control = option.closest("[data-bag-qty]");
+      const sku = control?.getAttribute("data-bag-qty") || "";
+      const quantity = Number.parseInt(option.getAttribute("data-bag-qty-option"), 10);
+      closeQuantityMenus();
+      if (sku && Number.isFinite(quantity)) Bag.setQuantity(sku, quantity);
+      return;
+    }
+
+    closeQuantityMenus();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeQuantityMenus();
+  });
+
+  // -- the rest of the page -------------------------------------------------
+
+  el("[data-bag-clear]").addEventListener("click", () => {
+    const confirmed = window.confirm(t(
+      "Remove everything from your bag?",
+      "Kosongkan seluruh isi tas Anda?"
+    ));
+    if (confirmed) Bag.clear();
+  });
+
+  // The accordion on the empty stage.
+  document.querySelectorAll("[data-bag-side] .bag-side-trigger").forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      trigger.closest("[data-bag-side]")?.classList.toggle("is-open");
+    });
+  });
+
+  const messageBox = el("[data-bag-message-box]");
+  const messageToggle = el("[data-bag-message-toggle]");
+  const giftMessage = el("[data-cart-gift-message]");
+  function setMessageOpen(open) {
+    messageBox.classList.toggle("is-open", open);
+    messageToggle.setAttribute("aria-pressed", open ? "true" : "false");
+    messageToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    el(".bag-message-body").inert = !open;
+  }
+  messageToggle.addEventListener("click", () => {
+    setMessageOpen(!messageBox.classList.contains("is-open"));
+  });
+
+  /**
+   * Saved pieces, from the same store the heart writes to. Rendered from
+   * MarvellFavorites rather than from a second copy, so the panel, the
+   * wishlist page and this section cannot disagree about what is saved.
+   */
+  function renderSaved() {
+    const section = el("[data-saved-section]");
+    const list = el("[data-saved-list]");
+    if (!section || !list) return;
+
+    const items = window.MarvellFavorites?.getFavorites?.() || [];
+    el("[data-saved-title]").textContent = t("Saved", "Simpanan");
+    el("[data-saved-count]").textContent = items.length
+      ? t(`${items.length} ${items.length === 1 ? "piece" : "pieces"}`, `${items.length} rangkaian`)
+      : "";
+
+    section.hidden = items.length === 0;
+    if (!items.length) {
+      list.innerHTML = "";
+      return;
+    }
+
+    list.innerHTML = items.map((item) => {
+      const href = escapeHtml(item.href || "");
+      return `
+        <li class="saved-card">
+          <a class="saved-card-media" href="${href}" tabindex="-1" aria-hidden="true">
+            ${item.image ? `<img src="${escapeHtml(item.image)}" alt="" loading="lazy" decoding="async">` : ""}
+          </a>
+          ${item.category ? `<span class="saved-card-category">${escapeHtml(item.category)}</span>` : ""}
+          <p class="saved-card-name"><a href="${href}">${escapeHtml(
+            item.title || t("Saved arrangement", "Rangkaian tersimpan")
+          )}</a></p>
+          ${item.price ? `<span class="saved-card-price">${escapeHtml(item.price)}</span>` : ""}
+          <button class="saved-card-remove" type="button" data-favorite-remove="${escapeHtml(item.id)}">${escapeHtml(
+            t("Remove", "Hapus")
+          )}</button>
+        </li>
+      `;
+    }).join("");
+  }
+
+  // The bag panel's controls are delegated from document.body, so the remove
+  // buttons on this page work without duplicating the handlers.
+  window.addEventListener("marvell:bag-change", () => refresh());
+  window.addEventListener("marvell:favorites-change", () => renderSaved());
+
+  applyStaticCopy();
+  try {
+    giftMessage.value = window.sessionStorage.getItem("marvell-cart-gift-message") || "";
+  } catch (_error) {}
+  if (giftMessage.value) setMessageOpen(true);
+  giftMessage.addEventListener("input", () => {
+    try { window.sessionStorage.setItem("marvell-cart-gift-message", giftMessage.value); } catch (_error) {}
+  });
+  refresh();
+  // Favourites are written by assets/favorites.js, which boots after this
+  // inline script; a turn of the loop is enough for it to be there.
+  window.setTimeout(renderSaved, 0);
+})();
+</script>
+
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/purchase-mode.js?v=20260921a"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/accordion-motion.js?v=20260922a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+</body>
+</html>

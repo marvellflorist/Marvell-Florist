@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Your Order | Marvell Florist</title>
+<meta name="description" content="Your Marvell Florist order confirmation.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://marvellflorist.com/order">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/order">
+<meta property="og:title" content="Your Order | Marvell Florist">
+<meta property="og:description" content="Your Marvell Florist order confirmation.">
+<meta property="og:image" content="https://marvellflorist.com/assets/uploads/art-greenwhitecrea.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your Order | Marvell Florist">
+<meta name="twitter:description" content="Your Marvell Florist order confirmation.">
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shop-pages.css?v=20260920f">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Inter Tight", sans-serif;
+  color: #2f2923;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Site header. header-template.js injects the control styling; these rules
+   only position the bar and reserve space for it, matching the other pages. */
+:root { --header-height: 72px; }
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 80;
+  height: var(--header-height);
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+header::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--header-height);
+  background: #fff;
+  z-index: 1;
+}
+header, header::before, header::after {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.header-bar {
+  position: relative;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+  pointer-events: auto;
+}
+.shop-main { padding-top: var(--header-height); }
+</style>
+</head>
+<body class="shop-page">
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
+      <span class="header-logo-text">MARVELL FLORIST</span>
+    </a>
+    <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+      </span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+
+<main class="shop-main shop-narrow" id="order-main">
+  <div class="shop-loading" data-order-loading>Looking up your order…</div>
+
+  <article data-order-article hidden>
+    <header class="shop-header">
+      <p class="shop-kicker" data-order-kicker>Order</p>
+      <h1 class="shop-title" data-order-title></h1>
+      <div><span class="order-status-chip" data-order-status></span></div>
+      <p class="shop-lede" data-order-message></p>
+    </header>
+
+    <div class="checkout-layout">
+      <section class="field-grid">
+        <h2 class="shop-section-title" data-order-items-title>What you ordered</h2>
+        <ul class="summary-items" data-order-items></ul>
+
+        <div class="field-grid" data-order-details></div>
+      </section>
+
+      <aside class="checkout-aside">
+        <h2 class="shop-section-title" data-order-summary-title>Summary</h2>
+        <div class="summary-line">
+          <span data-order-subtotal-label>Subtotal</span>
+          <span data-order-subtotal>—</span>
+        </div>
+        <div class="summary-line">
+          <span data-order-delivery-label>Delivery</span>
+          <span data-order-delivery>—</span>
+        </div>
+        <div class="summary-line is-total">
+          <span data-order-total-label>Total</span>
+          <span data-order-total>—</span>
+        </div>
+        <a class="shop-btn is-full" data-order-whatsapp href="#" target="_blank" rel="noopener noreferrer">
+          Message us about this order
+        </a>
+        <a class="shop-btn is-ghost is-full" href="/featured" data-order-continue>Continue browsing</a>
+      </aside>
+    </div>
+  </article>
+
+  <div data-order-missing hidden></div>
+</main>
+
+<script>
+(function () {
+  const Shop = window.MarvellShop;
+  const Bag = window.MarvellBag;
+  const { escapeHtml, formatIdr, t } = Shop;
+
+  const ORDER_PHONE = "6281275017456";
+  const POLL_INTERVAL_MS = 5000;
+  const POLL_ATTEMPTS = 12;
+
+  const el = (selector) => document.querySelector(selector);
+  const loading = el("[data-order-loading]");
+  const article = el("[data-order-article]");
+  const missing = el("[data-order-missing]");
+
+  let polls = 0;
+
+  /** /order/MF-260919-K4T2M -> "MF-260919-K4T2M". Also accepts ?order=. */
+  function readOrderNumber() {
+    const parts = window.location.pathname.split("/").filter(Boolean);
+    const index = parts.indexOf("order");
+    const fromPath = index >= 0 ? parts[index + 1] : "";
+    const fromQuery = new URLSearchParams(window.location.search).get("order");
+    const raw = String(fromPath || fromQuery || "").toUpperCase();
+    return /^(?:MF-\d{6}-[A-Z0-9]{5}|MV-[2-9A-HJ-NP-Z]{4}-[2-9A-HJ-NP-Z]{4})$/.test(raw) ? raw : "";
+  }
+
+  function renderNotFound() {
+    loading.hidden = true;
+    article.hidden = true;
+    missing.hidden = false;
+    missing.className = "shop-empty";
+    missing.innerHTML = `
+      <p>${escapeHtml(t(
+        "We could not find that order. Please check the number, or message us and we will look it up.",
+        "Kami tidak dapat menemukan pesanan itu. Periksa nomornya, atau hubungi kami dan kami akan mencarinya."
+      ))}</p>
+      <a class="shop-btn is-ghost" href="https://wa.me/${ORDER_PHONE}" target="_blank" rel="noopener noreferrer">${escapeHtml(
+        t("Message us on WhatsApp", "Hubungi kami di WhatsApp")
+      )}</a>
+      <a class="shop-btn is-ghost" href="/featured">${escapeHtml(t("Back to collections", "Kembali ke koleksi"))}</a>
+    `;
+  }
+
+  const STATUS = {
+    paid: () => ({
+      cls: "is-paid",
+      label: t("Paid", "Lunas"),
+      message: t(
+        "Thank you. Your payment has cleared and your order is with our workroom. We will message you on WhatsApp to confirm the details.",
+        "Terima kasih. Pembayaran Anda telah diterima dan pesanan Anda sedang kami siapkan. Kami akan menghubungi Anda lewat WhatsApp untuk konfirmasi."
+      )
+    }),
+    pending_payment: () => ({
+      cls: "is-pending",
+      label: t("Awaiting payment", "Menunggu pembayaran"),
+      message: t(
+        "Your order is reserved while we wait for payment to clear. This page updates on its own. If you closed the payment window, message us and we will send you a fresh link.",
+        "Pesanan Anda kami tahan sementara menunggu pembayaran. Halaman ini akan memperbarui sendiri. Jika jendela pembayaran tertutup, hubungi kami dan kami akan mengirim tautan baru."
+      )
+    }),
+    cancelled: () => ({
+      cls: "",
+      label: t("Cancelled", "Dibatalkan"),
+      message: t(
+        "This order was cancelled and nothing has been charged. The pieces have gone back on sale.",
+        "Pesanan ini dibatalkan dan tidak ada yang ditagihkan. Rangkaiannya kembali tersedia."
+      )
+    }),
+    expired: () => ({
+      cls: "",
+      label: t("Expired", "Kedaluwarsa"),
+      message: t(
+        "This order expired before payment was completed and nothing has been charged. You are welcome to order again, or message us and we will help.",
+        "Pesanan ini kedaluwarsa sebelum pembayaran selesai dan tidak ada yang ditagihkan. Silakan pesan kembali, atau hubungi kami."
+      )
+    }),
+    refunded: () => ({
+      cls: "",
+      label: t("Refunded", "Dana dikembalikan"),
+      message: t(
+        "This order has been refunded. Please message us if you have any questions.",
+        "Pesanan ini telah dikembalikan dananya. Hubungi kami jika ada pertanyaan."
+      )
+    })
+  };
+
+  function render(order) {
+    loading.hidden = true;
+    article.hidden = false;
+
+    const status = (STATUS[order.status] || STATUS.pending_payment)();
+
+    el("[data-order-kicker]").textContent = t("Order", "Pesanan");
+    el("[data-order-title]").textContent = order.order_number;
+
+    const chip = el("[data-order-status]");
+    chip.className = `order-status-chip ${status.cls}`;
+    chip.textContent = status.label;
+
+    el("[data-order-message]").textContent = order.status === "paid" && order.needs_attention
+      ? t("Your payment was received. Our team is reviewing availability and will contact you shortly.",
+        "Pembayaran Anda telah diterima. Tim kami sedang memeriksa ketersediaan dan akan segera menghubungi Anda.")
+      : status.message;
+    el("[data-order-items-title]").textContent = t("What you ordered", "Yang Anda pesan");
+    el("[data-order-summary-title]").textContent = t("Summary", "Ringkasan");
+    el("[data-order-subtotal-label]").textContent = t("Subtotal", "Subtotal");
+    el("[data-order-delivery-label]").textContent = t("Delivery", "Pengantaran");
+    el("[data-order-total-label]").textContent = t("Total", "Total");
+    el("[data-order-continue]").textContent = t("Continue browsing", "Lanjut menjelajah");
+
+    el("[data-order-items]").innerHTML = (order.items || []).map((item) => `
+      <li class="summary-item" style="grid-template-columns: minmax(0,1fr) auto;">
+        <div>
+          <div>${escapeHtml(item.name)}</div>
+          <div class="summary-item-qty">${escapeHtml(t("Qty", "Jml"))} ${escapeHtml(String(item.quantity))} · ${escapeHtml(item.sku)}</div>
+        </div>
+        <div>${escapeHtml(formatIdr(item.line_total_idr))}</div>
+      </li>
+    `).join("");
+
+    const details = [];
+    if (order.delivery_method) {
+      details.push([
+        t("Method", "Metode"),
+        order.delivery_method === "delivery"
+          ? t("Delivery", "Pengantaran")
+          : t("Pickup in Batam", "Ambil di Batam")
+      ]);
+    }
+    if (order.delivery_date) details.push([t("Date", "Tanggal"), order.delivery_date]);
+    if (order.delivery_time_window) {
+      details.push([
+        t("Time", "Waktu"),
+        order.delivery_time_window === "morning"
+          ? `${t("Morning", "Pagi")} (08:00–13:00)`
+          : `${t("Afternoon", "Siang")} (13:00–18:00)`
+      ]);
+    }
+    if (order.recipient_name) details.push([t("Recipient", "Penerima"), order.recipient_name]);
+
+    el("[data-order-details]").innerHTML = details.map(([label, value]) => `
+      <div class="summary-line">
+        <span>${escapeHtml(label)}</span>
+        <span>${escapeHtml(value)}</span>
+      </div>
+    `).join("");
+
+    el("[data-order-subtotal]").textContent = formatIdr(order.subtotal_idr);
+    el("[data-order-delivery]").textContent = order.delivery_fee_idr > 0
+      ? formatIdr(order.delivery_fee_idr)
+      : t("Confirmed with you", "Dikonfirmasi bersama Anda");
+    el("[data-order-total]").textContent = formatIdr(order.total_idr);
+
+    const whatsapp = el("[data-order-whatsapp]");
+    whatsapp.textContent = t("Message us about this order", "Hubungi kami tentang pesanan ini");
+    whatsapp.href = `https://wa.me/${ORDER_PHONE}?text=${encodeURIComponent(
+      `${t("Hello, about my order", "Halo, mengenai pesanan saya")} ${order.order_number}`
+    )}`;
+
+    // The bag has become an order; carrying it forward would invite a
+    // duplicate purchase.
+    if (order.status === "paid") Bag.clear();
+
+    // Payment clears through a webhook, not the browser, so a freshly placed
+    // order is often still pending on first paint. Poll briefly, then stop.
+    if (order.status === "pending_payment" && polls < POLL_ATTEMPTS) {
+      polls += 1;
+      window.setTimeout(load, POLL_INTERVAL_MS);
+    }
+  }
+
+  function readReceiptToken(orderNumber) {
+    const fragment = new URLSearchParams(window.location.hash.slice(1)).get("receipt");
+    const token = /^[A-Za-z0-9_-]{43}$/.test(fragment || "") ? fragment : "";
+    if (token) {
+      try { window.sessionStorage.setItem(`marvell-receipt:${orderNumber}`, token); } catch (_error) {}
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      return token;
+    }
+    try { return window.sessionStorage.getItem(`marvell-receipt:${orderNumber}`) || ""; }
+    catch (_error) { return ""; }
+  }
+
+  /**
+   * A typed email never authorizes a receipt. Send a fresh bearer link to the
+   * address already stored on a matching order, with the same response for
+   * missing orders and wrong addresses.
+   */
+  function renderEmailPrompt(message) {
+    loading.hidden = true;
+    article.hidden = true;
+    missing.hidden = false;
+    missing.className = "shop-empty";
+    missing.innerHTML = `
+      <p>${escapeHtml(message || t(
+        "Enter your order email and we will send a secure receipt link.",
+        "Masukkan email pesanan Anda. Kami akan mengirim tautan tanda terima yang aman."
+      ))}</p>
+      <form data-order-email-form style="display:grid;gap:14px;justify-items:center;margin-top:18px;">
+        <input type="email" name="email" autocomplete="email" spellcheck="false" maxlength="254" required
+          placeholder="${escapeHtml(t("Email address", "Alamat email"))}"
+          style="width:min(320px,100%);height:40px;padding:0 0 2px;border:0;border-bottom:1px solid rgba(29,26,24,0.24);background:transparent;font:inherit;font-size:14px;text-align:center;">
+        <button class="shop-btn" type="submit">${escapeHtml(t("Email receipt link", "Kirim tautan email"))}</button>
+      </form>
+    `;
+
+    const form = missing.querySelector("[data-order-email-form]");
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const value = String(form.querySelector('[name="email"]')?.value || "").trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test(value)) return;
+      form.querySelector("button").disabled = true;
+      try {
+        await fetch("/api/receipt/request", {
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ order_number: readOrderNumber(), email: value })
+        });
+        missing.querySelector("p").textContent = t(
+          "If the details match, we will email a secure link.",
+          "Jika datanya cocok, kami akan mengirim tautan aman lewat email."
+        );
+        form.remove();
+      } catch (_error) {
+        form.querySelector("button").disabled = false;
+        missing.querySelector("p").textContent = t("Please try again shortly.", "Silakan coba lagi sebentar lagi.");
+      }
+    });
+  }
+
+  async function load() {
+    const orderNumber = readOrderNumber();
+    if (!orderNumber) return renderNotFound();
+
+    const receiptToken = readReceiptToken(orderNumber);
+
+    try {
+      const response = await fetch(`/api/order/${encodeURIComponent(orderNumber)}`, {
+        method: "POST",
+        headers: { "content-type": "application/json", accept: "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({ receipt_token: receiptToken })
+      });
+      const data = await response.json().catch(() => null);
+
+      if (!data?.ok || !data.order) {
+        try { window.sessionStorage.removeItem(`marvell-receipt:${orderNumber}`); } catch (_error) {}
+        return renderEmailPrompt(data?.message);
+      }
+      render(data.order);
+    } catch (_error) {
+      renderNotFound();
+    }
+  }
+
+  load();
+})();
+</script>
+
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+</body>
+</html>

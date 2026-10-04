@@ -2,10 +2,10 @@
   const STORAGE_KEY = "marvell-language";
   const SUPPORTED_LANGUAGES = new Set(["en", "id"]);
   const GA_MEASUREMENT_ID = "G-Z9PJ60V3CR";
-  const ANALYTICS_OPT_OUT_STORAGE_KEY = "marvell-analytics-disabled";
+  const BROWSER_CONSENT_KEY = "marvell-browser-consent-v1";
   const THEME_FAVICONS = {
     light: { href: "/assets/logo.webp?v=5", type: "image/webp" },
-    dark: { href: "/assets/darklogo.png?v=2", type: "image/png" }
+    dark: { href: "/assets/darklogo-96.webp?v=1", type: "image/webp" }
   };
   let themeFaviconBound = false;
   let analyticsInitialized = false;
@@ -28,23 +28,12 @@
   let pendingTouchNavigationTimer = 0;
   let pendingTouchChoiceTimer = 0;
 
-  function syncAnalyticsPreferenceFromUrl() {
-    try {
-      const params = new URLSearchParams(window.location.search || "");
-      const value = String(params.get("analytics") || "").trim().toLowerCase();
-      if (value === "off") window.localStorage.setItem(ANALYTICS_OPT_OUT_STORAGE_KEY, "1");
-      else if (value === "on") window.localStorage.removeItem(ANALYTICS_OPT_OUT_STORAGE_KEY);
-    } catch (_error) {
-      // Ignore storage and URL access failures.
-    }
-  }
-
   function isAnalyticsDisabled() {
-    syncAnalyticsPreferenceFromUrl();
     try {
-      return window.localStorage.getItem(ANALYTICS_OPT_OUT_STORAGE_KEY) === "1";
+      const choice = JSON.parse(window.localStorage.getItem(BROWSER_CONSENT_KEY) || "null");
+      return choice?.version !== "2026-09-01" || choice.analytics !== true;
     } catch (_error) {
-      return false;
+      return true;
     }
   }
 
@@ -55,23 +44,38 @@
   applyAnalyticsDisabledFlag();
   window.MarvellAnalytics = window.MarvellAnalytics || {
     disable() {
-      try {
-        window.localStorage.setItem(ANALYTICS_OPT_OUT_STORAGE_KEY, "1");
-      } catch (_error) {
-        // Ignore storage failures.
-      }
-      applyAnalyticsDisabledFlag();
+      window[`ga-disable-${GA_MEASUREMENT_ID}`] = true;
     },
     enable() {
-      try {
-        window.localStorage.removeItem(ANALYTICS_OPT_OUT_STORAGE_KEY);
-      } catch (_error) {
-        // Ignore storage failures.
-      }
       applyAnalyticsDisabledFlag();
+      initializeAnalytics();
     },
     isDisabled() {
       return isAnalyticsDisabled();
+    },
+    track(eventName, properties = {}, productSku = "") {
+      window.MarvellConsent?.track?.(eventName, properties, productSku);
+    }
+  };
+
+  window.MarvellLegalNav = window.MarvellLegalNav || {
+    go(href, event) {
+      if (!href) return true;
+      if (event && (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return true;
+      if (event) event.preventDefault();
+      window.location.assign(href);
+      return false;
+    },
+    jump(id, event) {
+      const target = document.getElementById(id);
+      if (!(target instanceof HTMLElement)) return true;
+      if (event) event.preventDefault();
+      const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
+      if (window.location.hash !== `#${id}`) {
+        window.history.replaceState(null, "", `#${id}`);
+      }
+      window.scrollTo({ top, behavior: "smooth" });
+      return false;
     }
   };
 
@@ -350,7 +354,9 @@
     "Search arrangements": "Cari rangkaian",
     "Reviews": "Ulasan",
     "Filter": "Filter",
-    "Filters": "Filters",
+    "Filters": "Filter",
+    "Apply": "Terapkan",
+    "Clear": "Hapus",
     "Color": "Warna",
     "Type": "Jenis",
     "Flower Type": "Jenis Bunga",
@@ -365,6 +371,7 @@
     "Fresh": "Segar",
     "Artificial": "Artifisial",
     "Preserved": "Preserved",
+    "Flowers": "Bunga",
     "Pink": "Merah Muda",
     "White": "Putih",
     "Red": "Merah",
@@ -372,6 +379,10 @@
     "Blue": "Biru",
     "Yellow": "Kuning",
     "Orange": "Oranye",
+    "Peach": "Peach",
+    "Brown": "Cokelat",
+    "Gray": "Abu-abu",
+    "Grey": "Abu-abu",
     "Green": "Hijau",
     "Black": "Hitam",
     "Gold": "Emas",
@@ -381,6 +392,13 @@
     "Large": "Besar",
     "Grand": "Besar Sekali",
     "Pot": "Pot",
+    "Potted": "Pot",
+    "Bouquet": "Buket",
+    "Money Bouquet": "Money Bouquet",
+    "Standing Flower": "Standing Flower",
+    "Table Arrangements": "Rangkaian Meja",
+    "Basket": "Keranjang",
+    "Ribbon": "Pita",
     "Bloom Box": "Bloom Box",
     "Cross": "Salib",
     "Frame": "Frame",
@@ -412,6 +430,103 @@
     "Portfolio": "Portofolio"
   };
 
+  const FILTER_GROUP_LABELS = {
+    category: { en: "Category", id: "Kategori" },
+    color: { en: "Color", id: "Warna" },
+    type: { en: "Type", id: "Jenis" },
+    size: { en: "Size", id: "Ukuran" },
+    occasion: { en: "Occasion", id: "Momen" },
+    material: { en: "Material", id: "Material" },
+    boards: { en: "Boards", id: "Papan" },
+    style: { en: "Style", id: "Gaya" },
+    "flower-type": { en: "Flowers", id: "Bunga" },
+    flowers: { en: "Flowers", id: "Bunga" },
+    "flower-condition": { en: "Flower Condition", id: "Kondisi Bunga" },
+    "price-range": { en: "Price Range", id: "Rentang Harga" }
+  };
+
+  const FILTER_OPTION_LABELS = {
+    artificial: { en: "Artificial", id: "Artifisial" },
+    fresh: { en: "Fresh", id: "Segar" },
+    preserved: { en: "Preserved", id: "Preserved" },
+    white: { en: "White", id: "Putih" },
+    red: { en: "Red", id: "Merah" },
+    pink: { en: "Pink", id: "Merah Muda" },
+    purple: { en: "Purple", id: "Ungu" },
+    blue: { en: "Blue", id: "Biru" },
+    yellow: { en: "Yellow", id: "Kuning" },
+    orange: { en: "Orange", id: "Oranye" },
+    peach: { en: "Peach", id: "Peach" },
+    brown: { en: "Brown", id: "Cokelat" },
+    gray: { en: "Gray", id: "Abu-abu" },
+    grey: { en: "Gray", id: "Abu-abu" },
+    green: { en: "Green", id: "Hijau" },
+    black: { en: "Black", id: "Hitam" },
+    gold: { en: "Gold", id: "Emas" },
+    mixed: { en: "Mixed", id: "Campuran" },
+    small: { en: "Small", id: "Kecil" },
+    medium: { en: "Medium", id: "Sedang" },
+    large: { en: "Large", id: "Besar" },
+    grand: { en: "Grand", id: "Besar Sekali" },
+    pot: { en: "Pot", id: "Pot" },
+    potted: { en: "Potted", id: "Pot" },
+    bouquet: { en: "Bouquet", id: "Buket" },
+    "money-bouquet": { en: "Money Bouquet", id: "Money Bouquet" },
+    standing: { en: "Standing Flower", id: "Standing Flower" },
+    "standing-flower": { en: "Standing Flower", id: "Standing Flower" },
+    papan: { en: "Flower Board", id: "Papan Bunga" },
+    parcel: { en: "Parcel", id: "Parcel" },
+    basket: { en: "Basket", id: "Keranjang" },
+    ribbon: { en: "Ribbon", id: "Pita" },
+    "bloom-box": { en: "Bloom Box", id: "Bloom Box" },
+    cross: { en: "Cross", id: "Salib" },
+    frame: { en: "Frame", id: "Frame" },
+    rustic: { en: "Rustic", id: "Rustik" },
+    standard: { en: "Standard", id: "Standar" },
+    wedding: { en: "Wedding", id: "Pernikahan" },
+    pernikahan: { en: "Wedding", id: "Pernikahan" },
+    graduation: { en: "Graduation", id: "Wisuda" },
+    wisuda: { en: "Graduation", id: "Wisuda" },
+    condolence: { en: "Condolence", id: "Belasungkawa" },
+    belasungkawa: { en: "Condolence", id: "Belasungkawa" },
+    success: { en: "Success", id: "Sukses" },
+    sukses: { en: "Success", id: "Sukses" },
+    "idul-fitri": { en: "Idul Fitri", id: "Idul Fitri" },
+    imlek: { en: "Chinese New Year", id: "Imlek" },
+    christmas: { en: "Christmas", id: "Natal" },
+    natal: { en: "Christmas", id: "Natal" },
+    gift: { en: "Gift", id: "Hadiah" },
+    hadiah: { en: "Gift", id: "Hadiah" },
+    mawar: { en: "Rose", id: "Mawar" },
+    rose: { en: "Rose", id: "Mawar" },
+    tulip: { en: "Tulip", id: "Tulip" },
+    anggrek: { en: "Orchid", id: "Anggrek" },
+    orchid: { en: "Orchid", id: "Anggrek" },
+    lily: { en: "Lily", id: "Lili" },
+    lili: { en: "Lily", id: "Lili" },
+    "babys-breath": { en: "Baby's Breath", id: "Baby's Breath" },
+    "baby-s-breath": { en: "Baby's Breath", id: "Baby's Breath" },
+    gypsophila: { en: "Baby's Breath", id: "Baby's Breath" },
+    aster: { en: "Aster", id: "Aster" },
+    sunflower: { en: "Sunflower", id: "Bunga Matahari" },
+    "bunga-matahari": { en: "Sunflower", id: "Bunga Matahari" },
+    carnation: { en: "Carnation", id: "Anyelir" },
+    anyelir: { en: "Carnation", id: "Anyelir" },
+    hydrangea: { en: "Hydrangea", id: "Hortensia" },
+    hortensia: { en: "Hydrangea", id: "Hortensia" },
+    peony: { en: "Peony", id: "Peony" },
+    gerbera: { en: "Gerbera", id: "Gerbera" },
+    chrysanthemum: { en: "Chrysanthemum", id: "Krisan" },
+    krisan: { en: "Chrysanthemum", id: "Krisan" },
+    poms: { en: "Poms", id: "Poms" },
+    "snap-dragons": { en: "Snap Dragons", id: "Snap Dragons" },
+    snapdragons: { en: "Snap Dragons", id: "Snap Dragons" },
+    gompie: { en: "Gompie", id: "Gompie" },
+    "aranthera-azimah": { en: "Aranthera Azimah", id: "Aranthera Azimah" },
+    lysianthus: { en: "Lysianthus", id: "Lisianthus" },
+    lisianthus: { en: "Lysianthus", id: "Lisianthus" }
+  };
+
   const STYLE_TEXT = [
     ".language-switcher{display:inline-flex;align-items:center;gap:4px;margin-left:10px;pointer-events:auto;color:inherit;order:3;}",
     ".language-switcher__button{border:0;background:transparent;padding:0;font-family:\"Inter Tight\",sans-serif;font-size:11px;letter-spacing:.08em;color:currentColor;opacity:.54;cursor:pointer;transition:opacity .18s ease,color .18s ease;}",
@@ -421,6 +536,24 @@
     "body.desktop-header-hero-mode .language-switcher{color:rgba(242,236,224,.96)!important;}",
     "@media (max-width:768px){.language-switcher{margin-left:8px;gap:3px;}.language-switcher__button{font-size:10px;letter-spacing:.07em;}}"
   ].join("");
+
+  const BUTTON_SYSTEM_STYLE_TEXT = `
+    :root{--mv-button-ink:#171513;--mv-button-paper:#fff;--mv-button-line:rgba(23,21,19,.28)}
+    :where(button,a,[role="button"]){-webkit-tap-highlight-color:transparent}
+    :where(button,a,[role="button"]):focus-visible{outline:1px solid var(--mv-button-ink);outline-offset:3px}
+    :where(.shop-btn,.mv-cta,.mv-cta--apply,.filters-apply,.bag-add-btn,.bag-checkout-button,.bag-empty-button,.product-bag-btn,.product-whatsapp-btn,.product-fresh-btn,.portfolio-request-btn,.portfolio-gateway-card-cta,.portfolio-gateway-intro-cta,.collection-cta){
+      display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border:1px solid var(--mv-button-ink)!important;border-radius:0!important;background:var(--mv-button-ink)!important;color:var(--mv-button-paper)!important;font-family:"Inter Tight",sans-serif!important;font-size:11px!important;font-weight:500!important;letter-spacing:.13em!important;line-height:1.2!important;text-transform:uppercase!important;text-decoration:none!important;cursor:pointer;transition:transform .2s ease,background-color .2s ease,border-color .2s ease,color .2s ease,opacity .2s ease!important
+    }
+    :where(.shop-btn,.mv-cta,.mv-cta--apply,.filters-apply,.bag-add-btn,.bag-checkout-button,.bag-empty-button,.product-bag-btn,.product-whatsapp-btn,.product-fresh-btn,.portfolio-request-btn,.portfolio-gateway-card-cta,.portfolio-gateway-intro-cta,.collection-cta):hover:not(:disabled):not([aria-disabled="true"]),
+    :where(.shop-btn,.mv-cta,.mv-cta--apply,.filters-apply,.bag-add-btn,.bag-checkout-button,.bag-empty-button,.product-bag-btn,.product-whatsapp-btn,.product-fresh-btn,.portfolio-request-btn,.portfolio-gateway-card-cta,.portfolio-gateway-intro-cta,.collection-cta):focus-visible:not(:disabled):not([aria-disabled="true"]){background:#2b2723!important;border-color:#2b2723!important;transform:translateY(-1px)}
+    :where(.shop-btn,.mv-cta,.mv-cta--apply,.filters-apply,.bag-add-btn,.bag-checkout-button,.bag-empty-button,.product-bag-btn,.product-whatsapp-btn,.product-fresh-btn,.portfolio-request-btn,.portfolio-gateway-card-cta,.portfolio-gateway-intro-cta,.collection-cta):active:not(:disabled){transform:translateY(0)}
+    :where(.shop-btn.is-ghost,.mv-cta--ghost,.bag-add-btn.is-secondary,.bag-empty-link){background:transparent!important;color:var(--mv-button-ink)!important;border-color:var(--mv-button-line)!important}
+    :where(.shop-btn.is-ghost,.mv-cta--ghost,.bag-add-btn.is-secondary,.bag-empty-link):hover:not(:disabled),
+    :where(.shop-btn.is-ghost,.mv-cta--ghost,.bag-add-btn.is-secondary,.bag-empty-link):focus-visible{background:var(--mv-button-ink)!important;color:var(--mv-button-paper)!important;border-color:var(--mv-button-ink)!important}
+    :where(.mv-quiet-action,.wl-text-action,.filter-clear,.search-filter-clear,.bag-card-plan-edit,.reviews-cta){font-family:"Inter Tight",sans-serif;letter-spacing:.08em;text-underline-offset:4px;transition:color .2s ease,opacity .2s ease}
+    :where(button:disabled,button[aria-disabled="true"],[role="button"][aria-disabled="true"]){cursor:not-allowed}
+    @media(prefers-reduced-motion:reduce){:where(.shop-btn,.mv-cta,.mv-cta--apply,.filters-apply,.bag-add-btn,.bag-checkout-button,.bag-empty-button,.product-bag-btn,.product-whatsapp-btn,.product-fresh-btn,.portfolio-request-btn,.portfolio-gateway-card-cta,.portfolio-gateway-intro-cta,.collection-cta){transition:none!important}}
+  `;
 
   function normalizeLanguage(value) {
     const text = String(value || "").trim().toLowerCase();
@@ -580,6 +713,14 @@
     document.head.appendChild(style);
   }
 
+  function ensureButtonSystemStyles() {
+    if (document.getElementById("marvell-button-system-style")) return;
+    const style = document.createElement("style");
+    style.id = "marvell-button-system-style";
+    style.textContent = BUTTON_SYSTEM_STYLE_TEXT;
+    document.head.appendChild(style);
+  }
+
   function buildLocalizedHref(rawHref, language) {
     const original = String(rawHref || "").trim();
     if (!original || original === "#" || /^mailto:|^tel:|^javascript:/i.test(original)) return original;
@@ -587,6 +728,18 @@
     if (url.origin !== window.location.origin) return original;
     url.searchParams.set("lang", language);
     return `${url.pathname}${url.search}${url.hash}`;
+  }
+
+  function setLanguage(value) {
+    const nextLanguage = normalizeLanguage(value);
+    if (!nextLanguage) return false;
+    try { window.localStorage.setItem(STORAGE_KEY, nextLanguage); } catch (_error) { return false; }
+    if (nextLanguage === currentLanguage) return true;
+    currentLanguage = nextLanguage;
+    document.documentElement.lang = currentLanguage;
+    applyPageTranslations();
+    scheduleTranslationPass();
+    return true;
   }
 
   function decorateInternalLinks(root = document) {
@@ -600,65 +753,33 @@
   }
 
   function injectLanguageSwitcher() {
-    const bars = Array.from(document.querySelectorAll(".header-bar"));
-    bars.forEach((bar) => {
-      if (!(bar instanceof HTMLElement)) return;
-      let switcher = bar.querySelector(".language-switcher");
-      if (!(switcher instanceof HTMLElement)) {
-        switcher = document.createElement("div");
-        switcher.className = "language-switcher";
-        switcher.setAttribute("aria-label", "Language switcher");
-        switcher.innerHTML = [
-          '<button class="language-switcher__button" type="button" data-lang="en">EN</button>',
-          '<span class="language-switcher__divider" aria-hidden="true">/</span>',
-          '<button class="language-switcher__button" type="button" data-lang="id">ID</button>'
-        ].join("");
-      }
-
-      const isMobileViewport = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 768px)").matches;
-      if (isMobileViewport) {
-        const logo = bar.querySelector(".header-logo");
-        const favorites = bar.querySelector(".favorites-launcher");
-        const searchToggle = bar.querySelector(".search-toggle, .search-mobile-trigger");
-        if (logo && logo.parentNode === bar) {
-          if (logo.nextSibling !== switcher) {
-            bar.insertBefore(switcher, logo.nextSibling);
-          }
-        } else if (favorites && favorites.parentNode === bar) {
-          bar.insertBefore(switcher, favorites);
-        } else if (searchToggle && searchToggle.parentNode === bar) {
-          bar.insertBefore(switcher, searchToggle);
-        } else {
-          bar.appendChild(switcher);
+    // Language choice lives with the footer's region controls on every page.
+    document.querySelectorAll(".header-bar .language-switcher, header nav .language-switcher").forEach((node) => node.remove());
+    const trigger = document.querySelector(".footer-language-trigger");
+    const popover = document.querySelector(".footer-language-popover");
+    if (trigger instanceof HTMLButtonElement && popover instanceof HTMLElement && trigger.dataset.bound !== "1") {
+      trigger.dataset.bound = "1";
+      // Open and closed are a class, not [hidden]: the list fades up and back,
+      // and display:none cannot be faded.
+      const isOpen = () => popover.classList.contains("is-open");
+      const setOpen = (open) => {
+        popover.classList.toggle("is-open", open);
+        trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+      const close = () => setOpen(false);
+      trigger.addEventListener("click", () => setOpen(!isOpen()));
+      document.addEventListener("click", (event) => {
+        if (isOpen() && !trigger.contains(event.target) && !popover.contains(event.target)) close();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && isOpen()) {
+          close();
+          trigger.focus();
         }
-      } else {
-        const contactTrigger = bar.querySelector(".contact-quick-trigger, .header-contact");
-        if (contactTrigger && contactTrigger.parentNode === bar && contactTrigger.nextSibling !== switcher) {
-          bar.insertBefore(switcher, contactTrigger.nextSibling);
-        } else if (contactTrigger && contactTrigger.parentNode === bar) {
-          bar.appendChild(switcher);
-        } else {
-          const menuToggle = bar.querySelector(".menu-toggle");
-          if (menuToggle && menuToggle.parentNode === bar) bar.insertBefore(switcher, menuToggle);
-          else bar.appendChild(switcher);
-        }
-      }
-    });
-
-    if (!bars.length) {
-      const nav = document.querySelector("header nav");
-      if (nav instanceof HTMLElement && !nav.querySelector(".language-switcher")) {
-        const switcher = document.createElement("div");
-        switcher.className = "language-switcher";
-        switcher.setAttribute("aria-label", "Language switcher");
-        switcher.innerHTML = [
-          '<button class="language-switcher__button" type="button" data-lang="en">EN</button>',
-          '<span class="language-switcher__divider" aria-hidden="true">/</span>',
-          '<button class="language-switcher__button" type="button" data-lang="id">ID</button>'
-        ].join("");
-        nav.appendChild(switcher);
-      }
+      });
     }
+    const current = document.querySelector("[data-footer-language-current]");
+    if (current) current.textContent = currentLanguage === "id" ? "Bahasa Indonesia" : "English";
 
     Array.from(document.querySelectorAll(".language-switcher__button")).forEach((button) => {
       if (!(button instanceof HTMLButtonElement)) return;
@@ -667,9 +788,14 @@
       button.dataset.bound = "1";
       button.addEventListener("click", () => {
         const nextLanguage = normalizeLanguage(button.dataset.lang);
-        if (!nextLanguage || nextLanguage === currentLanguage) return;
-        window.localStorage.setItem(STORAGE_KEY, nextLanguage);
-        window.location.href = buildLocalizedHref(window.location.href, nextLanguage);
+        if (!nextLanguage || nextLanguage === currentLanguage) {
+          if (popover instanceof HTMLElement) popover.classList.remove("is-open");
+          if (trigger instanceof HTMLButtonElement) trigger.setAttribute("aria-expanded", "false");
+          return;
+        }
+        setLanguage(nextLanguage);
+        if (popover instanceof HTMLElement) popover.classList.remove("is-open");
+        if (trigger instanceof HTMLButtonElement) trigger.setAttribute("aria-expanded", "false");
       });
     });
   }
@@ -695,6 +821,117 @@
     }
     if (/^\d+\s+produk$/i.test(text)) return text.replace(/produk$/i, "products");
     return text;
+  }
+
+  function normalizeFilterKey(value) {
+    return String(value || "")
+      .trim()
+      .toLowerCase()
+      .replace(/&/g, " and ")
+      .replace(/['’]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function localizedRecordValue(record) {
+    if (!record || typeof record !== "object") return "";
+    return currentLanguage === "id" ? String(record.id || "").trim() : String(record.en || "").trim();
+  }
+
+  function localizeFilterLabel(value, groupId = "") {
+    const fallback = String(value || "").trim();
+    const key = normalizeFilterKey(groupId || fallback);
+    const record = FILTER_GROUP_LABELS[key] || FILTER_GROUP_LABELS[normalizeFilterKey(fallback)];
+    return localizedRecordValue(record) || localizeSimpleLabel(fallback);
+  }
+
+  function localizeFilterOptionLabel(optionId = "", fallback = "", groupId = "") {
+    const rawFallback = String(fallback || optionId || "").trim();
+    if (!rawFallback) return rawFallback;
+    const countedMatch = rawFallback.match(/^(.*?)(\s*\(\d+\))$/);
+    const labelWithoutCount = countedMatch ? countedMatch[1].trim() : rawFallback;
+    const countSuffix = countedMatch ? countedMatch[2] : "";
+    if (normalizeFilterKey(groupId) === "category") {
+      return `${localizeCategory(labelWithoutCount || optionId)}${countSuffix}`;
+    }
+    const optionKeys = [
+      normalizeFilterKey(optionId),
+      normalizeFilterKey(labelWithoutCount)
+    ].filter(Boolean);
+    const record = optionKeys.map((key) => FILTER_OPTION_LABELS[key]).find(Boolean);
+    if (record) return `${localizedRecordValue(record)}${countSuffix}`;
+    return `${localizeSimpleLabel(labelWithoutCount)}${countSuffix}`;
+  }
+
+  function localizeLabel(value) {
+    const text = String(value || "").trim();
+    if (!text) return text;
+    const simple = localizeSimpleLabel(text);
+    if (simple !== text) return simple;
+    const category = localizeCategory(text);
+    if (category !== text) return category;
+    return localizeFilterOptionLabel(text, text);
+  }
+
+  function localizedField(record, names = []) {
+    if (!record || typeof record !== "object") return "";
+    for (const name of names) {
+      const value = record[name];
+      if (value === null || value === undefined) continue;
+      if (typeof value === "object") {
+        const localized = currentLanguage === "id"
+          ? String(value.id || value.id_ID || value.indonesian || value.en || "").trim()
+          : String(value.en || value.en_US || value.english || value.id || "").trim();
+        if (localized) return localized;
+        continue;
+      }
+      const text = String(value).trim();
+      if (text) return text;
+    }
+    return "";
+  }
+
+  function toValueList(value) {
+    if (Array.isArray(value)) return value.map((entry) => String(entry || "").trim()).filter(Boolean);
+    if (value === null || value === undefined || value === "") return [];
+    return [String(value).trim()].filter(Boolean);
+  }
+
+  function joinLocalizedList(items) {
+    const list = Array.from(new Set(items.map((entry) => String(entry || "").trim()).filter(Boolean)));
+    if (list.length <= 1) return list[0] || "";
+    if (list.length === 2) return currentLanguage === "id" ? `${list[0]} dan ${list[1]}` : `${list[0]} and ${list[1]}`;
+    const last = list[list.length - 1];
+    const prefix = list.slice(0, -1).join(", ");
+    return currentLanguage === "id" ? `${prefix}, dan ${last}` : `${prefix}, and ${last}`;
+  }
+
+  function localizeProductDescription(product = {}) {
+    const item = product && typeof product === "object" ? product : { description: product };
+    const direct = currentLanguage === "id"
+      ? localizedField(item, ["descriptionId", "descriptionID", "description_id", "descriptionIndonesian", "description"])
+      : localizedField(item, ["descriptionEn", "descriptionEN", "description_en", "descriptionEnglish", "description"]);
+    if (direct && direct !== "[object Object]") {
+      if (currentLanguage === "en") return direct;
+      const explicitIndonesian = localizedField(item, ["descriptionId", "descriptionID", "description_id", "descriptionIndonesian"]);
+      if (explicitIndonesian || (typeof item.description === "object" && item.description?.id)) return direct;
+    }
+    if (currentLanguage === "en") return localizedField(item, ["descriptionEn", "description_en", "description"]) || "";
+
+    const filters = item.filters && typeof item.filters === "object" ? item.filters : {};
+    const category = localizeCategory(item.category || filters.category || "");
+    const type = localizeFilterOptionLabel(filters.type || item.type || "", filters.type || item.type || "", "type");
+    const colors = joinLocalizedList(toValueList(filters.colors || filters.color || item.colors || item.color).map((entry) => localizeFilterOptionLabel(entry, entry, "color")));
+    const flowers = joinLocalizedList(toValueList(filters.flowerTypes || filters.flowers || item.flowerTypes || item.flowers).map((entry) => localizeFilterOptionLabel(entry, entry, "flower-type")));
+    const condition = localizeFilterOptionLabel(filters.flowerCondition || item.flowerCondition || "", filters.flowerCondition || item.flowerCondition || "", "flower-condition");
+    const base = category && category !== String(item.category || "").trim() ? category : "rangkaian bunga";
+    const descriptors = [];
+    if (type && type !== String(filters.type || item.type || "").trim() && type !== base) descriptors.push(type);
+    if (colors) descriptors.push(`nuansa ${colors}`);
+    if (flowers) descriptors.push(`bunga ${flowers}`);
+    if (condition) descriptors.push(`bunga ${condition.toLowerCase()}`);
+    const detail = descriptors.length ? ` dengan ${joinLocalizedList(descriptors)}` : "";
+    return `Rangkaian ini disiapkan sebagai ${base}${detail}. Detail akhir dapat disesuaikan melalui konsultasi, mengikuti ketersediaan bunga, ukuran, dan kebutuhan momen.`;
   }
 
   function localizeSeasonalCollectionLabel(value) {
@@ -730,7 +967,10 @@
 
   function translateCommonHeader() {
     Array.from(document.querySelectorAll(".contact-quick-trigger,.header-contact")).forEach((node) => {
-      setText(node, t("Contact Us", "Hubungi Kami"));
+      // Into the label when there is one: the control also holds an icon, and
+      // setText would replace it along with the words.
+      const label = node.querySelector(".contact-quick-label");
+      setText(label instanceof HTMLElement ? label : node, t("Contact Us", "Hubungi Kami"));
     });
     Array.from(document.querySelectorAll(".search-label")).forEach((node) => {
       setText(node, t("Search", "Cari"));
@@ -761,6 +1001,8 @@
       if (hrefHash(href) === "#services" || hrefTargetsPage(href, "services")) setText(node, t("Services", "Layanan"));
       if (hrefTargetsPage(href, "custom-arrangements")) setText(node, t("Custom Arrangements", "Rangkaian Kustom"));
       if (hrefTargetsPage(href, "journals")) setText(node, t("The Journals", "Jurnal"));
+      if (node.hasAttribute("data-featured-primary-link")) setText(node, t("Collections", "Koleksi"));
+      if (node.hasAttribute("data-retail-collections-link")) setText(node, t("Collections", "Koleksi"));
       if (href.includes("#reviews")) setText(node, t("Reviews", "Ulasan"));
       if ((hrefHash(href) === "#featured" || hrefTargetsPage(href, "featured")) && node.dataset.seasonalManaged !== "true") {
         setText(node, t("Collections", "Koleksi"));
@@ -822,6 +1064,13 @@
   }
 
   function translateContactPanels() {
+    setSelectorText("#contact-quick-title", t("Contact Us", "Hubungi Kami"));
+    setSelectorText("#contact-quick-panel .contact-quick-head p", t("We are here to help you.", "Kami siap membantu Anda."));
+    setSelectorText(".menu-contact-title", t("Contact Us", "Hubungi Kami"));
+    setSelectorText(".menu-contact-lead", t("We are here to help you.", "Kami siap membantu Anda."));
+    setSelectorText(".menu-intro h2", t("Menu", "Menu"));
+    setSelectorText(".menu-intro p", t("Discover Marvell", "Jelajahi Marvell"));
+    setSelectorText(".contact-quick-intro h2", t("Contact Us", "Hubungi Kami"));
     Array.from(document.querySelectorAll(".contact-quick-body")).forEach((body) => {
       if (!(body instanceof HTMLElement)) return;
       const blocks = Array.from(body.querySelectorAll(":scope > .contact-quick-block"));
@@ -831,7 +1080,7 @@
         const links = Array.from(block.querySelectorAll(".contact-quick-link"));
         const muted = Array.from(block.querySelectorAll(".contact-quick-text.is-muted"));
         if (index === 0) {
-          setText(label, t("Contact Us", "Hubungi Kami"));
+          setText(label, t("WhatsApp Enquiries", "Pertanyaan WhatsApp"));
           setText(links[0], t("Floral Arrangements", "Rangkaian Bunga"));
           setText(links[1], t("Custom Orders", "Pesanan Kustom"));
           setText(links[2], t("Supplies", "Perlengkapan"));
@@ -843,13 +1092,18 @@
           setText(links[0], t("Florist Boutique", "Rangkaian"));
           setText(links[1], t("Supplies Shop", "Perlengkapan"));
         }
-        if (index === 2) setText(label, t("Stay Connected", "Tetap Terhubung"));
-        if (index === 3) setText(label, t("Shop Online", "Belanja Online"));
+        if (index === 2) setText(label, t("Social Channels", "Kanal Sosial"));
+        if (index === 3) setText(label, t("Online Stores", "Toko Online"));
       });
     });
   }
 
   function translateFooter(scope = document) {
+    setSelectorText(".nl-footer h2", t("Sign up for Marvell updates", "Daftar kabar Marvell"), scope);
+    setSelectorText(".nl-footer button[type='submit']", t("Confirm", "Konfirmasi"), scope);
+    setSelectorText("[data-footer-language-label]", t("Language", "Bahasa"), scope);
+    setSelectorText("[data-footer-language-current]", currentLanguage === "id" ? "Bahasa Indonesia" : "English", scope);
+    setSelectorText("[data-cookie-settings]", t("Cookie settings", "Pengaturan cookie"), scope);
     Array.from(scope.querySelectorAll(".footer-col-title")).forEach((button) => {
       if (!(button instanceof HTMLElement)) return;
       const raw = button.textContent || "";
@@ -859,6 +1113,8 @@
         button.innerHTML = `${t("About", "Tentang")} <span class="footer-accordion-icon" aria-hidden="true">+</span>`;
       } else if (/Kategori|Categories/i.test(raw)) {
         button.innerHTML = `${t("Categories", "Kategori")} <span class="footer-accordion-icon" aria-hidden="true">+</span>`;
+      } else if (/Legal Notices|Pemberitahuan Hukum/i.test(raw)) {
+        button.innerHTML = `${t("Legal Notices", "Pemberitahuan Hukum")} <span class="footer-accordion-icon" aria-hidden="true">+</span>`;
       }
     });
 
@@ -871,12 +1127,14 @@
       if (hrefHash(href) === "#services" || (hrefTargetsPage(href, "services") && hrefHash(href) === "#consultation")) setText(link, t("Contact Us", "Hubungi Kami"));
       if (hrefTargetsPage(href, "custom-arrangements")) setText(link, t("Custom Arrangements", "Rangkaian Kustom"));
       if (hrefTargetsPage(href, "journals")) setText(link, t("The Journals", "Jurnal"));
-      if (hrefTargetsPage(href, "privacy-policy")) setText(link, t("Privacy", "Privasi"));
-      if (hrefTargetsPage(href, "terms-conditions")) setText(link, t("Terms", "Ketentuan"));
+      if (hrefTargetsPage(href, "privacy-policy")) setText(link, t("Privacy Policy", "Kebijakan Privasi"));
+      if (hrefTargetsPage(href, "terms-conditions")) setText(link, t("Terms & Conditions", "Syarat & Ketentuan"));
       if (hrefTargetsPage(href, "faq")) setText(link, t("FAQ", "FAQ"));
       if ((hrefHash(href) === "#featured" || hrefTargetsPage(href, "featured")) && link.dataset.seasonalManaged !== "true") {
         setText(link, t("Collections", "Koleksi"));
       }
+      if (link.hasAttribute("data-featured-primary-link")) setText(link, t("Collections", "Koleksi"));
+      if (link.hasAttribute("data-retail-collections-link")) setText(link, t("Collections", "Koleksi"));
       if (isGalleryCategoryHref(href)) {
         const category = hrefSearchParam(link.href, "category");
         setText(link, localizeCategory(category));
@@ -1023,7 +1281,7 @@
       const count = countMatch ? countMatch[1] : "0";
       productsTab.textContent = `${t("Products", "Produk")} (${count})`;
     }
-    setSelectorText("#search-query-filter .search-query-filter-label", t("Filters", "Filters"));
+    setSelectorText("#search-query-filter .search-query-filter-label", t("Filters", "Filter"));
     setSelectorText("#search-keywords-heading", t("Related Searches", "Pencarian Terkait"));
     setSelectorText("#search-products-heading", t("Recommended Products", "Produk Rekomendasi"));
     const featuredHeading = document.getElementById("search-featured-heading");
@@ -1042,6 +1300,12 @@
         ? 'Untuk info lebih lanjut, hubungi kami di <a href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>.'
         : 'For more information, contact us on <a href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>.';
     }
+    Array.from(document.querySelectorAll(".search-filter-group-title")).forEach((node) => {
+      if (node instanceof HTMLElement) setText(node, localizeFilterLabel(node.textContent || ""));
+    });
+    Array.from(document.querySelectorAll(".search-filter-option:not(.search-filter-option--color) .search-filter-option-label,.search-filter-color-text,.search-filter-clear")).forEach((node) => {
+      if (node instanceof HTMLElement) setText(node, localizeLabel(node.textContent || ""));
+    });
     setSelectorText(".search-faq-link", t("FAQ", "FAQ"));
   }
 
@@ -1107,6 +1371,8 @@
       cluster.className = "legal-suite";
       main.prepend(cluster);
     }
+    const renderKey = `${activePage}:${currentLanguage}`;
+    if (cluster.dataset.legalRenderKey === renderKey) return;
     const faqHref = buildLocalizedHref("faq.html", currentLanguage);
     const privacyHref = buildLocalizedHref("privacy-policy.html", currentLanguage);
     const termsHref = buildLocalizedHref("terms-conditions.html", currentLanguage);
@@ -1120,6 +1386,7 @@
         <a class="legal-suite-link ${activePage === "contact" ? "is-active" : ""}" href="${contactHref}" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.go(this.href, event) : true;">${t("Contact", "Kontak")}</a>
       </nav>
     `;
+    cluster.dataset.legalRenderKey = renderKey;
   }
 
   let legalNavigationBound = false;
@@ -1173,8 +1440,6 @@
         return;
       }
       if (destination.href === window.location.href) return;
-      event.preventDefault();
-      window.location.assign(destination.href);
     }, true);
   }
 
@@ -1190,6 +1455,8 @@
     if (!(title instanceof HTMLElement) || !(lead instanceof HTMLElement) || !(content instanceof HTMLElement) || !(toc instanceof HTMLElement) || !(tocLabel instanceof HTMLElement) || !(tocNav instanceof HTMLElement)) {
       return false;
     }
+    const renderKey = `${pageNameFromPathname(window.location.pathname)}:${currentLanguage}`;
+    if (page.dataset.legalRenderKey === renderKey) return true;
     setText(title, config.title);
     setText(lead, config.lead);
     content.innerHTML = `
@@ -1214,6 +1481,7 @@
     tocNav.innerHTML = config.sections.map((section, index) => `
       <a class="legal-toc-link" href="#${section.id}" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('${section.id}', event) : true;">${String(index + 1).padStart(2, "0")}. ${section.tocTitle || section.title}</a>
     `).join("");
+    page.dataset.legalRenderKey = renderKey;
     return true;
   }
 
@@ -1282,15 +1550,16 @@
               title: "Bagaimana sistem pembayarannya?",
               tocTitle: "Pembayaran",
               paragraphs: [
-                "Pembayaran diatur setelah konsultasi dan diperlukan sebelum pesanan dikonfirmasi. Website ini tidak menggunakan checkout mandiri, jadi produksi baru dimulai setelah detail pesanan disetujui dan pembayaran diterima."
+                "Pembayaran diperlukan sebelum pesanan dikonfirmasi. Jika checkout online tersedia, pembayaran diproses secara aman oleh penyedia layanan pembayaran kami; pesanan yang diatur melalui konsultasi dibayar dengan metode yang kami sepakati bersama Anda. Produksi baru dimulai setelah pembayaran diterima."
               ]
             },
             {
               id: "faq-07",
-              title: "Bisakah pesanan diubah atau dibatalkan?",
-              tocTitle: "Perubahan dan pembatalan",
+              title: "Bisakah pesanan diubah, dibatalkan, atau di-refund?",
+              tocTitle: "Perubahan, pembatalan, dan refund",
               paragraphs: [
-                "Perubahan biasanya masih memungkinkan sebelum produksi dimulai. Pembatalan umumnya hanya bisa dilakukan sebelum tahap persiapan berjalan, tergantung posisi pesanannya."
+                "Perubahan biasanya masih memungkinkan sebelum produksi dimulai, tergantung posisi pesanannya.",
+                "Pesanan yang sudah dibayar tidak dapat di-refund dan tidak dapat dibatalkan untuk mendapatkan refund. Satu-satunya pengecualian adalah ketika suatu produk menjadi tidak tersedia setelah pembayaran dan kami tidak dapat memenuhi pesanan; refund yang disetujui akan dikembalikan ke metode pembayaran awal. Lihat bagian Refund di Syarat & Ketentuan kami."
               ]
             },
             {
@@ -1302,7 +1571,9 @@
               ],
               list: [
                 "WhatsApp: +62 812 7501 7456",
-                "Email: floristmarvell@gmail.com"
+                "Email: hello@marvellflorist.com",
+                "Butik Florist: Blok C.11, Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah, Teluk Tering, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia",
+                "Toko Perlengkapan: Ruko Limindo Trade Centre, Blok B No. 06, Taman Baloi, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia"
               ]
             }
           ]
@@ -1353,15 +1624,16 @@
               title: "How is payment handled?",
               tocTitle: "Payment",
               paragraphs: [
-                "Payment is arranged after consultation and is required before the order is confirmed. The website does not use a self-serve checkout, so production only begins after the order has been approved and payment has been received."
+                "Payment is required before an order is confirmed. Where online checkout is available, payment is processed securely by our payment provider; orders arranged through consultation are paid through the method we agree with you. Production only begins once payment has been received."
               ]
             },
             {
               id: "faq-07",
-              title: "Can I change or cancel an order?",
-              tocTitle: "Changes and cancellations",
+              title: "Can I change, cancel, or get a refund for an order?",
+              tocTitle: "Changes, cancellations and refunds",
               paragraphs: [
-                "Changes may be possible before production starts. Cancellations are usually only possible before preparation begins, depending on the stage of the order."
+                "Changes may be possible before production starts, depending on the stage of the order.",
+                "Paid orders are non-refundable and cannot be cancelled for a refund. The only exception is when an item becomes unavailable after payment and we cannot fulfil the order; the approved refund is then returned to the original payment method. See Refunds in our Terms & Conditions."
               ]
             },
             {
@@ -1373,7 +1645,9 @@
               ],
               list: [
                 "WhatsApp: +62 812 7501 7456",
-                "Email: floristmarvell@gmail.com"
+                "Email: hello@marvellflorist.com",
+                "Florist Boutique: Blok C.11, Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah, Teluk Tering, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia",
+                "Supplies Shop: Ruko Limindo Trade Centre, Blok B No. 06, Taman Baloi, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia"
               ]
             }
           ]
@@ -1544,6 +1818,17 @@
             },
             {
               id: "privacy-06",
+              title: "Newsletter dan pesan pemasaran",
+              tocTitle: "Newsletter dan pemasaran",
+              paragraphs: [
+                "Anda dapat berlangganan newsletter Marvell melalui bagian bawah setiap halaman. Kami hanya meminta alamat email Anda.",
+                "Berlangganan adalah izin itu sendiri: hal ini dinyatakan di atas tombol, dan kami mencatat bahwa Anda berlangganan beserta tanggalnya. Nomor WhatsApp yang Anda berikan untuk sebuah pesanan adalah data kontak, bukan izin, dan tidak pernah ditambahkan ke newsletter.",
+                "Kami menggunakan Brevo untuk menyimpan daftar newsletter dan mengirim pesan tersebut, sehingga data Anda diproses oleh Brevo atas nama kami. Newsletter dikirim dari info@marvellflorist.com, dan daftar tersebut tidak digunakan untuk keperluan lain.",
+                "Anda dapat berhenti kapan saja: gunakan tautan berhenti berlangganan di setiap newsletter, atau kirim email kepada kami dan kami akan menghapus Anda."
+              ]
+            },
+            {
+              id: "privacy-07",
               title: "Penyimpanan dan retensi",
               tocTitle: "Penyimpanan dan retensi",
               paragraphs: [
@@ -1552,7 +1837,7 @@
               ]
             },
             {
-              id: "privacy-07",
+              id: "privacy-08",
               title: "Pilihan Anda",
               tocTitle: "Pilihan Anda",
               paragraphs: [
@@ -1560,7 +1845,7 @@
               ]
             },
             {
-              id: "privacy-08",
+              id: "privacy-09",
               title: "Keamanan",
               tocTitle: "Keamanan",
               paragraphs: [
@@ -1568,7 +1853,7 @@
               ]
             },
             {
-              id: "privacy-09",
+              id: "privacy-10",
               title: "Kontak",
               tocTitle: "Kontak",
               paragraphs: [
@@ -1576,7 +1861,7 @@
               ],
               list: [
                 "WhatsApp: +62 812 7501 7456",
-                "Email: floristmarvell@gmail.com"
+                "Email: hello@marvellflorist.com"
               ]
             }
           ]
@@ -1625,11 +1910,22 @@
               paragraphs: [
                 "We do not sell personal information.",
                 "Information may be shared only when needed to complete or support your order, such as with delivery support or event coordination at your request.",
-                "Third-party services such as WhatsApp, Instagram, email providers, Google Analytics, Shopee, or Tokopedia may process information according to their own policies when you use those services."
+                "Third-party services such as WhatsApp, Instagram, Brevo (our newsletter and email provider), Google Analytics, Shopee, or Tokopedia may process information according to their own policies when you use those services."
               ]
             },
             {
               id: "privacy-06",
+              title: "Newsletter and marketing messages",
+              tocTitle: "Newsletter and marketing",
+              paragraphs: [
+                "You can subscribe to the Marvell newsletter from the footer of any page. We ask for your email address and nothing else.",
+                "Subscribing is the permission: the form says so above the button, and we record that you subscribed and the date you did it. A WhatsApp number given to us for an order is contact detail, not consent, and is never added to the newsletter.",
+                "We use Brevo to hold the newsletter list and send these messages, which means your details are processed by Brevo on our behalf. Newsletters are sent from info@marvellflorist.com, and the list is not used for anything else.",
+                "You can withdraw at any time: use the unsubscribe link in any newsletter, or email us and we will remove you."
+              ]
+            },
+            {
+              id: "privacy-07",
               title: "Storage and retention",
               tocTitle: "Storage and retention",
               paragraphs: [
@@ -1638,7 +1934,7 @@
               ]
             },
             {
-              id: "privacy-07",
+              id: "privacy-08",
               title: "Your choices",
               tocTitle: "Your choices",
               paragraphs: [
@@ -1646,7 +1942,7 @@
               ]
             },
             {
-              id: "privacy-08",
+              id: "privacy-09",
               title: "Security",
               tocTitle: "Security",
               paragraphs: [
@@ -1654,7 +1950,7 @@
               ]
             },
             {
-              id: "privacy-09",
+              id: "privacy-10",
               title: "Contact",
               tocTitle: "Contact",
               paragraphs: [
@@ -1662,7 +1958,7 @@
               ],
               list: [
                 "WhatsApp: +62 812 7501 7456",
-                "Email: floristmarvell@gmail.com"
+                "Email: hello@marvellflorist.com"
               ]
             }
           ]
@@ -1713,7 +2009,7 @@
           <h2>Kontak</h2>
           <p>Untuk permintaan terkait privasi, silakan hubungi Marvell Florist di Batam, Indonesia.</p>
           <p>WhatsApp: +62 812 7501 7456</p>
-          <p>Email: floristmarvell@gmail.com</p>
+          <p>Email: hello@marvellflorist.com</p>
         </section>`
       : `<section class="section">
           <p>At Marvell Florist, discretion is part of the experience.</p>
@@ -1757,7 +2053,7 @@
           <h2>Contact</h2>
           <p>For any privacy-related request, please contact Marvell Florist in Batam, Indonesia.</p>
           <p>WhatsApp: +62 812 7501 7456</p>
-          <p>Email: floristmarvell@gmail.com</p>
+          <p>Email: hello@marvellflorist.com</p>
         </section>`;
   }
 
@@ -1795,7 +2091,7 @@
               tocTitle: "Pembayaran",
               paragraphs: [
                 "Pembayaran penuh diperlukan untuk mengonfirmasi pesanan.",
-                "Pembayaran dilakukan melalui metode yang disepakati saat konsultasi. Website ini tidak menyediakan checkout mandiri, dan produksi baru dimulai setelah pembayaran selesai."
+                "Jika checkout online tersedia, pembayaran diproses secara aman oleh penyedia layanan pembayaran kami. Pesanan yang diatur melalui konsultasi dibayar dengan metode yang disepakati saat konsultasi. Produksi baru dimulai setelah pembayaran selesai."
               ]
             },
             {
@@ -1825,7 +2121,7 @@
               tocTitle: "Perubahan dan pembatalan",
               paragraphs: [
                 "Perubahan masih dapat diminta sebelum produksi dimulai, tergantung pada kelayakan dan waktunya.",
-                "Pembatalan dapat diterima sebelum tahap persiapan berjalan. Setelah rangkaian sedang diproses atau selesai, pembatalan mungkin tidak lagi memungkinkan."
+                "Setelah pembayaran selesai, pesanan tidak dapat dibatalkan untuk mendapatkan refund. Mohon periksa kembali detail pesanan dan pengiriman Anda sebelum membayar."
               ]
             },
             {
@@ -1833,8 +2129,11 @@
               title: "Refund",
               tocTitle: "Refund",
               paragraphs: [
-                "Refund ditinjau per kasus.",
-                "Jika masalah terjadi dari pihak kami, kami akan meninjaunya dan menyelesaikannya dengan tepat. Refund umumnya tidak berlaku untuk perubahan preferensi, ketidakhadiran penerima, atau keadaan di luar kendali kami."
+                "Semua pembelian, termasuk pembelian online, bersifat final dan tidak dapat di-refund setelah pembayaran selesai.",
+                "Refund tidak diberikan untuk perubahan keinginan, penerima yang tidak tersedia, informasi atau alamat pengiriman yang salah dari pelanggan, maupun masalah lain yang disebabkan oleh pelanggan.",
+                "Produk yang tidak tersedia ditandai Habis di website dan tidak dapat dibeli. Refund hanya diberikan dalam kasus khusus ketika suatu produk menjadi tidak tersedia setelah pembayaran dan kami tidak dapat memenuhi pesanan tersebut.",
+                "Dalam kasus tersebut, kami akan menghubungi Anda dan mengembalikan refund yang disetujui ke metode pembayaran awal. Lama proses bergantung pada penyedia layanan pembayaran dan bank Anda.",
+                "Pertanyaan mengenai pesanan dapat dikirim ke hello@marvellflorist.com atau WhatsApp 0812-7501-7456."
               ]
             },
             {
@@ -1871,7 +2170,7 @@
               tocTitle: "Payment",
               paragraphs: [
                 "Full payment is required to confirm an order.",
-                "Payment is made through the method agreed during consultation. The website does not provide a self-serve checkout, and production begins only after payment is completed."
+                "Where online checkout is available, payment is processed securely by our payment provider. Orders arranged through consultation are paid through the method agreed during consultation. Production begins only after payment is completed."
               ]
             },
             {
@@ -1901,7 +2200,7 @@
               tocTitle: "Changes and cancellations",
               paragraphs: [
                 "Changes may be requested before production begins, depending on feasibility and timing.",
-                "Cancellations may be accepted before preparation starts. Once the arrangement is in progress or completed, cancellation may no longer be possible."
+                "Once payment has been completed, an order cannot be cancelled for a refund. Please review your order and delivery details carefully before paying."
               ]
             },
             {
@@ -1909,8 +2208,11 @@
               title: "Refunds",
               tocTitle: "Refunds",
               paragraphs: [
-                "Refunds are reviewed case by case.",
-                "If an issue arises from our side, we will review it and resolve it appropriately. Refunds are not generally applicable for preference changes, recipient unavailability, or circumstances outside our control."
+                "All purchases, including online purchases, are final and non-refundable once payment has been completed.",
+                "Refunds are not provided for a change of mind, recipient unavailability, incorrect delivery information or address supplied by the customer, or other issues caused by the customer.",
+                "Products that are unavailable are marked Sold out on the website and cannot be purchased. A refund is provided only in the exceptional case where an item becomes unavailable after payment and we are unable to fulfil the order.",
+                "In that case, we will contact you and return the approved refund to the original payment method. Processing time depends on the payment provider and your bank.",
+                "Questions about an order can be sent to hello@marvellflorist.com or WhatsApp 0812-7501-7456."
               ]
             },
             {
@@ -1986,9 +2288,9 @@
     setSelectorText("#custom-arrangements-link", "");
     setSelectorText("#consult-collection", t("Consult This Collection", "Konsultasikan Koleksi Ini"));
     Array.from(document.querySelectorAll(".filters-trigger-label")).forEach((node) => {
-      setText(node, t("Filters", "Filters"));
+      setText(node, t("Filters", "Filter"));
     });
-    setSelectorText("#filters-panel h3", t("Filters", "Filters"));
+    setSelectorText("#filters-panel h3", t("Filters", "Filter"));
 
     const heroTitle = document.getElementById("hero-title");
     if (heroTitle instanceof HTMLElement) heroTitle.textContent = localizeCategory(heroTitle.textContent);
@@ -2191,6 +2493,7 @@
       "Use the line that best matches your request so the conversation starts in the right place.",
       "Gunakan jalur yang paling sesuai dengan kebutuhan Anda agar percakapan langsung dimulai di tempat yang tepat."
     ));
+    setText(messageParagraphs[2], t("Phone / WhatsApp: 0812-7501-7456", "Telepon / WhatsApp: 0812-7501-7456"));
     const messageLinks = Array.from(document.querySelectorAll("#contact-message .contact-link"));
     setText(messageLinks[0], t("Floral Orders", "Pesanan Bunga"));
     setText(messageLinks[1], t("Custom Requests", "Permintaan Kustom"));
@@ -2213,6 +2516,8 @@
       "Choose the location that fits your visit best, whether you are coming for the florist boutique or the supplies shop.",
       "Pilih lokasi yang paling sesuai untuk kunjungan Anda, baik ke butik florist maupun toko perlengkapan."
     ));
+    setText(visitParagraphs[1], t("Marvell Florist (Florist Boutique): Blok C.11, Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah, Teluk Tering, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia", "Marvell Florist (Butik Florist): Blok C.11, Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah, Teluk Tering, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia"));
+    setText(visitParagraphs[2], t("Marvell Florist LTC (Supplies Shop): Ruko Limindo Trade Centre, Blok B No. 06, Taman Baloi, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia", "Marvell Florist LTC (Toko Perlengkapan): Ruko Limindo Trade Centre, Blok B No. 06, Taman Baloi, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia"));
     const visitLinks = Array.from(document.querySelectorAll("#contact-visit .contact-link"));
     setText(visitLinks[0], t("Florist Boutique", "Butik Florist"));
     setText(visitLinks[1], t("Supplies Shop", "Toko Perlengkapan"));
@@ -2316,7 +2621,101 @@
   }
 
   function translateCustomPage() {
+    if (document.querySelector(".atelier-page")) {
+      document.title = t("Marvell Atelier | Custom Arrangements", "Marvell Atelier | Rangkaian Kustom");
+      const description = document.querySelector('meta[name="description"]');
+      if (description instanceof HTMLMetaElement) {
+        description.setAttribute("content", t(
+          "Marvell Atelier is an immersive editorial space for custom floral environments, car details, opening ribbons, garnish work, and reference-led floral pieces by Marvell Florist.",
+          "Marvell Atelier adalah ruang editorial imersif untuk lingkungan floral kustom, detail mobil, pita pembukaan, garnish, dan karya berbasis referensi dari Marvell Florist."
+        ));
+      }
+      document.documentElement.lang = currentLanguage;
+      return;
+    }
     setDocumentMeta("custom");
+    if (document.querySelector(".brief-ticket")) {
+      const title = document.querySelector(".custom-title");
+      if (title instanceof HTMLElement) {
+        setHtml(title, currentLanguage === "id"
+          ? 'Bawa referensinya.<span class="custom-title-mark">Kami bentuk bunganya.</span>'
+          : 'Bring the reference.<span class="custom-title-mark">We shape the flowers.</span>');
+      }
+      setSelectorText(".custom-kicker", t("Marvell Florist Services", "Layanan Marvell Florist"));
+      setSelectorText(".custom-subline", t(
+        "For requests shaped by references, placement, ribbons, vehicle details, openings, table settings, and one-off floral directions that do not belong in a fixed collection.",
+        "Untuk permintaan yang dibentuk oleh referensi, penempatan, pita, detail kendaraan, pembukaan, setting meja, dan arah floral satu kali yang tidak cocok masuk ke koleksi tetap."
+      ));
+      const introLinks = Array.from(document.querySelectorAll(".custom-intro-actions a"));
+      setText(introLinks[0], t("Build a Brief", "Buat Brief"));
+      setText(introLinks[1], t("See the Work", "Lihat Karya"));
+      setSelectorText(".brief-ticket-eyebrow", t("Atelier Note", "Catatan Atelier"));
+      setSelectorText(".brief-ticket-title", t("No template, just direction.", "Tanpa template, hanya arah."));
+      setSelectorText(".brief-ticket-copy", t(
+        "Custom work starts with a reference, but it succeeds through proportion, mechanics, flower availability, and finish.",
+        "Karya kustom dimulai dari referensi, tetapi berhasil melalui proporsi, teknik, ketersediaan bunga, dan finishing."
+      ));
+      Array.from(document.querySelectorAll(".brief-ticket-list li")).forEach((item, index) => {
+        const rows = currentLanguage === "id"
+          ? [["Referensi", "Gambar atau ide"], ["Setting", "Tempat karya hidup"], ["Finishing", "Rasa akhirnya"]]
+          : [["Reference", "Image or idea"], ["Setting", "Where it lives"], ["Finish", "How it should feel"]];
+        const row = rows[index];
+        if (!row) return;
+        setSelectorText("span", row[0], item);
+        setSelectorText("strong", row[1], item);
+      });
+      Array.from(document.querySelectorAll(".custom-subnav-link")).forEach((link) => {
+        if (!(link instanceof HTMLAnchorElement)) return;
+        const href = link.getAttribute("href") || "";
+        if (href === "#custom-categories") setText(link, t("Portfolio", "Portofolio"));
+        if (href === "#custom-brief") setText(link, t("Brief Builder", "Pembuat Brief"));
+        if (href === "#custom-process") setText(link, t("Process", "Proses"));
+        if (href === "#custom-fit") setText(link, t("Formats", "Format"));
+      });
+      const categoriesSection = document.getElementById("custom-categories");
+      if (categoriesSection instanceof HTMLElement) {
+        setSelectorText(".section-title", t("Custom Work, Not Catalog Work", "Karya Kustom, Bukan Katalog"), categoriesSection);
+        setSelectorText(".section-copy", t(
+          "The point is not to copy a photo exactly. The point is to understand what the reference is trying to do, then rebuild that feeling with real flowers, real timing, and the real place it needs to sit.",
+          "Tujuannya bukan menyalin foto secara persis. Tujuannya memahami rasa dari referensi tersebut, lalu membangunnya kembali dengan bunga nyata, waktu nyata, dan tempat nyata."
+        ), categoriesSection);
+      }
+      const briefSection = document.getElementById("custom-brief");
+      if (briefSection instanceof HTMLElement) {
+        setSelectorText(".section-title", t("Build the Brief Before You Send It", "Buat Brief Sebelum Dikirim"), briefSection);
+        setSelectorText(".section-copy", t(
+          "Pick a few directions and the page turns them into a WhatsApp starting point. It is not a checkout form. It is a better first message.",
+          "Pilih beberapa arah, lalu halaman ini mengubahnya menjadi pesan awal WhatsApp. Ini bukan formulir checkout. Ini pesan pertama yang lebih baik."
+        ), briefSection);
+      }
+      const processSection = document.getElementById("custom-process");
+      if (processSection instanceof HTMLElement) {
+        setSelectorText(".section-title", t("How the Piece Finds Its Shape", "Bagaimana Karya Menemukan Bentuknya"), processSection);
+        setSelectorText(".section-copy", t(
+          "The process stays direct, but custom work needs one more layer of thinking than a ready-made product so the final result feels deliberate, not improvised.",
+          "Prosesnya tetap langsung, tetapi karya kustom membutuhkan satu lapis pemikiran lebih dibanding produk siap pilih agar hasilnya terasa sengaja, bukan improvisasi."
+        ), processSection);
+      }
+      const fitSection = document.getElementById("custom-fit");
+      if (fitSection instanceof HTMLElement) {
+        setSelectorText(".section-title", t("Where Custom Work Fits Best", "Di Mana Karya Kustom Paling Tepat"), fitSection);
+        setSelectorText(".section-copy", t(
+          "Some orders are not really about a product category. They are about a place, a mood, a message, or a one-time moment that needs the floral work to behave correctly.",
+          "Beberapa pesanan sebenarnya bukan tentang kategori produk. Mereka tentang tempat, suasana, pesan, atau momen sekali pakai yang membutuhkan karya floral bekerja dengan tepat."
+        ), fitSection);
+      }
+      const closingSection = document.querySelector(".closing-panel");
+      if (closingSection instanceof HTMLElement) {
+        setSelectorText(".section-title", t("Send the Reference. We Will Find the Shape.", "Kirim Referensinya. Kami Cari Bentuknya."), closingSection);
+        setSelectorText(".section-copy", t(
+          "A polished brief is optional. One image, one saved post, or one rough description is enough for us to start building the right floral direction with you.",
+          "Brief yang rapi tidak wajib. Satu gambar, satu post tersimpan, atau satu deskripsi kasar sudah cukup untuk mulai membangun arah floral bersama Anda."
+        ), closingSection);
+        setSelectorText(".custom-primary", t("Share a Reference", "Kirim Referensi"), closingSection);
+        setSelectorText(".custom-secondary", t("Back to Services", "Kembali ke Layanan"), closingSection);
+      }
+      return;
+    }
     setSelectorText(".custom-kicker", t("Marvell Florist Services", "Layanan Marvell Florist"));
     setSelectorText(".custom-title", t("Custom Arrangements", "Rangkaian Kustom"));
     setSelectorText(".custom-subline", t(
@@ -2535,7 +2934,19 @@
       && window.dataLayer.some((entry) => Array.isArray(entry) && entry[0] === "js");
 
     if (!existingJs) window.gtag("js", new Date());
-    if (!existingConfig) window.gtag("config", GA_MEASUREMENT_ID);
+    if (!existingConfig) {
+      const path = analyticsPath();
+      window.gtag("config", GA_MEASUREMENT_ID, {
+        page_path: path,
+        page_location: `${window.location.origin}${path}`
+      });
+    }
+  }
+
+  function analyticsPath() {
+    const path = window.location.pathname;
+    if (path.startsWith("/order/")) return "/order/:reference";
+    return /^\/[a-z0-9/_~.-]{0,199}$/i.test(path) ? path : "/";
   }
 
   function bindWhatsAppTracking() {
@@ -2547,18 +2958,13 @@
       if (!(target instanceof Element)) return;
       const link = target.closest('a[href*="wa.me/"], a[href*="api.whatsapp.com/"]');
       if (!(link instanceof HTMLAnchorElement)) return;
-      if (typeof window.gtag !== "function") return;
+      if (isAnalyticsDisabled() || typeof window.gtag !== "function") return;
 
-      const href = link.href || "";
-      const label = (link.getAttribute("aria-label") || link.textContent || "WhatsApp").trim().replace(/\s+/g, " ");
       const section = link.closest("section[id], footer[id], header")?.getAttribute("id") || "";
 
       window.gtag("event", "whatsapp_click", {
         event_category: "contact",
-        event_label: label,
-        link_url: href,
-        page_path: window.location.pathname,
-        page_location: window.location.href,
+        page_path: analyticsPath(),
         section_name: section,
         transport_type: "beacon"
       });
@@ -3142,6 +3548,136 @@
     });
   }
 
+  /**
+   * Underlines are drawn, not faded.
+   *
+   * These links used to carry a real text-decoration whose colour went from
+   * transparent to currentColor, which is a fade: the whole rule appears at
+   * once, everywhere along its length, getting darker. A drawn underline
+   * starts at the left and travels to the right, which is how a line is
+   * actually made and reads as the link answering rather than developing.
+   *
+   * text-decoration cannot be drawn — there is nothing to animate but its
+   * colour — so the rule is a one-pixel bar on ::before instead. ::before
+   * rather than ::after because several of these links already hang a
+   * chevron off ::after, and the chevron is a different idea that should
+   * keep its own pseudo-element.
+   *
+   * Reduced motion gets the finished line with no travel, not no line.
+   */
+  function ensureUnderlineMotionStyles() {
+    if (document.getElementById("marvell-underline-motion")) return;
+    const style = document.createElement("style");
+    style.id = "marvell-underline-motion";
+    style.textContent = `
+      #site-footer .footer-link,
+      #site-footer .footer-legal-link,
+      .legal-suite-link,
+      .legal-toc-link,
+      .contact-quick-link,
+      .collection-promo-link,
+      .search-filter-clear,
+      .filter-clear,
+      .product-breadcrumb a {
+        position: relative;
+        text-decoration-line: none !important;
+        text-decoration-color: transparent !important;
+      }
+
+      /* The rule is as long as the text and no longer.
+         An absolutely positioned bar spans its element's box, so the box has
+         to be the text. Two things were making it wider than that. These
+         links are display:block, so the box was the whole column; fit-content
+         shrinks it to the words. */
+      .legal-suite-link,
+      .legal-toc-link {
+        width: fit-content;
+      }
+
+      /* And the footer's chevron is a flex item, so it sat inside the box and
+         the rule ran on under it. A chevron is not text: it comes out of the
+         flow and hangs off the right-hand edge instead, which leaves the box
+         exactly as wide as the words and lets the chevron keep its own nudge
+         on hover. */
+      #site-footer .footer-link::after {
+        position: absolute !important;
+        left: 100% !important;
+        top: 50% !important;
+        margin-left: 4px !important;
+        transform: translateY(-50%) !important;
+        transition: transform .22s ease !important;
+      }
+      #site-footer .footer-link:hover::after,
+      #site-footer .footer-link:focus-visible::after {
+        transform: translate(3px, -50%) !important;
+      }
+      #site-footer .footer-link::before,
+      #site-footer .footer-legal-link::before,
+      .legal-suite-link::before,
+      .legal-toc-link::before,
+      .contact-quick-link::before,
+      .search-filter-clear::before,
+      .filter-clear::before,
+      .product-breadcrumb a::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        /* Just under the baseline, wherever the baseline happens to be.
+           A fixed offset from the bottom of the box drifts with every
+           different line-height on the page; measuring down from the box's
+           centre does not, because the text is centred in the box either
+           way. The baseline sits about 0.3em below that centre, so this
+           lands a hair under the letters rather than floating below them. */
+        top: 50%;
+        bottom: auto;
+        margin-top: 0.44em;
+        height: 1px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        pointer-events: none;
+      }
+      #site-footer .footer-link:is(:hover, :focus-visible)::before,
+      #site-footer .footer-legal-link:is(:hover, :focus-visible)::before,
+      .legal-suite-link:is(:hover, :focus-visible)::before,
+      .legal-toc-link:is(:hover, :focus-visible)::before,
+      .contact-quick-link:is(:hover, :focus-visible)::before,
+      .search-filter-clear:is(:hover, :focus-visible)::before,
+      .filter-clear:is(:hover, :focus-visible)::before,
+      .product-breadcrumb a:is(:hover, :focus-visible)::before {
+        transform: scaleX(1);
+      }
+      /* Leaving draws it back the way it came, from the right, rather than
+         collapsing to the left as a reversed origin would. */
+      #site-footer .footer-link:not(:hover):not(:focus-visible)::before,
+      #site-footer .footer-legal-link:not(:hover):not(:focus-visible)::before,
+      .legal-suite-link:not(:hover):not(:focus-visible)::before,
+      .legal-toc-link:not(:hover):not(:focus-visible)::before,
+      .contact-quick-link:not(:hover):not(:focus-visible)::before,
+      .search-filter-clear:not(:hover):not(:focus-visible)::before,
+      .filter-clear:not(:hover):not(:focus-visible)::before,
+      .product-breadcrumb a:not(:hover):not(:focus-visible)::before {
+        transform-origin: right center;
+      }
+      body.has-promo-strip .collection-promo-link {
+        transition: opacity 0.35s ease;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #site-footer .footer-link::before,
+        #site-footer .footer-legal-link::before,
+        .legal-suite-link::before,
+        .legal-toc-link::before,
+        .contact-quick-link::before,
+        .search-filter-clear::before,
+        .filter-clear::before,
+        .product-breadcrumb a::before { transition-duration: 0s; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function startObserver() {
     if (!(document.body instanceof HTMLElement) || typeof MutationObserver !== "function") return;
     const observer = new MutationObserver(() => {
@@ -3152,15 +3688,23 @@
 
   window.MarvellLanguage = {
     getLanguage: function () { return currentLanguage; },
+    setLanguage: setLanguage,
     t: t,
+    localizeLabel: localizeLabel,
     localizeCategory: localizeCategory,
     localizeCategorySubtitle: localizeCategorySubtitle,
+    localizeFilterLabel: localizeFilterLabel,
+    localizeFilterOptionLabel: localizeFilterOptionLabel,
+    localizeProductDescription: localizeProductDescription,
     scheduleTranslationPass: scheduleTranslationPass,
     decorateInternalLinks: decorateInternalLinks
   };
 
   document.addEventListener("DOMContentLoaded", () => {
     initializeAnalytics();
+    const consentScript = document.createElement("script");
+    consentScript.src = "/assets/consent.js?v=20260926a";
+    document.head.appendChild(consentScript);
     bindWhatsAppTracking();
     bindTouchButtonFallback();
     bindTouchChoiceFallback();
@@ -3168,6 +3712,8 @@
     bindTouchLinkFallback();
     initializeThemeFavicon();
     ensureLanguageStyles();
+    ensureButtonSystemStyles();
+    ensureUnderlineMotionStyles();
     injectLanguageSwitcher();
     window.addEventListener("resize", injectLanguageSwitcher);
     applyPageTranslations();

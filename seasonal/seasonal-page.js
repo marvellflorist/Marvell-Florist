@@ -527,6 +527,17 @@ function resolveActiveCatalogEvents(catalog, today = new Date()) {
     ...events.filter((event) => isScheduledEventActive(event, today))
   ]);
 
+  // Development only. The Mother's Day commerce prototype needs its dormant
+  // collection on screen without forceActive being written into business
+  // content, so ?event=<id>&commerce-test=1 previews exactly that one event.
+  if (typeof window !== "undefined" && window.MarvellPurchase?.isCommerceTest?.()) {
+    const requestedId = getRequestedFeaturedEventId();
+    const dormant = requestedId
+      ? events.find((event) => String(event?.id || "").trim() === requestedId)
+      : null;
+    if (dormant && !combined.includes(dormant)) combined.unshift(dormant);
+  }
+
   const deduped = [];
   const seen = new Set();
   combined.forEach((event) => {
@@ -609,6 +620,11 @@ function buildLocalizedPageHref(pathname = "", params = {}) {
   const activeLanguage = getActiveUiLanguage();
   if (activeLanguage === "en" || activeLanguage === "id") {
     url.searchParams.set("lang", activeLanguage);
+  }
+  // Development only. Carries ?commerce-test=1 onto product links so the
+  // prototype survives navigation; a no-op for every real visitor.
+  if (window.MarvellPurchase?.isCommerceTest?.()) {
+    url.searchParams.set("commerce-test", "1");
   }
   return `${url.pathname}${url.search}${url.hash}`;
 }
@@ -1421,7 +1437,7 @@ function renderFeaturedCard(eventTitle, eventKey, imagePath, productName, produc
   const saveProductLabel = getLocalizedSeasonalLabel(`Save ${displayName}`, `Simpan ${displayName}`);
   const hoverPreviewMarkup = previewSlide && previewSlide.image ? `
           <div class="featured-hover-preview" data-featured-hover-preview aria-hidden="true">
-            <img class="featured-hover-preview-image${hasSingleFullPreview ? " is-full-preview" : ""}" src="${escapeHTML(previewSlide.image)}" alt="" loading="lazy" decoding="async" style="object-position:${escapeHTML(previewSlide.scrollPosition || "center center")};">
+            <img class="featured-hover-preview-image${hasSingleFullPreview ? " is-full-preview" : ""}" data-src="${escapeHTML(previewSlide.image)}" alt="" loading="lazy" decoding="async" style="object-position:${escapeHTML(previewSlide.scrollPosition || "center center")};">
           </div>
   ` : "";
   const slidesMarkup = safeSlides.map((entry, index) => {
@@ -1431,7 +1447,7 @@ function renderFeaturedCard(eventTitle, eventKey, imagePath, productName, produc
     return `
       <div class="featured-slide" data-featured-slide="${index}">
         <a class="featured-product-link" href="${escapeHTML(detailHref)}" aria-label="${escapeHTML(displayName)}">
-          <img class="featured-product-image" src="${escapeHTML(entry.image)}" alt="${index === 0 ? escapeHTML(displayName) : ""}" ${index === 0 ? "" : 'aria-hidden="true"'} loading="lazy" decoding="async" style="object-position:${escapeHTML(entry.scrollPosition || "center center")};">
+          <img class="featured-product-image" data-src="${escapeHTML(entry.image)}" alt="${index === 0 ? escapeHTML(displayName) : ""}" ${index === 0 ? "" : 'aria-hidden="true"'} loading="lazy" decoding="async" style="object-position:${escapeHTML(entry.scrollPosition || "center center")};">
         </a>
       </div>
     `;
@@ -1454,7 +1470,7 @@ function renderFeaturedCard(eventTitle, eventKey, imagePath, productName, produc
             <div class="featured-carousel-progress"><span class="featured-carousel-progress-fill" data-featured-card-progress-fill></span></div>
           </div>
         </div>
-        <button class="favorite-toggle" type="button" data-favorite-toggle data-favorite-id="${escapeHTML(favoriteId)}" data-favorite-title="${escapeHTML(displayName)}" data-favorite-image="${escapeHTML(primaryImage)}" data-favorite-href="${escapeHTML(detailHref)}" data-favorite-price="${escapeHTML(priceLabel)}" data-favorite-category="${escapeHTML(eventTitle || "Collections")}" data-favorite-source="featured" aria-label="${escapeHTML(saveProductLabel)}" onclick="return window.MarvellFavorites && window.MarvellFavorites.handleToggleClick ? window.MarvellFavorites.handleToggleClick(event, this) : false;">
+        <button class="favorite-toggle" type="button" data-favorite-toggle data-favorite-id="${escapeHTML(favoriteId)}" data-favorite-title="${escapeHTML(displayName)}" data-favorite-image="${escapeHTML(primaryImage)}" data-favorite-href="${escapeHTML(detailHref)}" data-favorite-price="${escapeHTML(priceLabel)}" data-favorite-category="${escapeHTML(eventTitle || "Collections")}" data-favorite-source="featured" data-favorite-sku="${escapeHTML(productRecord?.sku || "")}" data-favorite-purchase-mode="${escapeHTML(productRecord?.purchaseMode || productRecord?.purchase_mode || "")}" aria-label="${escapeHTML(saveProductLabel)}" onclick="return window.MarvellFavorites && window.MarvellFavorites.handleToggleClick ? window.MarvellFavorites.handleToggleClick(event, this) : false;">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5 4.9 13.74a4.79 4.79 0 0 1 0-6.98 5.18 5.18 0 0 1 7.1 0L12 7.77l.01-.01a5.18 5.18 0 0 1 7.1 0 4.79 4.79 0 0 1 0 6.98L12 20.5Z"/></svg>
         </button>
       </div>
@@ -1464,6 +1480,30 @@ function renderFeaturedCard(eventTitle, eventKey, imagePath, productName, produc
       </div>
     </article>
   `;
+}
+
+function observeDeferredFeaturedImages(scope) {
+  if (!(scope instanceof HTMLElement)) return;
+  const images = Array.from(scope.querySelectorAll("img[data-src]"));
+  const activate = (image) => {
+    if (!(image instanceof HTMLImageElement)) return;
+    const src = String(image.dataset.src || "").trim();
+    if (!src) return;
+    image.src = src;
+    delete image.dataset.src;
+  };
+  if (typeof IntersectionObserver !== "function") {
+    images.forEach(activate);
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      activate(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: "500px 0px", threshold: 0.01 });
+  images.forEach((image) => observer.observe(image));
 }
 
 function renderFeaturedGrid(eventTitle, eventKey, images, options = {}) {
@@ -1526,12 +1566,12 @@ function renderFeaturedEndcap(eventConfig) {
         ${journalHref
           ? `
         <a class="featured-endcap-media" href="${escapeHTML(journalHref)}" aria-label="${escapeHTML(openJournalLabel)}">
-          <img src="${escapeHTML(footerImage)}" alt="${escapeHTML(editorialImageAlt)}" loading="lazy" decoding="async">
+          <img data-src="${escapeHTML(footerImage)}" alt="${escapeHTML(editorialImageAlt)}" loading="lazy" decoding="async">
         </a>
       `
           : `
         <div class="featured-endcap-media">
-          <img src="${escapeHTML(footerImage)}" alt="${escapeHTML(editorialImageAlt)}" loading="lazy" decoding="async">
+          <img data-src="${escapeHTML(footerImage)}" alt="${escapeHTML(editorialImageAlt)}" loading="lazy" decoding="async">
         </div>
       `}
       ` : ""}
@@ -1564,7 +1604,7 @@ function renderFeaturedEventSection(eventConfig, index, defaultKicker, options =
       ${includeHeroImage ? `
         <div class="featured-event-hero">
           <button class="hero-priority-hit featured-event-hero-hit" type="button" aria-label="${escapeHTML(jumpToCollectionLabel)}" data-featured-event-jump></button>
-          <img src="${escapeHTML(resolveFeaturedHeroImage(eventConfig?.heroImage))}" alt="${escapeHTML(resolvedTitle)} campaign cover" loading="lazy" decoding="async">
+          <img data-src="${escapeHTML(resolveFeaturedHeroImage(eventConfig?.heroImage))}" alt="${escapeHTML(resolvedTitle)} campaign cover" loading="lazy" decoding="async">
         </div>
       ` : ""}
       <div class="${innerClass}">
@@ -1598,7 +1638,7 @@ function renderFeaturedHomeFollowupSection(eventConfig, defaultKicker) {
     <section class="featured-home-followup" data-featured-event-id="${escapeHTML(String(eventConfig?.id || resolvedTitle))}">
       <div class="featured-home-followup-hero">
         <button class="hero-priority-hit featured-event-hero-hit" type="button" aria-label="${escapeHTML(jumpToCollectionLabel)}" data-featured-event-jump></button>
-        <img src="${escapeHTML(resolveFeaturedHeroImage(eventConfig?.heroImage))}" alt="${escapeHTML(resolvedTitle)} campaign cover" loading="lazy" decoding="async">
+        <img data-src="${escapeHTML(resolveFeaturedHeroImage(eventConfig?.heroImage))}" alt="${escapeHTML(resolvedTitle)} campaign cover" loading="lazy" decoding="async">
       </div>
       <div class="featured-home-followup-inner">
         <div class="featured-title-block featured-title-block--followup">
@@ -2074,6 +2114,14 @@ async function renderSeasonalPage() {
       return;
     }
     featuredHeroImage.hidden = false;
+    if (!isDedicatedFeaturedPage()) {
+      featuredHeroImage.loading = "lazy";
+      featuredHeroImage.removeAttribute("fetchpriority");
+      featuredHeroImage.removeAttribute("src");
+      featuredHeroImage.dataset.src = resolvedSrc;
+      clearPriorityHeroAsset();
+      return;
+    }
     if (featuredHeroImage.getAttribute("src") !== resolvedSrc) featuredHeroImage.src = resolvedSrc;
     preloadPriorityHeroAsset(resolvedSrc);
   };
@@ -2527,6 +2575,8 @@ async function renderSeasonalPage() {
   if (window.MarvellLanguage && typeof window.MarvellLanguage.decorateInternalLinks === "function") {
     window.MarvellLanguage.decorateInternalLinks(target);
   }
+
+  observeDeferredFeaturedImages(featuredSection instanceof HTMLElement ? featuredSection : target);
 
   const renderedImages = target.querySelectorAll(".featured-product-image");
   if (!renderedImages.length) {

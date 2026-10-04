@@ -1,0 +1,90 @@
+{
+  "_comment": "Placeholder price and stock, used ONLY when SHOP_PLACEHOLDER_MODE=true and Supabase is not configured. Never used in production. The real values live in the products_commerce table.",
+  "products": {
+    "ST-01": {
+      "price_idr": 850000,
+      "stock_quantity": 8,
+      "purchasable": true
+    },
+    "ST-02": {
+      "price_idr": 1250000,
+      "stock_quantity": 5,
+      "purchasable": true
+    },
+    "ST-03": {
+      "price_idr": 650000,
+      "stock_quantity": 12,
+      "purchasable": true
+    },
+    "ST-04": {
+      "price_idr": 980000,
+      "stock_quantity": 2,
+      "purchasable": true
+    },
+    "ST-05": {
+      "price_idr": 1450000,
+      "stock_quantity": 0,
+      "purchasable": true
+    },
+    "ST-06": {
+      "price_idr": 450000,
+      "stock_quantity": 6,
+      "purchasable": true
+    },
+    "CH-01": {
+      "price_idr": 720000,
+      "stock_quantity": 0,
+      "purchasable": false
+    },
+    "CH-02": {
+      "price_idr": 390000,
+      "stock_quantity": 0,
+      "purchasable": false
+    },
+    "CH-03": {
+      "price_idr": 890000,
+      "stock_quantity": 0,
+      "purchasable": false
+    },
+    "MD-01": {
+      "price_idr": 550000,
+      "stock_quantity": 4,
+      "purchasable": true
+    },
+    "MD-02": {
+      "price_idr": 350000,
+      "stock_quantity": 6,
+      "purchasable": true
+    },
+    "MD-03": {
+      "price_idr": 350000,
+      "stock_quantity": 2,
+      "purchasable": true
+    },
+    "MD-04": {
+      "price_idr": 150000,
+      "stock_quantity": 9,
+      "purchasable": true
+    },
+    "MD-05": {
+      "price_idr": 350000,
+      "stock_quantity": 5,
+      "purchasable": true
+    },
+    "MD-06": {
+      "price_idr": 200000,
+      "stock_quantity": 7,
+      "purchasable": true
+    },
+    "MD-07": {
+      "price_idr": 180000,
+      "stock_quantity": 0,
+      "purchasable": false
+    },
+    "MD-08": {
+      "price_idr": 240000,
+      "stock_quantity": 3,
+      "purchasable": true
+    }
+  }
+}

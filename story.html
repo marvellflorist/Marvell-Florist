@@ -10,6 +10,7 @@ const slug = params.get("story") || params.get("journal") || "";
 const target = slug ? `journal.html?journal=${encodeURIComponent(slug)}` : "journal.html";
 window.location.replace(target);
 </script>
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
 </head>
 <body>
 <p><a id="story-redirect-link" href="journal.html">Continue to Journal</a></p>

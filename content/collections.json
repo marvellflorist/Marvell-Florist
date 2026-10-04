@@ -1,0 +1,109 @@
+{
+  "collections": [
+    {
+      "id": "soft-tones-2026",
+      "title": "Soft Tones",
+      "slug": "soft-tones",
+      "status": "active",
+      "launch_date": "2026-10-01",
+      "end_date": "2026-12-15",
+      "kicker": "COLLECTION 01",
+      "hero_image": "/assets/uploads/art-greenwhitecrea.webp",
+      "trailer_url": "",
+      "description": "A study in restraint. Porcelain, oat and the palest blush, arranged so the eye rests rather than travels. Each piece in this release is made in a fixed edition and ready to leave the atelier today.",
+      "editorial_copy": "Soft Tones began with a question about quiet. Most of what leaves our workroom is made to be noticed from across a room — a papan bunga read from the far side of a forecourt, a standing arrangement that has to hold its own against a crowd.\n\nThis release asks the opposite of itself: what remains when colour is taken almost entirely away, and only form, texture and shadow are left to carry the arrangement. The answer, it turned out, was most of it.\n\nSix pieces, each made in a fixed run. When a run is finished it is not repeated, though any of them can be interpreted in fresh flowers on request.",
+      "palette": [
+        {
+          "name": "Porcelain",
+          "hex": "#EFE7DC"
+        },
+        {
+          "name": "Oat",
+          "hex": "#DCCFBC"
+        },
+        {
+          "name": "Blush",
+          "hex": "#E3CFC6"
+        },
+        {
+          "name": "Espresso",
+          "hex": "#2F2923"
+        }
+      ],
+      "product_ids": [
+        "ST-01",
+        "ST-02",
+        "ST-03",
+        "ST-04",
+        "ST-05",
+        "ST-06"
+      ],
+      "seo_title": "Soft Tones Collection | Marvell Florist",
+      "seo_description": "Soft Tones: a fixed edition of artificial floral arrangements in porcelain, oat and blush. Ready to order from Marvell Florist, Batam."
+    },
+    {
+      "id": "christmas-2026",
+      "title": "Christmas 2026",
+      "slug": "christmas-2026",
+      "status": "upcoming",
+      "launch_date": "2026-11-14",
+      "end_date": "2026-12-28",
+      "kicker": "COLLECTION 02",
+      "hero_image": "/assets/popupchristmas.webp",
+      "trailer_url": "",
+      "description": "The Christmas release, arriving in November. Three pieces made to be stored and brought out again, rather than thrown away in January.",
+      "editorial_copy": "Most Christmas flowers are made to last three weeks and then be forgotten. These are made to be packed away in tissue and found again next year, which changes how they are built: heavier bases, fewer fragile stems, nothing that crushes flat.",
+      "palette": [
+        {
+          "name": "Oxblood",
+          "hex": "#6E2532"
+        },
+        {
+          "name": "Pine",
+          "hex": "#2C3B30"
+        },
+        {
+          "name": "Antique Gold",
+          "hex": "#B08B4F"
+        },
+        {
+          "name": "Ink",
+          "hex": "#1C1A17"
+        }
+      ],
+      "product_ids": [
+        "CH-01",
+        "CH-02",
+        "CH-03"
+      ],
+      "seo_title": "Christmas 2026 Collection | Marvell Florist",
+      "seo_description": "The Marvell Florist Christmas 2026 collection: three artificial arrangements built to be kept and brought out each season."
+    },
+    {
+      "id": "mothers-day",
+      "title": "Mother's Day Collection",
+      "slug": "mothers-day",
+      "status": "archived",
+      "launch_date": "",
+      "end_date": "",
+      "kicker": "SEASONAL COLLECTION",
+      "hero_image": "/assets/uploads/untitled168_20260504184434-1-.webp",
+      "trailer_url": "",
+      "description": "Shaped by a presence that endures over time, the Mother’s Day Collection reflects a bond expressed through the everyday. In its quiet consistency, care and understanding reveal their lasting significance.",
+      "editorial_copy": "",
+      "palette": [],
+      "product_ids": [
+        "MD-01",
+        "MD-02",
+        "MD-03",
+        "MD-04",
+        "MD-05",
+        "MD-06",
+        "MD-07",
+        "MD-08"
+      ],
+      "seo_title": "",
+      "seo_description": ""
+    }
+  ]
+}

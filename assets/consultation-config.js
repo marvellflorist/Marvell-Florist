@@ -94,7 +94,7 @@
         String(next.getUTCMonth() + 1).padStart(2, "0"),
         String(next.getUTCDate()).padStart(2, "0")
       ].join("-");
-      const isUnavailable = nowParts.hour >= 18 && index === 0;
+      const isUnavailable = nowParts.hour >= 16 && index === 0;
       return {
         value: iso,
         shortLabel: formatDateShort(iso),
@@ -110,6 +110,12 @@
     if (!iso) return false;
     const parts = getBusinessDateParts(date);
     return iso === getCurrentBusinessDateIso(date) && parts.hour >= 13;
+  }
+
+  function isSameDayUnavailable(preferredDate, date = new Date()) {
+    const iso = toIsoDate(preferredDate);
+    if (!iso) return false;
+    return iso === getCurrentBusinessDateIso(date) && getBusinessDateParts(date).hour >= 16;
   }
 
   function buildProductMessage(options = {}) {
@@ -186,6 +192,7 @@
     getAvailableDateOptions,
     getLanguage,
     isMorningTimeUnavailable,
+    isSameDayUnavailable,
     normalizeSingleLine,
     toIsoDate,
     t

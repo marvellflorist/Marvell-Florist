@@ -1,0 +1,440 @@
+{
+  "products": [
+    {
+      "sku": "ST-01",
+      "slug": "soft-tones-no-1",
+      "name": "Soft Tones No. 1",
+      "collection_id": "soft-tones-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-greenwhitecrea.webp",
+          "alt": "Soft Tones No. 1, a low arrangement in cream and pale green"
+        },
+        {
+          "image": "/assets/uploads/art-whitegold.webp",
+          "alt": "Soft Tones No. 1 seen from the side"
+        }
+      ],
+      "description": "A low, wide composition built to sit on a dining table without interrupting a conversation across it. Cream and the palest green, held in a matte ceramic vessel.",
+      "composition": "Artificial roses, ranunculus and eucalyptus in a matte ceramic vessel.",
+      "dimensions": "Approx. 28cm wide x 22cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Keep out of direct sunlight to preserve the colour.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "table",
+        "neutral",
+        "everyday"
+      ],
+      "styling_notes": "Sits well as a single centrepiece, or paired with No. 3 at either end of a long table."
+    },
+    {
+      "sku": "ST-02",
+      "slug": "soft-tones-no-2",
+      "name": "Soft Tones No. 2",
+      "collection_id": "soft-tones-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-whitebox.webp",
+          "alt": "Soft Tones No. 2, a structured box arrangement in white"
+        }
+      ],
+      "description": "The largest piece in the release. A structured, upright arrangement intended for an entrance table or a console where it can be seen from both sides.",
+      "composition": "Artificial peonies, roses and dried grasses in a lined presentation box.",
+      "dimensions": "Approx. 34cm wide x 40cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Keep out of direct sunlight to preserve the colour.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "statement",
+        "neutral",
+        "entrance"
+      ],
+      "styling_notes": "Reads best against a dark wall, where the pale palette separates cleanly from the background."
+    },
+    {
+      "sku": "ST-03",
+      "slug": "soft-tones-no-3",
+      "name": "Soft Tones No. 3",
+      "collection_id": "soft-tones-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-whitemaroonredpinkgreen.webp",
+          "alt": "Soft Tones No. 3, a compact blush arrangement"
+        }
+      ],
+      "description": "The smallest of the three original pieces, and the one most often bought in pairs. Compact enough for a bedside table or a desk.",
+      "composition": "Artificial garden roses and gypsophila in a small footed vessel.",
+      "dimensions": "Approx. 18cm wide x 20cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Keep out of direct sunlight to preserve the colour.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "compact",
+        "blush",
+        "gift"
+      ],
+      "styling_notes": "Intended to be bought in twos. A single piece can look under-scaled on a large surface."
+    },
+    {
+      "sku": "ST-04",
+      "slug": "soft-tones-no-4",
+      "name": "Soft Tones No. 4",
+      "collection_id": "soft-tones-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-whitegold.webp",
+          "alt": "Soft Tones No. 4, a pale arrangement with gold detail"
+        }
+      ],
+      "description": "Warmer than the rest of the release. A soft oat palette lifted with a little antique gold, for rooms that need the neutral to carry some weight.",
+      "composition": "Artificial roses, dried palm and preserved foliage in a footed brass vessel.",
+      "dimensions": "Approx. 26cm wide x 30cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Polish the vessel with a dry cloth only.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "gold",
+        "neutral",
+        "statement"
+      ],
+      "styling_notes": "The only piece in the release with a metallic. Best used alone rather than grouped."
+    },
+    {
+      "sku": "ST-05",
+      "slug": "soft-tones-no-5",
+      "name": "Soft Tones No. 5",
+      "collection_id": "soft-tones-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-bloombalpinkpurple.webp",
+          "alt": "Soft Tones No. 5, a rounded arrangement in blush and lilac"
+        }
+      ],
+      "description": "A rounded, generous form in blush and the faintest lilac. Made in the smallest run of the release.",
+      "composition": "Artificial garden roses, hydrangea and lisianthus in a ribbed ceramic bowl.",
+      "dimensions": "Approx. 32cm wide x 26cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Keep out of direct sunlight to preserve the colour.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "blush",
+        "rounded",
+        "statement"
+      ],
+      "styling_notes": "Reads as one mass rather than individual stems. Give it space on either side."
+    },
+    {
+      "sku": "ST-06",
+      "slug": "soft-tones-no-6",
+      "name": "Soft Tones No. 6",
+      "collection_id": "soft-tones-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/artificialboxpink450000.webp",
+          "alt": "Soft Tones No. 6, a small blush box arrangement"
+        }
+      ],
+      "description": "The gifting piece. Small, finished on all four sides, and sized to be carried by hand.",
+      "composition": "Artificial roses and wax flower in a lidded gift box.",
+      "dimensions": "Approx. 16cm wide x 16cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Keep the lid on when not displayed.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "gift",
+        "compact",
+        "blush"
+      ],
+      "styling_notes": "Photographs well with the lid resting beside it rather than closed."
+    },
+    {
+      "sku": "CH-01",
+      "slug": "christmas-no-1",
+      "name": "Christmas No. 1",
+      "collection_id": "christmas-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-potredrose.webp",
+          "alt": "Christmas No. 1, a deep red potted arrangement"
+        }
+      ],
+      "description": "A deep red potted arrangement built to sit on a hall table for the length of the season.",
+      "composition": "Artificial roses, berried foliage and pine in a glazed pot.",
+      "dimensions": "Approx. 24cm wide x 32cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Store flat in tissue between seasons.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "christmas",
+        "red",
+        "table"
+      ],
+      "styling_notes": "Built to be stored and brought back out. The pine holds its shape if packed loosely."
+    },
+    {
+      "sku": "CH-02",
+      "slug": "christmas-no-2",
+      "name": "Christmas No. 2",
+      "collection_id": "christmas-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-smallboxredroseblackwhite.webp",
+          "alt": "Christmas No. 2, a small red and black box arrangement"
+        }
+      ],
+      "description": "A small, dark box arrangement for a desk or a guest room. Red against near-black rather than against green.",
+      "composition": "Artificial roses and preserved foliage in a black lidded box.",
+      "dimensions": "Approx. 18cm wide x 18cm tall",
+      "care_notes": "Dust gently with a soft dry brush.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "christmas",
+        "red",
+        "gift"
+      ],
+      "styling_notes": "The darkest piece in the release. Needs a light surface underneath it."
+    },
+    {
+      "sku": "CH-03",
+      "slug": "christmas-no-3",
+      "name": "Christmas No. 3",
+      "collection_id": "christmas-2026",
+      "images": [
+        {
+          "image": "/assets/uploads/art-bluerosewithsomeredroses.webp",
+          "alt": "Christmas No. 3, a blue and red arrangement"
+        }
+      ],
+      "description": "The departure from the season's usual palette: cold blue with red held back to an accent.",
+      "composition": "Artificial roses, thistle and eucalyptus in a tall ceramic vase.",
+      "dimensions": "Approx. 28cm wide x 38cm tall",
+      "care_notes": "Dust gently with a soft dry brush. Keep out of direct sunlight to preserve the colour.",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "christmas",
+        "blue",
+        "statement"
+      ],
+      "styling_notes": "Intended for people who do not decorate in red and green. Works past the season."
+    },
+    {
+      "sku": "MD-01",
+      "slug": "sovereign",
+      "name": "Sovereign",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4691.webp",
+          "alt": "Sovereign"
+        },
+        {
+          "image": "/assets/uploads/img_4693.webp",
+          "alt": "Sovereign"
+        }
+      ],
+      "description": "The collection's most expansive work. An architectural arrangement characterized by dramatic height and a wide, reaching silhouette. Dark, structured wrapping anchoring deep plum and ivory tones marks a presence both bold and grounded.",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "bouquet",
+        "fresh",
+        "black",
+        "pink",
+        "white",
+        "red",
+        "peach",
+        "purple"
+      ],
+      "styling_notes": ""
+    },
+    {
+      "sku": "MD-02",
+      "slug": "aube-de-soie",
+      "name": "Aube de Soie",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4681.webp",
+          "alt": "Aube de Soie"
+        },
+        {
+          "image": "/assets/uploads/img_4678.webp",
+          "alt": "Aube de Soie"
+        }
+      ],
+      "description": "Light and ethereal. Layers of translucent white wrapping creating a sense of movement around a core of muted pastels. An effortless composition valuing negative space and a gentle, tonal aesthetic.",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "bouquet",
+        "fresh",
+        "white",
+        "pink",
+        "yellow",
+        "purple"
+      ],
+      "styling_notes": ""
+    },
+    {
+      "sku": "MD-03",
+      "slug": "noire-citron",
+      "name": "Noire Citron",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4683.webp",
+          "alt": "Noire Citron"
+        },
+        {
+          "image": "/assets/uploads/quality_restoration_20260504223738514.webp",
+          "alt": "Noire Citron"
+        }
+      ],
+      "description": "A study in visual weight and contrast. Sharp, dark outer structure providing a crisp frame for a warm, luminous center of tonal yellows and soft pinks. Balanced composition wrapped in a delicate mesh that adds a layer of depth without compromising clean, modern lines.",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": true,
+      "tags": [
+        "bouquet",
+        "fresh",
+        "red",
+        "pink",
+        "yellow",
+        "black",
+        "gold"
+      ],
+      "styling_notes": ""
+    },
+    {
+      "sku": "MD-04",
+      "slug": "dentelle-classique",
+      "name": "Dentelle Classique",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4690.webp",
+          "alt": "Dentelle Classique"
+        },
+        {
+          "image": "/assets/uploads/img_4689.webp",
+          "alt": "Dentelle Classique"
+        }
+      ],
+      "description": "A focus on intricate detail and classic contrast. Veiled in a delicate lace-like mesh that softens the transition between a deep crimson center and dark outer wrap. Traditional in form but contemporary through a sharp use of color and texture.",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": false,
+      "tags": [
+        "bouquet",
+        "artificial",
+        "white",
+        "black",
+        "red",
+        "green"
+      ],
+      "styling_notes": ""
+    },
+    {
+      "sku": "MD-05",
+      "slug": "aria",
+      "name": "Aria",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4688.webp",
+          "alt": "Aria"
+        },
+        {
+          "image": "/assets/uploads/img_4685.webp",
+          "alt": "Aria"
+        }
+      ],
+      "description": "A celebration of texture and detail. Layered mesh creating a voluminous, rounded base topped with an organic arrangement of pink tones. Subtle, fluttering accents providing a sense of narrative and movement.",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": false,
+      "tags": [
+        "bouquet",
+        "artificial",
+        "pink",
+        "red",
+        "white",
+        "green"
+      ],
+      "styling_notes": ""
+    },
+    {
+      "sku": "MD-06",
+      "slug": "coeur",
+      "name": "Cœur",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4674.webp",
+          "alt": "Cœur"
+        }
+      ],
+      "description": "A concentrated expression of devotion. Housed in a scarlet, heart-shaped case with gold accents, featuring a dense curation of rouge textures and tones. Includes a subtle storage element and gilded closure; a presence that feels both substantial and intimate.\n\n• Height: 10 cm\n• Length: 13 cm\n• Vessel: Heart-shaped case with integrated storage",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": false,
+      "tags": [
+        "preserved",
+        "red",
+        "gold"
+      ],
+      "styling_notes": ""
+    },
+    {
+      "sku": "MD-07",
+      "slug": "the-heirloom",
+      "name": "The Heirloom",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4672.webp",
+          "alt": "The Heirloom"
+        }
+      ],
+      "description": "Defined by verticality and a sense of preservation. Housed within a clear cloche, featuring a central, tree-like form rising from a bed of deep rouge textures. Set upon a natural wood foundation; an enduring, sculptural object designed to sit quietly within a space.\n\n• Height: 17 cm\n• Base Diameter: 11.5 cm\n• Vessel: Glass cloche with a natural wood base",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": false,
+      "tags": [
+        "preserved",
+        "white",
+        "red",
+        "pink"
+      ],
+      "styling_notes": ""
+    },
+    {
+      "sku": "MD-08",
+      "slug": "abundance",
+      "name": "Abundance",
+      "collection_id": "mothers-day",
+      "images": [
+        {
+          "image": "/assets/uploads/img_4755.webp",
+          "alt": "Abundance"
+        }
+      ],
+      "description": "Expansive and layered composition featuring a central arrangement of soft, warm tones framed by a structural, fanned backdrop. Integrating illustrative accents and vibrant butterfly motifs to create a narrative-driven silhouette. Finished with architectural paper folds and gold-trimmed edges; a substantial presence designed as a comprehensive expression of gratitude.",
+      "composition": "",
+      "dimensions": "",
+      "care_notes": "",
+      "fresh_interpretation_available": false,
+      "tags": [
+        "bouquet",
+        "artificial",
+        "white",
+        "pink",
+        "peach"
+      ],
+      "styling_notes": ""
+    }
+  ]
+}

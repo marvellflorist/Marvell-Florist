@@ -109,7 +109,7 @@ collections:
                       - { label: "Posisi Hover Desktop", name: "hoverPosition", widget: "string", required: false, hint: "Contoh: center center, 40% center, center 30%." }
                       - { label: "Posisi Carousel / Scroll", name: "scrollPosition", widget: "string", required: false, hint: "Contoh: left top, center center, 35% center." }
                   - { label: "2) Nama / Judul Produk", name: "title", widget: "string", required: true, hint: "Boleh ketik biasa. Sistem akan menampilkan dalam format Title Case." }
-                  - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, required: false, hint: "Contoh input: 15000 (otomatis tampil sebagai Rp15.000)." }
+                  - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, step: 1000, required: false, hint: "Gunakan kelipatan Rp1.000. Contoh: 15000 tampil sebagai Rp15.000." }
                   - { label: "3b) Deskripsi Produk", name: "description", widget: "text", required: false, hint: "Teks deskripsi produk yang tampil di halaman product, di bawah tombol konsultasi." }
                   - label: "4) Filter Produk"
                     name: "filters"
@@ -247,8 +247,8 @@ collections:
               - { label: "Catatan Bawah Produk", name: "warningText", widget: "text", required: false, hint: "Teks kecil di bawah grid produk seasonal." }
               - { label: "Label Tombol Konsultasi", name: "consultLabel", widget: "string", required: false, hint: "Contoh: Consult Ramadan & Eid Collection" }
               - { label: "Aktifkan Filter Harga", name: "enablePriceFilter", widget: "boolean", default: true, required: false, hint: "Untuk UI filter featured: tampilkan slider harga berdasarkan produk di event ini." }
-              - { label: "Harga Minimum Slider", name: "priceMin", widget: "number", value_type: "int", min: 0, required: false, hint: "Opsional. Pakai jika ingin batas bawah slider tetap meski belum semua produk diisi." }
-              - { label: "Harga Maksimum Slider", name: "priceMax", widget: "number", value_type: "int", min: 0, required: false, hint: "Opsional. Pakai jika ingin batas atas slider tetap." }
+              - { label: "Harga Minimum Slider", name: "priceMin", widget: "number", value_type: "int", min: 0, step: 1000, required: false, hint: "Opsional. Gunakan kelipatan Rp1.000 untuk batas bawah slider." }
+              - { label: "Harga Maksimum Slider", name: "priceMax", widget: "number", value_type: "int", min: 0, step: 1000, required: false, hint: "Opsional. Gunakan kelipatan Rp1.000 untuk batas atas slider." }
               - label: "Produk Musiman"
                 name: "products"
                 widget: "list"
@@ -279,7 +279,7 @@ collections:
                       - { label: "Posisi Hover Desktop", name: "hoverPosition", widget: "string", required: false, hint: "Contoh: center center, 40% center, center 30%." }
                       - { label: "Posisi Carousel / Scroll", name: "scrollPosition", widget: "string", required: false, hint: "Contoh: left top, center center, 35% center." }
                   - { label: "2) Nama / Judul Produk", name: "name", widget: "string", required: true }
-                  - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, required: false, hint: "Contoh input: 15000 (otomatis tampil sebagai Rp15.000)." }
+                  - { label: "3) Harga (Angka Saja)", name: "price", widget: "number", value_type: "int", min: 0, step: 1000, required: false, hint: "Gunakan kelipatan Rp1.000. Contoh: 15000 tampil sebagai Rp15.000." }
                   - { label: "3b) Deskripsi Produk", name: "description", widget: "text", required: false, hint: "Teks deskripsi produk yang tampil di halaman product, di bawah tombol konsultasi." }
                   - label: "4) Filter Produk Unggulan"
                     name: "filters"
@@ -384,3 +384,131 @@ collections:
                 allow_add: true
                 allow_delete: true
                 field: { label: "Upload Image", name: "image", widget: "image", required: true }
+
+  - name: "retail_collections"
+    label: "Shop — Collections"
+    description: "Peluncuran koleksi retail (Soft Tones, Christmas, Valentine's). Mengatur cerita, hero, palet, dan SKU mana yang tampil di Featured. Koleksi adalah pengelompokan katalog, bukan halaman tersendiri. HARGA DAN STOK TIDAK DIATUR DI SINI — keduanya hidup di database Supabase."
+    editor:
+      preview: false
+    files:
+      - label: "Retail Collection Launches"
+        name: "retail_collections_file"
+        file: "content/collections.json"
+        format: "json"
+        fields:
+          - label: "Koleksi"
+            name: "collections"
+            widget: "list"
+            summary: "{{fields.title}} — {{fields.status}}"
+            collapsed: true
+            allow_add: true
+            allow_delete: true
+            fields:
+              - { label: "ID Koleksi", name: "id", widget: "string", required: true, hint: "ID internal permanen. Contoh: soft-tones-2026. Jangan diubah setelah koleksi terbit." }
+              - { label: "Judul Koleksi", name: "title", widget: "string", required: true, hint: "Contoh: Soft Tones" }
+              - { label: "Slug / URL", name: "slug", widget: "string", required: true, hint: "Nama pendek koleksi untuk keperluan internal. Koleksi tidak lagi punya halaman sendiri — retail tampil di Featured. Huruf kecil dan dash saja." }
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                required: true
+                default: "upcoming"
+                hint: "Active = tampil di Shop dan bisa dibeli. Upcoming = tampil sebagai akan datang. Archived = tetap bisa dibuka lewat link, tidak tampil di menu."
+                options:
+                  - { label: "Aktif", value: "active" }
+                  - { label: "Akan Datang", value: "upcoming" }
+                  - { label: "Arsip", value: "archived" }
+              - { label: "Kicker", name: "kicker", widget: "string", required: false, hint: "Teks kecil di atas judul. Contoh: COLLECTION 01" }
+              - { label: "Tanggal Peluncuran", name: "launch_date", widget: "date", format: "YYYY-MM-DD", required: false }
+              - { label: "Tanggal Berakhir", name: "end_date", widget: "date", format: "YYYY-MM-DD", required: false }
+              - { label: "Gambar Hero", name: "hero_image", widget: "image", required: false }
+              - { label: "Link Trailer / Video", name: "trailer_url", widget: "string", required: false, hint: "Opsional. Hanya link YouTube atau Vimeo. Kosongkan jika tidak ada." }
+              - { label: "Deskripsi Koleksi", name: "description", widget: "text", required: false, hint: "Paragraf pendek di bawah judul koleksi." }
+              - { label: "Teks Editorial", name: "editorial_copy", widget: "text", required: false, hint: "Paragraf panjang di bagian bawah halaman koleksi. Opsional." }
+              - label: "Palet Warna"
+                name: "palette"
+                widget: "list"
+                required: false
+                collapsed: true
+                summary: "{{fields.name}} — {{fields.hex}}"
+                hint: "Warna yang ditampilkan di halaman koleksi, dan nanti dipakai staf sebagai acuan produksi."
+                fields:
+                  - { label: "Nama Warna", name: "name", widget: "string", required: true, hint: "Contoh: Porcelain" }
+                  - { label: "Kode Hex", name: "hex", widget: "string", required: true, hint: "Contoh: #EFE7DC" }
+              - label: "SKU Yang Ditampilkan"
+                name: "product_ids"
+                widget: "list"
+                required: false
+                hint: "Daftar SKU dari 'Shop — Products'. Urutan di sini menentukan urutan tampil di halaman koleksi."
+                field: { label: "SKU", name: "sku", widget: "string" }
+              - { label: "SEO Title", name: "seo_title", widget: "string", required: false }
+              - { label: "SEO Description", name: "seo_description", widget: "text", required: false }
+
+  - name: "retail_commerce"
+    label: "Shop — Stock & Availability"
+    description: "Saklar stok. Matikan 'Bisa Dibeli' kapan saja untuk membuat sebuah rangkaian habis — berlaku langsung, tanpa perlu menyentuh Supabase. Harga dan jumlah stok di sini hanya dipakai untuk SKU yang belum punya baris di Supabase; begitu Supabase punya barisnya, Supabase yang menentukan harga dan jumlah, dan halaman ini hanya bisa menarik produk dari penjualan, tidak pernah menambah stok."
+    editor:
+      preview: false
+    files:
+      - label: "Stock & Availability"
+        name: "retail_commerce_file"
+        file: "content/retail-commerce.json"
+        format: "json"
+        fields:
+          - label: "Produk"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.sku}} — {{fields.name}}"
+            collapsed: true
+            allow_add: true
+            allow_delete: true
+            fields:
+              - { label: "SKU", name: "sku", widget: "string", required: true, pattern: ["^[A-Z0-9]{2,6}-[0-9]{2,3}$", "Format SKU: dua sampai enam huruf besar, dash, lalu angka. Contoh: MD-01"], hint: "Harus sama persis dengan SKU di 'Shop — Products'." }
+              - { label: "Nama", name: "name", widget: "string", required: false, hint: "Hanya untuk memudahkan membaca daftar ini. Tidak tampil di situs." }
+              - { label: "Bisa Dibeli", name: "available", widget: "boolean", default: true, required: false, hint: "Matikan untuk membuat rangkaian ini habis sekarang juga. Ini satu-satunya kolom di halaman ini yang selalu berlaku, apa pun isi Supabase." }
+              - { label: "Harga (IDR)", name: "price_idr", widget: "number", value_type: "int", min: 0, step: 1000, required: false, hint: "Hanya dipakai jika SKU ini belum ada di Supabase. Gunakan kelipatan Rp1.000 tanpa titik. Contoh: 550000" }
+              - { label: "Jumlah Stok", name: "stock_quantity", widget: "number", value_type: "int", min: 0, required: false, hint: "Hanya dipakai jika SKU ini belum ada di Supabase. Kalau 0, rangkaian tampil habis." }
+
+  - name: "retail_products"
+    label: "Shop — Products"
+    description: "Konten produk retail: nama, foto, deskripsi, bahan, ukuran. HARGA DAN STOK DIATUR DI SUPABASE, bukan di sini. Menambah produk di sini saja tidak membuatnya bisa dibeli — SKU-nya juga harus ada di tabel products_commerce."
+    editor:
+      preview: false
+    files:
+      - label: "Retail Product Catalogue"
+        name: "retail_products_file"
+        file: "content/retail-products.json"
+        format: "json"
+        fields:
+          - label: "Produk Retail"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.sku}} — {{fields.name}}"
+            collapsed: true
+            allow_add: true
+            allow_delete: true
+            fields:
+              - { label: "SKU", name: "sku", widget: "string", required: true, pattern: ["^[A-Z0-9]{2,6}-[0-9]{2,3}$", "Format SKU: dua sampai enam huruf besar, dash, lalu angka. Contoh: ST-01"], hint: "Kode permanen. HARUS sama persis dengan SKU di tabel products_commerce di Supabase. Jangan pernah diubah setelah produk terbit." }
+              - { label: "Slug / URL", name: "slug", widget: "string", required: true, hint: "Menentukan alamat halaman: /product/soft-tones-no-1. Huruf kecil dan dash saja." }
+              - { label: "Nama Produk", name: "name", widget: "string", required: true }
+              - { label: "ID Koleksi", name: "collection_id", widget: "string", required: true, hint: "Harus sama dengan ID Koleksi di 'Shop — Collections'. Contoh: soft-tones-2026" }
+              - label: "Foto Produk"
+                name: "images"
+                widget: "list"
+                required: true
+                collapsed: true
+                summary: "{{fields.image}}"
+                hint: "Foto pertama dipakai sebagai gambar utama di kartu produk."
+                fields:
+                  - { label: "Upload Gambar", name: "image", widget: "image", required: true }
+                  - { label: "Teks Alternatif", name: "alt", widget: "string", required: false, hint: "Deskripsi singkat untuk pembaca layar dan SEO." }
+              - { label: "Deskripsi", name: "description", widget: "text", required: false }
+              - { label: "Komposisi / Bahan", name: "composition", widget: "text", required: false, hint: "Contoh: Artificial roses, ranunculus and eucalyptus in a matte ceramic vessel. Gunakan istilah 'artificial', jangan 'fake'." }
+              - { label: "Dimensi", name: "dimensions", widget: "string", required: false, hint: "Contoh: Approx. 28cm wide x 22cm tall" }
+              - { label: "Catatan Perawatan", name: "care_notes", widget: "text", required: false }
+              - { label: "Bisa Diminta Versi Bunga Segar", name: "fresh_interpretation_available", widget: "boolean", default: true, required: false, hint: "Jika aktif, halaman produk menampilkan tombol 'Request Fresh Interpretation' yang membuka WhatsApp konsultasi." }
+              - label: "Tag Editorial"
+                name: "tags"
+                widget: "list"
+                required: false
+                field: { label: "Tag", name: "tag", widget: "string" }
+              - { label: "Catatan Styling / Produksi", name: "styling_notes", widget: "text", required: false, hint: "Tampil di halaman produk sebagai catatan styling, dan nanti jadi acuan staf saat merangkai." }

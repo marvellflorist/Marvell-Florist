@@ -68,10 +68,87 @@
       <p>Please enable JavaScript in your browser to use the CMS.</p>
     </div>
   </noscript>
+  <!--
+    Decap's own config loader calls crypto.randomUUID() while it builds the
+    JSON schema it validates config.yml against. That call is the first thing
+    to run, so when randomUUID is missing the CMS never reaches the config at
+    all and reports the failure as "Config Errors: TypeError: crypto.randomUUID
+    is not a function" — which points at this file's YAML rather than at the
+    browser API that is actually absent.
+
+    randomUUID is restricted to secure contexts: it is there on https:// and on
+    localhost, and gone on a plain-http LAN address (http://192.168.x.x:5500),
+    which is how the admin gets opened from a phone or a second machine.
+    getRandomValues carries no such restriction, so the UUID is built from it.
+
+    This runs before the CMS bundle loads, and does nothing at all where the
+    native function already exists.
+  -->
   <script>
+    (function () {
+      var c = window.crypto || window.msCrypto;
+      if (!c || typeof c.randomUUID === "function") return;
+      if (typeof c.getRandomValues !== "function") return;
+
+      // RFC 4122 v4: version nibble in byte 6, variant bits in byte 8.
+      c.randomUUID = function randomUUID() {
+        var bytes = new Uint8Array(16);
+        c.getRandomValues(bytes);
+        bytes[6] = (bytes[6] & 0x0f) | 0x40;
+        bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+        var hex = [];
+        for (var i = 0; i < 16; i += 1) hex.push((bytes[i] + 0x100).toString(16).slice(1));
+        return (
+          hex.slice(0, 4).join("") + "-" +
+          hex.slice(4, 6).join("") + "-" +
+          hex.slice(6, 8).join("") + "-" +
+          hex.slice(8, 10).join("") + "-" +
+          hex.slice(10, 16).join("")
+        );
+      };
+    })();
+  </script>
+
+  <script>
+    // Pinned deliberately. A floating range lets a CDN publish a change
+    // straight into production admin with nothing in this repository moving.
+    // Raise this on purpose, and re-test /admin/ before deploying.
+    const DECAP_VERSION = "3.16.2";
+
     const statusCard = document.getElementById("cms-status");
     const LOCAL_DECAP_PROXY_URL = "http://127.0.0.1:8081/api/v1";
-    const isLocalAdminHost = ["127.0.0.1", "localhost"].includes(String(window.location.hostname || "").toLowerCase());
+
+    /**
+     * Where the admin is being opened from decides whether there is a login.
+     *
+     * Editing locally is editing files on this machine: there is nothing to
+     * authenticate against and nothing to protect, so the local proxy backend
+     * is used and no password is asked for. That includes a LAN address —
+     * opening the admin from a phone on the same wifi is still local editing,
+     * and Decap's own localhost check would miss it and fall through to a
+     * login screen that cannot work.
+     *
+     * marvellflorist.com is the opposite case: it writes to the repository,
+     * so it keeps git-gateway and its Netlify Identity login. Anything that is
+     * not recognised as local is treated as production, which is the safe way
+     * round to be wrong.
+     */
+    function isLocalHostname(value) {
+      const host = String(value || "").toLowerCase();
+      if (["localhost", "127.0.0.1", "::1", "[::1]", ""].includes(host)) return true;
+      if (host.endsWith(".local") || host.endsWith(".localhost")) return true;
+      // Private IPv4: 10/8, 172.16/12, 192.168/16, and link-local 169.254/16.
+      return /^10\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(host)
+        || /^192\.168\.\d{1,3}\.\d{1,3}$/.test(host)
+        || /^169\.254\.\d{1,3}\.\d{1,3}$/.test(host)
+        || /^172\.(1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}$/.test(host);
+    }
+
+    const isLocalAdminHost = isLocalHostname(window.location.hostname);
+
+    // Decap is started by hand below so the backend can be chosen by host.
+    window.CMS_MANUAL_INIT = true;
     const LOCAL_PROXY_WAIT_MS = 12000;
     const LOCAL_PROXY_POLL_MS = 600;
     let localProxyRecoveryTimer = 0;
@@ -140,11 +217,64 @@
       });
     }
 
+    /**
+     * Netlify Identity, which git-gateway signs in through.
+     *
+     * Logging in was failing with "method not allowed". That is what
+     * /.netlify/identity/token answers with when Identity is not enabled on
+     * the site: the path is not served, so Netlify's own router rejects the
+     * POST rather than the login being refused. Decap reports whatever came
+     * back, and "method not allowed" points at nothing an editor can act on.
+     *
+     * Two things were missing. The widget that git-gateway authenticates
+     * through was not loaded on this page at all — it is what opens the login
+     * dialog and holds the session — and there was nothing to tell the
+     * difference between a wrong password and a site with no Identity service
+     * behind it. This asks the service who it is first, and says plainly what
+     * to switch on when the answer is that it is not there.
+     *
+     * None of this runs for local editing, which uses the proxy backend and
+     * has no login at all.
+     */
+    const IDENTITY_WIDGET_URL = "https://identity.netlify.com/v1/netlify-identity-widget.js";
+
+    async function identityStatus() {
+      if (typeof window.fetch !== "function") return "unknown";
+      try {
+        const response = await window.fetch("/.netlify/identity/settings", {
+          method: "GET",
+          cache: "no-store"
+        });
+        if (response.ok) return "ready";
+        // 404 and 405 both mean the route is not being served by an Identity
+        // instance: 404 where nothing answers, 405 where the platform answers
+        // for a service that is switched off.
+        if (response.status === 404 || response.status === 405) return "absent";
+        return "unknown";
+      } catch (_error) {
+        // Offline, or blocked. Not evidence either way.
+        return "unknown";
+      }
+    }
+
+    function identityMissingMessage() {
+      setStatus(
+        "Netlify Identity is not switched on",
+        "This admin signs in through Netlify Identity, and the site is not serving it — which is why logging in answers \"method not allowed\" rather than refusing the password. Both switches below are in the Netlify dashboard for this site, and neither needs a deploy.",
+        [
+          "<strong>Identity</strong> &rarr; <em>Enable Identity</em>.",
+          "<strong>Identity &rarr; Services &rarr; Git Gateway</strong> &rarr; <em>Enable Git Gateway</em>. Without this the login succeeds but nothing can be saved.",
+          "Under <strong>Identity &rarr; Registration</strong>, set registration to <em>Invite only</em>, then invite your own email and accept the emailed link.",
+          "Then reload this page. To edit without any of this, run <code>npm run cms:proxy</code> and open <code>http://localhost:8888/admin/</code>, which needs no login."
+        ]
+      );
+    }
+
     async function bootCMS() {
       if (isLocalAdminHost) {
         setStatus(
           "Starting local CMS...",
-          "Admin lokal akan memakai local backend Decap tanpa login.",
+          "Admin lokal memakai backend proxy Decap — tanpa login dan tanpa kata sandi.",
           [
             "Pastikan proxy berjalan di <code>http://127.0.0.1:8081/api/v1</code>.",
             "Jika belum jalan, gunakan <code>npm run cms:proxy</code> di root project."
@@ -165,11 +295,36 @@
         }
       }
       clearLocalProxyRecoveryTimer();
+
+      // Production signs in through Identity, so it has to be there and it
+      // has to be loaded before Decap asks it for a session.
+      if (!isLocalAdminHost) {
+        const status = await identityStatus();
+        if (status === "absent") {
+          identityMissingMessage();
+          return;
+        }
+        setStatus("Loading CMS...", "Signing in through Netlify Identity.");
+        try {
+          await loadScript(IDENTITY_WIDGET_URL);
+        } catch (_error) {
+          setStatus(
+            "The login could not be loaded",
+            "Netlify Identity's widget did not load, so there is nothing to sign in with.",
+            [
+              "Check network access to <code>identity.netlify.com</code>.",
+              "Reload this page and try again."
+            ]
+          );
+          return;
+        }
+      }
+
       try {
-        await loadScript("https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js");
+        await loadScript(`https://unpkg.com/decap-cms@${DECAP_VERSION}/dist/decap-cms.js`);
       } catch (_error) {
         try {
-          await loadScript("https://cdn.jsdelivr.net/npm/decap-cms@^3.0.0/dist/decap-cms.js");
+          await loadScript(`https://cdn.jsdelivr.net/npm/decap-cms@${DECAP_VERSION}/dist/decap-cms.js`);
         } catch (_fallbackError) {
           setStatus(
             "CMS app failed to load",
@@ -188,6 +343,27 @@
           "CMS app did not initialize",
           "Scripts loaded but Decap CMS was not detected.",
           ["Open browser console and check for JavaScript errors."]
+        );
+        return;
+      }
+
+      // Local: the proxy backend, which needs no login at all. Named here
+      // rather than relying on config.yml's local_backend, because Decap only
+      // honours that on localhost and this must also work over the LAN.
+      //
+      // Production: nothing passed, so config.yml's git-gateway stands and the
+      // Netlify Identity login is required exactly as before.
+      try {
+        window.CMS.init(
+          isLocalAdminHost
+            ? { config: { backend: { name: "proxy", proxy_url: LOCAL_DECAP_PROXY_URL, branch: "main" } } }
+            : undefined
+        );
+      } catch (error) {
+        setStatus(
+          "CMS app did not start",
+          "Decap CMS loaded but refused to initialise.",
+          [String(error && error.message ? error.message : error)]
         );
         return;
       }

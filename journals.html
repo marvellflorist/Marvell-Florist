@@ -19,8 +19,9 @@
 <meta name="twitter:description" content="Browse The Journals by Marvell Florist: small visual lookbooks shaped through images and titles only.">
 <meta name="twitter:image" content="https://marvellflorist.com/assets/uploads/img_4322.webp">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260505a"></script>
-<script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -28,25 +29,10 @@
 <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-@font-face {
-  font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
 :root {
   --page-bg: #000;
   --ink: #fff;
@@ -108,7 +94,7 @@ header::after {
   text-decoration: none;
 }
 .header-logo-text {
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: 32px;
   line-height: 0.9;
   letter-spacing: 0.01em;
@@ -172,7 +158,7 @@ main {
   margin-bottom: 34px;
 }
 .stories-title {
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(42px, 5vw, 82px);
   line-height: 0.9;
   font-weight: 400;
@@ -201,9 +187,9 @@ main {
   object-position: center;
   transition: transform 0.44s ease, filter 0.32s ease;
 }
+/* The grey stays; the growing does not. See assets/shop-pages.css. */
 .story-card:hover .story-card-media img,
 .story-card:focus-visible .story-card-media img {
-  transform: scale(1.025);
   filter: grayscale(1) contrast(1.03);
 }
 .story-card-title {
@@ -261,8 +247,6 @@ body[data-journal-theme="mono"] #site-footer::before {
   color: #fff !important;
   border-top-color: rgba(255, 255, 255, 0.16) !important;
 }
-body[data-journal-theme="mono"] #site-footer .footer-closing-quote,
-body[data-journal-theme="mono"] #site-footer .footer-closing-author,
 body[data-journal-theme="mono"] #site-footer .footer-col-title,
 body[data-journal-theme="mono"] #site-footer .footer-link,
 body[data-journal-theme="mono"] #site-footer .footer-descriptor p,
@@ -347,7 +331,7 @@ body[data-journal-theme="mono"] #site-footer .footer-col {
   <div class="header-bar">
     <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
     <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
-      <span class="header-logo-text">Marvell Florist</span>
+      <span class="header-logo-text">MARVELL FLORIST</span>
     </a>
     <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
@@ -370,14 +354,14 @@ body[data-journal-theme="mono"] #site-footer .footer-col {
     <section class="stories-grid" id="stories-grid" aria-label="The Journals">
       <a class="story-card" href="journal.html?journal=grad-26" aria-label="Reflection">
         <div class="story-card-media">
-          <img src="/assets/uploads/img_4322.webp" alt="Reflection" loading="lazy" decoding="async">
+          <img data-src="/assets/uploads/img_4322.webp" alt="Reflection" loading="lazy" decoding="async">
         </div>
         <p class="story-card-title">Reflection</p>
         <p class="story-card-meta">April 2026</p>
       </a>
       <a class="story-card" href="journal.html?journal=mothers-day-2026" aria-label="Origins and Arrivals">
         <div class="story-card-media">
-          <img src="/assets/uploads/untitled168_20260504184434-1-.webp" alt="Origins and Arrivals" loading="lazy" decoding="async">
+          <img data-src="/assets/uploads/untitled168_20260504184434-1-.webp" alt="Origins and Arrivals" loading="lazy" decoding="async">
         </div>
         <p class="story-card-title">Origins and Arrivals</p>
         <p class="story-card-meta">May 2026</p>
@@ -505,8 +489,36 @@ function normalizeStoriesEntries(payload) {
           images
         };
       })
-      .filter((entry) => entry.coverImage);
+      .filter((entry) => entry.coverImage)
   };
+}
+
+function activateJournalImages(scope = document) {
+  const images = Array.from(scope.querySelectorAll("img[data-src]"));
+  if (!images.length) return;
+  const loadImage = (image) => {
+    if (!(image instanceof HTMLImageElement)) return;
+    const src = String(image.dataset.src || "").trim();
+    if (!src) return;
+    image.src = src;
+    delete image.dataset.src;
+  };
+  if (typeof IntersectionObserver === "undefined") {
+    images.forEach(loadImage);
+    return;
+  }
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      loadImage(entry.target);
+      obs.unobserve(entry.target);
+    });
+  }, {
+    root: null,
+    rootMargin: "260px 0px",
+    threshold: 0
+  });
+  images.forEach((image) => observer.observe(image));
 }
 
 function renderStoriesPage(data) {
@@ -531,12 +543,13 @@ function renderStoriesPage(data) {
   grid.innerHTML = data.entries.map((entry) => `
     <a class="story-card" href="journal.html?journal=${encodeURIComponent(entry.slug)}" aria-label="${escapeAttr(entry.title)}">
       <div class="story-card-media">
-        <img src="${escapeAttr(entry.coverImage)}" alt="${escapeAttr(entry.title)}" loading="lazy" decoding="async">
+        <img data-src="${escapeAttr(entry.coverImage)}" alt="${escapeAttr(entry.title)}" loading="lazy" decoding="async">
       </div>
       <p class="story-card-title">${escapeHTML(entry.title)}</p>
       ${entry.monthYear ? `<p class="story-card-meta">${escapeHTML(entry.monthYear)}</p>` : ""}
     </a>
   `).join("");
+  activateJournalImages(grid);
 }
 
 (async () => {
@@ -544,9 +557,14 @@ function renderStoriesPage(data) {
   renderStoriesPage(normalizeStoriesEntries(payload || {}));
 })();
 </script>
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
 </body>
 </html>

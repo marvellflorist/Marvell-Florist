@@ -2,7 +2,7 @@
   "categories": [
     {
       "matchCategories": [],
-      "coverImage": "/assets/standingcover.webp",
+      "coverImage": "/assets/standingcover-800.webp",
       "priceMin": 1000000,
       "name": "Standing Flowers",
       "filterGroups": [
@@ -144,7 +144,7 @@
     },
     {
       "matchCategories": [],
-      "coverImage": "/assets/artificialcover.webp",
+      "coverImage": "/assets/artificialcover-800.webp",
       "priceMin": 200000,
       "name": "Table Arrangements",
       "filterGroups": [
@@ -336,7 +336,7 @@
     },
     {
       "matchCategories": [],
-      "coverImage": "/assets/bouquetcover.webp",
+      "coverImage": "/assets/bouquetcover-800.webp",
       "priceMin": 120000,
       "name": "Bouquets",
       "filterGroups": [
@@ -524,7 +524,7 @@
     },
     {
       "matchCategories": [],
-      "coverImage": "/assets/papancover.webp",
+      "coverImage": "/assets/papancover-800.webp",
       "priceMin": 150000,
       "name": "Papan Bunga",
       "filterGroups": [
@@ -605,7 +605,7 @@
     },
     {
       "matchCategories": [],
-      "coverImage": "/assets/parcelcover.webp",
+      "coverImage": "/assets/parcelcover-800.webp",
       "priceMin": 450000,
       "name": "Parcels",
       "filterGroups": [
@@ -701,7 +701,7 @@
           "value": "duka cita"
         }
       ],
-      "coverImage": "/assets/funeral.webp",
+      "coverImage": "/assets/funeral-800.webp",
       "priceMin": 150000,
       "name": "Funerals",
       "filterGroups": [

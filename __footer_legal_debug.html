@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer Legal Debug</title>
+  <link rel="stylesheet" href="/assets/type.css?v=20260920f">
+  <style>
+    body { margin: 0; font: 14px/1.4 sans-serif; background: #f4f1ea; color: #2f2923; }
+    .wrap { display: grid; gap: 12px; padding: 16px; }
+    pre { margin: 0; padding: 12px; border: 1px solid rgba(63,54,45,.18); background: #fffdf9; white-space: pre-wrap; }
+    iframe { width: 430px; height: 1300px; border: 1px solid rgba(63,54,45,.18); background: white; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <pre id="result">Waiting...</pre>
+    <iframe id="frame" src="index.html?lang=en"></iframe>
+  </div>
+  <script>
+    const frame = document.getElementById("frame");
+    const result = document.getElementById("result");
+    const paths = ["privacy-policy.html", "terms-conditions.html", "faq.html"];
+    const report = [];
+
+    function wait(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    function nextLoad() {
+      return new Promise((resolve) => {
+        const timer = setTimeout(() => {
+          frame.removeEventListener("load", onLoad);
+          resolve(false);
+        }, 2500);
+        function onLoad() {
+          clearTimeout(timer);
+          frame.removeEventListener("load", onLoad);
+          resolve(true);
+        }
+        frame.addEventListener("load", onLoad);
+      });
+    }
+
+    async function runOne(path) {
+      frame.src = "index.html?lang=en";
+      await nextLoad();
+      await wait(1200);
+
+      const doc = frame.contentDocument;
+      const win = frame.contentWindow;
+      const link = doc && doc.querySelector(`.footer-legal-link[href*="${path}"]`);
+      if (!(link instanceof win.HTMLAnchorElement)) {
+        report.push({ path, found: false });
+        return;
+      }
+
+      link.scrollIntoView({ block: "center" });
+      await wait(250);
+      const rect = link.getBoundingClientRect();
+      const topNode = doc.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      const before = win.location.href;
+      const loaded = nextLoad();
+      link.click();
+      const didLoad = await loaded;
+      await wait(300);
+      report.push({
+        path,
+        found: true,
+        href: link.href,
+        text: link.textContent.trim(),
+        before,
+        after: frame.contentWindow.location.href,
+        didLoad,
+        topNode: topNode ? `${topNode.tagName.toLowerCase()}${topNode.className ? "." + String(topNode.className).trim().replace(/\s+/g, ".") : ""}` : null
+      });
+      result.textContent = JSON.stringify(report, null, 2);
+    }
+
+    frame.addEventListener("load", async function initial() {
+      frame.removeEventListener("load", initial);
+      for (const path of paths) await runOne(path);
+      result.textContent = JSON.stringify(report, null, 2);
+    });
+  </script>
+</body>
+</html>

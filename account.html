@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Account | Marvell Florist</title>
+<meta name="description" content="Create an account or manage your personal details, orders and preferences. Ordering never requires one.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://marvellflorist.com/account">
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
+<!-- The wishlist tab draws on the commerce card and its tokens. -->
+<link rel="stylesheet" href="/assets/shop-pages.css?v=20260920f">
+<link rel="stylesheet" href="/assets/wishlist.css?v=20260923a">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Inter Tight", sans-serif;
+  color: #1d1a18;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+:root { --header-height: 72px; }
+body > header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  z-index: 80; height: var(--header-height);
+  padding: 0 18px; display: flex; align-items: center;
+  pointer-events: none;
+}
+body > header::before {
+  content: ""; position: fixed; inset: 0 0 auto;
+  height: var(--header-height); background: #fff; z-index: 1;
+}
+body > header, body > header::before { border: 0 !important; box-shadow: none !important; }
+.header-bar {
+  position: relative; width: 100%; height: var(--header-height);
+  display: flex; align-items: center; gap: 14px; z-index: 2; pointer-events: auto;
+}
+
+/* The form uses the available desktop width while keeping the code step
+   compact and centered. */
+.join-main {
+  padding: calc(var(--header-height) + clamp(48px, 9vw, 110px)) 20px clamp(64px, 10vw, 128px);
+  display: grid;
+  justify-items: center;
+}
+.join-shell { width: min(100%, 470px); display: grid; gap: 0; }
+.join-main.is-verify {
+  min-height: calc(100svh + var(--header-height));
+  padding-top: calc(var(--header-height) + clamp(32px, 4vw, 56px));
+  align-content: start;
+}
+.join-main.is-verify .join-shell { align-self: start; align-content: start; }
+@media (min-width: 900px) {
+  .join-main:not(.is-account) { padding-left: clamp(48px, 7vw, 120px); padding-right: clamp(48px, 7vw, 120px); }
+  .join-main:not(.is-account):not(.is-verify) .join-shell { width: min(100%, 720px); }
+  .join-main.is-verify .join-shell { width: min(100%, 520px); }
+  .join-field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+}
+
+.join-title {
+  font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif;
+  font-size: clamp(30px, 4.6vw, 44px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 16px;
+}
+.join-lede {
+  font-size: 15px;
+  line-height: 1.66;
+  color: rgba(29, 26, 24, 0.62);
+  margin: 0 0 clamp(30px, 4vw, 44px);
+}
+
+.join-step { display: grid; gap: 0; }
+.join-step[hidden] { display: none; }
+
+.join-field { display: grid; gap: 8px; margin-bottom: 22px; }
+.join-field label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(29, 26, 24, 0.52);
+}
+.join-field input {
+  width: 100%;
+  height: 46px;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1px solid rgba(29, 26, 24, 0.24);
+  border-radius: 0;
+  background: transparent;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  color: #1d1a18;
+  appearance: none;
+  transition: border-color 0.24s ease;
+}
+.join-field input:focus { outline: none; border-bottom-color: #151210; }
+.join-field input[aria-invalid="true"] { border-bottom-color: #9a4a35; }
+.join-field-code input { font-size: 24px; letter-spacing: 0.34em; height: 52px; }
+/* A hint, not a heading. The field is large because the code is what gets
+   read back from it; the prompt sitting in the empty field is not, and at the
+   field's own size it was the loudest thing on the step. */
+.join-field-code input::placeholder {
+  font-size: 12px; font-weight: 300; letter-spacing: 0.06em;
+  color: rgba(29, 26, 24, 0.32); opacity: 1;
+  vertical-align: middle;
+}
+
+/* Mr / Mrs / Mx — a row of three, not a dropdown. Three options do not need
+   to be hidden behind a control that has to be opened. */
+/* The title, as a line that opens. Same control and same behaviour as the
+   newsletter form's title and the footer's language selector: a trigger that
+   matches the fields around it, and a list that appears under it. */
+.join-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(29, 26, 24, 0.52);
+}
+.join-select { position: relative; }
+.join-select-trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  width: 100%; height: 46px; padding: 0 0 2px;
+  border: 0; border-bottom: 1px solid rgba(29, 26, 24, 0.24); border-radius: 0;
+  background: transparent; color: #1d1a18;
+  font-family: "Inter Tight", sans-serif; font-size: 16px; text-align: left;
+  cursor: pointer; appearance: none; -webkit-appearance: none;
+  transition: border-color 0.24s ease;
+}
+.join-select-trigger:focus-visible,
+.join-select-trigger[aria-expanded="true"] { outline: none; border-bottom-color: #151210; }
+.join-select-trigger[aria-invalid="true"] { border-bottom-color: #9a4a35; }
+.join-select-value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.join-select-value[data-placeholder="true"] { color: rgba(29, 26, 24, 0.42); }
+.join-select-caret {
+  flex: 0 0 auto; width: 9px; height: 9px; margin-bottom: 4px;
+  border-right: 1px solid currentColor; border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.join-select-trigger[aria-expanded="true"] .join-select-caret {
+  transform: rotate(225deg); margin-bottom: -2px;
+}
+.join-select-list {
+  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 5;
+  display: grid; margin: 0; padding: 4px 0; list-style: none;
+  max-height: min(46vh, 320px); overflow-y: auto; overscroll-behavior: contain;
+  background: #fff; border: 1px solid #e4e6e8; box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
+  opacity: 0; visibility: hidden; transform: translateY(-8px); pointer-events: none;
+  transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.34s;
+}
+.join-select[data-open="true"] .join-select-list {
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
+  transition: opacity 0.34s ease, transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+.join-select-option {
+  width: 100%; min-height: 42px; padding: 0 16px;
+  border: 0; background: transparent; color: rgba(29, 26, 24, 0.72);
+  font-family: "Inter Tight", sans-serif; font-size: 15px; text-align: left; cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.join-select-option:hover,
+.join-select-option:focus-visible { color: #12100e; background: rgba(29, 26, 24, 0.04); outline: none; }
+.join-select-option[aria-selected="true"] { color: #12100e; font-weight: 500; }
+
+.join-submit {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 24px;
+  border: 1px solid #12100e;
+  border-radius: 0;
+  background: #12100e;
+  color: #f8f4ec;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+.join-submit:hover:not(:disabled),
+.join-submit:focus-visible:not(:disabled) { background: transparent; color: #151210; outline: none; }
+.join-submit:disabled { opacity: 0.4; cursor: default; }
+
+/* Continue with Google. Present, so the way in is visible, and plainly
+   switched off until the provider is actually configured. */
+
+
+.join-note {
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(29, 26, 24, 0.55);
+}
+.join-note[data-tone="error"] { color: #9a4a35; }
+.join-note[hidden] { display: none; }
+
+.join-quiet {
+  margin-top: 16px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  color: rgba(29, 26, 24, 0.62);
+  text-decoration: underline;
+  text-underline-offset: 0.26em;
+  cursor: pointer;
+}
+.join-quiet:hover, .join-quiet:focus-visible { color: #1d1a18; outline: none; }
+
+.join-check {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  margin: 4px 0 28px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(29, 26, 24, 0.66);
+  cursor: pointer;
+}
+.join-check input {
+  width: 16px; height: 16px; margin-top: 2px;
+  accent-color: #12100e; cursor: pointer;
+}
+.account-preferences { margin: 12px 0 32px; padding-top: 24px; border-top: 1px solid rgba(29, 26, 24, 0.12); }
+.account-preferences h3 { margin: 0 0 10px; font-size: 12px; font-weight: 500; letter-spacing: .14em; }
+.account-preferences > p { margin: 0 0 23px; font-size: 13px; line-height: 1.6; color: rgba(29, 26, 24, .66); }
+.account-preferences .join-check { margin: 0 0 18px; }
+.account-preferences .join-check strong { display: block; font-weight: 500; color: #1d1a18; }
+.account-preferences .join-check small { display: block; margin-top: 3px; font-size: 12px; line-height: 1.55; }
+
+.join-terms {
+  margin-top: clamp(28px, 4vw, 40px);
+  padding-top: 22px;
+  border-top: 1px solid rgba(29, 26, 24, 0.1);
+  font-size: 12px;
+  line-height: 1.65;
+  color: rgba(29, 26, 24, 0.48);
+}
+.join-terms a { color: inherit; text-underline-offset: 0.22em; }
+
+/* The signed-in view uses the same quiet field language as registration,
+   with room for account navigation and a full page of personal details. */
+.join-main.is-account { padding-top: calc(var(--header-height) + clamp(42px, 7vw, 88px)); }
+.join-main.is-account .join-shell { width: min(100%, 1160px); }
+.join-main.is-account .join-title { margin-bottom: 10px; }
+.join-main.is-account .join-lede { margin-bottom: clamp(32px, 5vw, 56px); }
+.details-layout { display: block; }
+.details-nav { display: flex; align-items: stretch; gap: clamp(18px, 3vw, 38px); border-bottom: 1px solid rgba(29, 26, 24, 0.18); }
+.details-nav button, .details-nav a {
+  display: block; width: auto; padding: 18px 0 17px; border: 0; border-bottom: 1px solid transparent;
+  background: transparent; color: rgba(29, 26, 24, 0.58); font: 500 12px/1.4 "Inter Tight", sans-serif;
+  letter-spacing: 0.08em; text-align: left; text-decoration: none; text-transform: uppercase; cursor: pointer;
+}
+.details-nav [aria-current="page"] { color: #1d1a18; border-bottom-color: #1d1a18; }
+.details-nav button:hover, .details-nav a:hover, .details-nav button:focus-visible, .details-nav a:focus-visible { color: #1d1a18; outline: none; }
+.details-nav .details-signout { margin-left: auto; }
+.details-panel { display: grid; grid-template-columns: minmax(190px, 240px) minmax(0, 1fr); gap: clamp(34px, 6vw, 84px); padding: clamp(34px, 5vw, 60px) 0; border-bottom: 1px solid rgba(29, 26, 24, 0.18); }
+.details-panel[hidden] { display: none; }
+/* The wishlist brings its own column of controls, so it is given the whole
+   width of the panel rather than being set beside a second heading. */
+.details-panel--wishlist { grid-template-columns: minmax(0, 1fr); gap: clamp(22px, 3vw, 34px); }
+.details-panel-head { padding: 0; }
+.details-panel-head h2 { margin: 0 0 9px; font: 300 clamp(24px, 2.6vw, 30px)/1.1 "AdelioDisplayCondensed", sans-serif; letter-spacing: 0.035em; text-transform: uppercase; }
+.details-panel-head p { color: rgba(29, 26, 24, 0.58); font-size: 13px; line-height: 1.6; }
+.details-form { padding-top: 0; }
+.details-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 30px; }
+.details-fields .join-field--wide { grid-column: 1 / -1; }
+.details-fields select {
+  width: 100%; height: 46px; border: 0; border-bottom: 1px solid rgba(29, 26, 24, 0.24);
+  border-radius: 0; background: #fff; color: #1d1a18; font: 16px "Inter Tight", sans-serif;
+}
+.details-fields select:focus-visible { outline: none; border-bottom-color: #151210; }
+.details-fields input[readonly] { color: rgba(29, 26, 24, 0.55); }
+.details-hint { margin: -10px 0 26px; color: rgba(29, 26, 24, 0.48); font-size: 12px; line-height: 1.55; }
+.details-form .join-submit { max-width: 255px; }
+.details-orders { display: grid; gap: 0; }
+.details-order { padding: 24px 0; border-bottom: 1px solid rgba(29, 26, 24, 0.13); }
+.details-order-top { display: flex; justify-content: space-between; gap: 15px; font-size: 14px; font-weight: 600; }
+.details-order-meta, .details-order-items { margin: 9px 0 0; color: rgba(29, 26, 24, 0.6); font-size: 13px; line-height: 1.6; }
+.details-order-items { padding-left: 18px; }
+.details-empty { padding: 0; color: rgba(29, 26, 24, 0.6); font-size: 14px; line-height: 1.65; }
+.details-preferences { padding-top: 0; }
+.details-preferences .join-check { margin-top: 0; }
+.details-actions { display: flex; flex-wrap: wrap; gap: 20px; margin: 32px 0 0 calc(240px + clamp(34px, 6vw, 84px)); }
+.details-actions .join-quiet { margin: 0; }
+
+@media (max-width: 600px) {
+  .details-nav { flex-wrap: wrap; gap: 0 18px; }
+  .details-nav button, .details-nav a { padding: 13px 0; white-space: nowrap; }
+  .details-nav .details-signout { margin-left: 0; }
+  .details-panel { grid-template-columns: 1fr; gap: 25px; }
+  .details-fields { grid-template-columns: 1fr; }
+  .details-fields .join-field--wide { grid-column: auto; }
+  .details-actions { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
+      <span class="header-logo-text">MARVELL FLORIST</span>
+    </a>
+    <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+      </span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+<main class="join-main" id="join-main">
+  <div class="join-shell">
+    <h1 class="join-title" data-join-title>Create your account</h1>
+    <p class="join-lede" data-join-lede>Enjoy a more personal experience with Marvell.</p>
+
+    <!-- One page, one form. Everything the account asks for is here, and the
+         code that follows only proves the address it was given. -->
+    <section class="join-step" data-join-step="register" aria-labelledby="join-register-heading">
+      <h2 class="sr-only" id="join-register-heading">Your details</h2>
+      <form data-join-register novalidate>
+        <div class="join-field">
+          <span class="join-label" id="join-title-label">Title</span>
+          <!-- The same control the newsletter form uses for the same
+               question: a line that opens rather than five buttons
+               competing with the fields under it. -->
+          <div class="join-select" data-join-select data-open="false">
+            <button class="join-select-trigger" type="button" data-join-select-trigger
+              aria-expanded="false" aria-controls="join-title-list"
+              aria-labelledby="join-title-label join-title-value">
+              <span class="join-select-value" id="join-title-value" data-join-select-value data-placeholder="true">Select</span>
+              <span class="join-select-caret" aria-hidden="true"></span>
+            </button>
+            <ul class="join-select-list" id="join-title-list" role="listbox"
+              aria-labelledby="join-title-label" data-join-select-list>
+              <li role="none"><button class="join-select-option" type="button" role="option" aria-selected="false" data-join-title-option="mr">Mr</button></li>
+              <li role="none"><button class="join-select-option" type="button" role="option" aria-selected="false" data-join-title-option="mrs">Mrs</button></li>
+              <li role="none"><button class="join-select-option" type="button" role="option" aria-selected="false" data-join-title-option="ms">Ms</button></li>
+              <li role="none"><button class="join-select-option" type="button" role="option" aria-selected="false" data-join-title-option="miss">Miss</button></li>
+              <li role="none"><button class="join-select-option" type="button" role="option" aria-selected="false" data-join-title-option="mx">Mx</button></li>
+            </ul>
+          </div>
+        </div>
+        <div class="join-field-row">
+          <div class="join-field">
+            <label for="join-first-name">First name</label>
+            <input id="join-first-name" name="first_name" type="text" autocomplete="given-name"
+              maxlength="80" required>
+          </div>
+          <div class="join-field">
+            <label for="join-last-name">Last name</label>
+            <input id="join-last-name" name="last_name" type="text" autocomplete="family-name"
+              maxlength="80" required>
+          </div>
+        </div>
+        <div class="join-field-row">
+          <div class="join-field">
+            <label for="join-email">Email address</label>
+            <input id="join-email" name="email" type="email" inputmode="email" autocomplete="email"
+              spellcheck="false" maxlength="254" required>
+          </div>
+          <div class="join-field">
+            <label for="join-email-confirm">Confirm email address</label>
+            <input id="join-email-confirm" name="email_confirm" type="email" inputmode="email"
+              autocomplete="email" spellcheck="false" maxlength="254" required>
+          </div>
+        </div>
+
+        <section class="account-preferences" aria-labelledby="join-preferences-title">
+          <h3 id="join-preferences-title">YOUR PREFERENCES</h3>
+          <p>Choose how you would like to hear from Marvell and how we may personalise your experience.</p>
+          <label class="join-check"><input type="checkbox" data-preferences-select-all><span>SELECT ALL</span></label>
+          <label class="join-check"><input type="checkbox" name="newsletter" data-join-newsletter><span><strong>News and collections</strong><small data-join-newsletter-label>Receive new collections, seasonal releases and selected news from Marvell.</small></span></label>
+          <label class="join-check"><input type="checkbox" name="personal_recommendations_opt_in"><span><strong>Personal recommendations</strong><small>Allow Marvell to use your saved pieces, purchases and preferences to provide more relevant recommendations.</small></span></label>
+          <label class="join-check"><input type="checkbox" name="occasion_reminders_opt_in"><span><strong>Occasion reminders</strong><small>Receive reminders for birthdays, anniversaries and other occasions you choose to save.</small></span></label>
+          <label class="join-check"><input type="checkbox" name="personal_service_opt_in"><span><strong>Personal service</strong><small>Allow Marvell advisors to use your profile, order history and saved pieces when assisting you.</small></span></label>
+        </section>
+
+        <button class="join-submit" type="submit">Create your account</button>
+      </form>
+      <p class="join-note" data-join-note hidden></p>
+      <p class="join-terms" data-join-terms></p>
+    </section>
+
+    <!-- The code from that email. -->
+    <section class="join-step" data-join-step="verify" aria-labelledby="join-verify-heading" hidden>
+      <h2 class="sr-only" id="join-verify-heading">Verify your email</h2>
+      <form data-join-code novalidate>
+        <div class="join-field join-field-code">
+          <label for="join-code">Your code</label>
+          <input id="join-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code"
+            pattern="[0-9]*" maxlength="10" minlength="6" spellcheck="false" required
+            data-join-code-input placeholder="Enter your code">
+        </div>
+        <button class="join-submit" type="submit">Verify</button>
+      </form>
+      <button class="join-quiet" type="button" data-join-restart>Use another email</button>
+      <p class="join-note" data-join-note hidden></p>
+    </section>
+
+    <!-- Signed-in account details. The server session decides who may see it. -->
+    <section class="join-step" data-join-step="done" aria-labelledby="join-done-heading" hidden>
+      <h2 class="sr-only" id="join-done-heading">My account</h2>
+      <div class="details-layout">
+        <nav class="details-nav" aria-label="Account">
+          <button type="button" data-details-tab="profile" aria-current="page">Personal details</button>
+          <button type="button" data-details-tab="orders">My orders</button>
+          <button type="button" data-details-tab="wishlist">My wishlist</button>
+          <button type="button" data-details-tab="preferences">Preferences</button>
+          <button class="details-signout" type="button" data-details-signout>Sign out</button>
+        </nav>
+        <div class="details-content">
+          <section class="details-panel" data-details-panel="profile" aria-labelledby="details-profile-heading">
+            <div class="details-panel-head">
+              <h2 id="details-profile-heading">Your information</h2>
+              <p>Keep your contact information up to date for a smoother checkout.</p>
+            </div>
+            <form class="details-form" data-details-profile novalidate>
+              <div class="details-fields">
+                <div class="join-field join-field--wide">
+                  <label for="details-title">Title</label>
+                  <select id="details-title" name="title">
+                    <option value="">Select</option><option value="mr">Mr</option><option value="mrs">Mrs</option>
+                    <option value="ms">Ms</option><option value="miss">Miss</option><option value="mx">Mx</option>
+                  </select>
+                </div>
+                <div class="join-field"><label for="details-first-name">First name</label><input id="details-first-name" name="first_name" type="text" autocomplete="given-name" maxlength="80"></div>
+                <div class="join-field"><label for="details-last-name">Last name</label><input id="details-last-name" name="last_name" type="text" autocomplete="family-name" maxlength="80"></div>
+                <div class="join-field"><label for="details-email">Email address</label><input id="details-email" name="email" type="email" readonly></div>
+                <div class="join-field"><label for="details-phone">Phone number</label><input id="details-phone" name="phone" type="tel" autocomplete="tel" maxlength="24"></div>
+              </div>
+              <p class="details-hint">Your sign-in email cannot be changed here.</p>
+              <button class="join-submit" type="submit">Save changes</button>
+              <p class="join-note" data-details-profile-note role="status" hidden></p>
+            </form>
+          </section>
+          <section class="details-panel" data-details-panel="orders" aria-labelledby="details-orders-heading" hidden>
+            <div class="details-panel-head"><h2 id="details-orders-heading">My orders</h2><p>View your recent orders and their status.</p></div>
+            <div class="details-orders" data-details-orders aria-live="polite"></div>
+          </section>
+          <!-- The wishlist, in the account rather than beside it.
+               This is the same markup assets/wishlist-page.js drives on
+               /wishlist, and the same stylesheet draws it; only the chrome
+               around it differs, which is what .wl-embedded is for. The
+               standalone page stays for signed-out visitors and for links
+               shared into the site. -->
+          <section class="details-panel details-panel--wishlist" data-details-panel="wishlist" aria-labelledby="details-wishlist-heading" hidden>
+            <div class="details-panel-head">
+              <h2 id="details-wishlist-heading">My wishlist</h2>
+              <p>The pieces you have saved, kept together and yours to arrange.</p>
+            </div>
+            <div class="wl-main wl-embedded" id="wishlist-main">
+              <section class="wl-view wl-layout" data-wl-view="index" hidden>
+                <aside class="wl-aside">
+                  <h2 class="wl-heading">Your wishlists<span class="wl-tally" data-wl-tally></span></h2>
+                  <button class="wl-primary" type="button" data-wl-create></button>
+                  <p class="wl-note" data-wl-note hidden></p>
+                </aside>
+                <div class="wl-body">
+                  <ul class="wl-lists" data-wl-lists></ul>
+                </div>
+              </section>
+
+              <section class="wl-view wl-layout" data-wl-view="detail" hidden>
+                <aside class="wl-aside">
+                  <div class="wl-aside-top" data-wl-detail-top>
+                    <a class="wl-back" href="/wishlist" data-wl-back>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+                      <span data-wl-back-label></span>
+                    </a>
+                    <div class="wl-menu" data-wl-detail-menu data-open="false">
+                      <button class="wl-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" data-wl-detail-menu-trigger></button>
+                      <ul class="wl-menu-list" data-wl-detail-menu-list></ul>
+                    </div>
+                  </div>
+                  <div class="wl-title-slot">
+                    <h2 class="wl-heading" data-wl-detail-name></h2>
+                    <form class="wl-name-form" data-wl-rename-form hidden>
+                      <input type="text" maxlength="80" data-wl-rename-input aria-label="List name">
+                      <div class="wl-name-actions">
+                        <button class="wl-primary" type="submit" data-wl-rename-save></button>
+                        <button class="wl-linkish" type="button" data-wl-rename-cancel></button>
+                      </div>
+                    </form>
+                  </div>
+                  <p class="wl-sub" data-wl-detail-sub hidden></p>
+
+                  <button class="wl-primary" type="button" data-wl-create-from-detail data-wl-detail-create hidden>Create a new wishlist</button>
+
+                  <div class="wl-share" data-wl-share hidden>
+                    <label class="wl-share-row">
+                      <input type="checkbox" data-wl-share-input>
+                      <span data-wl-share-label></span>
+                    </label>
+                    <p class="wl-share-note" data-wl-share-note></p>
+                  </div>
+
+                  <p class="wl-note" data-wl-detail-note hidden></p>
+                </aside>
+                <div class="wl-body">
+                  <ul class="shop-grid wl-grid" data-wl-items></ul>
+                  <div class="wl-empty" data-wl-empty hidden></div>
+                  <p class="wl-foot" data-wl-foot hidden></p>
+                </div>
+              </section>
+            </div>
+          </section>
+          <section class="details-panel" data-details-panel="preferences" aria-labelledby="details-preferences-heading" hidden>
+            <div class="details-panel-head"><h2 id="details-preferences-heading">Preferences</h2><p>Choose how you would like to hear from Marvell and how we may personalise your experience.</p></div>
+            <form class="details-preferences" data-details-preferences novalidate>
+              <label class="join-check"><input type="checkbox" name="marketing_email_opt_in"><span>News and collections</span></label>
+              <label class="join-check"><input type="checkbox" name="personal_recommendations_opt_in"><span>Personal recommendations</span></label>
+              <label class="join-check"><input type="checkbox" name="occasion_reminders_opt_in"><span>Occasion reminders</span></label>
+              <label class="join-check"><input type="checkbox" name="personal_service_opt_in"><span>Personal service</span></label>
+              <button class="join-submit" type="submit">Save preferences</button>
+              <p class="join-note" data-details-preferences-note role="status" hidden></p>
+            </form>
+          </section>
+          <div class="details-actions">
+            <button class="join-quiet" type="button" data-join-open-panel>Open quick panel</button>
+            <button class="join-quiet" type="button" data-join-continue>Continue browsing</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="/assets/account-details.js?v=20260921b"></script>
+<script>
+/**
+ * Create your account.
+ *
+ * One page, one form, then the code that proves the address.
+ *
+ *   REGISTER  title, name, email, and the newsletter box
+ *   VERIFY    the code from that email
+ *   DONE
+ *
+ * There is no step in between and no second form. The earlier version asked
+ * for the address, sent a code, and only then asked who somebody was, which
+ * meant an account half existed for a while and an address that had never
+ * finished was indistinguishable from one that had.
+ *
+ * Nothing here decides who anybody is. The session lives in an httpOnly cookie
+ * this script cannot read, and every step is drawn from what the server
+ * answers. Somebody who arrives signed in with an unfinished profile lands on
+ * the form with their address already proved and locked.
+ */
+(function () {
+  const Shop = window.MarvellShop;
+  const t = Shop ? Shop.t : (en, id) => (document.documentElement.lang === "id" ? id : en);
+
+  const API = {
+    session: "/api/account/session",
+    register: "/api/account/register",
+    verify: "/api/account/verify"
+  };
+
+  const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/;
+  const el = (selector) => document.querySelector(selector);
+
+  // Supabase's OTP length is a project setting, so it is never assumed:
+  // /api/account/register measures a real generated code and reports it.
+  const OTP_MIN = 6;
+  const OTP_MAX = 10;
+  const state = {
+    step: "register",
+    email: "",
+    title: "",
+    user: null,
+    busy: false,
+    codeLength: 0,
+    // Set when somebody is already signed in with an unfinished profile, in
+    // which case the address is settled and must not be retyped.
+    lockedEmail: false
+  };
+  const codeDigits = () => (state.codeLength >= OTP_MIN && state.codeLength <= OTP_MAX ? state.codeLength : 0);
+  const digitPhrase = (n) => `${n === 8 ? "an" : "a"} ${n}-digit`;
+
+  function step(name) {
+    const previous = state.step;
+    state.step = name;
+    const main = el("#join-main");
+    main.classList.toggle("is-account", name === "done");
+    main.classList.toggle("is-verify", name === "verify");
+    document.querySelectorAll("[data-join-step]").forEach((section) => {
+      section.hidden = section.dataset.joinStep !== name;
+    });
+    applyCopy();
+    if (name === "done") {
+      window.MarvellDetails?.render?.(state.user);
+      window.setTimeout(() => window.MarvellAccount?.refresh?.(), 0);
+    }
+    const field = el(`[data-join-step="${name}"] input:not([type="checkbox"]):not([readonly])`);
+    if (name !== "done" && field) window.setTimeout(() => field.focus({ preventScroll: true }), 60);
+    if (name === "verify" && previous !== "verify") {
+      window.requestAnimationFrame(() => {
+        const title = el("[data-join-title]");
+        const top = title.getBoundingClientRect().top + window.scrollY - 110;
+        window.scrollTo({ top: Math.max(0, top), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      });
+    }
+  }
+
+  function note(message, tone) {
+    const node = el(`[data-join-step="${state.step}"] [data-join-note]`);
+    if (!node) return;
+    node.hidden = !message;
+    node.textContent = message || "";
+    if (tone) node.dataset.tone = tone;
+    else delete node.dataset.tone;
+  }
+
+  function applyCopy() {
+    const titles = {
+      register: state.lockedEmail
+        ? t("Complete your account", "Lengkapi akun")
+        : t("Create your account", "Buat akun"),
+      verify: t("Verify your email", "Verifikasi email Anda"),
+      done: t("Account", "Akun")
+    };
+    const ledes = {
+      register: state.lockedEmail
+        ? t("Add your details to finish creating your account.", "Tambahkan detail Anda untuk menyelesaikan pembuatan akun.")
+        : t("Enjoy a more personal experience with Marvell.", "Nikmati pengalaman yang lebih personal bersama Marvell."),
+      verify: codeDigits()
+        ? t(
+            `We sent ${digitPhrase(codeDigits())} code to ${state.email}.`,
+            `Kami mengirim kode ${codeDigits()} digit ke ${state.email}.`
+          )
+        : t(`We sent a code to ${state.email}.`, `Kami mengirim kode ke ${state.email}.`),
+      done: t(
+        "Your details, orders and preferences in one place.",
+        "Detail, pesanan, dan preferensi Anda dalam satu tempat."
+      )
+    };
+
+    el("[data-join-title]").textContent = titles[state.step] || titles.register;
+    const lede = el("[data-join-lede]");
+    lede.textContent = ledes[state.step] || "";
+    lede.hidden = !ledes[state.step];
+
+    syncTitleButtons();
+    el("[data-join-newsletter-label]").textContent = t(
+      "Receive new collections, seasonal releases and selected news from Marvell.",
+      "Terima koleksi baru, rilis musiman, dan kabar pilihan dari Marvell."
+    );
+    el('[data-join-step="register"] .join-submit').textContent = state.lockedEmail
+      ? t("Complete your account", "Lengkapi akun")
+      : t("Create your account", "Buat akun");
+    el('[data-join-step="verify"] .join-submit').textContent = t("Verify", "Verifikasi");
+    el("[data-join-restart]").textContent = t("Use another email", "Gunakan email lain");
+    el("[data-join-open-panel]").textContent = t("Open quick panel", "Buka panel cepat");
+    el("[data-join-continue]").textContent = t("Continue browsing", "Lanjut menjelajah");
+
+    el("[data-join-terms]").innerHTML = state.lockedEmail
+      ? t(
+          'Your email address is verified. By completing your account, you acknowledge that you have read our <a href="privacy-policy.html">Privacy Policy</a>.',
+          'Alamat email Anda telah diverifikasi. Dengan melengkapi akun, Anda menyatakan telah membaca <a href="privacy-policy.html">Kebijakan Privasi</a> kami.'
+        )
+      : t(
+          'By creating your account, you acknowledge that you have read our <a href="privacy-policy.html">Privacy Policy</a>. We will send a verification code to your email address.',
+          'Dengan membuat akun, Anda menyatakan telah membaca <a href="privacy-policy.html">Kebijakan Privasi</a> kami. Kami akan mengirim kode verifikasi ke alamat email Anda.'
+        );
+  }
+
+  async function api(path, options = {}) {
+    const response = await fetch(path, {
+      method: options.method || "GET",
+      credentials: "same-origin",
+      headers: {
+        accept: "application/json",
+        ...(options.body ? { "content-type": "application/json" } : {})
+      },
+      ...(options.body ? { body: JSON.stringify(options.body) } : {})
+    });
+    const data = await response.json().catch(() => null);
+    return { response, data };
+  }
+
+  function lockEmail(email) {
+    state.email = email;
+    state.lockedEmail = true;
+    for (const id of ["#join-email", "#join-email-confirm"]) {
+      const field = el(id);
+      field.value = email;
+      field.readOnly = true;
+    }
+  }
+
+  /** Where somebody lands depends on what they already have. */
+  async function start() {
+    applyCopy();
+    try {
+      const { data } = await api(API.session);
+      if (data?.available === false) {
+        note(
+          t(
+            "Accounts are not available yet. You can still order as a guest.",
+            "Akun belum tersedia. Anda tetap bisa memesan sebagai tamu."
+          )
+        );
+        el('[data-join-step="register"] .join-submit').disabled = true;
+        return;
+      }
+      if (data?.signed_in && data?.user) {
+        state.user = data.user;
+        // A completed account has nothing to do here. An address proved by
+        // Google and never finished does: the form fills in what is known
+        // and the address is settled.
+        if (data.user.profile_complete) {
+          step("done");
+          return;
+        }
+        if (data.user.email) lockEmail(data.user.email);
+        if (data.user.title) { state.title = data.user.title; syncTitleButtons(); }
+        if (data.user.first_name) el("#join-first-name").value = data.user.first_name;
+      }
+    } catch (_error) {
+      // Offline or not deployed. The form still stands on its own.
+    }
+    step("register");
+  }
+
+  // -- the title, as a line that opens -------------------------------------
+
+  function setTitleOpen(open) {
+    const select = el("[data-join-select]");
+    if (!select) return;
+    select.dataset.open = open ? "true" : "false";
+    el("[data-join-select-trigger]")?.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  function syncTitleButtons() {
+    let label = "";
+    document.querySelectorAll("[data-join-title-option]").forEach((button) => {
+      const chosen = button.dataset.joinTitleOption === state.title;
+      button.setAttribute("aria-selected", chosen ? "true" : "false");
+      if (chosen) label = button.textContent;
+    });
+    const value = el("[data-join-select-value]");
+    if (!value) return;
+    value.textContent = label || t("Select", "Pilih");
+    if (label) delete value.dataset.placeholder;
+    else value.dataset.placeholder = "true";
+  }
+
+  el("[data-join-select-trigger]").addEventListener("click", (event) => {
+    event.preventDefault();
+    setTitleOpen(el("[data-join-select-trigger]").getAttribute("aria-expanded") !== "true");
+  });
+
+  document.querySelectorAll("[data-join-title-option]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.title = button.dataset.joinTitleOption;
+      syncTitleButtons();
+      setTitleOpen(false);
+      el("[data-join-select-trigger]").setAttribute("aria-invalid", "false");
+      el("[data-join-select-trigger]").focus();
+      note("");
+    });
+  });
+
+  // Anywhere else closes it, and so does Escape. A list left open over the
+  // fields beneath it is worse than one that needs a second tap.
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest("[data-join-select]")) setTitleOpen(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    if (el("[data-join-select]")?.dataset.open !== "true") return;
+    setTitleOpen(false);
+    el("[data-join-select-trigger]")?.focus();
+  });
+
+  function invalid(field, message) {
+    field?.setAttribute("aria-invalid", "true");
+    field?.focus();
+    note(message, "error");
+    return false;
+  }
+
+  const joinForm = el("[data-join-register]");
+  const selectAll = joinForm.querySelector("[data-preferences-select-all]");
+  const preferenceBoxes = ["newsletter", "personal_recommendations_opt_in", "occasion_reminders_opt_in", "personal_service_opt_in"]
+    .map((name) => joinForm.elements[name]);
+  joinForm.addEventListener("change", (event) => {
+    if (event.target === selectAll) {
+      preferenceBoxes.forEach((box) => { box.checked = selectAll.checked; });
+    }
+    const selected = preferenceBoxes.filter((box) => box.checked).length;
+    selectAll.checked = selected === preferenceBoxes.length;
+    selectAll.indeterminate = selected > 0 && selected < preferenceBoxes.length;
+  });
+
+  joinForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (state.busy) return;
+
+    const first = el("#join-first-name");
+    const last = el("#join-last-name");
+    const email = el("#join-email");
+    const confirm = el("#join-email-confirm");
+    for (const field of [first, last, email, confirm]) field.setAttribute("aria-invalid", "false");
+
+    if (!state.title) {
+      const trigger = el("[data-join-select-trigger]");
+      trigger.setAttribute("aria-invalid", "true");
+      setTitleOpen(true);
+      trigger.focus();
+      return void note(t("Please choose a title.", "Silakan pilih sapaan."), "error");
+    }
+    if (!first.value.trim()) return void invalid(first, t("Please enter your first name.", "Masukkan nama depan Anda."));
+    if (!last.value.trim()) return void invalid(last, t("Please enter your last name.", "Masukkan nama belakang Anda."));
+
+    const address = String(email.value || "").trim().toLowerCase();
+    if (!EMAIL_PATTERN.test(address)) {
+      return void invalid(email, t("Please enter a valid email address.", "Masukkan alamat email yang valid."));
+    }
+    if (String(confirm.value || "").trim().toLowerCase() !== address) {
+      return void invalid(confirm, t("The email addresses do not match.", "Alamat email tidak cocok."));
+    }
+
+    state.busy = true;
+    note(t("Sending…", "Mengirim…"));
+    try {
+      const { response, data } = await api(API.register, {
+        method: "POST",
+        body: {
+          title: state.title,
+          first_name: first.value.trim(),
+          last_name: last.value.trim(),
+          email: address,
+          email_confirm: address,
+          newsletter: el("[data-join-newsletter]").checked,
+          personal_recommendations_opt_in: joinForm.elements.personal_recommendations_opt_in.checked,
+          occasion_reminders_opt_in: joinForm.elements.occasion_reminders_opt_in.checked,
+          personal_service_opt_in: joinForm.elements.personal_service_opt_in.checked,
+          next: "/account"
+        }
+      });
+      if (!response.ok || !data?.ok) {
+        note(data?.message || t("Please try again shortly.", "Silakan coba lagi sebentar."), "error");
+        if (data?.field) el(`[name="${data.field}"]`)?.setAttribute("aria-invalid", "true");
+        return;
+      }
+      if (data.user?.profile_complete) {
+        state.user = data.user;
+        window.dispatchEvent(new CustomEvent("marvell:account-change", { detail: { signed_in: true } }));
+        step("done");
+        return;
+      }
+      state.email = address;
+      if (Number.isInteger(data.code_length)) state.codeLength = data.code_length;
+      const digits = codeDigits();
+      const codeField = el("#join-code");
+      if (codeField && digits) {
+        codeField.maxLength = digits;
+        codeField.minLength = digits;
+      }
+      step("verify");
+    } catch (_error) {
+      note(t("Please try again shortly.", "Silakan coba lagi sebentar."), "error");
+    } finally {
+      state.busy = false;
+    }
+  });
+
+  /**
+   * Digits only, however they arrive.
+   *
+   * Bound to `input`, not `keydown`: keydown cannot see a paste, a drag or an
+   * Android soft keyboard's composition, and filtering keys there is exactly
+   * what breaks pasting the code straight out of the email.
+   */
+  el("#join-code").addEventListener("input", (event) => {
+    const field = event.target;
+    const before = field.value;
+    const cleaned = before.replace(/\D/g, "").slice(0, field.maxLength > 0 ? field.maxLength : OTP_MAX);
+    if (cleaned === before) return;
+    const caret = field.selectionStart ?? cleaned.length;
+    const removedBefore = before.slice(0, caret).replace(/\d/g, "").length;
+    field.value = cleaned;
+    const next = Math.max(0, caret - removedBefore);
+    try { field.setSelectionRange(next, next); } catch (_error) { /* not all types allow it */ }
+  });
+
+  el("[data-join-code]").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (state.busy) return;
+    const field = el("#join-code");
+    const code = String(field.value || "").replace(/\D/g, "");
+    const digits = codeDigits();
+    const wrongLength = digits ? code.length !== digits : code.length < OTP_MIN || code.length > OTP_MAX;
+    if (wrongLength) {
+      return void invalid(
+        field,
+        digits
+          ? t(`Please enter the ${digits} digits from the email.`, `Masukkan ${digits} digit dari email.`)
+          : t("Please enter the code from the email.", "Masukkan kode dari email.")
+      );
+    }
+    field.setAttribute("aria-invalid", "false");
+
+    state.busy = true;
+    note(t("Checking…", "Memeriksa…"));
+    try {
+      const { response, data } = await api(API.verify, {
+        method: "POST",
+        body: { email: state.email, code }
+      });
+      if (!response.ok || !data?.ok || !data?.user) {
+        note(
+          data?.message || t("We couldn't sign you in. Please try again.", "Kami tidak dapat memasukkan Anda. Silakan coba lagi."),
+          "error"
+        );
+        return;
+      }
+      state.user = data.user;
+      window.dispatchEvent(new CustomEvent("marvell:account-change", { detail: { signed_in: true } }));
+      if (data.user.profile_complete) {
+        step("done");
+      } else {
+        lockEmail(data.user.email);
+        step("register");
+        note(t("Please finish your details to complete your account.", "Lengkapi detail Anda untuk menyelesaikan akun."));
+      }
+    } catch (_error) {
+      note(t("We couldn't sign you in. Please try again.", "Kami tidak dapat memasukkan Anda. Silakan coba lagi."), "error");
+    } finally {
+      state.busy = false;
+    }
+  });
+
+  el("[data-join-restart]").addEventListener("click", () => {
+    if (state.lockedEmail) return;
+    state.email = "";
+    state.codeLength = 0;
+    el("#join-code").value = "";
+    step("register");
+  });
+
+  el("[data-join-open-panel]").addEventListener("click", () => {
+    window.MarvellAccount?.refresh?.();
+    window.MarvellAccount?.open?.();
+  });
+  el("[data-join-continue]").addEventListener("click", () => {
+    window.location.href = "/";
+  });
+
+  start();
+})();
+</script>
+
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+<script src="assets/wishlist-page.js?v=20260923b"></script>
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+</body>
+</html>

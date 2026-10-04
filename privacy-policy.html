@@ -27,8 +27,9 @@
   <meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
   <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
   <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
-  <script src="assets/site-language.js?v=20260505a"></script>
-  <script src="assets/header-template.js?v=20260505j"></script>
+  <script src="assets/site-language.js?v=20261004a"></script>
+  <script src="assets/marvell-icons.js?v=20260920e"></script>
+  <script src="assets/header-template.js?v=20260923a"></script>
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
   <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
   <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -36,16 +37,9 @@
   <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/type.css?v=20260920f">
   <style>
-    @font-face {
-      font-family: "Relationship of Melodrame";
-      src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-           url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-    }
     :root {
       --bg: #fff;
       --ink: #2f2923;
@@ -104,7 +98,7 @@
     }
     .header-logo-text {
       display: inline-block;
-      font-family: "Imperial Script", cursive;
+      font-family: "AdelioDisplayCondensed", sans-serif;
       font-size: 32px;
       line-height: 0.9;
       letter-spacing: 0.01em;
@@ -183,7 +177,7 @@
     }
     h1 {
       margin: 0;
-      font-family: "Relationship of Melodrame", serif;
+      font-family: "AdelioDisplayCondensed", sans-serif;
       font-size: clamp(48px, 7vw, 88px);
       line-height: 0.94;
       font-weight: 400;
@@ -311,9 +305,11 @@
     }
     .legal-suite-link,
     .legal-toc-link {
+      position: relative;
+      z-index: 3;
       display: block;
       min-height: 0;
-      padding: 0;
+      padding: 3px 0;
       border: 0;
       background: none;
       color: rgba(42, 33, 24, 0.82);
@@ -323,6 +319,9 @@
       letter-spacing: 0.02em;
       text-transform: none;
       overflow-wrap: anywhere;
+      pointer-events: auto;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(42, 33, 24, 0.12);
     }
     .legal-suite-link.is-active {
       color: rgba(42, 33, 24, 0.98);
@@ -421,7 +420,7 @@
     <div class="header-bar">
       <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Hubungi Kami</a>
       <a class="header-logo" href="index.html#home" aria-label="Go to home page">
-        <span class="header-logo-text">Marvell Florist</span>
+        <span class="header-logo-text">MARVELL FLORIST</span>
       </a>
       <a class="search-toggle" href="index.html?search" aria-label="Open search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
@@ -498,13 +497,25 @@
             <div class="legal-card-body">
               <p>We do not sell personal information.</p>
               <p>Information may be shared only when needed to complete or support your order, such as with delivery support or event coordination at your request.</p>
-              <p>Third-party services such as WhatsApp, Instagram, email providers, Google Analytics, Shopee, or Tokopedia may process information according to their own policies when you use those services.</p>
+              <p>Third-party services such as WhatsApp, Instagram, Brevo (our newsletter and email provider), Google Analytics, Shopee, or Tokopedia may process information according to their own policies when you use those services.</p>
             </div>
           </section>
 
           <section class="legal-card" id="privacy-06">
             <div class="legal-card-head">
               <p class="legal-card-index">06</p>
+              <h2 class="legal-card-title">Newsletter and marketing messages</h2>
+            </div>
+            <div class="legal-card-body">
+              <p>You can subscribe to the Marvell newsletter from the footer of any page. We ask for your email address and nothing else.</p>
+              <p>Subscribing is the permission: the form says so above the button, and we record that you subscribed and the date you did it. A WhatsApp number given to us for an order is contact detail, not consent, and is never added to the newsletter.</p>
+              <p>We use Brevo to hold the newsletter list and send these messages, which means your details are processed by Brevo on our behalf. Newsletters are sent from info@marvellflorist.com, and the list is not used for anything else.</p>
+              <p>You can withdraw at any time: use the unsubscribe link in any newsletter, or email us and we will remove you.</p>
+            </div>
+          </section>
+          <section class="legal-card" id="privacy-07">
+            <div class="legal-card-head">
+              <p class="legal-card-index">07</p>
               <h2 class="legal-card-title">Storage and retention</h2>
             </div>
             <div class="legal-card-body">
@@ -513,9 +524,9 @@
             </div>
           </section>
 
-          <section class="legal-card" id="privacy-07">
+          <section class="legal-card" id="privacy-08">
             <div class="legal-card-head">
-              <p class="legal-card-index">07</p>
+              <p class="legal-card-index">08</p>
               <h2 class="legal-card-title">Your choices</h2>
             </div>
             <div class="legal-card-body">
@@ -523,9 +534,9 @@
             </div>
           </section>
 
-          <section class="legal-card" id="privacy-08">
+          <section class="legal-card" id="privacy-09">
             <div class="legal-card-head">
-              <p class="legal-card-index">08</p>
+              <p class="legal-card-index">09</p>
               <h2 class="legal-card-title">Security</h2>
             </div>
             <div class="legal-card-body">
@@ -533,16 +544,16 @@
             </div>
           </section>
 
-          <section class="legal-card" id="privacy-09">
+          <section class="legal-card" id="privacy-10">
             <div class="legal-card-head">
-              <p class="legal-card-index">09</p>
+              <p class="legal-card-index">10</p>
               <h2 class="legal-card-title">Contact</h2>
             </div>
             <div class="legal-card-body">
               <p>For privacy-related requests, please contact Marvell Florist in Batam, Indonesia.</p>
               <ul>
                 <li>WhatsApp: +62 812 7501 7456</li>
-                <li>Email: floristmarvell@gmail.com</li>
+                <li>Email: hello@marvellflorist.com</li>
               </ul>
             </div>
           </section>
@@ -566,32 +577,40 @@
               <a class="legal-toc-link" href="#privacy-03" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-03', event) : true;">03. What we may collect</a>
               <a class="legal-toc-link" href="#privacy-04" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-04', event) : true;">04. How information is collected</a>
               <a class="legal-toc-link" href="#privacy-05" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-05', event) : true;">05. Sharing information</a>
-              <a class="legal-toc-link" href="#privacy-06" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-06', event) : true;">06. Storage and retention</a>
-              <a class="legal-toc-link" href="#privacy-07" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-07', event) : true;">07. Your choices</a>
-              <a class="legal-toc-link" href="#privacy-08" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-08', event) : true;">08. Security</a>
-              <a class="legal-toc-link" href="#privacy-09" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-09', event) : true;">09. Contact</a>
+              <a class="legal-toc-link" href="#privacy-06" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-06', event) : true;">06. Newsletter and marketing</a>
+              <a class="legal-toc-link" href="#privacy-07" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-07', event) : true;">07. Storage and retention</a>
+              <a class="legal-toc-link" href="#privacy-08" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-08', event) : true;">08. Your choices</a>
+              <a class="legal-toc-link" href="#privacy-09" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-09', event) : true;">09. Security</a>
+              <a class="legal-toc-link" href="#privacy-10" onclick="return window.MarvellLegalNav ? window.MarvellLegalNav.jump('privacy-10', event) : true;">10. Contact</a>
             </nav>
           </section>
         </aside>
       </div>
     </div>
   </main>
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
 <script>
   (function () {
     window.MarvellLegalNav = window.MarvellLegalNav || {
-      go: function (href, event) {
-        if (event) event.preventDefault();
-        window.location.href = href;
-        return false;
+        go: function (href, event) {
+          if (!href) return true;
+          if (event && (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return true;
+          if (event) event.preventDefault();
+          window.location.assign(href);
+          return false;
       },
       jump: function (id, event) {
-        if (event) event.preventDefault();
         var target = document.getElementById(id);
-        if (!(target instanceof HTMLElement)) return false;
+        if (!(target instanceof HTMLElement)) return true;
+        if (event) event.preventDefault();
         var top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
         window.history.replaceState(null, "", "#" + id);
         window.scrollTo({ top: top, behavior: "smooth" });
@@ -632,9 +651,7 @@
           }
         } catch (_error) {}
 
-        event.preventDefault();
-        window.location.href = link.href;
-      }, true);
+        }, true);
     }
 
     if (document.readyState === "loading") {

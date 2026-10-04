@@ -19,8 +19,9 @@
 <meta name="twitter:description" content="A pared-back view of Marvell Florist services, from consultation through timing, handover, and custom floral support.">
 <meta name="twitter:image" content="https://marvellflorist.com/assets/portfolio.webp">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260505a"></script>
-<script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -28,25 +29,10 @@
 <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-@font-face {
-  font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
 :root {
   --cream: #fff;
   --ink: #201915;
@@ -110,7 +96,7 @@ header::after {
   text-decoration: none;
 }
 .header-logo-text {
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: 32px;
   line-height: 0.9;
   letter-spacing: 0.01em;
@@ -185,7 +171,7 @@ main {
 .services-hero-title {
   width: min(720px, 100%);
   margin: 0 auto;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(42px, 4.8vw, 72px);
   line-height: 0.92;
   font-weight: 400;
@@ -239,7 +225,7 @@ main {
   cursor: pointer;
 }
 .services-accordion-title {
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(20px, 1.72vw, 25px);
   line-height: 1.02;
   font-weight: 400;
@@ -347,7 +333,7 @@ main {
   <div class="header-bar">
     <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
     <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
-      <span class="header-logo-text">Marvell Florist</span>
+      <span class="header-logo-text">MARVELL FLORIST</span>
     </a>
     <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
@@ -528,9 +514,14 @@ function syncServiceAccordionFromHash(scroll = false) {
 window.addEventListener("hashchange", () => syncServiceAccordionFromHash(true));
 window.addEventListener("load", () => syncServiceAccordionFromHash(false));
 </script>
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
 </body>
 </html>

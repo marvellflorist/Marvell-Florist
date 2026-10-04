@@ -1,0 +1,68 @@
+/**
+ * Marvell typography.
+ *
+ * AdelioDisplayCondensed   the house display face: wordmark, headings
+ * Inter Tight              navigation, body, controls, prices
+ * Every title uses Adelio Display Condensed Light.
+ *
+ * Paths are root-relative on purpose. Pretty URLs like /product/soft-tones and
+ * /collections/soft-tones sit a directory deep, and a relative font URL would
+ * 404 there while looking fine on the flat pages.
+ */
+
+@font-face {
+  font-family: "AdelioDisplayCondensed";
+  src: url("/assets/AdelioDisplayCondensed-Light-v0.1.woff2") format("woff2");
+  font-style: normal;
+  /* One file covers the range. Declaring it this way stops the browser
+     synthesising a faux bold, which on a condensed light face smears. */
+  font-weight: 300 600;
+  font-display: swap;
+}
+
+:root {
+  --font-display: "AdelioDisplayCondensed", sans-serif;
+  --font-text: "Inter Tight", sans-serif;
+}
+
+:is(h1, h2, h3, h4, h5, h6, [role="heading"]),
+.account-section-title,
+.footer-col-title,
+.favorite-drawer-card-title,
+.gallery-catalog-card-title,
+.legal-card-title,
+.mobile-category-title,
+.portfolio-gateway-card-title,
+.related-card-title,
+.search-product-title,
+.story-card-title,
+.wishlist-card-title,
+.wishlist-info-title,
+.wishlist-message-title,
+.wishlist-reassurance-title {
+  font-family: var(--font-display) !important;
+  font-weight: 300 !important;
+}
+
+/**
+ * The wordmark.
+ *
+ * Adelio Light is beautiful but thin at masthead size, so the wordmark is
+ * weighted optically rather than with a second font file: a hairline stroke in
+ * the same colour thickens the stems without distorting the letterforms the
+ * way a synthesised bold would. If a Medium or Regular Adelio ever arrives,
+ * delete the stroke and set font-weight instead.
+ */
+.header-logo-text,
+#site-footer .footer-brand {
+  font-family: var(--font-display) !important;
+  -webkit-text-stroke: 0.4px currentColor;
+  paint-order: stroke fill;
+}
+
+@media (max-width: 768px) {
+  .header-logo-text,
+  #site-footer .footer-brand {
+    -webkit-text-stroke: 0.3px currentColor;
+  }
+}

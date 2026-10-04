@@ -1,0 +1,33 @@
+[build]
+  publish = "marvell-admin/public"
+
+[dev]
+  framework = "#static"
+  publish = "marvell-admin/public"
+  port = 8890
+  autoLaunch = false
+
+[functions]
+  directory = "marvell-admin/functions"
+  node_bundler = "esbuild"
+  included_files = ["content/**"]
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-store"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"
+    X-Robots-Tag = "noindex, nofollow"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://marvellflorist.com; connect-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"
+
+[[redirects]]
+  from = "/pesanan"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/pesanan/*"
+  to = "/index.html"
+  status = 200

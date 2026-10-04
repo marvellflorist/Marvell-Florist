@@ -27,8 +27,9 @@
 <meta name="twitter:image:src" content="https://marvellflorist.com/assets/preview.png?v=2">
 <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
 <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
-<script src="assets/site-language.js?v=20260505a"></script>
-<script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
 <link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
@@ -36,25 +37,10 @@
 <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-@font-face {
-  font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
 :root {
   --cream: #fff;
   --ink: #2f2923;
@@ -115,7 +101,7 @@ header::before {
 }
 .header-logo-text {
   display: inline-block;
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: 32px;
   line-height: 0.9;
   letter-spacing: 0.01em;
@@ -204,7 +190,7 @@ main {
 }
 .contact-hero h1 {
   margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(48px, 7vw, 88px);
   line-height: 0.94;
   font-weight: 400;
@@ -257,14 +243,19 @@ main {
 }
 .legal-suite-link,
 .legal-toc-link {
+  position: relative;
+  z-index: 3;
   display: block;
-  padding: 0;
+  padding: 3px 0;
   color: rgba(42, 33, 24, 0.82);
   text-decoration: none;
   font-size: 12px;
   line-height: 1.45;
   letter-spacing: 0.02em;
   overflow-wrap: anywhere;
+  pointer-events: auto;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(42, 33, 24, 0.12);
 }
 .legal-suite-link.is-active {
   color: rgba(42, 33, 24, 0.98);
@@ -449,7 +440,7 @@ main {
   <div class="header-bar">
     <button class="header-contact" type="button">Contact Us</button>
     <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
-      <span class="header-logo-text">Marvell Florist</span>
+      <span class="header-logo-text">MARVELL FLORIST</span>
     </a>
     <a class="search-toggle" href="index.html?search" aria-label="Search arrangements">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
@@ -503,6 +494,7 @@ main {
           <div class="contact-section-body">
             <p>Monday to Saturday: 8am to 6pm WIB.</p>
             <p>Use the line that best matches your request so the conversation starts in the right place.</p>
+              <p>Phone / WhatsApp: 0812-7501-7456</p>
             <div class="contact-link-list">
               <a class="contact-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Floral Orders</a>
               <a class="contact-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Custom Requests</a>
@@ -518,8 +510,9 @@ main {
           </div>
           <div class="contact-section-body">
             <p>For documents, event briefs, or requests that are easier to explain in writing, email keeps everything in one place.</p>
+              <p>Email: hello@marvellflorist.com</p>
             <div class="contact-link-list">
-              <a class="contact-link" href="mailto:floristmarvell@gmail.com">Send an Email</a>
+              <a class="contact-link" href="mailto:hello@marvellflorist.com">Send an Email</a>
               <a class="contact-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">View Instagram</a>
               <a class="contact-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">View Facebook</a>
             </div>
@@ -533,6 +526,8 @@ main {
           </div>
           <div class="contact-section-body">
             <p>Choose the location that fits your visit best, whether you are coming for the florist boutique or the supplies shop.</p>
+              <p>Marvell Florist (Florist Boutique): Blok C.11, Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah, Teluk Tering, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia</p>
+              <p>Marvell Florist LTC (Supplies Shop): Ruko Limindo Trade Centre, Blok B No. 06, Taman Baloi, Batam Kota, Kota Batam, Kepulauan Riau 29444, Indonesia</p>
             <div class="contact-link-list">
               <a class="contact-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Florist Boutique</a>
               <a class="contact-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Supplies Shop</a>
@@ -557,22 +552,29 @@ main {
   </section>
 </main>
 
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
 <script>
   (function () {
     window.MarvellLegalNav = window.MarvellLegalNav || {
-      go: function (href, event) {
-        if (event) event.preventDefault();
-        window.location.href = href;
-        return false;
+        go: function (href, event) {
+          if (!href) return true;
+          if (event && (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return true;
+          if (event) event.preventDefault();
+          window.location.assign(href);
+          return false;
       },
       jump: function (id, event) {
-        if (event) event.preventDefault();
         var target = document.getElementById(id);
-        if (!(target instanceof HTMLElement)) return false;
+        if (!(target instanceof HTMLElement)) return true;
+        if (event) event.preventDefault();
         var top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - 96);
         window.history.replaceState(null, "", "#" + id);
         window.scrollTo({ top: top, behavior: "smooth" });

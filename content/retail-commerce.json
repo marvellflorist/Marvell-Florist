@@ -1,0 +1,61 @@
+{
+  "_comment": "Price, stock and the on-sale switch for retail SKUs, owned by the admin.\n\nSupabase stays authoritative wherever it answers for a SKU: it is the only\nsource that can hold stock transactionally, so it is the only source that\ncan stop an oversell. This file does two things beside it.\n\n  available: false   forces a piece sold out, whatever any source says.\n                     It can only ever take a piece off sale, never put\n                     stock back on, so throwing this switch is always safe.\n\n  price and stock    answer for SKUs Supabase has no row for yet, so a\n                     collection can go on sale before its rows exist.\n\nEdited in the CMS under Shop -> Stock & availability.",
+  "products": [
+    {
+      "sku": "MD-01",
+      "name": "Sovereign",
+      "price_idr": 550000,
+      "stock_quantity": 4,
+      "available": true
+    },
+    {
+      "sku": "MD-02",
+      "name": "Aube de Soie",
+      "price_idr": 350000,
+      "stock_quantity": 6,
+      "available": true
+    },
+    {
+      "sku": "MD-03",
+      "name": "Noire Citron",
+      "price_idr": 350000,
+      "stock_quantity": 2,
+      "available": true
+    },
+    {
+      "sku": "MD-04",
+      "name": "Dentelle Classique",
+      "price_idr": 150000,
+      "stock_quantity": 9,
+      "available": true
+    },
+    {
+      "sku": "MD-05",
+      "name": "Aria",
+      "price_idr": 350000,
+      "stock_quantity": 5,
+      "available": true
+    },
+    {
+      "sku": "MD-06",
+      "name": "Cœur",
+      "price_idr": 200000,
+      "stock_quantity": 7,
+      "available": true
+    },
+    {
+      "sku": "MD-07",
+      "name": "The Heirloom",
+      "price_idr": 180000,
+      "stock_quantity": 0,
+      "available": false
+    },
+    {
+      "sku": "MD-08",
+      "name": "Abundance",
+      "price_idr": 240000,
+      "stock_quantity": 3,
+      "available": true
+    }
+  ]
+}

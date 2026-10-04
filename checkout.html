@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Checkout | Marvell Florist</title>
+<meta name="description" content="Complete your Marvell Florist order.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://marvellflorist.com/checkout">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Marvell Florist">
+<meta property="og:url" content="https://marvellflorist.com/checkout">
+<meta property="og:title" content="Checkout | Marvell Florist">
+<meta property="og:description" content="Complete your Marvell Florist order.">
+<meta property="og:image" content="https://marvellflorist.com/assets/uploads/art-greenwhitecrea.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Checkout | Marvell Florist">
+<meta name="twitter:description" content="Complete your Marvell Florist order.">
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32">
+<link rel="icon" href="/assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
+<link rel="icon" href="/assets/darklogo.png?v=1" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/assets/logo.webp?v=4">
+<link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/shop-pages.css?v=20260920f">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Inter Tight", sans-serif;
+  color: #2f2923;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Site header. header-template.js injects the control styling; these rules
+   only position the bar and reserve space for it, matching the other pages. */
+:root { --header-height: 72px; }
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 80;
+  height: var(--header-height);
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+header::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: var(--header-height);
+  background: #fff;
+  z-index: 1;
+}
+header, header::before, header::after {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.header-bar {
+  position: relative;
+  width: 100%;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 2;
+  pointer-events: auto;
+}
+.shop-main { padding-top: var(--header-height); }
+</style>
+</head>
+<body class="shop-page">
+<header>
+  <div class="header-bar">
+    <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    <a class="header-logo" href="index.html" aria-label="Marvell Florist home">
+      <span class="header-logo-text">MARVELL FLORIST</span>
+    </a>
+    <a class="search-toggle" href="gallery.html?entry=home-hero" aria-label="Browse arrangements">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <span class="search-label">Search</span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu-panel">
+      <span class="menu-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg>
+      </span>
+      <span class="menu-label">Menu</span>
+    </button>
+  </div>
+</header>
+
+
+<main class="shop-main shop-narrow" id="checkout-main">
+  <header class="shop-header">
+    <p class="shop-kicker">Checkout</p>
+    <h1 class="shop-title" data-checkout-title>Your Order</h1>
+  </header>
+
+  <div class="shop-loading" data-checkout-loading>Checking availability…</div>
+
+  <div data-checkout-blocked hidden></div>
+
+  <form class="checkout-layout" data-checkout-form hidden novalidate>
+    <div class="field-grid">
+      <div data-checkout-notice hidden></div>
+
+      <section class="field-grid">
+        <h2 class="shop-section-title" data-section-you>Your details</h2>
+        <div class="field">
+          <label class="field-label" for="co-name" data-label-name>Full name</label>
+          <input class="field-input" id="co-name" name="customer_name" type="text"
+            autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="field-grid is-two">
+          <div class="field">
+            <label class="field-label" for="co-phone" data-label-phone>WhatsApp number</label>
+            <input class="field-input" id="co-phone" name="phone" type="tel"
+              autocomplete="tel" inputmode="tel" maxlength="20" placeholder="08..." required>
+          </div>
+          <div class="field">
+            <label class="field-label" for="co-email" data-label-email>Email</label>
+            <input class="field-input" id="co-email" name="email" type="email"
+              autocomplete="email" inputmode="email" maxlength="254" required>
+          </div>
+        </div>
+      </section>
+
+      <section class="field-grid">
+        <h2 class="shop-section-title" data-section-delivery>Pickup or delivery</h2>
+        <div class="choice-row">
+          <label class="choice">
+            <input type="radio" name="delivery_method" value="pickup" checked>
+            <span data-choice-pickup>Pickup in Batam</span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="delivery_method" value="delivery">
+            <span data-choice-delivery>Delivery</span>
+          </label>
+        </div>
+
+        <div class="field" data-delivery-address-field hidden>
+          <label class="field-label" for="co-address" data-label-address>Delivery address</label>
+          <textarea class="field-textarea" id="co-address" name="delivery_address" maxlength="500"></textarea>
+          <label class="field-label" for="co-unit" data-label-unit>Building / unit (optional)</label>
+          <input class="field-input" id="co-unit" name="delivery_unit" maxlength="120">
+          <label class="field-label" for="co-delivery-instructions" data-label-delivery-instructions>Delivery instructions (optional)</label>
+          <textarea class="field-textarea" id="co-delivery-instructions" name="delivery_instructions" maxlength="500"></textarea>
+        </div>
+
+        <div class="field-grid is-two">
+          <!-- When the order is wanted is not a preference. An arrangement is
+               made for a day: without one there is nothing to make it for,
+               and the florist has to go back and ask before starting. -->
+          <div class="field">
+            <label class="field-label" for="co-date">
+              <span data-label-date>Date</span>
+            </label>
+            <input class="field-input" id="co-date" name="delivery_date" type="date" required>
+          </div>
+          <div class="field">
+            <label class="field-label" for="co-window">
+              <span data-label-window>Time</span>
+            </label>
+            <select class="field-select" id="co-window" name="delivery_time_window" required>
+              <option value="" disabled selected data-window-any>Choose a time</option>
+              <option value="morning" data-window-morning>Morning (08:00–13:00)</option>
+              <option value="afternoon" data-window-afternoon>Afternoon (13:00–18:00)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section class="field-grid">
+        <h2 class="shop-section-title" data-section-gift>Gifting</h2>
+        <div class="field">
+          <label class="field-label" for="co-recipient">
+            <span data-label-recipient>Recipient name, if not you</span>
+            <span class="field-optional">(<span data-optional-3>optional</span>)</span>
+          </label>
+          <input class="field-input" id="co-recipient" name="recipient_name" type="text" maxlength="120">
+        </div>
+        <div class="field">
+          <label class="field-label" for="co-recipient-phone" data-label-recipient-phone>Recipient phone (optional)</label>
+          <input class="field-input" id="co-recipient-phone" name="recipient_phone" type="tel" maxlength="30">
+        </div>
+        <div class="field">
+          <label class="field-label" for="co-message">
+            <span data-label-message>Card message</span>
+            <span class="field-optional">(<span data-optional-4>optional</span>)</span>
+          </label>
+          <textarea class="field-textarea" id="co-message" name="card_message" maxlength="500"></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label" for="co-card-sender" data-label-card-sender>From (optional)</label>
+          <input class="field-input" id="co-card-sender" name="card_sender" maxlength="120">
+          <label class="field-label" for="co-card-anonymous"><input id="co-card-anonymous" name="card_anonymous" type="checkbox"> <span data-label-card-anonymous>Keep sender anonymous on the card</span></label>
+        </div>
+        <div class="field">
+          <label class="field-label" for="co-notes">
+            <span data-label-notes>Order notes</span>
+            <span class="field-optional">(<span data-optional-5>optional</span>)</span>
+          </label>
+          <textarea class="field-textarea" id="co-notes" name="order_notes" maxlength="1000"></textarea>
+        </div>
+      </section>
+
+      <section class="field-grid">
+        <h2 class="shop-section-title" data-section-keeping>Keeping in touch</h2>
+        <label class="consent-row">
+          <input type="checkbox" name="email_opt_in">
+          <span data-consent-email>Keep me updated on new Marvell collections by email.</span>
+        </label>
+        <label class="consent-row">
+          <input type="checkbox" name="whatsapp_opt_in">
+          <span data-consent-whatsapp>Send me collection launches and occasional updates on WhatsApp.</span>
+        </label>
+        <p class="shop-lede" style="font-size:12px;line-height:1.65;" data-consent-note></p>
+      </section>
+
+      <div class="nl-hp" aria-hidden="true" style="position:absolute;left:-9999px;">
+        <label for="co-company">Company</label>
+        <input id="co-company" name="company" type="text" tabindex="-1" autocomplete="off">
+      </div>
+    </div>
+
+    <aside class="checkout-aside">
+      <h2 class="shop-section-title" data-summary-title>Your order</h2>
+      <ul class="summary-items" data-summary-items></ul>
+      <div class="summary-line">
+        <span data-summary-subtotal-label>Subtotal</span>
+        <span data-summary-subtotal>—</span>
+      </div>
+      <div class="summary-line">
+        <span data-summary-delivery-label>Delivery</span>
+        <span data-summary-delivery>—</span>
+      </div>
+      <div class="summary-line is-total">
+        <span data-summary-total-label>Total</span>
+        <span data-summary-total>—</span>
+      </div>
+      <button class="shop-btn is-full" type="submit" data-checkout-submit>Pay Now</button>
+      <p class="shop-lede" style="font-size:12px;line-height:1.65;" data-payment-note></p>
+    </aside>
+  </form>
+</main>
+
+<script>
+(function () {
+  const Shop = window.MarvellShop;
+  const Bag = window.MarvellBag;
+  const { escapeHtml, formatIdr, safeImage, t } = Shop;
+
+  const CUSTOM_REQUEST_PHONE = "628116667457";
+
+  const el = (selector) => document.querySelector(selector);
+  const loading = el("[data-checkout-loading]");
+  const form = el("[data-checkout-form]");
+  const blocked = el("[data-checkout-blocked]");
+
+  let cart = null;
+  let payments = { enabled: false };
+  let submitting = false;
+
+  function setText(selector, value) {
+    const node = el(selector);
+    if (node) node.textContent = value;
+  }
+
+  function applyCopy() {
+    setText("[data-checkout-title]", t("Your Order", "Pesanan Anda"));
+    setText("[data-section-you]", t("Your details", "Data Anda"));
+    setText("[data-label-name]", t("Full name", "Nama lengkap"));
+    setText("[data-label-phone]", t("WhatsApp number", "Nomor WhatsApp"));
+    setText("[data-label-email]", t("Email", "Email"));
+    setText("[data-section-delivery]", t("Pickup or delivery", "Ambil sendiri atau diantar"));
+    setText("[data-choice-pickup]", t("Pickup in Batam", "Ambil di Batam"));
+    setText("[data-choice-delivery]", t("Delivery", "Pengantaran"));
+    setText("[data-label-address]", t("Delivery address", "Alamat pengantaran"));
+    setText("[data-label-date]", t("Date", "Tanggal"));
+    setText("[data-label-window]", t("Time", "Waktu"));
+    setText("[data-window-any]", t("Choose a time", "Pilih waktu"));
+    setText("[data-window-morning]", `${t("Morning", "Pagi")} (08:00–13:00)`);
+    setText("[data-window-afternoon]", `${t("Afternoon", "Siang")} (13:00–18:00)`);
+    setText("[data-section-gift]", t("Gifting", "Hadiah"));
+    setText("[data-label-recipient]", t("Recipient name, if not you", "Nama penerima, jika bukan Anda"));
+    setText("[data-label-recipient-phone]", t("Recipient phone (optional)", "Telepon penerima (opsional)"));
+    setText("[data-label-unit]", t("Building / unit (optional)", "Gedung / unit (opsional)"));
+    setText("[data-label-delivery-instructions]", t("Delivery instructions (optional)", "Petunjuk pengiriman (opsional)"));
+    setText("[data-label-card-sender]", t("From (optional)", "Dari (opsional)"));
+    setText("[data-label-card-anonymous]", t("Keep sender anonymous on the card", "Jangan tampilkan nama pengirim di kartu"));
+    setText("[data-label-message]", t("Card message", "Pesan kartu"));
+    setText("[data-label-notes]", t("Order notes", "Catatan pesanan"));
+    setText("[data-section-keeping]", t("Keeping in touch", "Tetap terhubung"));
+    setText("[data-consent-email]", t(
+      "Keep me updated on new Marvell collections by email.",
+      "Kirimi saya kabar koleksi Marvell terbaru lewat email."
+    ));
+    setText("[data-consent-whatsapp]", t(
+      "Send me collection launches and occasional updates on WhatsApp.",
+      "Kirimi saya peluncuran koleksi dan kabar sesekali lewat WhatsApp."
+    ));
+    setText("[data-consent-note]", t(
+      "These are entirely optional and separate from your order. We will always message you about this order itself.",
+      "Keduanya sepenuhnya opsional dan terpisah dari pesanan Anda. Kami tetap menghubungi Anda mengenai pesanan ini."
+    ));
+    setText("[data-summary-title]", t("Your order", "Pesanan Anda"));
+    setText("[data-summary-subtotal-label]", t("Subtotal", "Subtotal"));
+    setText("[data-summary-delivery-label]", t("Delivery", "Pengantaran"));
+    setText("[data-summary-total-label]", t("Total", "Total"));
+    setText("[data-checkout-submit]", t("Pay Now", "Bayar Sekarang"));
+    document.querySelectorAll("[data-optional-3],[data-optional-4],[data-optional-5]")
+      .forEach((node) => { node.textContent = t("optional", "opsional"); });
+  }
+
+  function showBlocked(className, html) {
+    loading.hidden = true;
+    form.hidden = true;
+    blocked.hidden = false;
+    blocked.className = className;
+    blocked.innerHTML = html;
+  }
+
+  function renderSummary() {
+    el("[data-summary-items]").innerHTML = cart.lines.map((line) => {
+      const image = safeImage(line.image);
+      return `
+        <li class="summary-item">
+          <div class="summary-item-media">
+            ${image ? `<img src="${escapeHtml(image)}" alt="" loading="lazy" decoding="async">` : ""}
+          </div>
+          <div>
+            <div>${escapeHtml(line.name)}</div>
+            <div class="summary-item-qty">${escapeHtml(t("Qty", "Jml"))} ${escapeHtml(String(line.quantity))}</div>
+          </div>
+          <div>${escapeHtml(formatIdr(line.line_total_idr))}</div>
+        </li>
+      `;
+    }).join("");
+
+    setText("[data-summary-subtotal]", formatIdr(cart.subtotal_idr));
+    setText("[data-summary-delivery]", cart.delivery_fee_idr > 0
+      ? formatIdr(cart.delivery_fee_idr)
+      : t("Confirmed after checkout", "Dikonfirmasi setelah checkout"));
+    setText("[data-summary-total]", formatIdr(cart.total_idr));
+  }
+
+  function showNotice(message, isError = true, corrections = []) {
+    const notice = el("[data-checkout-notice]");
+    notice.hidden = false;
+    notice.className = `shop-notice${isError ? " is-error" : ""}`;
+    notice.innerHTML = [
+      `<span>${escapeHtml(message)}</span>`,
+      ...corrections.map((correction) => `<span>${escapeHtml(correction.message || "")}</span>`)
+    ].join("");
+    notice.scrollIntoView?.({ behavior: "smooth", block: "center" });
+  }
+
+  function clearFieldErrors() {
+    form.querySelectorAll("[aria-invalid]").forEach((node) => node.setAttribute("aria-invalid", "false"));
+  }
+
+  function markField(name) {
+    const field = form.querySelector(`[name="${name}"]`);
+    if (!field) return;
+    field.setAttribute("aria-invalid", "true");
+    field.focus();
+  }
+
+  function readForm() {
+    const data = new FormData(form);
+    return {
+      customer_name: String(data.get("customer_name") || "").trim(),
+      phone: String(data.get("phone") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      delivery_method: String(data.get("delivery_method") || "pickup"),
+      delivery_address: String(data.get("delivery_address") || "").trim(),
+      delivery_date: String(data.get("delivery_date") || ""),
+      delivery_time_window: String(data.get("delivery_time_window") || ""),
+      recipient_name: String(data.get("recipient_name") || "").trim(),
+      recipient_phone: String(data.get("recipient_phone") || "").trim(),
+      delivery_unit: String(data.get("delivery_unit") || "").trim(),
+      delivery_instructions: String(data.get("delivery_instructions") || "").trim(),
+      card_message: String(data.get("card_message") || "").trim(),
+      card_sender: String(data.get("card_sender") || "").trim(),
+      card_anonymous: data.get("card_anonymous") === "on",
+      order_notes: String(data.get("order_notes") || "").trim(),
+      email_opt_in: data.get("email_opt_in") === "on",
+      whatsapp_opt_in: data.get("whatsapp_opt_in") === "on",
+      company: String(data.get("company") || "")
+    };
+  }
+
+  /** Cheap checks before a round trip. The server repeats every one of them. */
+  function validateLocally(values) {
+    if (!values.customer_name) {
+      markField("customer_name");
+      return t("Please enter your name.", "Masukkan nama Anda.");
+    }
+    if (!values.phone) {
+      markField("phone");
+      return t("Please enter your WhatsApp number.", "Masukkan nomor WhatsApp Anda.");
+    }
+    if (!values.email || !/^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test(values.email)) {
+      markField("email");
+      return t("Please enter a valid email address.", "Masukkan alamat email yang valid.");
+    }
+    if (values.delivery_method === "delivery" && !values.delivery_address) {
+      markField("delivery_address");
+      return t("Please enter the delivery address.", "Masukkan alamat pengantaran.");
+    }
+    // Asked for both ways round: pickup needs a day as much as delivery does,
+    // because the arrangement is made for it either way.
+    if (!values.delivery_date) {
+      markField("delivery_date");
+      return values.delivery_method === "delivery"
+        ? t("Please choose a delivery date.", "Pilih tanggal pengantaran.")
+        : t("Please choose a pickup date.", "Pilih tanggal pengambilan.");
+    }
+    const jakartaParts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", hour12: false
+    }).formatToParts(new Date()).map((part) => [part.type, part.value]));
+    const jakartaToday = `${jakartaParts.year}-${jakartaParts.month}-${jakartaParts.day}`;
+    if (values.delivery_date === jakartaToday && Number.parseInt(jakartaParts.hour || "0", 10) >= 16) {
+      markField("delivery_date");
+      return t(
+        "Same-day orders are unavailable after 16:00 WIB. Please choose tomorrow or a later date.",
+        "Pesanan di hari yang sama tidak tersedia setelah pukul 16.00 WIB. Pilih besok atau tanggal berikutnya."
+      );
+    }
+    if (!["morning", "afternoon"].includes(values.delivery_time_window)) {
+      markField("delivery_time_window");
+      return t("Please choose a time.", "Pilih waktu.");
+    }
+    return "";
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (submitting) return;
+
+    clearFieldErrors();
+    const values = readForm();
+    const localError = validateLocally(values);
+    if (localError) return showNotice(localError);
+    window.MarvellAnalytics?.track?.("begin_checkout", { path: "/checkout" });
+
+    const submit = el("[data-checkout-submit]");
+    submitting = true;
+    submit.disabled = true;
+    submit.textContent = t("Preparing…", "Menyiapkan…");
+
+    try {
+      const result = await Shop.postJson("/api/checkout", {
+        ...values,
+        analytics_session_id: window.MarvellConsent?.sessionId?.() || "",
+        items: Bag.read()
+      });
+
+      if (!result?.ok) {
+        window.MarvellAnalytics?.track?.("checkout_error", { error_code: result?.code || "unknown" });
+        // The bag moved under us: re-price, update storage, make them confirm.
+        if (result?.code === "cart_changed" || result?.code === "empty_cart") {
+          Shop.applyCorrections(result.corrections);
+          await refresh();
+          showNotice(
+            result.message || t("Your bag has changed.", "Tas Anda berubah."),
+            true,
+            result.corrections || []
+          );
+          return;
+        }
+        if (result?.field) markField(result.field);
+        showNotice(result?.message || t(
+          "We could not place your order just now.",
+          "Kami belum bisa memproses pesanan Anda."
+        ));
+        return;
+      }
+
+      // A response without a hosted URL means the request was discarded (the
+      // honeypot path) rather than turned into a payable order.
+      if (!result.payment?.payment_url) {
+        showNotice(t(
+          "We could not start the payment. Nothing has been charged. Please try again, or contact us on WhatsApp.",
+          "Kami tidak dapat memulai pembayaran. Tidak ada yang ditagihkan. Silakan coba lagi, atau hubungi kami lewat WhatsApp."
+        ));
+        submitting = false;
+        submit.disabled = false;
+        submit.textContent = t("Pay Now", "Bayar Sekarang");
+        return;
+      }
+
+      // Nothing is paid yet. iPaymu collects payment on its hosted sandbox page;
+      // our order only becomes paid when the signed webhook arrives.
+      window.MarvellAnalytics?.track?.("payment_started");
+
+      // The reference is public; the random receipt token authorizes this
+      // browser to view the receipt after returning from iPaymu.
+      try {
+        window.sessionStorage.setItem(`marvell-receipt:${result.order_number}`, result.receipt_token);
+      } catch (_error) {
+        // An email receipt or a fresh link request can restore access.
+      }
+      try { window.sessionStorage.removeItem("marvell-cart-gift-message"); } catch (_error) {}
+      window.location.assign(result.payment.payment_url);
+    } catch (_error) {
+      showNotice(t(
+        "We could not reach the payment service. Please check your connection and try again.",
+        "Kami tidak dapat menghubungi layanan pembayaran. Periksa koneksi Anda dan coba lagi."
+      ));
+      submitting = false;
+      submit.disabled = false;
+      submit.textContent = t("Pay Now", "Bayar Sekarang");
+    }
+  }
+
+  async function refresh() {
+    if (!Bag.count()) {
+      showBlocked("shop-empty", `
+        <p>${escapeHtml(t("Your bag is empty.", "Tas Anda masih kosong."))}</p>
+        <a class="shop-btn is-ghost" href="/featured">${escapeHtml(t("Browse collections", "Lihat koleksi"))}</a>
+      `);
+      return false;
+    }
+
+    const method = form.querySelector('[name="delivery_method"]:checked')?.value || "pickup";
+    cart = await Shop.validateBag({ deliveryMethod: method });
+
+    if (cart?.ok && Shop.applyCorrections(cart.corrections)) {
+      const corrections = cart.corrections;
+      cart = await Shop.validateBag({ deliveryMethod: method });
+      if (cart?.ok) {
+        cart.corrections = corrections;
+        showNotice(t("Your bag has changed.", "Tas Anda berubah."), true, corrections);
+      }
+    }
+
+    if (!cart?.ok) {
+      showBlocked("shop-notice is-error", escapeHtml(cart?.message || t(
+        "We could not check your bag just now. Please try again.",
+        "Kami belum bisa memeriksa tas Anda. Silakan coba lagi."
+      )));
+      return false;
+    }
+
+    if (!cart.lines.length) {
+      showBlocked("shop-empty", `
+        <p>${escapeHtml(t(
+          "Nothing in your bag is still available.",
+          "Tidak ada lagi yang tersedia di tas Anda."
+        ))}</p>
+        <a class="shop-btn is-ghost" href="/featured">${escapeHtml(t("Browse collections", "Lihat koleksi"))}</a>
+      `);
+      return false;
+    }
+
+    renderSummary();
+    return true;
+  }
+
+  /**
+   * Fills in what was already settled before anything reached the bag.
+   *
+   * The date, the half of the day and delivery-or-collection are answered on
+   * the product page now, as the condition of putting a piece in the bag at
+   * all. Asking for them again here would be asking somebody to repeat
+   * themselves — so they arrive filled in, and stay editable, because this is
+   * still the last chance to change them.
+   */
+  function applyOrderPlan() {
+    const plan = window.MarvellBag?.readOrderPlan?.();
+    if (!plan) return;
+
+    const date = form.querySelector('[name="delivery_date"]');
+    if (date instanceof HTMLInputElement && plan.date && !date.value) date.value = plan.date;
+
+    const window_ = form.querySelector('[name="delivery_time_window"]');
+    if (window_ instanceof HTMLSelectElement && plan.timeWindow) {
+      const match = [...window_.options].find((option) => option.value === plan.timeWindow);
+      if (match) window_.value = plan.timeWindow;
+    }
+
+    const method = form.querySelector(`[name="delivery_method"][value="${plan.fulfilment}"]`);
+    if (method instanceof HTMLInputElement && !method.checked) {
+      method.checked = true;
+      method.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  }
+
+  function bindDeliveryToggle() {
+    form.querySelectorAll('[name="delivery_method"]').forEach((input) => {
+      input.addEventListener("change", async () => {
+        const isDelivery = form.querySelector('[name="delivery_method"]:checked')?.value === "delivery";
+        const field = el("[data-delivery-address-field]");
+        field.hidden = !isDelivery;
+        form.querySelector('[name="delivery_address"]').required = isDelivery;
+        await refresh();
+      });
+    });
+  }
+
+  (async () => {
+    applyCopy();
+    applyOrderPlan();
+
+    // toISOString() would answer in UTC, which in WIB is yesterday for the
+    // first seven hours of every day — long enough to offer a date the
+    // server would then refuse.
+    const dateField = form.querySelector('[name="delivery_date"]');
+    if (dateField) {
+      const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", hour12: false
+      }).formatToParts(new Date()).map((part) => [part.type, part.value]));
+      const today = `${parts.year}-${parts.month}-${parts.day}`;
+      if (Number.parseInt(parts.hour || "0", 10) >= 16) {
+        const next = new Date(`${today}T12:00:00Z`);
+        next.setUTCDate(next.getUTCDate() + 1);
+        dateField.min = next.toISOString().slice(0, 10);
+      } else {
+        dateField.min = today;
+      }
+    }
+
+    const catalog = await Shop.getCatalog();
+    payments = catalog.payments || { enabled: false };
+
+    const ready = await refresh();
+    loading.hidden = true;
+
+    if (!ready) return;
+
+    // Keys not installed yet: show the honest state rather than a dead button.
+    if (!payments.enabled) {
+      let savedGiftMessage = "";
+      try { savedGiftMessage = window.sessionStorage.getItem("marvell-cart-gift-message") || ""; } catch (_error) {}
+      const waHref = `https://wa.me/${CUSTOM_REQUEST_PHONE}?text=${encodeURIComponent(
+        `Hello, I would like to order: ${cart.lines.map((line) => `${line.name} (${line.sku}) x${line.quantity}`).join(", ")}${savedGiftMessage ? `\nCard message: ${savedGiftMessage}` : ""}`
+      )}`;
+      showBlocked("shop-notice", `
+        <span>${escapeHtml(t(
+          "Online payment is not live yet. Your bag is saved — send it to us on WhatsApp and we will complete the order with you personally.",
+          "Pembayaran online belum aktif. Tas Anda tersimpan — kirimkan kepada kami lewat WhatsApp dan kami akan menyelesaikan pesanan bersama Anda."
+        ))}</span>
+        <a class="shop-btn" style="margin-top:8px;justify-self:start;" href="${escapeHtml(waHref)}"
+          target="_blank" rel="noopener noreferrer">${escapeHtml(t("Send on WhatsApp", "Kirim lewat WhatsApp"))}</a>
+      `);
+      return;
+    }
+
+    form.hidden = false;
+    try {
+      const giftMessage = window.sessionStorage.getItem("marvell-cart-gift-message") || "";
+      const cardMessageField = form.querySelector('[name="card_message"]');
+      if (cardMessageField instanceof HTMLTextAreaElement && !cardMessageField.value) cardMessageField.value = giftMessage;
+    } catch (_error) {}
+    setText("[data-payment-note]", t(
+      "Sandbox payment is handled securely on iPaymu's hosted checkout. Marvell never sees or stores your card details.",
+      "Pembayaran sandbox ditangani dengan aman di halaman iPaymu. Marvell tidak pernah melihat atau menyimpan detail kartu Anda."
+    ));
+
+    bindDeliveryToggle();
+    form.addEventListener("submit", handleSubmit);
+  })();
+})();
+</script>
+
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+</body>
+</html>

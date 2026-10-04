@@ -40,16 +40,12 @@
       .menu-toggle .menu-label {
         display: inline-block;
       }
+      /* The glyph itself comes from assets/marvell-icons.js and is sized by
+         assets/header-template.js. This only has to centre it. */
       .menu-toggle .menu-icon {
         display: inline-flex !important;
-        flex-direction: column !important;
-        gap: 4px !important;
-      }
-      .menu-toggle .menu-icon span {
-        display: block !important;
-        width: 18px !important;
-        height: 2px !important;
-        background: rgba(42, 33, 24, 0.72) !important;
+        align-items: center !important;
+        justify-content: center !important;
       }
       .menu-backdrop {
         position: fixed;
@@ -99,7 +95,7 @@
         background: var(--footer-offwhite, #fff) !important;
         color: #151210 !important;
         transform: translateX(-100%) !important;
-        transition: transform 0.5s ease-in-out, width 0.42s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        transition: transform 0.5s ease-in-out, width 0.52s cubic-bezier(0.22, 1, 0.36, 1) !important;
         z-index: 241 !important;
         box-shadow: none !important;
         display: grid !important;
@@ -132,15 +128,27 @@
         transform: translateX(0) !important;
         box-shadow: 20px 0 36px rgba(10, 12, 18, 0.18) !important;
       }
+      /* The menu wears the same head as the right-hand quick panels: Close on
+         the panel's own edge, the site's controls on the other side, and a
+         hairline under both. It is the same object opening from the other
+         side, so it should not have a different head. */
       .menu-head {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
-        padding: 18px 0 0 18px !important;
+        display: block !important;
+        padding: 0 !important;
         width: var(--menu-panel-single-width) !important;
         min-width: var(--menu-panel-single-width) !important;
         position: relative !important;
         z-index: 3 !important;
+      }
+      .menu-head .mv-panel-utility {
+        padding: 20px 34px 18px 28px !important;
+      }
+      /* Without the shared row — marvell-shop.js not loaded yet — the disc
+         below is still the way out. */
+      .menu-head:not(:has(.mv-panel-utility)) {
+        display: flex !important;
+        align-items: center !important;
+        padding: 18px 0 0 18px !important;
       }
       .menu-close {
         width: 42px;
@@ -169,7 +177,7 @@
       }
       .menu-view {
         position: absolute !important;
-        inset: 30px 68px 46px 68px !important;
+        inset: 30px 42px 46px 42px !important;
         display: grid !important;
         align-content: start !important;
         gap: 14px !important;
@@ -200,7 +208,7 @@
         display: grid !important;
         justify-items: start !important;
         align-content: start !important;
-        padding: 0 68px !important;
+        padding: 0 42px !important;
         width: var(--menu-panel-single-width) !important;
         min-width: 0 !important;
         grid-column: 1 !important;
@@ -216,34 +224,60 @@
         align-content: start;
         gap: 10px;
       }
+      /* The menu is a list of places, and nothing else.
+         It used to end in a rule and a row of tools — Search, Wishlist, Join
+         Marvell, Bag — which are all reachable from the masthead and from the
+         right-hand panels. Repeating them here gave the left panel a second
+         subject, and a divider to separate it from the first.
+
+         Both groups are one column, on one type scale. The primary group was
+         a wrapping flex row, which on a 500px panel folded eight arrangement
+         names into a ragged block that read as a tag cloud rather than a
+         list. */
       .menu-main-primary,
       .menu-main-secondary {
         display: grid;
         justify-items: start;
       }
       .menu-main-primary {
-        gap: 18px;
-      }
-      .menu-main-secondary {
-        margin-top: 52px;
         gap: 16px;
       }
-      .menu-main-secondary [data-menu-quick] {
+      /* One group follows the other with air, not a rule. */
+      .menu-main-secondary {
+        margin-top: 46px;
+        gap: 16px;
+      }
+      /* Anything that opens a list wears the chevron, whichever group it is
+         in — Collections sits in the first group now. */
+      .menu-main-left [data-menu-quick] {
+        position: relative;
         width: 100%;
         justify-content: space-between;
         transition: color 0.42s ease, opacity 0.42s ease;
         will-change: color, opacity;
       }
-      .menu-main-secondary [data-menu-quick]::after {
+      .menu-main-left [data-menu-quick]::after {
         content: "›";
         opacity: 0;
         transition: opacity 0.28s ease, color 0.28s ease;
       }
-      .menu-main-secondary [data-menu-quick].is-quick-active::after,
-      .menu-main-secondary [data-menu-quick]:hover::after,
-      .menu-main-secondary [data-menu-quick]:focus-visible::after {
+      .menu-main-left [data-menu-quick].is-quick-active::after,
+      .menu-main-left [data-menu-quick]:hover::after,
+      .menu-main-left [data-menu-quick]:focus-visible::after {
         opacity: 1;
       }
+      /* The second panel is not a panel that fades in beside the first. It
+         is kept underneath it — column two, translated a full width back to
+         the left, behind the opaque first column — and it slides out to the
+         right as the panel widens to make room for it. Closing runs the same
+         travel backwards, so it goes back under the first panel rather than
+         disappearing where it stands.
+
+         It used to be nudged 42px over nearly a second, which at that
+         distance and duration reads as nothing moving at all: the pane was
+         effectively just revealed by the panel getting wider. The travel is
+         the whole width now, and it is timed to the widening so the two
+         finish together. */
       .menu-main-quickpane {
         position: relative !important;
         min-width: 0 !important;
@@ -252,12 +286,11 @@
         padding: 0 !important;
         background: var(--footer-offwhite, #fff) !important;
         border: 0 !important;
-        border-left: 1px solid rgba(29, 26, 24, 0.08) !important;
         box-shadow: none !important;
         opacity: 0 !important;
-        transform: translateX(-42px) !important;
+        transform: translateX(-100%) !important;
         pointer-events: none !important;
-        transition: opacity 0.56s ease, transform 0.92s cubic-bezier(0.16, 0.84, 0.2, 1) !important;
+        transition: opacity 0.2s ease, transform 0.52s cubic-bezier(0.22, 1, 0.36, 1) !important;
         overflow: hidden !important;
         grid-column: 2 !important;
         z-index: 1 !important;
@@ -265,7 +298,7 @@
       .menu-quick-panel {
         position: absolute !important;
         inset: 0 !important;
-        padding: 0 72px 0 46px !important;
+        padding: 0 42px !important;
         display: grid !important;
         align-content: start !important;
         gap: 22px !important;
@@ -333,11 +366,15 @@
       .menu-panel[data-menu-quick-active="true"] .menu-main-left [data-menu-quick].is-quick-active {
         color: #1d1a18;
       }
+      /* On the way out the pane must still be visible while it travels, so
+         the fade is held back until the slide is most of the way home. */
       .menu-panel[data-menu-quick-closing="true"] .menu-main-quickpane {
-        transition-duration: 0.46s, 0.54s;
+        transition-duration: 0.18s, 0.46s !important;
+        transition-delay: 0.3s, 0s !important;
       }
       .menu-panel[data-menu-quick-closing="true"] .menu-quick-panel {
-        transition-duration: 0.28s, 0.38s;
+        transition-duration: 0.18s, 0.4s !important;
+        transition-delay: 0.26s, 0s !important;
       }
       .menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"],
       .menu-panel[data-menu-current="featured"] .menu-view[data-menu-view="featured"],
@@ -377,12 +414,12 @@
         text-align: left;
         transition: color 0.48s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s cubic-bezier(0.22, 1, 0.36, 1);
       }
+      /* The second group is the same size and weight as the first. It used to
+         be 18px at a different letter-spacing and line-height, which made the
+         menu carry three type sizes for one list of links. It is set apart by
+         the air above it, not by being smaller. */
       .menu-link-secondary,
       .menu-link-button.menu-link-secondary {
-        font-size: 18px;
-        font-weight: 500;
-        letter-spacing: 0.03em;
-        line-height: 1.42;
         color: #1d1a18;
         transition: color 0.42s ease, opacity 0.42s ease;
       }
@@ -394,8 +431,8 @@
         transform: none;
         transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1), transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
       }
-      .menu-main-primary .menu-link::after,
-      .menu-main-primary .menu-link-button::after {
+      .menu-main-primary .menu-link:not([data-menu-quick])::after,
+      .menu-main-primary .menu-link-button:not([data-menu-quick])::after {
         content: none;
       }
       .menu-main-primary .menu-link .nav-label::after,
@@ -449,13 +486,11 @@
         letter-spacing: 0.08em;
         color: rgba(21, 18, 16, 0.65);
       }
+      /* The sub-views are the same links, so they are the same type. */
       .menu-view[data-menu-view="about"] .menu-link,
       .menu-view[data-menu-view="services"] .menu-link,
       .menu-view[data-menu-view="visit"] .menu-link {
-        font-size: 18px;
-        font-weight: 400;
-        letter-spacing: 0.02em;
-        line-height: 1.42;
+        font-weight: 500;
       }
       .menu-view[data-menu-view="about"] .menu-link::after,
       .menu-view[data-menu-view="services"] .menu-link::after,
@@ -482,41 +517,76 @@
         overflow-y: auto;
         overscroll-behavior: contain;
       }
-      .menu-view[data-menu-view="contact"] .contact-quick-body {
-        padding: 8px 0 0;
+      /* Contact Us is a place, so it is titled like one. The view used to open
+         straight into four stacked blocks of detail with nothing saying where
+         you were — the only panel in the family without a heading. This is the
+         same head as "Welcome to Marvell": the display face, light, at the
+         panel's own measure. */
+      .menu-contact-head {
+        padding: 6px 0 4px;
       }
+      .menu-contact-title {
+        margin: 0;
+        font-family: "AdelioDisplayCondensed", "Inter Tight", sans-serif;
+        font-size: clamp(25px, 2.5vw, 33px);
+        font-weight: 300;
+        line-height: 1.12;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #1d1a18;
+      }
+      .menu-contact-lead {
+        margin: 14px 0 0;
+        font-family: "Inter Tight", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.62;
+        color: rgba(29, 26, 24, 0.58);
+      }
+      .menu-view[data-menu-view="contact"] .contact-quick-body {
+        padding: 30px 0 0;
+        gap: 34px;
+      }
+      /* Loosened. These blocks were set at a 1px rhythm with a negative margin
+         pulling the opening hours back into the number above them, which read
+         as a dense directory rather than as somewhere to be. The labels are
+         the quietest thing here, not the loudest: they were tracked out at
+         0.14em over a heavier colour and competed with the numbers they
+         introduce. */
       .contact-quick-body {
         padding: 8px 30px 30px;
         display: grid;
-        gap: 22px;
+        gap: 34px;
       }
       .contact-quick-block {
         display: grid;
-        gap: 8px;
+        gap: 12px;
       }
       .contact-quick-label {
         margin: 0;
         font-family: "Inter Tight", sans-serif;
-        font-size: 12px;
+        font-size: 11px;
+        font-weight: 400;
         line-height: 1.08;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: rgba(21, 18, 16, 0.65);
+        color: rgba(21, 18, 16, 0.5);
       }
       .contact-quick-link {
         font-family: "Inter Tight", sans-serif;
         color: #1d1a18;
         text-decoration: none;
-        font-size: 15px;
-        line-height: 1.24;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.34;
         width: fit-content;
         position: relative;
       }
       .contact-quick-block .contact-quick-link + .contact-quick-link {
-        margin-top: 1px;
+        margin-top: 4px;
       }
       .contact-quick-block .contact-quick-text + .contact-quick-text {
-        margin-top: -4px;
+        margin-top: 0;
       }
       .contact-quick-link:hover,
       .contact-quick-link:focus-visible {
@@ -545,11 +615,15 @@
         margin: 0;
         font-family: "Inter Tight", sans-serif;
         font-size: 13px;
-        line-height: 1.4;
-        color: rgba(21, 18, 16, 0.82);
+        font-weight: 400;
+        line-height: 1.6;
+        color: rgba(21, 18, 16, 0.72);
       }
       .contact-quick-text.is-muted {
-        color: rgba(21, 18, 16, 0.55);
+        color: rgba(21, 18, 16, 0.5);
+      }
+      .contact-quick-block .contact-quick-link + .contact-quick-text {
+        margin-top: 6px;
       }
       @media (max-width: 768px) {
         .menu-panel {
@@ -593,49 +667,12 @@
         .header-bar {
           height: 72px !important;
         }
-        .mobile-header-actions {
-          position: absolute !important;
-          right: 0 !important;
-          top: 50% !important;
-          transform: translateY(-50%) !important;
-          display: inline-flex !important;
-          align-items: center !important;
-          gap: 16px !important;
-          z-index: 4 !important;
-        }
-        .header-logo-text {
-          font-size: 23px !important;
-        }
-        .header-logo {
-          order: 1 !important;
-          max-width: calc(100% - 172px) !important;
-          overflow: hidden !important;
-          flex: 1 1 auto !important;
-        }
-        .language-switcher {
-          order: 2 !important;
-          margin-left: 0 !important;
-          gap: 2px !important;
-        }
-        .header-contact,
-        .contact-quick-trigger {
-          display: none !important;
-        }
-        .search-toggle {
-          display: inline-flex !important;
-          order: 4 !important;
-          gap: 0 !important;
-          margin-left: 0 !important;
-          flex: 0 0 auto !important;
-          min-width: 20px !important;
-          position: static !important;
-          right: auto !important;
-          top: auto !important;
-          transform: none !important;
-        }
-        .search-toggle .search-label {
-          display: none !important;
-        }
+        /* The masthead is assets/header-template.js's, including on a phone.
+           This file used to restate it here — hiding contact, pushing search
+           and the menu over to the right, and absolutely positioning the icon
+           cluster — which fought the header's own layout and won only because
+           this stylesheet is injected later. All that is left is the toggle
+           that opens this panel. */
         .menu-toggle {
           position: static !important;
           left: auto !important;
@@ -644,10 +681,6 @@
           transform: none !important;
           gap: 0 !important;
           padding: 0 !important;
-          order: 5 !important;
-          margin-left: 0 !important;
-          flex: 0 0 auto !important;
-          min-width: 20px !important;
         }
         .menu-toggle .menu-label {
           display: none !important;
@@ -722,10 +755,8 @@
         .menu-link-secondary,
         .menu-link-button.menu-link-secondary {
           width: 100%;
-          font-size: 17px;
         }
-        .menu-link::after,
-        .menu-link-button::after {
+        [data-menu-quick]::after {
           content: "›" !important;
           position: static !important;
           justify-self: center !important;
@@ -830,24 +861,27 @@
           font-weight: 500 !important;
           text-transform: uppercase !important;
         }
-        .menu-view[data-menu-view="contact"] .contact-quick-body {
+        .menu-contact-head {
           padding: 10px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter);
-          gap: 24px;
+        }
+        .menu-view[data-menu-view="contact"] .contact-quick-body {
+          padding: 26px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter);
+          gap: 32px;
         }
         .contact-quick-block {
-          gap: 11px;
+          gap: 12px;
         }
         .contact-quick-label {
-          font-size: 12px;
-          letter-spacing: 0.14em;
+          font-size: 11px;
+          letter-spacing: 0.1em;
         }
         .contact-quick-link {
-          font-size: 21px;
-          line-height: 1.22;
+          font-size: 19px;
+          line-height: 1.3;
         }
         .contact-quick-text {
-          font-size: 15px;
-          line-height: 1.48;
+          font-size: 14px;
+          line-height: 1.6;
         }
         .menu-link-contact {
           display: grid !important;
@@ -896,6 +930,20 @@
           right: 0 !important;
           inset: 62px 0 28px 0 !important;
           gap: 24px !important;
+          /* The second panel's travel. On a phone a view IS the second panel:
+             there is no room beside the list, so going into Services moves the
+             whole screen, and it moves the way the desktop pane moves. The
+             fade is off — setMenuView holds every view opaque on a phone — so
+             only transform is listed and .menu-body clips the one leaving. */
+          transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1) !important;
+          will-change: transform;
+          /* Every view scrolls on a phone, not just Menu and Contact Us. A
+             list longer than the screen — the editions under Collections on a
+             short phone, Contact Us with four blocks — was simply cut off at
+             the bottom with no way to reach the rest. */
+          overflow-y: auto !important;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
         }
         body[data-menu-mobile-standardized="index"] .menu-panel .menu-view[data-menu-view="main"] {
           align-content: start !important;
@@ -967,8 +1015,7 @@
           width: 100% !important;
           font-size: 17px !important;
         }
-        body[data-menu-mobile-standardized="index"] .menu-panel .menu-link::after,
-        body[data-menu-mobile-standardized="index"] .menu-panel .menu-link-button::after {
+        body[data-menu-mobile-standardized="index"] .menu-panel [data-menu-quick]::after {
           content: "›" !important;
           position: static !important;
           justify-self: center !important;
@@ -1028,10 +1075,233 @@
         body[data-menu-mobile-standardized="index"] .menu-panel .menu-view[data-menu-view="contact"] {
           gap: 18px !important;
         }
-        body[data-menu-mobile-standardized="index"] .menu-panel .menu-view[data-menu-view="contact"] .contact-quick-body {
+        body[data-menu-mobile-standardized="index"] .menu-panel .menu-contact-head {
           padding: 10px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter) !important;
-          gap: 24px !important;
         }
+        body[data-menu-mobile-standardized="index"] .menu-panel .menu-view[data-menu-view="contact"] .contact-quick-body {
+          padding: 26px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter) !important;
+          gap: 32px !important;
+        }
+      }
+      /* Use the same quiet header and display typography as Welcome to Marvell.
+         The category pane still grows out of the menu, with visual routes
+         alongside the existing text links. */
+      .menu-panel .menu-head {
+        display: flex !important;
+        align-items: center !important;
+        min-height: 64px !important;
+        box-sizing: border-box !important;
+        border-bottom: 1px solid rgba(29, 26, 24, .1) !important;
+      }
+      .menu-panel .menu-close {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: auto !important;
+        height: auto !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: rgba(21, 18, 16, .78) !important;
+        font: 500 12px/1.2 "Inter Tight", sans-serif !important;
+        letter-spacing: .08em !important;
+        text-transform: uppercase !important;
+      }
+      .menu-panel .menu-close:hover,
+      .menu-panel .menu-close:focus-visible { background: transparent !important; opacity: .6; }
+      body[data-shared-menu-applied="1"] .menu-panel .menu-close,
+      body[data-menu-mobile-standardized="index"] .menu-panel .menu-close { width: auto !important; height: auto !important; font-size: 12px !important; }
+      .menu-panel .menu-close svg {
+        width: 15px;
+        height: 15px;
+        stroke: currentColor;
+        stroke-width: 1.25;
+        fill: none;
+        stroke-linecap: round;
+      }
+      .menu-panel .menu-view[data-menu-view="main"] { overflow-y: auto !important; overscroll-behavior: contain; }
+      .menu-panel .menu-intro { padding: 12px 0 26px; width: 100%; }
+      .menu-panel .menu-intro h2 {
+        margin: 0;
+        color: #1d1a18;
+        font: 300 clamp(25px, 2.5vw, 33px)/1.12 "AdelioDisplayCondensed", sans-serif;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+      }
+      .menu-panel .menu-intro p {
+        margin: 12px 0 0;
+        color: rgba(29, 26, 24, .58);
+        font: 400 14px/1.62 "Inter Tight", sans-serif;
+      }
+      .menu-panel .menu-main-primary,
+      .menu-panel .menu-main-secondary { justify-items: stretch !important; width: 100% !important; gap: 0 !important; }
+      .menu-panel .menu-main-secondary { margin-top: 24px !important; padding-top: 20px; border-top: 1px solid rgba(29, 26, 24, .1); }
+      .menu-panel .menu-main-left .menu-link,
+      .menu-panel .menu-main-left .menu-link-button {
+        display: flex !important;
+        width: 100% !important;
+        min-height: 44px;
+        justify-content: space-between !important;
+        color: rgba(29, 26, 24, .82) !important;
+        font: 400 16px/1.4 "Inter Tight", sans-serif !important;
+      }
+      .menu-panel .menu-main-left [data-menu-quick]::after {
+        content: "›" !important;
+        display: block !important;
+        opacity: .48 !important;
+        margin-left: 12px !important;
+        font-size: 23px;
+        font-weight: 300;
+        transition: transform .3s ease, opacity .3s ease !important;
+      }
+      .menu-panel .menu-main-left [data-menu-quick]:hover::after,
+      .menu-panel .menu-main-left [data-menu-quick]:focus-visible::after { transform: translateX(3px) !important; opacity: 1 !important; }
+      .menu-panel .menu-main-left .menu-link:hover,
+      .menu-panel .menu-main-left .menu-link:focus-visible,
+      .menu-panel .menu-main-left .menu-link-button:hover,
+      .menu-panel .menu-main-left .menu-link-button:focus-visible { color: #1d1a18 !important; }
+      .menu-panel .menu-quick-panel { overflow-y: auto !important; overscroll-behavior: contain; }
+      .menu-panel .menu-quick-panel[data-quick-panel="collections"] { gap: 14px !important; }
+      @media (max-width: 768px) {
+        .menu-panel .menu-head { justify-content: flex-start !important; }
+        .menu-panel .menu-intro { padding: 4px 16px 22px !important; box-sizing: border-box; }
+        .menu-panel .menu-main-secondary { margin-top: 16px !important; padding-top: 14px; }
+        .menu-panel .menu-main-left .menu-link,
+        .menu-panel .menu-main-left .menu-link-button { padding-top: 9px !important; padding-bottom: 9px !important; min-height: 48px; font-size: 16px !important; }
+        .menu-panel .menu-main-left [data-menu-quick]::after { grid-column: 2; justify-self: center; }
+      }
+      /* Chevrons mean that a second menu pane opens. Every destination link
+         uses an underline instead, on both sides of the menu. */
+      .menu-panel .menu-link:not([data-menu-quick])::after,
+      .menu-panel .menu-link-button:not([data-menu-quick])::after,
+      .menu-panel .menu-quick-link::after {
+        content: none !important;
+        display: none !important;
+      }
+      /* Drawn, not faded. A text-decoration can only change colour, so what
+         was here was the whole rule appearing at once and darkening. The
+         line is a bar on ::before now and travels out from the left edge of
+         the word, which is how a line gets made. ::before, because the
+         chevron on the panes' triggers already owns ::after. */
+      .menu-panel .menu-link:not([data-menu-quick]):not(.menu-back),
+      .menu-panel .menu-link-button:not([data-menu-quick]):not(.menu-back),
+      .menu-panel .menu-quick-link {
+        position: relative !important;
+        text-decoration-line: none !important;
+        text-decoration-color: transparent !important;
+        transition: color .3s ease !important;
+      }
+      .menu-panel .menu-link:not([data-menu-quick]):not(.menu-back)::before,
+      .menu-panel .menu-link-button:not([data-menu-quick]):not(.menu-back)::before,
+      .menu-panel .menu-quick-link::before {
+        content: "" !important;
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        /* Measured down from the box's centre rather than up from its
+           bottom, so one value sits just under the baseline across the
+           three line-heights the menu uses. */
+        top: 50% !important;
+        bottom: auto !important;
+        margin-top: .44em !important;
+        height: 1px !important;
+        background: currentColor !important;
+        transform: scaleX(0) !important;
+        transform-origin: right center !important;
+        transition: transform .6s cubic-bezier(.22, 1, .36, 1) !important;
+        pointer-events: none !important;
+      }
+      .menu-panel .menu-link:not([data-menu-quick]):not(.menu-back):hover::before,
+      .menu-panel .menu-link:not([data-menu-quick]):not(.menu-back):focus-visible::before,
+      .menu-panel .menu-link-button:not([data-menu-quick]):not(.menu-back):hover::before,
+      .menu-panel .menu-link-button:not([data-menu-quick]):not(.menu-back):focus-visible::before,
+      .menu-panel .menu-quick-link:hover::before,
+      .menu-panel .menu-quick-link:focus-visible::before {
+        transform: scaleX(1) !important;
+        transform-origin: left center !important;
+      }
+      /* The older bar on .nav-label did the same job for the first group
+         only, and would now draw a second line under the first. */
+      .menu-panel .menu-main-primary .menu-link .nav-label::after,
+      .menu-panel .menu-main-primary .menu-link-button .nav-label::after {
+        content: none !important;
+      }
+
+      /* The bar is as wide as its element, so the element has to be as wide
+         as its text.
+
+         Every row in this column is stretched to the full panel width
+         further up this sheet, so that the ones which open a second pane can
+         push their chevron to the right-hand edge. The underlined links have
+         no chevron — the same sheet sets content:none on theirs — so for
+         them the stretch buys nothing and cost a rule five hundred pixels
+         long under a two-word label. */
+      @media (min-width: 769px) {
+        .menu-panel .menu-main-left .menu-link:not([data-menu-quick]):not(.menu-back),
+        .menu-panel .menu-main-left .menu-link-button:not([data-menu-quick]):not(.menu-back) {
+          width: fit-content !important;
+          justify-content: flex-start !important;
+        }
+      }
+
+      /* A word with a chevron after it is still a word, and still gets its
+         underline — under the word only.
+
+         These rows cannot use the trick the rest of the menu uses. They are
+         width:100% with space-between on purpose, so the chevron sits at the
+         far edge of the panel rather than trailing the label, and shrinking
+         the box to the text would move it. So the box stays wide and the
+         rule is given the width of the text instead, measured from the text
+         itself and published as a custom property.
+
+         Measured rather than wrapped in a span, because site-language.js
+         translates these labels by assigning textContent, which would throw
+         any wrapper away on the next pass. A custom property survives that;
+         the text node does not have to. */
+      .menu-panel .menu-main-left [data-menu-quick]::before {
+        content: "" !important;
+        position: absolute !important;
+        left: 0 !important;
+        right: auto !important;
+        width: var(--mv-underline-w, 0px) !important;
+        top: 50% !important;
+        bottom: auto !important;
+        margin-top: .44em !important;
+        height: 1px !important;
+        background: currentColor !important;
+        transform: scaleX(0) !important;
+        transform-origin: right center !important;
+        transition: transform .6s cubic-bezier(.22, 1, .36, 1) !important;
+        pointer-events: none !important;
+      }
+      .menu-panel .menu-main-left [data-menu-quick]:hover::before,
+      .menu-panel .menu-main-left [data-menu-quick]:focus-visible::before,
+      .menu-panel .menu-main-left [data-menu-quick].is-quick-active::before {
+        transform: scaleX(1) !important;
+        transform-origin: left center !important;
+      }
+
+      /* Below that the rows are a touch target laid out on a grid, where
+         shrinking to the text would break the layout — and there is no
+         pointer to draw a hover for anyway. */
+      @media (max-width: 768px) {
+        .menu-panel .menu-link::before,
+        .menu-panel .menu-link-button::before,
+        .menu-panel .menu-main-left [data-menu-quick]::before,
+        .menu-panel .menu-quick-link::before {
+          content: none !important;
+        }
+      }
+      .menu-panel .menu-quick-panel,
+      .menu-panel .menu-quick-panel[data-quick-panel="collections"] { gap: 0 !important; }
+      .menu-panel .menu-quick-link {
+        display: flex !important;
+        align-items: center !important;
+        width: fit-content;
+        min-height: 44px;
+        font: 400 16px/1.4 "Inter Tight", sans-serif !important;
+        color: rgba(29, 26, 24, .82) !important;
       }
     `;
     document.head.appendChild(style);
@@ -1039,14 +1309,18 @@
 
   const panelMarkup = `
     <div class="menu-head">
-      <button class="menu-close" id="menu-close" type="button" aria-label="Close menu">&#10005;</button>
+      <button class="menu-close" id="menu-close" type="button" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 18 18M18 6 6 18"/></svg><span>Close</span></button>
     </div>
     <div class="menu-body">
       <div class="menu-view" data-menu-view="main">
         <div class="menu-main-layout">
           <div class="menu-main-left">
+            <div class="menu-intro"><h2>Menu</h2><p>Discover Marvell</p></div>
             <div class="menu-main-primary">
-              <button class="menu-link menu-link-button" type="button" data-menu-open="featured" data-seasonal-featured-link>Collections</button>
+              <!-- Collections is Featured. They were two links to one idea —
+                   the seasonal editions — so the menu names it once, at the
+                   top, and every edition hangs off it. -->
+              <button class="menu-link menu-link-button" type="button" data-menu-open="featured" data-menu-quick="collections" data-seasonal-featured-link>Collections</button>
               <a class="menu-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
               <a class="menu-link" href="gallery.html?category=artificial-flowers">Table Arrangements</a>
               <a class="menu-link" href="gallery.html?category=bouquets">Bouquets</a>
@@ -1059,11 +1333,12 @@
               <button class="menu-link menu-link-button menu-link-secondary" type="button" data-menu-open="about" data-menu-quick="about" data-about-entry="true">About</button>
               <a class="menu-link menu-link-secondary" href="journals.html">The Journals</a>
               <button class="menu-link menu-link-button menu-link-secondary" type="button" data-menu-open="visit" data-menu-quick="visit" data-visit-entry="true">Visit Us</button>
-              <button class="menu-link menu-link-button menu-link-secondary menu-link-contact" type="button" data-menu-open="contact" data-menu-mobile-href="contact.html">Contact Us</button>
+              <button class="menu-link menu-link-button menu-link-secondary menu-link-contact" type="button" data-menu-open="contact">Contact Us</button>
             </div>
           </div>
           <div class="menu-main-quickpane" data-menu-quickpane data-quick-current="">
-            <div class="menu-quick-panel" data-quick-panel="collections"></div>
+            <div class="menu-quick-panel" data-quick-panel="collections">
+            </div>
             <div class="menu-quick-panel" data-quick-panel="services">
               <a class="menu-quick-link" data-service-link="all" href="services.html">View All Services</a>
               <a class="menu-quick-link" data-service-link="consultation" href="services.html#consultation">Consultation</a>
@@ -1089,6 +1364,7 @@
         <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
         <div data-featured-menu-list></div>
       </div>
+
       <div class="menu-view" data-menu-view="about">
         <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
         <a class="menu-link" data-about-link="overview" href="about.html">View About</a>
@@ -1112,27 +1388,29 @@
       </div>
       <div class="menu-view" data-menu-view="contact">
         <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
+        <div class="menu-contact-head">
+          <h2 class="menu-contact-title">Contact Us</h2>
+          <p class="menu-contact-lead">We are here to help you.</p>
+        </div>
         <div class="contact-quick-body">
           <div class="contact-quick-block">
-            <p class="contact-quick-label">Hubungi Kami</p>
+            <p class="contact-quick-label">WhatsApp Enquiries</p>
             <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Rangkaian Bunga</a>
             <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Pesanan Kustom</a>
             <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
-            <p class="contact-quick-text is-muted">Tersedia Senin – Sabtu</p>
-            <p class="contact-quick-text is-muted">8:00 – 18:00 (WIB)</p>
           </div>
           <div class="contact-quick-block">
-            <p class="contact-quick-label">Lokasi Kami</p>
+            <p class="contact-quick-label">Our Locations</p>
             <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Rangkaian</a>
             <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
           </div>
           <div class="contact-quick-block">
-            <p class="contact-quick-label">Tetap Terhubung</p>
+            <p class="contact-quick-label">Social Channels</p>
             <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
           </div>
           <div class="contact-quick-block">
-            <p class="contact-quick-label">Belanja Online</p>
+            <p class="contact-quick-label">Online Stores</p>
             <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
             <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
           </div>
@@ -1193,7 +1471,7 @@
 
       // Fix hard refresh left panel
       if (panel instanceof HTMLElement) {
-        panel.style.transform = window.matchMedia("(min-width: 900px)").matches ? "translateX(-100%)" : "translateY(100%)";
+        panel.style.transform = window.matchMedia("(min-width: 769px)").matches ? "translateX(-100%)" : "translateY(100%)";
       }
 
   if (!(panel instanceof HTMLElement) || !(backdrop instanceof HTMLElement) || !(menuToggle instanceof HTMLElement)) return;
@@ -1208,10 +1486,12 @@
   const menuMainLeft = panel.querySelector(".menu-main-left");
   document.body.setAttribute("data-menu-mobile-standardized", "index");
 
-  const isDesktopQuickPane = () => window.matchMedia("(min-width: 900px)").matches;
+  const isDesktopQuickPane = () => window.matchMedia("(min-width: 769px)").matches;
   const getPanelClosedTransform = () => (isDesktopQuickPane() ? "translateX(-100%)" : "translateY(100%)");
   const getPanelOpenTransform = () => (isDesktopQuickPane() ? "translateX(0)" : "translateY(0)");
-  const getQuickPaneHiddenTransform = () => (isDesktopQuickPane() ? "translateX(-42px)" : "translateX(42px)");
+  // Desktop: a full width back, which puts it under the first column.
+  // Mobile has no second column to hide under, so it keeps its short offset.
+  const getQuickPaneHiddenTransform = () => (isDesktopQuickPane() ? "translateX(-100%)" : "translateX(42px)");
   const getQuickPanelHiddenTransform = () => (isDesktopQuickPane() ? "translateX(-22px)" : "translateX(22px)");
   const applyPanelSide = () => {
     const isDesktop = isDesktopQuickPane();
@@ -1223,13 +1503,13 @@
     panel.style.setProperty("border-top", isDesktop ? "0" : "1px solid rgba(29, 26, 24, 0.08)", "important");
     panel.style.setProperty("border-right", isDesktop ? "1px solid rgba(29, 26, 24, 0.08)" : "0", "important");
     if (menuHead instanceof HTMLElement) {
-      menuHead.style.setProperty("justify-content", isDesktop ? "flex-start" : "flex-end", "important");
-      menuHead.style.setProperty("padding", isDesktop ? "18px 0 0 18px" : "14px 16px 0 0", "important");
+      menuHead.style.setProperty("justify-content", "flex-start", "important");
+      menuHead.style.setProperty("padding", isDesktop ? "20px 42px" : "16px", "important");
       menuHead.style.setProperty("width", isDesktop ? "var(--menu-panel-single-width)" : "100vw", "important");
       menuHead.style.setProperty("min-width", isDesktop ? "var(--menu-panel-single-width)" : "100vw", "important");
     }
     if (menuMainLeft instanceof HTMLElement) {
-      menuMainLeft.style.setProperty("padding", isDesktop ? "0 68px" : "0", "important");
+      menuMainLeft.style.setProperty("padding", isDesktop ? "0 42px" : "0", "important");
       menuMainLeft.style.setProperty("width", isDesktop ? "var(--menu-panel-single-width)" : "100%", "important");
     }
     if (quickPane instanceof HTMLElement) {
@@ -1243,23 +1523,14 @@
     }
   };
   applyPanelSide();
+  window.addEventListener("resize", () => measureQuickUnderlines());
   if (quickPane instanceof HTMLElement) {
     quickPane.style.setProperty("width", "var(--menu-panel-single-width)", "important");
     quickPane.style.setProperty("opacity", "0", "important");
     quickPane.style.setProperty("transform", getQuickPaneHiddenTransform(), "important");
     quickPane.style.setProperty("pointer-events", "none", "important");
   }
-  let quickSwitchTimer = 0;
-
-const clearQuickSwitchState = () => {
-  if (quickSwitchTimer) {
-    window.clearTimeout(quickSwitchTimer);
-    quickSwitchTimer = 0;
-  }
-};
-
 const resetQuickPane = () => {
-  clearQuickSwitchState();
   quickPane.style.setProperty("opacity", "0", "important");
   quickPane.style.setProperty("transform", getQuickPaneHiddenTransform(), "important");
   quickPane.style.setProperty("pointer-events", "none", "important");
@@ -1291,10 +1562,7 @@ const resetQuickPane = () => {
 
 const setQuickPane = (panelName = "") => {
   const normalized = String(panelName || "").trim();
-  const currentPanel = quickPane.getAttribute("data-quick-current") || "";
   const wasActive = panel.getAttribute("data-menu-quick-active") === "true";
-  const isSwitchingBetweenPanels = Boolean(normalized && currentPanel && currentPanel !== normalized);
-  clearQuickSwitchState();
   if (normalized) {
     panel.removeAttribute("data-menu-quick-closing");
   } else if (wasActive) {
@@ -1320,23 +1588,10 @@ const setQuickPane = (panelName = "") => {
       quickPanel.style.setProperty("pointer-events", isMatch ? "auto" : "none", "important");
     });
   };
-  if (isSwitchingBetweenPanels) {
-    quickPane.style.setProperty("opacity", "0", "important");
-    quickPane.style.setProperty("transform", getQuickPaneHiddenTransform(), "important");
-    quickPane.style.setProperty("pointer-events", "none", "important");
-    quickPanels.forEach((quickPanel) => {
-      if (!(quickPanel instanceof HTMLElement)) return;
-      quickPanel.style.setProperty("opacity", "0", "important");
-      quickPanel.style.setProperty("transform", getQuickPanelHiddenTransform(), "important");
-      quickPanel.style.setProperty("pointer-events", "none", "important");
-    });
-    quickSwitchTimer = window.setTimeout(() => {
-      applyQuickPaneState();
-      quickSwitchTimer = 0;
-    }, 80);
-  } else {
-    applyQuickPaneState();
-  }
+  // Keep the parent pane in place when selecting another destination. Its
+  // children already have opacity and transform transitions, so changing the
+  // selected child lets the two views cross-fade without a hidden gap.
+  applyQuickPaneState();
   quickTriggers.forEach((trigger) => {
     if (!(trigger instanceof HTMLElement)) return;
     trigger.classList.toggle("is-quick-active", normalized !== "" && trigger.getAttribute("data-menu-quick") === normalized);
@@ -1344,18 +1599,44 @@ const setQuickPane = (panelName = "") => {
   });
 };
 
+  /**
+   * Where a view that is not the current one sits.
+   *
+   * Desktop nudges it 18px and cross-fades, because on desktop a view is a
+   * small part of a wide panel and the eye is being pointed at a change, not
+   * walked to another place.
+   *
+   * A phone has no second column, so going into Services is the whole screen
+   * changing. That is the same move the second panel makes on desktop, and it
+   * now travels the same way: a full width, on the second panel's easing and
+   * duration, with no fade. Two lists sliding past each other read as one
+   * step through the menu; two lists fading through each other at 18px read
+   * as the panel glitching.
+   */
+  const getViewOffsetTransform = (isMainView, viewName) => {
+    const back = isMainView && viewName !== "main";
+    if (isDesktopQuickPane()) return back ? "translateX(-18px)" : "translateX(18px)";
+    return back ? "translateX(-100%)" : "translateX(100%)";
+  };
+
   const setMenuView = (viewName) => {
+    const isDesktop = isDesktopQuickPane();
     panel.setAttribute("data-menu-current", viewName);
     menuViews.forEach((view) => {
       const isMatch = view.getAttribute("data-menu-view") === viewName;
       const isMainView = view.getAttribute("data-menu-view") === "main";
       view.setAttribute("aria-hidden", isMatch ? "false" : "true");
-      view.style.setProperty("opacity", isMatch ? "1" : "0", "important");
+      // A full-width slide does not need a fade, and fading over 0.2s while
+      // travelling for 0.52s would empty the outgoing list before it has left.
+      view.style.setProperty("opacity", isDesktop && !isMatch ? "0" : "1", "important");
       view.style.setProperty("pointer-events", isMatch ? "auto" : "none", "important");
-      view.style.setProperty("visibility", isMatch ? "visible" : "hidden", "important");
+      // Hiding the outgoing view immediately cancels its opacity transition.
+      // Opacity handles the exit; inert prevents hidden links taking focus.
+      view.style.setProperty("visibility", "visible", "important");
+      view.toggleAttribute("inert", !isMatch);
       view.style.setProperty(
         "transform",
-        isMatch ? "translateX(0)" : (isMainView && viewName !== "main" ? "translateX(-18px)" : "translateX(18px)"),
+        isMatch ? "translateX(0)" : getViewOffsetTransform(isMainView, viewName),
         "important"
       );
     });
@@ -1428,14 +1709,17 @@ const setQuickPane = (panelName = "") => {
       .filter((eventConfig) => Array.isArray(eventConfig?.products) && eventConfig.products.some((item) => String(item?.src || "").trim()));
   }
 
-  function resolvePrimaryFeaturedEvent(events = []) {
-    return [...events].sort((a, b) => {
-      const byPriority = (Number(b?.priority) || 0) - (Number(a?.priority) || 0);
-      if (byPriority !== 0) return byPriority;
-      return String(a?.id || "").localeCompare(String(b?.id || ""));
-    })[0] || null;
-  }
-
+  /**
+   * Collections is one entry, and every edition lives under it.
+   *
+   * Seasonal editions and collections are the same thing, so the menu names
+   * them once. This used to promote the edition to the top level whenever only
+   * one was running — so "Graduation Collection" stood in the menu as a
+   * sibling of Services and About, and there was no "Collections" at all. Now
+   * the entry is always called Collections and always opens the list, whether
+   * that list holds one edition or six. The list is headed by the page that
+   * holds all of them, so the entry is never a dead end.
+   */
   function syncSharedCollectionsEntry(catalog) {
     const activeEvents = getRenderableActiveEvents(catalog);
     const sortedEvents = [...activeEvents].sort((a, b) => {
@@ -1443,27 +1727,20 @@ const setQuickPane = (panelName = "") => {
       if (byPriority !== 0) return byPriority;
       return String(a?.id || "").localeCompare(String(b?.id || ""));
     });
-    const primaryEvent = resolvePrimaryFeaturedEvent(sortedEvents);
-    const hasMultiple = sortedEvents.length > 1;
-    const directHref = primaryEvent ? buildLocalizedFeaturedHref(String(primaryEvent.id || "").trim()) : buildLocalizedFeaturedHref("");
-    const rawLabel = hasMultiple
-      ? "Collections"
-      : (primaryEvent ? String(primaryEvent.title || "").trim() || "Collections" : "Collections");
+    const rawLabel = "Collections";
     const label = localizeSeasonalCollectionTitle(rawLabel);
     panel.querySelectorAll("[data-seasonal-featured-link]").forEach((trigger) => {
       if (!(trigger instanceof HTMLElement)) return;
       trigger.dataset.seasonalManaged = "true";
       trigger.dataset.seasonalLabel = rawLabel;
       trigger.textContent = label;
-      if (hasMultiple) {
-        trigger.setAttribute("data-menu-quick", "collections");
-        trigger.setAttribute("data-menu-open", "featured");
-        trigger.removeAttribute("data-seasonal-direct-href");
-      } else {
-        trigger.removeAttribute("data-menu-quick");
-        trigger.setAttribute("data-seasonal-direct-href", directHref);
-      }
+      trigger.setAttribute("data-menu-quick", "collections");
+      trigger.setAttribute("data-menu-open", "featured");
+      trigger.removeAttribute("data-seasonal-direct-href");
     });
+
+    const viewAllLabel = getActiveUiLanguage() === "id" ? "Lihat Semua Koleksi" : "View All Collections";
+    const viewAll = `<a class="menu-link" data-seasonal-managed="true" data-seasonal-view-all="true" href="${buildLocalizedFeaturedHref("")}">${viewAllLabel}</a>`;
     const eventLinksMarkup = sortedEvents.map((eventConfig) => {
       const eventId = String(eventConfig?.id || "").trim();
       const eventTitle = String(eventConfig?.title || "").trim() || "Collections";
@@ -1471,20 +1748,18 @@ const setQuickPane = (panelName = "") => {
       if (!eventId) return "";
       return `<a class="menu-link" data-seasonal-managed="true" data-seasonal-label="${String(eventTitle).replace(/"/g, "&quot;")}" href="${buildLocalizedFeaturedHref(eventId)}">${localizedTitle}</a>`;
     }).join("");
+    const listMarkup = viewAll + eventLinksMarkup;
+
     if (featuredMenuList instanceof HTMLElement) {
-      featuredMenuList.innerHTML = hasMultiple
-        ? eventLinksMarkup
-        : `<a class="menu-link" data-seasonal-fallback="true" data-seasonal-managed="true" data-seasonal-label="${String(rawLabel).replace(/"/g, "&quot;")}" href="${directHref}">${label}</a>`;
+      featuredMenuList.innerHTML = listMarkup;
     }
     if (featuredQuickList instanceof HTMLElement) {
-      featuredQuickList.innerHTML = hasMultiple
-        ? eventLinksMarkup.replaceAll('class="menu-link"', 'class="menu-quick-link"')
-        : "";
+      featuredQuickList.innerHTML = listMarkup.replaceAll('class="menu-link"', 'class="menu-quick-link"');
     }
   }
 
   if (featuredMenuList instanceof HTMLElement && !featuredMenuList.children.length && !featuredMenuList.textContent.trim()) {
-    featuredMenuList.innerHTML = '<a class="menu-link" data-seasonal-fallback="true" href="featured.html">Collections</a>';
+    featuredMenuList.innerHTML = '<a class="menu-link" data-seasonal-fallback="true" href="featured.html">View All Collections</a>';
   }
 
   fetch("content/featured.json", { cache: "no-store" })
@@ -1496,20 +1771,87 @@ const setQuickPane = (panelName = "") => {
       // Keep the static fallback when the featured catalog cannot be loaded.
     });
 
-const openMenu = () => {
+  /**
+   * Publishes each chevron row's text width as --mv-underline-w.
+   *
+   * The row is as wide as the panel so its chevron can sit at the far edge,
+   * so the underline cannot simply span the box. A Range over the element's
+   * contents measures the text and nothing else: pseudo-elements are not in
+   * the DOM, so the chevron is excluded by construction rather than by
+   * subtracting a guess at its width.
+   *
+   * Re-run whenever the text or the panel's width could have changed. A
+   * measurement of zero — the panel is display:none, or this is a document
+   * with no layout at all — is discarded rather than written, because a
+   * zero-width rule is worse than last time's correct one.
+   */
+  const measureQuickUnderlines = () => {
+    // Queried fresh rather than read from the list captured at init: the
+    // seasonal code rewrites the Collections trigger, and a row that was
+    // replaced after boot would otherwise never be measured.
+    panel.querySelectorAll("[data-menu-quick]").forEach((trigger) => {
+      if (!(trigger instanceof HTMLElement)) return;
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(trigger);
+        const width = range.getBoundingClientRect().width;
+        range.detach?.();
+        if (width > 0) trigger.style.setProperty("--mv-underline-w", `${Math.round(width)}px`);
+      } catch (_error) {
+        // No layout to measure. The rule stays at its fallback width of zero.
+      }
+    });
+  };
+
+  const openMenu = () => {
+    // The homepage loads this menu before marvell-shop.js. Register when it is
+    // actually opened too, so switching to Join Marvell or Wishlist closes it.
+    window.MarvellShop?.registerPanel?.("menu", { close: closeMenuQuietly });
     panel.classList.add("is-open");
     panel.style.setProperty("transform", getPanelOpenTransform(), "important");
     backdrop.classList.add("is-open");
     panel.setAttribute("aria-hidden", "false");
     backdrop.setAttribute("aria-hidden", "false");
     menuToggle.setAttribute("aria-expanded", "true");
+    ensureMenuHead();
     setMenuView("main");
     resetQuickPane();
-    document.body.style.overflow = "hidden";
+    // The labels are only measurable once the panel is laid out, and they
+    // change with the language, so this is read on the way in every time.
+    measureQuickUnderlines();
+    // Closes the wishlist and account panels, and takes the scroll lock. The
+    // menu used to set body overflow itself, which meant whichever surface
+    // closed last decided whether the page could scroll again.
+    if (window.MarvellShop?.openPanel) window.MarvellShop.openPanel("menu");
+    else document.body.style.overflow = "hidden";
     panel.focus();
   };
 
-  const closeMenu = () => {
+  /**
+   * Keep the close control in the same form as the right-hand panel controls.
+   *
+   * It used to swap that control for the right-hand panels' utility row, which
+   * put the wishlist, account, contact and bag icons at the top of the left
+   * panel. The left panel is not one of those: it is the way into the site,
+   * they are places you keep coming back to, and they open from the other
+   * side. Wearing their icons made the menu look like one of them and gave it
+   * four exits it does not own.
+   *
+   * Anything already carrying the row — a panel rendered before this shipped —
+   * is put back to the plain close control.
+   */
+  const ensureMenuHead = () => {
+    const head = panel.querySelector(".menu-head");
+    if (!(head instanceof HTMLElement)) return;
+    if (!head.querySelector(".mv-panel-utility")) return;
+    head.innerHTML =
+      '<button class="menu-close" id="menu-close" type="button" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6 18 18M18 6 6 18"/></svg><span>Close</span></button>';
+    head.querySelector(".menu-close")?.addEventListener("click", () => closeMenu());
+  };
+
+  /** Closes the menu without releasing the shared scroll lock. */
+  const closeMenuQuietly = () => {
+    if (!panel.classList.contains("is-open")) return;
     panel.classList.remove("is-open");
     panel.style.setProperty("transform", getPanelClosedTransform(), "important");
     backdrop.classList.remove("is-open");
@@ -1517,8 +1859,20 @@ const openMenu = () => {
     backdrop.setAttribute("aria-hidden", "true");
     menuToggle.setAttribute("aria-expanded", "false");
     setQuickPane("");
-    document.body.style.overflow = "";
   };
+
+  const closeMenu = () => {
+    closeMenuQuietly();
+    if (window.MarvellShop?.closePanel) window.MarvellShop.closePanel("menu");
+    else document.body.style.overflow = "";
+  };
+
+  window.MarvellShop?.registerPanel?.("menu", { close: closeMenuQuietly });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      window.MarvellShop?.registerPanel?.("menu", { close: closeMenuQuietly });
+    }, { once: true });
+  }
 
   const renderDebugReport = () => {
     const existingNode = document.getElementById("menu-debug-report");
@@ -1581,18 +1935,6 @@ const openMenu = () => {
     document.body.appendChild(debugNode);
   };
 
-  if (quickTriggers.length) {
-    quickTriggers.forEach((trigger) => {
-      if (!(trigger instanceof HTMLElement)) return;
-      const quickName = String(trigger.getAttribute("data-menu-quick") || "").trim();
-      if (!quickName) return;
-      trigger.addEventListener("click", () => {
-        if (!isDesktopQuickPane()) return;
-        setQuickPane(quickName);
-      });
-    });
-  }
-
   menuToggle.addEventListener("click", (event) => {
     event.preventDefault();
     if (panel.classList.contains("is-open")) closeMenu();
@@ -1606,7 +1948,7 @@ const openMenu = () => {
 
   panel.addEventListener("click", (event) => {
     const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
+    if (!(target instanceof Element)) return;
     const openButton = target.closest("[data-menu-open]");
     if (openButton instanceof HTMLElement) {
       const quickName = String(openButton.getAttribute("data-menu-quick") || "").trim();
@@ -1615,7 +1957,7 @@ const openMenu = () => {
         return;
       }
       const mobileHref = String(openButton.getAttribute("data-menu-mobile-href") || "").trim();
-      if (mobileHref && window.matchMedia("(max-width: 899px)").matches) {
+      if (mobileHref && window.matchMedia("(max-width: 768px)").matches) {
         closeMenu();
         window.location.href = mobileHref;
         return;
@@ -1627,6 +1969,21 @@ const openMenu = () => {
         return;
       }
       const targetView = openButton.getAttribute("data-menu-open");
+      // Contact Us is a view of this menu, and on a phone it stays one.
+      //
+      // It used to close the menu and open the right-hand contact panel on
+      // every screen. On desktop that is right: the panel is beside the menu,
+      // both are visible at once and the contact details are a place of their
+      // own. On a phone the panel is a sheet from the bottom, so the menu fell
+      // away and something else climbed up over it — two moves, in opposite
+      // directions, to walk one step further into the same menu. The contact
+      // view and its phone layout have always been here; this stops stepping
+      // over them.
+      if (targetView === "contact" && isDesktopQuickPane() && window.MarvellContact?.open) {
+        closeMenu();
+        window.MarvellContact.open();
+        return;
+      }
       if (targetView) setMenuView(targetView);
       return;
     }

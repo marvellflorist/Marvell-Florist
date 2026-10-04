@@ -1,0 +1,14 @@
+# Secrets — never commit real values. See .env.example for the required keys.
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Netlify local state
+.netlify/
+
+# OS noise
+.DS_Store
+**/.DS_Store

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Legal Debug</title>
+  <link rel="stylesheet" href="/assets/type.css?v=20260920f">
   <style>
     body {
       margin: 0;
@@ -104,6 +105,15 @@
         result.textContent = JSON.stringify(report, null, 2);
       }
 
+      function waitForNode(doc, selector, callback, attempt = 0) {
+        const node = doc.querySelector(selector);
+        if (node || attempt >= 12) {
+          callback(node);
+          return;
+        }
+        window.setTimeout(() => waitForNode(doc, selector, callback, attempt + 1), 100);
+      }
+
       function runTocTest() {
         const currentDoc = iframe.contentDocument;
         const currentWin = iframe.contentWindow;
@@ -119,20 +129,21 @@
           return;
         }
         const targetId = (tocTarget.getAttribute("href") || "").replace(/^#/, "");
-        const targetSection = targetId ? currentDoc.getElementById(targetId) : null;
-        const beforeScroll = Math.round(currentWin.scrollY);
-        tocTarget.click();
-        window.setTimeout(() => {
-          report.tocClick = {
-            ok: true,
-            href: tocTarget.href,
-            hash: currentWin.location.hash,
-            beforeScroll,
-            afterScroll: Math.round(currentWin.scrollY),
-            targetFound: !!targetSection
-          };
-          finish();
-        }, 700);
+        waitForNode(currentDoc, targetId ? `#${CSS.escape(targetId)}` : "", (targetSection) => {
+          const beforeScroll = Math.round(currentWin.scrollY);
+          tocTarget.click();
+          window.setTimeout(() => {
+            report.tocClick = {
+              ok: true,
+              href: tocTarget.href,
+              hash: currentWin.location.hash,
+              beforeScroll,
+              afterScroll: Math.round(currentWin.scrollY),
+              targetFound: !!(targetSection || currentDoc.getElementById(targetId))
+            };
+            finish();
+          }, 700);
+        });
       }
 
       if (suiteLink instanceof win.HTMLAnchorElement) {

@@ -1,0 +1,466 @@
+/* ==========================================================================
+   assets/wishlist.css
+
+   The wishlist, wherever it is shown. Two places carry it:
+
+     /wishlist   its own page, for a signed-out visitor and for a deep link
+     /account    the "My wishlist" tab, where a signed-in customer finds it
+                 beside their orders and details
+
+   One sheet rather than two, because the only difference between those two
+   is the chrome around the room — see .wl-embedded at the foot of this file.
+   Everything above it is the room itself, and is the markup in both places.
+
+   The shell of the standalone page (its header, its body reset) stays in
+   wishlist.html; nothing here assumes it.
+   ========================================================================== */
+
+/* Several parts of the room are shown and hidden with the `hidden`
+   attribute while also carrying a display of their own, which would win.
+   The standalone page had this from .shop-page; stating it here means the
+   account tab does not have to inherit anything to behave. */
+#wishlist-main [hidden],
+.wl-main [hidden] { display: none !important; }
+
+/* ==========================================================================
+   The wishlist page.
+
+   Deliberately not the bag. A bag is a list of decisions already made, so it
+   is a column of rows with quantities and a total at the bottom. A wishlist
+   is a room of things being considered, so it is photography on a grid, with
+   the controls kept to one quiet column at the side.
+
+   Nothing here counts, totals, or asks to be checked out.
+   ========================================================================== */
+.wl-main {
+  padding: calc(var(--header-height) + clamp(48px, 6vw, 94px)) clamp(24px, 3.2vw, 64px) clamp(80px, 10vw, 140px);
+  max-width: none;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+.wl-account-nav {
+  display: flex; align-items: center; flex-wrap: wrap; gap: clamp(18px, 2vw, 34px);
+  min-height: 64px; margin-top: var(--header-height); padding: 10px clamp(24px, 3.2vw, 64px);
+  border-top: 1px solid var(--shop-rule); border-bottom: 1px solid var(--shop-rule);
+  font-size: 14px; color: var(--shop-ink-soft);
+}
+.wl-account-nav a { color: inherit; text-decoration: none; }
+.wl-account-nav a[aria-current="page"] { color: var(--shop-ink); font-weight: 600; }
+.wl-account-nav a { position: relative; }
+.wl-account-nav a::after {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: 50%; margin-top: 0.44em; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: right center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.wl-account-nav a:hover, .wl-account-nav a:focus-visible { color: var(--shop-ink); outline: none; }
+.wl-account-nav a:hover::after, .wl-account-nav a:focus-visible::after,
+.wl-account-nav a[aria-current="page"]::after { transform: scaleX(1); transform-origin: left center; }
+.wl-account-nav button { margin-left: auto; border: 0; padding: 5px 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.wl-account-nav button:hover { color: var(--shop-ink); }
+.wl-account-nav:not([hidden]) + .wl-main { padding-top: clamp(48px, 5vw, 82px); min-height: calc(100vh - var(--header-height) - 64px); }
+/* The sidebar is a column of controls, not a column of reading, so it is
+   given what it needs and no more. It used to take up to 390px and sit
+   beside an 88px gutter, which left the pieces barely half the page. */
+.wl-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, min(22vw, 320px)) minmax(0, 1fr);
+  gap: clamp(30px, 3.2vw, 58px);
+  align-items: start;
+}
+.wl-aside { position: sticky; top: calc(var(--header-height) + 34px); display: grid; gap: 26px; }
+.wl-view[hidden] { display: none !important; }
+.wl-view:not([hidden]) { animation: wl-view-in 420ms cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes wl-view-in { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Adelio is the house title face, as on the account sign-up. */
+.wl-heading {
+  margin: 0;
+  font-family: "AdelioDisplayCondensed", sans-serif !important;
+  font-size: clamp(36px, 3.1vw, 46px);
+  font-weight: 300 !important;
+  letter-spacing: .04em;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+.wl-heading .wl-tally {
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px; font-weight: 400; letter-spacing: 0;
+  color: var(--shop-ink-faint); vertical-align: baseline; margin-left: 10px;
+}
+.wl-sub { font-size: 13px; line-height: 1.7; color: var(--shop-ink-soft); max-width: 40ch; }
+.wl-sub[hidden] { display: none; }
+/* Every underlined link on this page draws its own rule rather than using
+   text-decoration, so leaving can retrace it — out to the right, back in
+   from the left. `mv-underline-retrace` is defined once, in
+   assets/marvell-shop.js, which every page carrying this sheet loads. */
+.wl-sub a, .wl-linkish, .wl-text-action {
+  position: relative;
+  border: 0; padding: 0; background: transparent;
+  color: var(--shop-ink); cursor: pointer;
+  text-decoration: none;
+}
+.wl-sub a, .wl-linkish { font: inherit; }
+.wl-sub a::after, .wl-linkish::after, .wl-text-action::after {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: 50%; bottom: auto; margin-top: 0.44em;
+  height: 1px; background: currentColor;
+  transform: scaleX(1); transform-origin: left center;
+  pointer-events: none;
+}
+.wl-sub a:hover::after, .wl-sub a:focus-visible::after,
+.wl-linkish:hover::after, .wl-linkish:focus-visible::after,
+.wl-text-action:hover::after, .wl-text-action:focus-visible::after {
+  animation: mv-underline-retrace 0.62s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.wl-linkish:focus-visible, .wl-sub a:focus-visible { outline: none; }
+
+/* The one filled button on the page, in the site's usual dark. */
+.wl-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  justify-self: start;
+  min-height: 54px; padding: 0 25px;
+  border: 1px solid #2f2923; border-radius: 3px;
+  background: #2f2923; color: #f6f2ec;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 15px; font-weight: 500; letter-spacing: 0; text-transform: none;
+  text-decoration: none; cursor: pointer;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+.wl-primary:hover, .wl-primary:focus-visible { background: transparent; color: #2f2923; outline: none; }
+.wl-primary svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+
+.wl-back {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--shop-ink); text-decoration: none;
+}
+.wl-back { position: relative; }
+.wl-back::after {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: 50%; margin-top: 0.62em; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: right center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.wl-back:hover::after, .wl-back:focus-visible::after { transform: scaleX(1); transform-origin: left center; }
+.wl-back svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.wl-aside-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+/* -- the options menu ----------------------------------------------------- */
+.wl-menu { position: relative; }
+.wl-menu-trigger {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 40px; padding: 0 14px;
+  border: 1px solid var(--shop-rule); border-radius: 3px;
+  background: #fff; color: var(--shop-ink);
+  font-family: "Inter Tight", sans-serif; font-size: 14px; letter-spacing: 0;
+  cursor: pointer; transition: border-color 200ms ease;
+}
+.wl-menu-trigger svg { width: 18px; height: 18px; fill: currentColor; stroke: none; }
+.wl-menu-trigger:hover, .wl-menu-trigger[aria-expanded="true"] { border-color: var(--shop-ink); outline: none; }
+.wl-menu-list {
+  position: absolute; z-index: 6; top: calc(100% + 6px); left: 0; min-width: 190px;
+  display: grid; padding: 5px 0; margin: 0; list-style: none;
+  background: #fff; border: 1px solid var(--shop-rule); box-shadow: 0 16px 44px rgba(0, 0, 0, 0.11);
+  opacity: 0; visibility: hidden; transform: translateY(-7px); pointer-events: none;
+  transition: opacity 260ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 260ms;
+}
+.wl-menu[data-open="true"] .wl-menu-list {
+  opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto;
+  transition: opacity 260ms ease, transform 260ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+.wl-menu-list button {
+  width: 100%; min-height: 40px; padding: 0 15px;
+  border: 0; background: transparent; color: var(--shop-ink-soft);
+  font-family: "Inter Tight", sans-serif; font-size: 13px; text-align: left; cursor: pointer;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+.wl-menu-list button:hover, .wl-menu-list button:focus-visible { color: var(--shop-ink); background: rgba(47, 41, 35, 0.04); outline: none; }
+.wl-menu-list button[data-destructive] { color: #9a4a35; }
+
+/* -- share with Marvell --------------------------------------------------- */
+.wl-share { display: grid; gap: 9px; padding-top: 4px; }
+.wl-share-row {
+  display: grid; grid-template-columns: 17px minmax(0, 1fr); gap: 12px;
+  align-items: start; font-size: 14px; color: var(--shop-ink); cursor: pointer;
+}
+.wl-share-row input { width: 17px; height: 17px; margin-top: 1px; accent-color: #2f2923; cursor: pointer; }
+.wl-share-note { font-size: 12px; line-height: 1.66; color: var(--shop-ink-soft); max-width: 42ch; }
+
+/* -- the index: one card per list ----------------------------------------- */
+.wl-lists {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 360px));
+  gap: clamp(28px, 3.4vw, 46px); list-style: none; margin: 0; padding: 0;
+}
+.wl-list-card { display: grid; gap: 13px; }
+/* Four equal frames let the arrangements read as a collection at a glance. */
+.wl-collage {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 3px;
+  aspect-ratio: 1 / 1.04; background: #f3f2f1; text-decoration: none;
+}
+.wl-collage[data-count="0"], .wl-collage[data-count="1"] { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+.wl-collage[data-count="2"] { grid-template-rows: 1fr; }
+.wl-collage[data-count="3"] { grid-template-columns: 1.35fr 1fr; }
+.wl-collage[data-count="3"] .wl-collage-cell:first-child { grid-row: 1 / -1; }
+.wl-collage-cell { position: relative; overflow: hidden; background: #f3f2f1; min-width: 0; min-height: 0; }
+.wl-collage-cell img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: opacity 220ms ease;
+}
+/* No zoom on hover. The one place the site still grows a photograph under
+   the cursor is the portfolio carousel on the home page. */
+.wl-collage-more {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: rgba(255,255,255,.64); color: var(--shop-ink);
+  font: 500 18px/1 "Inter Tight", sans-serif;
+}
+.wl-list-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+/* Each list carries its own options, so renaming one does not mean opening
+   it first. The trigger is the three dots Dior uses, and it stays quiet
+   until the card is under the cursor. */
+.wl-card-menu-trigger {
+  width: 30px; height: 30px; border: 0; padding: 0; background: transparent;
+  display: inline-grid; place-items: center;
+  line-height: 1; color: var(--shop-ink-faint); cursor: pointer;
+  transition: color 200ms ease, opacity 200ms ease;
+}
+.wl-card-menu-trigger svg { width: 19px; height: 19px; fill: currentColor; }
+.wl-list-card:hover .wl-card-menu-trigger,
+.wl-card-menu-trigger:focus-visible,
+.wl-menu[data-open="true"] .wl-card-menu-trigger { color: var(--shop-ink); outline: none; }
+.wl-menu-list[data-align="end"] { left: auto; right: 0; }
+.wl-card-rename { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
+.wl-card-rename input {
+  width: 100%; height: 34px; padding: 0 0 2px;
+  border: 0; border-bottom: 1px solid var(--shop-ink); border-radius: 0;
+  background: transparent; font-family: "AdelioDisplayCondensed", sans-serif;
+  font-size: 25px; font-weight: 300; letter-spacing: .025em;
+  color: var(--shop-ink); appearance: none;
+}
+.wl-card-rename input:focus { outline: none; }
+.wl-card-rename-actions { display: flex; gap: 14px; align-items: center; }
+.wl-card-rename-actions button {
+  border: 0; padding: 0; background: transparent;
+  font-family: "Inter Tight", sans-serif; font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--shop-ink-faint); cursor: pointer;
+}
+.wl-card-rename-actions button:hover,
+.wl-card-rename-actions button:focus-visible { color: var(--shop-ink); outline: none; }
+.wl-list-name {
+  font-family: "AdelioDisplayCondensed", sans-serif;
+  font-size: 25px; font-weight: 300; letter-spacing: .025em;
+  color: var(--shop-ink); text-decoration: none;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.wl-list-count { font-size: 12px; color: var(--shop-ink-faint); }
+
+/* -- the pieces ----------------------------------------------------------- */
+/* One frame, one height, as many to a row as the column will hold.
+ *
+ * This was a CSS multi-column flow, which is two problems at once. `columns:
+ * 4 210px` is a *cap* of four, not four: the browser divides the space by
+ * 210px and takes whichever is smaller, so a sidebar-narrowed column gave
+ * two or three. And a column flow balances its contents, so a short list
+ * left whole columns empty and the pieces sat in the left half of the page
+ * with nothing beside them.
+ *
+ * Auto-fill takes as many equal tracks as fit, and the frame is a fixed 4:5,
+ * so every card is the same shape whatever the photograph behind it. */
+.wl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+  gap: clamp(30px, 3.4vw, 46px) clamp(12px, 1.4vw, 22px);
+  align-items: stretch;
+}
+.wl-grid .shop-card {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 13px;
+  width: auto; margin: 0;
+  animation: wl-card-in 460ms cubic-bezier(.22, 1, .36, 1) both;
+}
+.wl-grid .shop-card-media { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: #f3f2f1; }
+.wl-grid .shop-card-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@keyframes wl-card-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+.wl-media-link { display: block; color: inherit; text-decoration: none; }
+.wl-product-copy { display: grid; gap: 13px; align-content: start; }
+.wl-card-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 10px; }
+.wl-product-title {
+  min-width: 0; color: var(--shop-ink); text-decoration: none;
+  font-family: "AdelioDisplayCondensed", sans-serif; font-size: 25px;
+  font-weight: 300; line-height: 1.12; letter-spacing: .02em;
+  /* Held to two lines so a long name cannot make one card taller than the
+     rest of its row. */
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+  overflow: hidden; min-height: 2.24em;
+  transition: opacity 240ms ease;
+}
+.wl-product-title:hover, .wl-product-title:focus-visible { text-decoration: none; outline: none; opacity: .68; }
+.wl-product-price { font: 500 14px/1.5 "Inter Tight",sans-serif; white-space: nowrap; color: var(--shop-ink); font-variant-numeric: tabular-nums; }
+.wl-item-actions { display: grid; justify-items: end; gap: 10px; }
+.wl-text-action { font: 400 14px/1.4 "Inter Tight",sans-serif; }
+.wl-text-action[hidden] { display: none; }
+.wl-item-menu { position: absolute; top: 16px; right: 16px; z-index: 5; }
+/* Quiet until the card is under the cursor, the way each list card's own
+   three dots are. A permanent button on every photograph was the loudest
+   thing on a page whose subject is the photographs. */
+.wl-item-menu-trigger {
+  min-height: 38px; padding: 0 15px; border: 1px solid rgba(47,41,35,.12);
+  border-radius: 3px; background: rgba(255,255,255,.96); color: var(--shop-ink);
+  display: inline-flex; align-items: center; gap: 7px;
+  font: 500 13px "Inter Tight", sans-serif; cursor: pointer;
+  opacity: 0; transform: translateY(-3px);
+  transition: opacity 220ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1), border-color 180ms ease;
+}
+.wl-item-menu-trigger svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.shop-card:hover .wl-item-menu-trigger,
+.shop-card:focus-within .wl-item-menu-trigger,
+.wl-item-menu-trigger:focus-visible,
+.wl-item-menu[data-open="true"] .wl-item-menu-trigger { opacity: 1; transform: translateY(0); }
+/* No pointer, no hover: the control simply is. */
+@media (hover: none) {
+  .wl-item-menu-trigger { opacity: 1; transform: none; }
+}
+.wl-item-menu-trigger:hover, .wl-item-menu-trigger:focus-visible { border-color: var(--shop-ink); outline: none; }
+.wl-item-menu-list {
+  position: absolute; top: calc(100% + 5px); right: 0; width: min(320px, calc(100vw - 36px));
+  max-height: min(66vh, 470px); overflow-y: auto; padding: 20px;
+  background: #fff; border: 1px solid var(--shop-rule); border-radius: 3px;
+  box-shadow: 0 14px 36px rgba(20,18,16,.13);
+  opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-5px);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 0s linear 180ms;
+}
+.wl-item-menu[data-open="true"] .wl-item-menu-list {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+  transition: opacity 180ms ease, transform 180ms ease, visibility 0s;
+}
+.wl-item-menu-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--shop-rule); font-size: 15px; font-weight: 500; }
+.wl-item-menu-head button { border: 0; background: transparent; color: var(--shop-ink-soft); font: 25px/1 "Inter Tight",sans-serif; cursor: pointer; }
+.wl-item-menu-label { margin: 17px 0 6px; font-size: 11px; color: var(--shop-ink-faint); letter-spacing: .08em; text-transform: uppercase; }
+.wl-item-menu-choice, .wl-item-menu-remove {
+  display: block; width: 100%; border: 0; background: transparent; padding: 9px 0;
+  color: var(--shop-ink); font: 14px "Inter Tight",sans-serif; text-align: left; cursor: pointer;
+}
+.wl-item-menu-choice, .wl-item-menu-remove { position: relative; }
+.wl-item-menu-choice::after, .wl-item-menu-remove::after {
+  content: ""; position: absolute; left: 0; width: max-content; max-width: 100%;
+  top: 50%; margin-top: 0.44em; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: right center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.wl-item-menu-choice:hover::after, .wl-item-menu-choice:focus-visible::after,
+.wl-item-menu-remove:hover::after, .wl-item-menu-remove:focus-visible::after {
+  transform: scaleX(1); transform-origin: left center;
+}
+.wl-item-menu-remove { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--shop-rule); color: #8d4638; }
+
+/* -- empty ---------------------------------------------------------------- */
+.wl-empty {
+  display: grid; justify-items: start; align-content: start; gap: 15px;
+  padding: clamp(24px, 4vw, 48px) 0;
+}
+.wl-empty p { margin: 0; font-size: 15px; line-height: 1.7; color: var(--shop-ink-soft); max-width: 44ch; }
+.wl-empty .wl-empty-lead { color: var(--shop-ink); font-size: 17px; }
+
+/* Signing in is offered once, under the pieces, and only to somebody who is
+   not signed in. It is not a caption on the page: a wishlist does not need
+   to explain where it is kept. */
+.wl-foot {
+  margin-top: clamp(34px, 5vw, 62px);
+  padding-top: 20px;
+  border-top: 1px solid var(--shop-rule);
+  font-size: 12px; line-height: 1.7; color: var(--shop-ink-faint);
+}
+.wl-foot[hidden] { display: none; }
+
+.wl-note { font-size: 13px; line-height: 1.7; color: var(--shop-ink-soft); }
+.wl-note[data-tone="error"] { color: #9a4a35; }
+.wl-note[hidden] { display: none; }
+
+/* -- naming a list -------------------------------------------------------- */
+.wl-title-slot { display: grid; }
+.wl-title-slot > * { grid-area: 1 / 1; }
+.wl-name-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: end; }
+.wl-name-form input {
+  width: 100%; height: 50px; padding: 0 0 3px;
+  border: 0; border-bottom: 1px solid var(--shop-ink); border-radius: 0;
+  background: transparent; font-family: "AdelioDisplayCondensed", sans-serif;
+  font-size: clamp(36px, 3.1vw, 46px); font-weight: 300; letter-spacing: .04em;
+  line-height: 1.08; text-transform: uppercase;
+  color: var(--shop-ink); appearance: none; transition: border-color 240ms ease;
+}
+.wl-name-form input:focus { outline: none; border-bottom-color: var(--shop-ink); }
+.wl-name-actions { display: flex; gap: 16px; align-items: center; padding-bottom: 7px; }
+.wl-name-form .wl-primary { min-height: auto; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--shop-ink); font-size: 12px; text-decoration: none; }
+.wl-name-form .wl-primary { position: relative; }
+.wl-name-form .wl-primary::after {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: 50%; margin-top: 0.44em; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: right center;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.wl-name-form .wl-primary:hover::after, .wl-name-form .wl-primary:focus-visible::after {
+  transform: scaleX(1); transform-origin: left center;
+}
+
+@media (max-width: 900px) {
+  .wl-layout { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .wl-aside { position: static; }
+}
+@media (max-width: 600px) {
+  .wl-account-nav { gap: 10px 18px; font-size: 12px; }
+  .wl-account-nav button { margin-left: 0; }
+  .wl-main { padding-left: 18px; padding-right: 18px; }
+  .wl-heading { font-size: 36px; }
+  .wl-lists { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; }
+  .wl-list-card:only-child { grid-column: 1 / -1; max-width: 340px; }
+  .wl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 12px; }
+  .wl-product-title { font-size: 21px; }
+  .wl-product-price { font-size: 12px; }
+  .wl-text-action { font-size: 13px; }
+  .wl-item-menu { top: 8px; right: 8px; }
+  .wl-item-menu-trigger { opacity: 1; min-height: 32px; padding: 0 10px; font-size: 12px; }
+  .wl-item-menu-list { position: fixed; top: auto; bottom: 18px; left: 18px; right: 18px; width: auto; max-height: min(60vh, 470px); }
+  .wl-name-form { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .wl-name-actions { padding-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wl-view:not([hidden]), .wl-grid .shop-card { animation: none; }
+  .wl-collage-cell img { transition: none; }
+  .wl-sub a::after, .wl-linkish::after, .wl-text-action::after,
+  .wl-account-nav a::after, .wl-back::after, .wl-name-form .wl-primary::after,
+  .wl-item-menu-choice::after, .wl-item-menu-remove::after { transition: none; animation: none; }
+  .wl-item-menu-trigger { transition: none; }
+}
+
+/* ==========================================================================
+   The wishlist inside the account page.
+
+   Same room, no walls of its own. On /account the wishlist is a tab, so it
+   has no page padding, no page-height floor and no account nav of its own —
+   the account page already carries one, and two would be a nav under a nav.
+   ========================================================================== */
+.wl-main.wl-embedded {
+  padding: 0;
+  min-height: 0;
+  max-width: none;
+  /* The standalone page centres itself with `margin: 0 auto`. Inside the
+     account panel — a grid — an auto margin turns off the stretch, so the
+     room shrank to its own content and sat in the middle of the tab with a
+     column of nothing either side of it. */
+  width: 100%;
+  margin: 0;
+}
+.wl-embedded .wl-account-nav { display: none !important; }
+.wl-embedded .wl-aside { position: static; top: auto; }
+.wl-embedded .wl-heading { font-size: clamp(30px, 2.4vw, 38px); }
+/* The account page's own column is already narrow, so the pieces take the
+   full width of it and the controls sit above them. */
+@media (max-width: 1180px) {
+  .wl-embedded .wl-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}

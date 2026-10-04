@@ -25,6 +25,9 @@
     <loc>https://marvellflorist.com/gallery?category=parcels</loc>
   </url>
   <url>
+    <loc>https://marvellflorist.com/custom-arrangements</loc>
+  </url>
+  <url>
     <loc>https://marvellflorist.com/about</loc>
   </url>
   <url>
@@ -50,5 +53,23 @@
   </url>
   <url>
     <loc>https://marvellflorist.com/journal</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/product/soft-tones-no-1</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/product/soft-tones-no-2</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/product/soft-tones-no-3</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/product/soft-tones-no-4</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/product/soft-tones-no-5</loc>
+  </url>
+  <url>
+    <loc>https://marvellflorist.com/product/soft-tones-no-6</loc>
   </url>
 </urlset>

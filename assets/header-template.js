@@ -26,6 +26,8 @@
 
   function isWishlistPage() {
     const pathname = getNormalizedPathname();
+    // The wishlist is not a page any more; saved pieces are a section of the
+    // bag page. Both old spellings still answer, via a redirect.
     return pathname.endsWith("/wishlist.html") || pathname.endsWith("/wishlist");
   }
 
@@ -95,16 +97,16 @@
         max-height: 0 !important;
         opacity: 0 !important;
         transform: translateY(0) !important;
-        transition: max-height 0.5s ease, transform 0.5s ease !important;
+        transition: max-height 0.5s ease, transform 0.5s ease, opacity 0.5s ease !important;
       }
       body.has-promo-strip .collection-promo-strip {
         max-height: var(--promo-strip-height) !important;
         opacity: 1 !important;
         transform: translateY(0) !important;
       }
-      .collection-promo-strip.is-closing {
+      body.has-promo-strip .collection-promo-strip.is-closing {
         max-height: var(--promo-strip-height) !important;
-        opacity: 1 !important;
+        opacity: 0 !important;
         transform: translateY(calc(-1 * var(--promo-strip-height))) !important;
       }
       .promo-strip-fallback {
@@ -117,7 +119,7 @@
         z-index: 48 !important;
         pointer-events: none !important;
         opacity: 0 !important;
-        transition: height 0.5s ease !important;
+        transition: height 0.5s ease, opacity 0.5s ease !important;
       }
       body.has-promo-strip .promo-strip-fallback {
         height: var(--promo-strip-height) !important;
@@ -125,7 +127,7 @@
       }
       body.promo-strip-closing .promo-strip-fallback {
         height: var(--promo-strip-height) !important;
-        opacity: 1 !important;
+        opacity: 0 !important;
       }
       .collection-promo-track {
         display: grid !important;
@@ -354,9 +356,12 @@
         display: contents !important;
       }
       .header-logo-text {
-        display: inline-block !important;
-        font-family: "Imperial Script", cursive !important;
-        font-size: 32px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-family: "AdelioDisplayCondensed", sans-serif !important;
+        font-size: 36px !important;
+        font-weight: 300 !important;
         line-height: 0.9 !important;
         letter-spacing: 0.01em !important;
         word-spacing: normal !important;
@@ -409,12 +414,26 @@
         display: block !important;
         stroke: currentColor !important;
         fill: none !important;
-        stroke-width: 2 !important;
+        stroke-width: 1.25 !important;
         stroke-linecap: round !important;
         stroke-linejoin: round !important;
       }
-      .search-toggle .search-label {
-        display: inline-block !important;
+      /* The masthead is the wordmark and a row of icons, and nothing else.
+         Every control below carries an aria-label, so the words are still
+         there for a screen reader and gone from the page. */
+      .search-toggle .search-label,
+      .menu-toggle .menu-label,
+      .header-account .header-account-label,
+      .header-bar .contact-quick-label {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0 0 0 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
       }
       .search-mobile-trigger {
         display: none !important;
@@ -444,7 +463,7 @@
         display: block !important;
         stroke: currentColor !important;
         fill: none !important;
-        stroke-width: 2 !important;
+        stroke-width: 1.25 !important;
         stroke-linecap: round !important;
         stroke-linejoin: round !important;
       }
@@ -469,7 +488,7 @@
         display: block !important;
         stroke: currentColor !important;
         fill: none !important;
-        stroke-width: 2 !important;
+        stroke-width: 1.25 !important;
         stroke-linecap: round !important;
         stroke-linejoin: round !important;
       }
@@ -482,7 +501,7 @@
         opacity: 0.84 !important;
         outline: none !important;
       }
-      @media (min-width: 900px) {
+      @media (min-width: 769px) {
         .header-bar {
           gap: 14px !important;
         }
@@ -670,133 +689,18 @@
       .menu-view[data-menu-view="contact"] .contact-quick-body {
         padding: 8px 0 0 !important;
       }
-      .contact-quick-backdrop {
-        position: fixed !important;
-        inset: 0 !important;
-        background: rgba(0, 0, 0, 0.25) !important;
-        backdrop-filter: blur(6px) !important;
-        -webkit-backdrop-filter: blur(6px) !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-        transition: opacity 0.5s ease-in-out !important;
-        z-index: 240 !important;
+      /* The safe-area strips are a phone's business only, and they are fixed
+         overlays or they are nothing: hidden by default so that on a desktop
+         they are not two empty blocks sitting at the top of every page's body,
+         taking part in a layout they have nothing to do with. The rule that
+         turns them on is in the phone block below. */
+      .mobile-safe-area-fill {
+        display: none !important;
       }
-      .contact-quick-backdrop.is-open {
-        opacity: 1 !important;
-        pointer-events: auto !important;
-      }
-      .contact-quick-panel {
-        position: fixed !important;
-        top: 0 !important;
-        bottom: auto !important;
-        right: 0 !important;
-        width: min(92vw, 600px) !important;
-        height: 100vh !important;
-        background: var(--footer-offwhite, #fff) !important;
-        color: #151210 !important;
-        transform: translateX(100%) !important;
-        transition: transform 0.5s ease-in-out !important;
-        z-index: 241 !important;
-        box-shadow: none !important;
-        display: grid !important;
-        grid-template-rows: auto 1fr !important;
-      }
-      .contact-quick-panel.is-open {
-        transform: translateX(0) !important;
-        box-shadow: -20px 0 36px rgba(10, 12, 18, 0.18) !important;
-      }
-      #contact-quick-panel .contact-quick-head {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-end !important;
-        padding: 24px 34px 8px !important;
-      }
-      #contact-quick-panel .contact-quick-close {
-        width: 42px !important;
-        height: 42px !important;
-        border-radius: 50% !important;
-        border: 0 !important;
-        background: #111 !important;
-        color: #fff !important;
-        font-size: clamp(20px, 5.6vw, 23px) !important;
-        font-weight: 300 !important;
-        line-height: 1 !important;
-        cursor: pointer !important;
-        display: grid !important;
-        place-items: center !important;
-        transition: background 0.2s ease !important;
-      }
-      #contact-quick-panel .contact-quick-close:hover,
-      #contact-quick-panel .contact-quick-close:focus-visible {
-        background: #000 !important;
-        outline: none !important;
-      }
-      #contact-quick-panel .contact-quick-body {
-        padding: 18px 40px 34px 88px !important;
-        display: grid !important;
-        gap: 20px !important;
-        overflow-y: auto !important;
-        overscroll-behavior: contain !important;
-      }
-      #contact-quick-panel .contact-quick-block {
-        display: grid !important;
-        gap: 10px !important;
-      }
-      #contact-quick-panel .contact-quick-label {
-        margin: 0 !important;
-        font-family: "Inter Tight", sans-serif !important;
-        font-size: 14px !important;
-        line-height: 1.08 !important;
-        letter-spacing: 0.12em !important;
-        font-weight: 600 !important;
-        color: rgba(21, 18, 16, 0.65) !important;
-      }
-      #contact-quick-panel .contact-quick-link,
-      #contact-quick-panel .contact-quick-text {
-        margin: 0 !important;
-        font-family: "Inter Tight", sans-serif !important;
-        font-size: 14px !important;
-        line-height: 1.45 !important;
-        color: #1d1a18 !important;
-      }
-      #contact-quick-panel .contact-quick-link {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        text-decoration: none !important;
-        font-size: clamp(14px, 1.3vw, 18px) !important;
-        font-weight: 500 !important;
-        line-height: 1.22 !important;
-        width: fit-content !important;
-      }
-      #contact-quick-panel .contact-quick-link::after {
-        content: "\\203A" !important;
-        position: static !important;
-        width: auto !important;
-        height: auto !important;
-        background: none !important;
-        opacity: 0 !important;
-        transform: translateX(-4px) !important;
-        transition: opacity 0.2s ease, transform 0.2s ease !important;
-      }
-      #contact-quick-panel .contact-quick-link:hover,
-      #contact-quick-panel .contact-quick-link:focus-visible {
-        opacity: 0.85 !important;
-        text-decoration: none !important;
-        outline: none !important;
-      }
-      #contact-quick-panel .contact-quick-link:hover::after,
-      #contact-quick-panel .contact-quick-link:focus-visible::after {
-        opacity: 0.65 !important;
-        transform: translateX(0) !important;
-      }
-      #contact-quick-panel .contact-quick-text.is-muted {
-        color: rgba(21, 18, 16, 0.62) !important;
-      }
-      body.contact-quick-open {
-        overflow: hidden !important;
-      }
-      @media (max-width: 899px) {
+      /* The contact panel's chrome lives in assets/marvell-shop.js now, with
+         every other right-hand quick panel. Only the menu's own contact view
+         is styled from here. */
+      @media (max-width: 768px) {
         .menu-panel {
           left: 0 !important;
           right: 0 !important;
@@ -811,21 +715,6 @@
           border-right: 0 !important;
         }
         .menu-panel.is-open {
-          transform: translateY(0) !important;
-          box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18) !important;
-        }
-        .contact-quick-panel {
-          left: 0 !important;
-          right: 0 !important;
-          top: auto !important;
-          bottom: 0 !important;
-          width: 100vw !important;
-          max-width: none !important;
-          height: 100dvh !important;
-          min-height: 100dvh !important;
-          transform: translateY(100%) !important;
-        }
-        .contact-quick-panel.is-open {
           transform: translateY(0) !important;
           box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.18) !important;
         }
@@ -846,8 +735,36 @@
           height: 72px !important;
           min-height: 72px !important;
           justify-content: flex-start !important;
-          gap: 6px !important;
           flex-wrap: nowrap !important;
+          /* The gap is set once, in the phone block further down, next to the
+             order the icons are placed in. It was set here too and overridden
+             there, which left two answers in one file for the one thing that
+             decides how the masthead reads. */
+        }
+        /* The notch and the home bar are painted, not left showing the page
+           scrolling underneath the header and the footer. The home page had
+           these two strips of its own; every page has them now, because a
+           phone with a notch is not a home-page-only phone. */
+        .mobile-safe-area-fill {
+          position: fixed !important;
+          left: 0 !important;
+          right: 0 !important;
+          pointer-events: none !important;
+          display: block !important;
+        }
+        .mobile-safe-area-fill--top {
+          top: 0 !important;
+          height: calc(72px + env(safe-area-inset-top, 0px)) !important;
+          background: var(--theme-header-bar-bg, #fff) !important;
+          border-bottom: 1px solid rgba(157, 133, 101, 0.24) !important;
+          z-index: 49 !important;
+          transition: none !important;
+        }
+        .mobile-safe-area-fill--bottom {
+          bottom: 0 !important;
+          height: env(safe-area-inset-bottom, 0px) !important;
+          background: var(--footer-offwhite, #fff) !important;
+          z-index: 49 !important;
         }
         .mobile-header-actions {
           position: absolute !important;
@@ -869,9 +786,8 @@
           order: 1 !important;
           min-width: 0 !important;
         }
-        .header-logo-text {
-          font-size: clamp(20px, 5.6vw, 23px) !important;
-          letter-spacing: 0.01em !important;
+        header .header-logo-text {
+          font-size: clamp(25px, 7vw, 32px) !important;
           word-spacing: normal !important;
           overflow: hidden !important;
           text-overflow: clip !important;
@@ -990,11 +906,230 @@
         .menu-link-contact {
           display: inline-flex !important;
         }
-        #contact-quick-panel .contact-quick-head {
-          padding: calc(env(safe-area-inset-top, 0px) + 20px) max(20px, env(safe-area-inset-right, 0px)) 8px max(20px, env(safe-area-inset-left, 0px)) !important;
+      }
+      /* --- The masthead ----------------------------------------------------
+         Menu, search and the restored client actions keep the homepage
+         masthead arrangement. Language choice remains in the footer. */
+      .header-account {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        flex: 0 0 auto;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        appearance: none;
+        -webkit-appearance: none;
+        cursor: pointer;
+        text-decoration: none;
+        color: rgba(42, 33, 24, 0.82);
+        font-family: "Inter Tight", sans-serif;
+        font-size: 12px;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+        order: 4;
+        /* Matched to .bag-launcher-btn and .search-toggle so the whole bar
+           cross-fades as one when the hero scrolls away. */
+        transition: opacity 0.2s ease, color 0.45s ease;
+      }
+      .header-account:hover,
+      .header-account:focus-visible {
+        opacity: 0.84;
+        outline: none;
+      }
+      .header-account-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .header-account-icon svg {
+        width: 20px;
+        height: 20px;
+        display: block;
+      }
+      /* Over a hero image the header goes pale, and the account goes with it.
+         Without this the one control carrying words stayed dark against the
+         photograph while the wordmark, the heart and the bag all turned. */
+      body.desktop-header-hero-mode .header-account {
+        color: rgba(242, 236, 224, 0.96);
+      }
+
+      @media (min-width: 769px) {
+        body .header-bar .search-toggle,
+        body .header-bar.has-favorites-launcher .search-toggle { margin-left: 0 !important; }
+        body .header-bar.has-favorites-launcher .favorites-launcher { margin-left: auto !important; }
+        .header-bar .contact-quick-trigger { display: inline-flex !important; }
+        .header-bar .header-account { order: 4 !important; }
+        .header-bar .bag-launcher { order: 6 !important; }
+      }
+      /* Contact is one of the four panels, so its control is one of the four
+         icons — the same size, the same weight, in the same cluster. It used
+         to be the only one wearing words, which made it read as a separate
+         thing standing beside the group rather than part of it. */
+      .header-bar .contact-quick-trigger { gap: 0 !important; }
+      .header-bar .contact-quick-trigger::before { content: none !important; }
+      .header-bar .contact-quick-icon { display: inline-flex; width: 20px; height: 20px; align-items: center; justify-content: center; flex: 0 0 20px; }
+      .header-bar .contact-quick-icon svg { display: block; width: 20px; height: 20px; stroke: currentColor; }
+
+      /* The header's right-hand cluster and a panel's utility row are the same
+         set of icons in the same order — wishlist, account, contact, bag —
+         so moving between them is moving between the same four things. */
+      .header-bar .favorites-launcher-btn svg,
+      .header-bar .header-account-icon svg,
+      .header-bar .contact-quick-icon svg,
+      .header-bar .bag-launcher-btn svg,
+      .header-bar .search-toggle svg,
+      .header-bar .search-mobile-trigger svg,
+      .header-bar .menu-toggle .menu-icon svg {
+        stroke-width: 1.25 !important;
+      }
+      /* Icons stay visually quiet while their actual hit areas remain large
+         enough for a finger. Several controls previously exposed only a
+         20–24px clickable box, which made the wishlist and account entries
+         seem intermittent even though their handlers had fired correctly. */
+      .header-bar .favorites-launcher-btn,
+      .header-bar .header-account,
+      .header-bar .contact-quick-trigger,
+      .header-bar .bag-launcher-btn,
+      .header-bar .search-toggle,
+      .header-bar .menu-toggle {
+        width: 42px !important;
+        min-width: 42px !important;
+        height: 42px !important;
+        min-height: 42px !important;
+        padding: 0 !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      /* Legacy language styling remains harmless while the footer owns the selector. */
+      @media (min-width: 769px) {
+        .header-bar .language-switcher { order: 7 !important; margin-left: 12px !important; }
+      }
+
+      /* --- Mobile ----------------------------------------------------------
+         [ menu  search ]   MARVELL FLORIST   [ heart  account  bag ]
+
+         The same shape as the desktop masthead, which is the point: the menu
+         and search open from the left, and the panels open from the right.
+         These used to be hidden on a phone and reached from inside the menu
+         instead — but the menu is a list of places now, so hiding them here
+         left no way to a saved piece at all.
+
+         Contact Us is the exception, and it is not an oversight: it is a row
+         in the menu, the menu opens it in place, and a phone masthead has
+         four things in it already.
+
+         Placed with flex order, never by moving nodes: assets/favorites.js
+         puts its own launcher next to the contact control, so the two would
+         otherwise take turns rearranging each other. */
+      @media (max-width: 768px) {
+        header {
+          padding: 0 12px !important;
         }
-        #contact-quick-panel .contact-quick-body {
-          padding: 18px max(24px, env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom, 0px) + 34px) max(24px, env(safe-area-inset-left, 0px)) !important;
+        /* 10px, which is the gap the same four icons sit at in a panel's
+           utility row (.mv-panel-utility-actions in assets/marvell-shop.js).
+           They were 13px here, which on a 390px masthead reads as a row of
+           separate controls rather than one cluster — and the two places
+           showing the same icons disagreed about their spacing.
+
+           Note for anyone hunting this: the 16px gap on
+           .mobile-header-actions higher up in this file does nothing, because
+           the rule below makes that box display:contents, and a box that
+           generates no box has no gap. The icons are direct flex children of
+           .header-bar on a phone, so this is the gap that decides them. */
+        .header-bar {
+          gap: 10px !important;
+        }
+        .header-bar .mobile-header-actions {
+          display: contents !important;
+        }
+        .header-bar .menu-toggle {
+          order: 0 !important;
+          margin: 0 !important;
+          flex: 0 0 auto !important;
+        }
+        /* This one auto margin is what divides the row, so the right-hand
+           group holds together however many of its four are on the page. */
+        .header-bar .search-toggle {
+          display: inline-flex !important;
+          order: 1 !important;
+          margin: 0 auto 0 0 !important;
+          flex: 0 0 auto !important;
+          position: static !important;
+          transform: none !important;
+        }
+        .header-bar .header-logo {
+          position: absolute !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+          max-width: calc(100% - 206px) !important;
+          flex: 0 0 auto !important;
+          order: 2 !important;
+        }
+        .header-bar .header-logo-text {
+          font-size: clamp(19px, 5.4vw, 28px) !important;
+        }
+        .header-bar .favorites-launcher,
+        .header-bar .header-account,
+        .header-bar .bag-launcher {
+          display: inline-flex !important;
+          margin: 0 !important;
+          flex: 0 0 auto !important;
+          position: static !important;
+          transform: none !important;
+        }
+        /* Contact Us is not in the masthead on a phone. It is in the menu, at
+           the bottom of the list, and the menu opens it in place.
+           This is said at .header-bar weight on purpose. The rule above used
+           to carry the contact control along with the other three, and the two
+           places that hid it — higher up in this file, and in
+           assets/shared-contact.js — both named .contact-quick-trigger on its
+           own, which is a hundred points lighter than .header-bar
+           .contact-quick-trigger and lost to it every time. The control was on
+           every phone no matter how many times it was told not to be. */
+        .header-bar .header-contact,
+        .header-bar .contact-quick-trigger {
+          display: none !important;
+        }
+        .header-bar .favorites-launcher { order: 3 !important; }
+        .header-bar .header-account { order: 4 !important; }
+        .header-bar .bag-launcher { order: 6 !important; }
+        .header-bar .favorites-launcher-btn svg,
+        .header-bar .header-account-icon svg,
+        .header-bar .contact-quick-icon svg,
+        .header-bar .bag-launcher-btn svg,
+        .header-bar .search-toggle svg,
+        .header-bar .menu-toggle .menu-icon svg {
+          width: 19px !important;
+          height: 19px !important;
+        }
+        /* The footer owns the language selector. */
+        .header-bar .language-switcher {
+          display: none !important;
+        }
+      }
+      @media (min-width: 769px) {
+        .header-bar .contact-quick-trigger,
+        .header-bar .header-account,
+        .header-bar .menu-toggle,
+        .header-bar .search-toggle,
+        .header-bar .favorites-launcher,
+        .header-bar .favorites-launcher-btn:not(.has-items),
+        .header-bar .bag-launcher-btn,
+        .header-bar .header-logo-text {
+          color: #35383a !important;
+        }
+        body.desktop-header-hero-mode .header-bar .contact-quick-trigger,
+        body.desktop-header-hero-mode .header-bar .header-account,
+        body.desktop-header-hero-mode .header-bar .menu-toggle,
+        body.desktop-header-hero-mode .header-bar .search-toggle,
+        body.desktop-header-hero-mode .header-bar .favorites-launcher,
+        body.desktop-header-hero-mode .header-bar .favorites-launcher-btn:not(.has-items),
+        body.desktop-header-hero-mode .header-bar .bag-launcher-btn,
+        body.desktop-header-hero-mode .header-bar .header-logo-text {
+          color: #fff !important;
+          -webkit-text-fill-color: currentColor !important;
         }
       }
     `;
@@ -1018,6 +1153,20 @@
     headerBar.dataset.mobileSearchCleanupBound = "1";
   }
 
+  /** The two strips behind the notch and the home bar. */
+  function ensureSafeAreaFills() {
+    if (!document.body) return;
+    ["top", "bottom"].forEach((edge) => {
+      const selector = `.mobile-safe-area-fill--${edge}`;
+      if (document.querySelector(selector)) return;
+      const fill = document.createElement("div");
+      fill.className = `mobile-safe-area-fill mobile-safe-area-fill--${edge}`;
+      fill.setAttribute("aria-hidden", "true");
+      // Ahead of everything, so it cannot sit over a panel that opens later.
+      document.body.prepend(fill);
+    });
+  }
+
   function ensureMobileActionCluster() {
     const headerBar = document.querySelector(".header-bar");
     if (!(headerBar instanceof HTMLElement)) return;
@@ -1027,14 +1176,89 @@
       cluster.className = "mobile-header-actions";
       headerBar.appendChild(cluster);
     }
+    // The right-hand cluster, in the same order as the desktop masthead and
+    // as the utility row inside every panel: wishlist, account, contact,
+    // bag. Appending in this order is what fixes it, because the cluster is a
+    // real flex box on a phone rather than `display: contents`.
+    // Only the bag is moved here, and only because it has nowhere else to be
+    // put. Everything else in the masthead is placed by flex `order` in the
+    // stylesheet below, which is how the desktop row is built too.
+    //
+    // Nothing else may be moved into this box: assets/favorites.js places its
+    // own launcher relative to the contact control, so pulling the contact
+    // control in here would leave it inserting against a node that is no
+    // longer its sibling — and, since this also runs from a MutationObserver,
+    // the two would go on moving the same elements past each other.
     const controls = [
-      headerBar.querySelector(".favorites-launcher"),
-      headerBar.querySelector(".search-toggle"),
-      headerBar.querySelector(".menu-toggle")
+      headerBar.querySelector(".bag-launcher")
     ];
     controls.forEach((control) => {
       if (!(control instanceof HTMLElement)) return;
       if (control.parentElement !== cluster) cluster.appendChild(control);
+    });
+  }
+
+  function ensureAccountEntry() {
+    const headerBar = document?.querySelector?.(".header-bar");
+    if (!(headerBar instanceof HTMLElement)) return;
+    const label = window.MarvellAccount?.label?.() || "Join Marvell";
+    let account = headerBar.querySelector(".header-account");
+    if (!(account instanceof HTMLButtonElement)) {
+      account = document.createElement("button");
+      account.type = "button";
+      account.className = "header-account";
+      account.setAttribute("data-account-open", "");
+      account.setAttribute("aria-haspopup", "dialog");
+      account.setAttribute("aria-expanded", "false");
+      account.setAttribute("aria-controls", "marvell-account-drawer");
+      account.innerHTML = `<span class="header-account-icon" aria-hidden="true">${window.MarvellIcons?.icon?.("account") || ""}</span><span class="header-account-label"></span>`;
+      const bag = headerBar.querySelector(".bag-launcher");
+      if (bag instanceof HTMLElement) bag.before(account);
+      else headerBar.appendChild(account);
+    }
+    // The words live in the aria-label; the page shows the glyph. The label
+    // node is kept and kept current because it is what the panel tests, the
+    // translation pass and a screen reader all read.
+    account.setAttribute("aria-label", label);
+    const labelNode = account.querySelector(".header-account-label");
+    if (labelNode && labelNode.textContent !== label) labelNode.textContent = label;
+  }
+
+  /**
+   * The contact control is a glyph, like every other control up here.
+   *
+   * Its words have to be wrapped before the icon goes in. A bare text node
+   * cannot be hidden with CSS, so a trigger whose label is written straight
+   * into the button — which is how index.html and gallery.html spell it —
+   * kept "Hubungi Kami" on screen beside the icon while every other page
+   * showed the glyph alone. The words stay in the element for a screen reader
+   * and for assets/site-language.js to translate; only the paint changes.
+   *
+   * assets/shared-contact.js does the same thing for the pages it runs on.
+   * This is here because index.html does not load it.
+   */
+  function ensureContactIcon() {
+    document.querySelectorAll(".header-bar .contact-quick-trigger, .header-bar .header-contact").forEach((trigger) => {
+      if (!(trigger instanceof HTMLElement)) return;
+      if (!trigger.querySelector(".contact-quick-label")) {
+        const words = String(trigger.textContent || "").trim();
+        if (words) {
+          const label = document.createElement("span");
+          label.className = "contact-quick-label";
+          label.textContent = words;
+          if (!trigger.hasAttribute("aria-label")) trigger.setAttribute("aria-label", words);
+          trigger.textContent = "";
+          trigger.appendChild(label);
+        }
+      }
+      if (trigger.querySelector(".contact-quick-icon")) return;
+      const icon = window.MarvellIcons?.icon?.("contact");
+      if (!icon) return;
+      const host = document.createElement("span");
+      host.className = "contact-quick-icon";
+      host.setAttribute("aria-hidden", "true");
+      host.innerHTML = icon;
+      trigger.prepend(host);
     });
   }
 
@@ -1189,7 +1413,7 @@
   }
 
   function ensureDesktopControlOrder() {
-    if (typeof window.matchMedia !== "function" || !window.matchMedia("(min-width: 900px)").matches) return;
+    if (typeof window.matchMedia !== "function" || !window.matchMedia("(min-width: 769px)").matches) return;
     const headerBar = document.querySelector(".header-bar");
     if (!(headerBar instanceof HTMLElement)) return;
     const menuToggle = headerBar.querySelector(".menu-toggle");
@@ -1208,11 +1432,44 @@
 
   function initialize() {
     ensureStyles();
+    ensureSafeAreaFills();
     ensurePromoStrip();
     ensureMobileSearchTrigger();
+    ensureAccountEntry();
+    ensureContactIcon();
     ensureMobileActionCluster();
     ensureDesktopControlOrder();
+    window.MarvellIcons?.adopt?.();
     ensureFeaturedMenuFallback();
+
+    // favorites.js and bag.js inject their launchers asynchronously. Observe
+    // only those additions: watching every carousel and animation mutation
+    // made the header redo work across the whole page while it was loading.
+    if (typeof MutationObserver === "function" && document.body) {
+      const launcherSelector = ".favorites-launcher, .bag-launcher";
+      const observer = new MutationObserver((mutations) => {
+        const launcherAdded = mutations.some((mutation) => [...mutation.addedNodes].some((node) =>
+          node instanceof Element && (node.matches(launcherSelector) || node.querySelector?.(launcherSelector))
+        ));
+        if (!launcherAdded) return;
+        ensureAccountEntry();
+        ensureContactIcon();
+        window.MarvellIcons?.adopt?.(document.querySelector(".header-bar"));
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+      window.setTimeout(() => observer.disconnect(), 8000);
+    }
+
+    // The entry reads "Join Marvell" to a guest and "Account" to somebody
+    // signed in. The panel says when that changes rather than the header
+    // polling for it — and the observer above has stopped by then.
+    window.addEventListener("marvell:account-change", () => ensureAccountEntry());
+
+    document.querySelectorAll(".header-contact, .contact-quick-trigger").forEach((control) => {
+      if (control instanceof HTMLElement && !control.hasAttribute("aria-label")) {
+        control.setAttribute("aria-label", control.textContent?.trim() || "Contact us");
+      }
+    });
     if (document.body) {
       document.body.dataset.headerTemplateApplied = "1";
       document.body.dataset.mobileSearchEnabled = isHomePage() ? "true" : "false";

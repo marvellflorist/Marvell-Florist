@@ -1,10 +1,10 @@
 (function () {
   const existingFooter = document.getElementById("site-footer");
 
-  if (!document.querySelector('link[data-shared-footer-fonts="1"]')) {
+  if (!document.querySelector('link[href*="fonts.googleapis.com/css2?family=Inter+Tight"]')) {
     const fontsLink = document.createElement("link");
     fontsLink.rel = "stylesheet";
-    fontsLink.href = "https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&display=swap";
+    fontsLink.href = "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap";
     fontsLink.setAttribute("data-shared-footer-fonts", "1");
     document.head.appendChild(fontsLink);
   }
@@ -15,25 +15,16 @@
     style.id = footerStylesId;
     style.textContent = `
       @font-face {
-        font-family: "RelationshipDisplay";
-        src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-             url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
+        font-family: "AdelioDisplayCondensed";
+        src: url("/assets/AdelioDisplayCondensed-Light-v0.1.woff2") format("woff2");
         font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "Relationship of Melodrame";
-        src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-             url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-        font-style: normal;
-        font-weight: 400;
+        font-weight: 300;
         font-display: swap;
       }
       #site-footer {
         position: relative;
-        margin-top: 56px;
-        padding: 72px 0 calc(env(safe-area-inset-bottom, 0px) + 84px);
+        margin-top: 0;
+        padding: 52px 0 calc(env(safe-area-inset-bottom, 0px) + 70px);
         background: #fff;
         color: #2a2118;
         border-top: 1px solid rgba(63, 54, 45, 0.16);
@@ -42,34 +33,15 @@
         content: none;
       }
       #site-footer .footer-inner {
-        width: min(1160px, 92vw);
+        width: min(1840px, calc(100% - 64px));
         margin: 0 auto;
         display: grid;
         gap: 34px;
       }
-      #site-footer .footer-closing {
-        padding: 0 0 58px;
-        text-align: center;
-      }
-      #site-footer .footer-closing-quote {
-        margin: 0;
-        font-family: "Relationship of Melodrame", "RelationshipDisplay", serif !important;
-        font-size: clamp(34px, 4.4vw, 72px);
-        line-height: 1.25;
-        color: #2a2118;
-      }
-      #site-footer .footer-closing-author {
-        font-family: "Inter Tight", sans-serif !important;
-        margin: 16px 0 0;
-        font-size: 12px;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: rgba(42, 33, 24, 0.68);
-      }
       #site-footer .footer-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 56px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: clamp(24px, 3vw, 64px);
         margin: 0;
         padding: 40px 0 24px;
         align-items: start;
@@ -86,19 +58,19 @@
       }
       #site-footer .footer-col-title {
         margin: 0 0 14px;
-        font-family: "Inter Tight", sans-serif !important;
+        font-family: "AdelioDisplayCondensed", sans-serif !important;
         width: 100%;
         padding: 0;
         border: 0;
         background: none;
-        color: rgba(42, 33, 24, 0.68);
+        color: #35383a;
         display: inline-flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        font-size: 15px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 0.01em;
         text-transform: none;
         text-align: left;
         cursor: pointer;
@@ -121,7 +93,7 @@
       #site-footer .footer-links,
       #site-footer .footer-list {
         display: grid;
-        gap: 22px;
+        gap: 18px;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -132,12 +104,12 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        color: #2a2118;
+        color: #858b91;
         text-decoration: none;
         font-family: "Inter Tight", sans-serif !important;
         font-size: 14px;
         font-weight: 500;
-        line-height: 1.04;
+        line-height: 1.45;
         letter-spacing: 0.01em;
         text-transform: none;
       }
@@ -148,11 +120,24 @@
         text-decoration: underline;
         text-underline-offset: 0.08em;
       }
-      #site-footer .footer-descriptor {
-        display: grid;
-        gap: 10px;
-        margin-top: 18px;
+      #site-footer .footer-cookie-settings {
+        border: 0;
+        background: none;
+        padding: 0;
+        text-align: left;
+        cursor: pointer;
       }
+      #site-footer .footer-link::after {
+        content: "›";
+        font-size: 19px;
+        line-height: .7;
+        margin-left: 3px;
+        color: #858b91;
+        transition: transform .22s ease;
+      }
+      #site-footer .footer-link:hover::after,
+      #site-footer .footer-link:focus-visible::after { transform: translateX(3px); }
+      #site-footer .footer-descriptor { display: none; }
       #site-footer .footer-descriptor p {
         font-family: "Inter Tight", sans-serif !important;
         margin: 0;
@@ -163,47 +148,47 @@
         letter-spacing: 0.01em;
       }
       #site-footer .footer-bottom {
-        border-top: 1px solid rgba(157, 133, 101, 0.24);
+        border-top: 0;
         padding-top: 6px;
         display: grid;
-        grid-template-columns: 1fr;
-        justify-items: center;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-items: stretch;
         align-items: center;
         gap: 0;
-        text-align: center;
+        text-align: left;
       }
       #site-footer .footer-copyright {
         font-family: "Inter Tight", sans-serif !important;
         margin: 0;
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
         letter-spacing: 0.01em;
         color: #2a2118;
       }
       #site-footer .footer-legal-link {
+        position: relative;
+        z-index: 2;
+        display: inline-block;
+        padding: 8px 2px;
         color: inherit;
         text-decoration: none;
+        pointer-events: auto;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(42, 33, 24, 0.12);
       }
       #site-footer .footer-brand {
-        margin: 22px 0 0;
+        margin: 0;
         text-align: center;
-        font-family: "Imperial Script", cursive !important;
-        font-size: clamp(62px, 12vw, 168px);
-        line-height: 0.85;
-        color: rgba(42, 33, 24, 0.84);
-        letter-spacing: 0;
+        font-family: "AdelioDisplayCondensed", sans-serif !important;
+        font-size: 36px;
+        font-weight: 300;
+        line-height: 1;
+        color: #35383a;
+        -webkit-text-fill-color: currentColor !important;
+        -webkit-text-stroke: 0 !important;
+        letter-spacing: 0.01em;
         text-shadow: none;
-      }
-      #site-footer .footer-brand-subline {
-        font-family: "Inter Tight", sans-serif !important;
-        margin-top: 2px;
-        text-align: center;
-        color: rgba(42, 33, 24, 0.68);
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 1.45;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        white-space: nowrap;
       }
       .floating-whatsapp-btn {
         position: fixed;
@@ -224,6 +209,82 @@
         text-decoration: none;
         transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
       }
+      /* The language control, built the way Gucci's is: the label above, the
+         current language with a chevron under it, and a list that fades up
+         rather than appearing. Nothing here is hidden with [hidden] — a
+         display switch cannot be faded, and the fade is the point. */
+      #site-footer .footer-language {
+        position: relative;
+        justify-self: end;
+        align-self: center;
+        display: grid;
+        gap: 6px;
+        justify-items: start;
+      }
+      #site-footer .footer-language-label {
+        font: 500 11px/1 "Inter Tight", sans-serif;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #858b91;
+      }
+      #site-footer .footer-language-trigger {
+        display: inline-flex; align-items: center; gap: 10px; border: 0; background: none;
+        color: #35383a; font: 14px "Inter Tight", sans-serif; cursor: pointer; padding: 4px 0;
+        transition: opacity 0.3s ease;
+      }
+      #site-footer .footer-language-trigger strong { font-weight: 500; }
+      #site-footer .footer-language-trigger:hover,
+      #site-footer .footer-language-trigger:focus-visible { opacity: 0.7; outline: none; }
+      #site-footer .footer-language-chevron {
+        width: 11px; height: 11px; display: block; flex: 0 0 auto;
+        stroke: currentColor; stroke-width: 1.5; fill: none;
+        stroke-linecap: round; stroke-linejoin: round;
+        transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      #site-footer .footer-language-trigger[aria-expanded="true"] .footer-language-chevron {
+        transform: rotate(180deg);
+      }
+      #site-footer .footer-language-popover {
+        position: absolute; right: 0; bottom: calc(100% + 12px); min-width: 264px;
+        display: grid; padding: 4px 0; background: #fff;
+        border: 1px solid #e4e6e8; box-shadow: 0 16px 44px rgba(0,0,0,.12); z-index: 20;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        pointer-events: none;
+        transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.55s;
+      }
+      #site-footer .footer-language-popover.is-open {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+        transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+      }
+      #site-footer .footer-language-popover .language-switcher__button {
+        display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: center;
+        width: 100%; text-align: left; padding: 16px 20px; border: 0; background: none;
+        font: 14px "Inter Tight", sans-serif; color: #35383a; opacity: 1; cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      #site-footer .footer-language-popover .language-switcher__button + .language-switcher__button {
+        border-top: 1px solid #edeef0;
+      }
+      #site-footer .footer-language-popover .language-switcher__button:hover,
+      #site-footer .footer-language-popover .language-switcher__button:focus-visible {
+        background: #f1f2f3; outline: none;
+      }
+      #site-footer .language-switcher__check {
+        width: 12px; height: 12px; display: block;
+        stroke: currentColor; stroke-width: 1.6; fill: none;
+        stroke-linecap: round; stroke-linejoin: round;
+        opacity: 0; transition: opacity 0.3s ease;
+      }
+      #site-footer .language-switcher__button.is-active .language-switcher__check { opacity: 1; }
+      @media (prefers-reduced-motion: reduce) {
+        #site-footer .footer-language-popover,
+        #site-footer .footer-language-chevron { transition: none; }
+      }
       .floating-whatsapp-btn:hover,
       .floating-whatsapp-btn:focus-visible {
         transform: translateY(-2px);
@@ -242,10 +303,27 @@
         display: block;
         fill: #fff;
       }
+      /* A phone has a home bar under it and a bottom sheet that comes up over
+         it, so the button sits higher and smaller there. The home page had
+         this and nobody else did, which is also why the newsletter card's
+         --nl-card-lift in assets/newsletter.js expects the button to move up
+         on a narrow screen: it does now, on every page. */
+      @media (max-width: 768px) {
+        .floating-whatsapp-btn {
+          right: 14px;
+          bottom: calc(env(safe-area-inset-bottom, 0px) + 78px);
+          width: 52px;
+          height: 52px;
+        }
+        .floating-whatsapp-btn svg {
+          width: 23px;
+          height: 23px;
+        }
+      }
       @media (max-width: 899px) {
         #site-footer {
-          margin-top: 42px;
-          padding: 48px 0 calc(env(safe-area-inset-bottom, 0px) + 96px);
+          margin-top: 0;
+          padding: 40px 0 calc(env(safe-area-inset-bottom, 0px) + 86px);
         }
         #site-footer::before {
           content: none;
@@ -265,7 +343,7 @@
         }
         #site-footer .footer-col-title {
           margin: 0;
-          font-size: 13px;
+          font-size: 28px;
           cursor: pointer;
           padding: 2px 0;
         }
@@ -312,46 +390,25 @@
         #site-footer .footer-bottom {
           margin-top: 12px;
           padding-top: 14px;
+          grid-template-columns: 1fr auto;
+          row-gap: 24px;
         }
         #site-footer .footer-brand {
-          margin-top: 16px;
-          font-size: clamp(54px, 18vw, 108px);
-          line-height: 0.88;
+          font-size: clamp(25px, 7vw, 32px);
+          line-height: 1;
+          grid-column: 1 / -1;
+          grid-row: 2;
         }
-        #site-footer .footer-brand-subline {
-          margin-top: 2px;
-          font-size: 11px;
-          letter-spacing: 0.07em;
+        #site-footer .footer-language {
+          grid-column: 2;
+          grid-row: 1;
         }
-        #site-footer .footer-closing-quote {
-          font-size: clamp(34px, 10vw, 48px);
-        }
-        #site-footer .footer-col-title,
-        #site-footer .footer-link {
-          font-size: 12px;
-          line-height: 1.35;
-        }
-        .floating-whatsapp-btn {
-          right: 14px;
-          bottom: calc(env(safe-area-inset-bottom, 0px) + 78px);
-          width: 52px;
-          height: 52px;
-        }
-        .floating-whatsapp-btn svg {
-          width: 23px;
-          height: 23px;
-        }
-      }
-    `;
+      `;
     document.head.appendChild(style);
   }
 
   const footerMarkup = `
     <div class="footer-inner">
-      <div class="footer-closing">
-        <p class="footer-closing-quote">&ldquo;I must have flowers, always and always.&rdquo;</p>
-        <p class="footer-closing-author">Claude Monet</p>
-      </div>
       <div class="footer-grid">
         <section class="footer-col" aria-label="Contact links">
           <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact-shared">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
@@ -361,12 +418,7 @@
               <a class="footer-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">WhatsApp</a>
               <a class="footer-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
               <a class="footer-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
-              <a class="footer-link" href="mailto:floristmarvell@gmail.com">Email</a>
-            </div>
-            <div class="footer-descriptor" aria-label="Contact details">
-              <p>Email: floristmarvell@gmail.com</p>
-              <p>Whatsapp: 0811-6667-457</p>
-              <p>Alamat: Komp. Ruko Kintamani, Jl. Raja H. Fisabilillah Blok C11, Teluk Tering, Batam Kota, Batam City, Riau Islands 29444</p>
+              <a class="footer-link" href="mailto:hello@marvellflorist.com">Email</a>
             </div>
           </div>
         </section>
@@ -385,7 +437,8 @@
           <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-categories-shared">Kategori <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
           <div class="footer-accordion-panel" id="footer-panel-categories-shared">
             <div class="footer-links">
-              <a class="footer-link" data-seasonal-featured-link href="featured.html">Collections</a>
+              <a class="footer-link" href="featured.html" data-featured-primary-link>Collections</a>
+              <a class="footer-link" data-seasonal-featured-link href="featured.html">Seasonal Editions</a>
               <a class="footer-link" data-gallery-category="parcels" href="gallery.html?category=parcels">Parcels</a>
               <a class="footer-link" data-gallery-category="bouquets" href="gallery.html?category=bouquets">Bouquets</a>
               <a class="footer-link" data-gallery-category="standing-flowers" href="gallery.html?category=standing-flowers">Standing Flowers</a>
@@ -395,12 +448,30 @@
             </div>
           </div>
         </section>
+        <section class="footer-col" aria-label="Legal notices">
+          <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-legal-shared">Legal Notices <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
+          <div class="footer-accordion-panel" id="footer-panel-legal-shared">
+            <div class="footer-links">
+              <a class="footer-link" href="privacy-policy.html">Privacy Policy</a>
+              <button class="footer-link footer-cookie-settings" type="button" data-cookie-settings>Cookie settings</button>
+              <a class="footer-link" href="terms-conditions.html">Terms &amp; Conditions</a>
+              <a class="footer-link" href="faq.html">FAQ</a>
+            </div>
+          </div>
+        </section>
       </div>
       <div class="footer-bottom">
-        <p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privasi</a> · <a class="footer-legal-link" href="terms-conditions.html">Ketentuan</a> · <a class="footer-legal-link" href="faq.html">FAQ</a> · © 2006–2026 Marvell Florist</p>
+        <p class="footer-copyright">© 2006–2026 Marvell Florist</p>
+        <div class="footer-brand" aria-label="Marvell Florist">MARVELL FLORIST</div>
+        <div class="footer-language">
+          <span class="footer-language-label" data-footer-language-label>Language</span>
+          <button class="footer-language-trigger" type="button" aria-expanded="false" aria-controls="footer-language-popover"><strong data-footer-language-current>English</strong><svg class="footer-language-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"></path></svg></button>
+          <div class="footer-language-popover" id="footer-language-popover">
+            <button class="language-switcher__button" type="button" data-lang="en"><svg class="language-switcher__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m4 12.5 5 5L20 6.5"></path></svg><span>English</span></button>
+            <button class="language-switcher__button" type="button" data-lang="id"><svg class="language-switcher__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m4 12.5 5 5L20 6.5"></path></svg><span>Bahasa Indonesia</span></button>
+          </div>
+        </div>
       </div>
-      <div class="footer-brand" aria-hidden="true">Marvell Florist</div>
-      <p class="footer-brand-subline">Where every petal is a little more marvelous.</p>
     </div>
   `;
 
@@ -412,6 +483,10 @@
     document.body.appendChild(footer);
   }
 
+  footer.querySelector("[data-cookie-settings]")?.addEventListener("click", () => {
+    window.MarvellConsent?.open?.();
+  });
+
   if (!document.querySelector(".floating-whatsapp-btn")) {
     const whatsappFloat = document.createElement("a");
     whatsappFloat.className = "floating-whatsapp-btn no-smudge";
@@ -420,7 +495,7 @@
     whatsappFloat.rel = "noopener noreferrer";
     whatsappFloat.setAttribute("aria-label", "Chat di WhatsApp");
     whatsappFloat.innerHTML = `
-      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false">
         <path d="M16.01 3.18c-7.07 0-12.81 5.73-12.81 12.8 0 2.26.6 4.47 1.73 6.42L3 29l6.79-1.78a12.78 12.78 0 0 0 6.21 1.6h.01c7.06 0 12.8-5.74 12.8-12.8S23.07 3.18 16.01 3.18zm0 23.49h-.01a10.67 10.67 0 0 1-5.43-1.48l-.39-.23-4.03 1.06 1.08-3.93-.25-.4A10.67 10.67 0 0 1 5.35 16c0-5.88 4.79-10.66 10.67-10.66 2.85 0 5.52 1.11 7.53 3.12A10.58 10.58 0 0 1 26.68 16c0 5.88-4.79 10.67-10.67 10.67zm5.85-8c-.32-.16-1.92-.95-2.21-1.05-.29-.11-.51-.16-.72.16-.21.32-.82 1.05-1.01 1.27-.19.21-.37.24-.69.08-.32-.16-1.35-.5-2.58-1.6-.95-.84-1.6-1.89-1.79-2.21-.19-.32-.02-.49.14-.65.14-.14.32-.37.47-.56.16-.18.21-.31.32-.53.11-.21.05-.4-.03-.56-.08-.16-.72-1.74-.99-2.38-.26-.63-.53-.55-.72-.56h-.62c-.21 0-.59.08-.9.4-.31.32-1.18 1.15-1.18 2.8 0 1.65 1.2 3.24 1.37 3.47.16.22 2.35 3.59 5.69 5.04.8.35 1.42.56 1.91.71.81.26 1.55.22 2.14.14.65-.1 1.92-.79 2.19-1.56.27-.77.27-1.42.19-1.56-.08-.13-.29-.21-.61-.37z"/>
       </svg>
     `;
@@ -538,7 +613,7 @@
       if (!(toggle instanceof HTMLButtonElement)) return;
       const owner = toggle.closest(".footer-col");
       const isOpen = !!(owner && owner.classList.contains("is-open"));
-      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      toggle.setAttribute("aria-expanded", !isMobile || isOpen ? "true" : "false");
     });
   };
 

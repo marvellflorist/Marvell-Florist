@@ -28,8 +28,9 @@
 <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
 <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260505a"></script>
-<script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+<script src="assets/marvell-icons.js?v=20260920e"></script>
+<script src="assets/header-template.js?v=20260923a"></script>
 <script src="gallery-fallback-data.js"></script>
 <link rel="icon" href="assets/logo.webp?v=4" type="image/webp" sizes="32x32">
 <link rel="icon" href="assets/logo.webp?v=4" type="image/webp" sizes="32x32" media="(prefers-color-scheme: light)">
@@ -38,25 +39,10 @@
 <link rel="shortcut icon" href="assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-@font-face {
-  font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
 :root {
   --canvas: #fff;
   --ink: #2f2923;
@@ -440,7 +426,7 @@ header::after {
 }
 .header-logo-text {
   display: inline-block;
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: 32px;
   line-height: 0.9;
   letter-spacing: 0.01em;
@@ -485,6 +471,18 @@ header::after {
   opacity: 0.84;
   outline: none;
 }
+.contact-quick-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 10, 9, 0.34);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 240;
+}
+.contact-quick-backdrop.is-open { opacity: 1; pointer-events: auto; }
 .menu-toggle {
   display: inline-flex;
   align-items: center;
@@ -791,7 +789,7 @@ body.portfolio-gateway-active main::after {
 }
 .portfolio-gateway-title {
   margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(40px, 6.2vw, 78px);
   line-height: 0.92;
   font-weight: 400;
@@ -937,7 +935,7 @@ body.portfolio-gateway-active main::after {
 }
 .portfolio-gateway-card-title {
   margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   max-width: min(12ch, 88vw);
   font-size: clamp(40px, 6.3vw, 82px);
   line-height: 0.9;
@@ -1088,7 +1086,7 @@ body.portfolio-gateway-active .collection-meta {
 }
 .hero-title {
   margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(30px, 3.8vw, 56px);
   line-height: 0.9;
   font-weight: 400;
@@ -1656,6 +1654,12 @@ body.portfolio-gateway-active .collection-meta {
   gap: 8px;
   transition: opacity 0.28s ease;
 }
+.gallery-progressive-sentinel {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 1px;
+  pointer-events: none;
+}
 .products-grid.is-transitioning {
   opacity: 0;
 }
@@ -1882,7 +1886,7 @@ body.portfolio-gateway-active .collection-meta {
 }
 .collection-meta h2 {
   margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(30px, 3.5vw, 48px);
   line-height: 0.9;
   font-weight: 400;
@@ -1915,25 +1919,6 @@ body.portfolio-gateway-active #site-footer {
   margin: 0 auto;
   display: grid;
   gap: 18px;
-}
-#site-footer .footer-closing {
-  text-align: center;
-  margin: 0 auto 6px;
-}
-#site-footer .footer-closing-quote {
-  margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-  font-size: clamp(36px, 5vw, 58px);
-  line-height: 0.92;
-  color: rgba(42, 33, 24, 0.9);
-}
-#site-footer .footer-closing-author {
-  margin: 8px 0 0;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(42, 33, 24, 0.6);
 }
 #site-footer .footer-grid {
   display: grid;
@@ -2015,7 +2000,7 @@ body.portfolio-gateway-active #site-footer {
 }
 #site-footer .footer-brand {
   text-align: center;
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(24px, 3vw, 36px);
   line-height: 0.92;
   color: transparent;
@@ -2345,189 +2330,6 @@ body.portfolio-gateway-active #site-footer {
     height: 14px;
     display: block;
   }
-  .menu-panel {
-    --mobile-menu-left-gutter: 14px;
-    --mobile-menu-right-gutter: 16px;
-    --mobile-menu-icon-track: 42px;
-    --menu-panel-single-width: 100vw;
-    --menu-panel-width: 100vw;
-    width: 100vw;
-    min-width: 100vw;
-    max-width: 100vw;
-    left: 0;
-    right: 0;
-    transform: translateY(100%);
-    border-left: 0;
-    border-right: 0;
-  }
-  .menu-panel::after {
-    display: none;
-  }
-  .menu-panel.is-open {
-    box-shadow: 0 -20px 36px rgba(10, 12, 18, 0.22);
-  }
-  .menu-close {
-    width: 40px;
-    height: 40px;
-    font-size: 22px;
-  }
-  .menu-view {
-    inset: 62px 0 28px 0 !important;
-    gap: 24px;
-  }
-  .menu-view[data-menu-view="main"] {
-    align-content: start;
-    justify-items: stretch !important;
-    text-align: left;
-    gap: 0;
-    width: 100% !important;
-  }
-  .menu-view[data-menu-view="featured"],
-  .menu-view[data-menu-view="about"],
-  .menu-view[data-menu-view="services"],
-  .menu-view[data-menu-view="visit"],
-  .menu-view[data-menu-view="contact"] {
-    justify-items: stretch !important;
-    width: 100% !important;
-  }
-  .menu-panel[data-menu-current="main"] .menu-view[data-menu-view="main"],
-  .menu-panel[data-menu-current="featured"] .menu-view[data-menu-view="featured"],
-  .menu-panel[data-menu-current="about"] .menu-view[data-menu-view="about"],
-  .menu-panel[data-menu-current="services"] .menu-view[data-menu-view="services"],
-  .menu-panel[data-menu-current="visit"] .menu-view[data-menu-view="visit"],
-  .menu-panel[data-menu-current="contact"] .menu-view[data-menu-view="contact"] {
-    left: 0 !important;
-    right: 0 !important;
-    inset: 62px 0 28px 0 !important;
-    transform: translateX(0) !important;
-  }
-  .menu-main-layout {
-    display: block;
-    width: 100% !important;
-  }
-  .menu-main-quickpane {
-    display: none;
-  }
-  .menu-head {
-    justify-content: flex-end;
-    padding: 14px var(--mobile-menu-right-gutter) 0 0;
-    width: 100vw;
-    min-width: 100vw;
-  }
-  .menu-close {
-    width: 40px !important;
-    height: 40px !important;
-    font-size: 22px !important;
-  }
-  .menu-main-left {
-    padding: 0 22px !important;
-  }
-  .menu-view[data-menu-view="about"],
-  .menu-view[data-menu-view="services"],
-  .menu-view[data-menu-view="visit"] {
-    justify-items: stretch !important;
-    gap: 16px;
-    width: 100% !important;
-  }
-  .menu-main-primary,
-  .menu-main-secondary {
-    justify-items: stretch !important;
-    width: 100% !important;
-  }
-  .menu-main-primary {
-    gap: 18px;
-  }
-  .menu-main-secondary {
-    margin-top: 22px;
-    gap: 18px;
-  }
-  .menu-main-left {
-    padding: 0 !important;
-    justify-items: stretch !important;
-    width: 100% !important;
-  }
-  .menu-link,
-  .menu-link-button {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) var(--mobile-menu-icon-track) !important;
-    align-items: center !important;
-    width: 100%;
-    padding: 6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important;
-    font-size: clamp(18px, 5.2vw, 21px);
-    line-height: 1.24;
-    box-sizing: border-box !important;
-    column-gap: 0 !important;
-    justify-self: stretch !important;
-    min-width: 0 !important;
-  }
-  .menu-link::after,
-  .menu-link-button::after {
-    content: "›" !important;
-    position: static !important;
-    justify-self: center !important;
-    align-self: center !important;
-    opacity: 0.72;
-    transform: none !important;
-    width: auto !important;
-    margin: 0 !important;
-    text-align: center;
-    display: block !important;
-  }
-  .menu-link-secondary,
-  .menu-link-button.menu-link-secondary {
-    width: 100%;
-    font-size: 17px;
-  }
-  .menu-view[data-menu-view="featured"] .menu-back,
-  .menu-view[data-menu-view="about"] .menu-back,
-  .menu-view[data-menu-view="services"] .menu-back,
-  .menu-view[data-menu-view="visit"] .menu-back,
-  .menu-view[data-menu-view="contact"] .menu-back {
-    grid-template-columns: minmax(0, 1fr) !important;
-    width: 100%;
-    padding: 6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important;
-    font-size: 10px !important;
-    line-height: 1.1 !important;
-    letter-spacing: 0.14em !important;
-    font-weight: 500 !important;
-    text-transform: uppercase !important;
-  }
-  .menu-view[data-menu-view="featured"] .menu-back::after,
-  .menu-view[data-menu-view="about"] .menu-back::after,
-  .menu-view[data-menu-view="services"] .menu-back::after,
-  .menu-view[data-menu-view="visit"] .menu-back::after,
-  .menu-view[data-menu-view="contact"] .menu-back::after {
-    content: none !important;
-    display: none !important;
-  }
-  .menu-link .nav-label,
-  .menu-link-button .nav-label {
-    min-width: 0;
-    display: block;
-  }
-  .menu-view[data-menu-view="featured"] .menu-link,
-  .menu-view[data-menu-view="about"] .menu-link,
-  .menu-view[data-menu-view="services"] .menu-link,
-  .menu-view[data-menu-view="visit"] .menu-link,
-  .menu-view[data-menu-view="contact"] .menu-link,
-  .menu-view[data-menu-view="featured"] .menu-link-button,
-  .menu-view[data-menu-view="about"] .menu-link-button,
-  .menu-view[data-menu-view="services"] .menu-link-button,
-  .menu-view[data-menu-view="visit"] .menu-link-button,
-  .menu-view[data-menu-view="contact"] .menu-link-button {
-    width: 100% !important;
-    justify-self: stretch !important;
-    padding: 6px var(--mobile-menu-right-gutter) 6px var(--mobile-menu-left-gutter) !important;
-    min-width: 0 !important;
-  }
-  .menu-link-contact {
-    display: grid !important;
-  }
-  .menu-view[data-menu-view="contact"] {
-    justify-items: stretch !important;
-    gap: 18px;
-    width: 100% !important;
-  }
   .contact-quick-body {
     gap: 24px;
     padding: 10px var(--mobile-menu-right-gutter) 0 var(--mobile-menu-left-gutter);
@@ -2682,7 +2484,7 @@ body.portfolio-gateway-active #site-footer {
   <div class="header-bar">
     <button class="header-contact contact-quick-trigger" id="contact-quick-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="contact-quick-panel">Hubungi Kami</button>
     <a class="header-logo" href="index.html" aria-label="Go to home page">
-      <span class="header-logo-text">Marvell Florist</span>
+      <span class="header-logo-text">MARVELL FLORIST</span>
     </a>
     <a class="search-toggle" href="index.html?search" aria-label="Open search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
@@ -2759,62 +2561,10 @@ body.portfolio-gateway-active #site-footer {
   </div>
 </aside>
 
-<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1" hidden>
-  <div class="menu-head">
-    <button class="menu-close" id="menu-close" type="button" aria-label="Close menu">&#10005;</button>
-  </div>
-  <div class="menu-body">
-    <div class="menu-view" data-menu-view="main">
-      <div class="menu-main-primary">
-        <button class="menu-link menu-link-button" type="button" data-menu-open="featured" data-seasonal-featured-link>Collections</button>
-        <a class="menu-link" href="gallery.html?category=standing-flowers">Standing Flowers</a>
-        <a class="menu-link" href="gallery.html?category=artificial-flowers">Table Arrangements</a>
-        <a class="menu-link" href="gallery.html?category=bouquets">Bouquets</a>
-        <a class="menu-link" href="gallery.html?category=papan-bunga">Papan Bunga</a>
-        <a class="menu-link" href="gallery.html?category=funerals">Funerals</a>
-        <a class="menu-link" href="gallery.html?category=parcels">Parcels</a>
-      </div>
-      <div class="menu-main-secondary">
-        <a class="menu-link menu-link-secondary" href="services.html">Services</a>
-        <a class="menu-link menu-link-secondary" href="about.html">About</a>
-        <a class="menu-link menu-link-secondary" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Visit Us</a>
-        <button class="menu-link menu-link-button menu-link-secondary menu-link-contact" type="button" data-menu-open="contact" data-menu-mobile-href="contact.html">Contact Us</button>
-      </div>
-    </div>
-    <div class="menu-view" data-menu-view="featured">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
-      <div data-featured-menu-list></div>
-    </div>
-    <div class="menu-view" data-menu-view="contact">
-      <button class="menu-link menu-link-button menu-back" type="button" data-menu-back="main">Back</button>
-      <div class="contact-quick-body">
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Hubungi Kami</p>
-          <a class="contact-quick-link" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Rangkaian Bunga</a>
-          <a class="contact-quick-link" href="https://wa.me/628116667457" target="_blank" rel="noopener noreferrer">Pesanan Kustom</a>
-          <a class="contact-quick-link" href="https://wa.me/628116667920" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
-          <p class="contact-quick-text is-muted">Tersedia Senin – Sabtu</p>
-          <p class="contact-quick-text is-muted">8:00 – 18:00 (WIB)</p>
-        </div>
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Lokasi Kami</p>
-          <a class="contact-quick-link" href="https://maps.app.goo.gl/PL8EQ7C1mVJAoa3LA?g_st=ic" target="_blank" rel="noopener noreferrer">Rangkaian</a>
-          <a class="contact-quick-link" href="https://maps.app.goo.gl/uhXFdFr4SfC97ABb9?g_st=ic" target="_blank" rel="noopener noreferrer">Perlengkapan</a>
-        </div>
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Tetap Terhubung</p>
-          <a class="contact-quick-link" href="https://www.instagram.com/marvellflorist" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a class="contact-quick-link" href="https://www.facebook.com/share/184hfdi9TD/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
-        </div>
-        <div class="contact-quick-block">
-          <p class="contact-quick-label">Belanja Online</p>
-          <a class="contact-quick-link" href="https://id.shp.ee/8mCEvykG" target="_blank" rel="noopener noreferrer">Shopee</a>
-          <a class="contact-quick-link" href="https://tk.tokopedia.com/ZSuyXkhHG/" target="_blank" rel="noopener noreferrer">Tokopedia</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</aside>
+<!-- assets/secondary-menu.js fills this and owns everything in it. A page
+     that keeps its own copy of the menu here has it overwritten on every
+     load, and the copy drifts in the meantime. -->
+<aside class="menu-panel" id="menu-panel" data-menu-current="main" aria-hidden="true" tabindex="-1" hidden></aside>
 
 <aside class="filters-panel-modal" id="filters-panel" aria-hidden="true" tabindex="-1">
   <div class="filters-head">
@@ -2877,10 +2627,6 @@ body.portfolio-gateway-active #site-footer {
 
 <footer id="site-footer">
   <div class="footer-inner">
-    <div class="footer-closing">
-      <p class="footer-closing-quote">&ldquo;I must have flowers, always and always.&rdquo;</p>
-      <p class="footer-closing-author">Claude Monet</p>
-    </div>
     <div class="footer-grid">
       <section class="footer-col" aria-label="Contact links">
         <button class="footer-col-title footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="footer-panel-contact">Hubungi <span class="footer-accordion-icon" aria-hidden="true">+</span></button>
@@ -2914,13 +2660,13 @@ body.portfolio-gateway-active #site-footer {
     <div class="footer-bottom">
       <p class="footer-copyright"><a class="footer-legal-link" href="privacy-policy.html">Privasi</a> · <a class="footer-legal-link" href="terms-conditions.html">Ketentuan</a> · © 2006–2026 Marvell Florist</p>
     </div>
-    <div class="footer-brand" aria-hidden="true">Marvell Florist</div>
+    <div class="footer-brand" aria-hidden="true">MARVELL FLORIST</div>
   </div>
 </footer>
 
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+<script src="assets/secondary-menu.js?v=20260923a"></script>
 <script>
 const PORTFOLIO_CATEGORIES_ENDPOINTS = ["/content/portfolio-categories.json", "content/portfolio-categories.json"];
 const GALLERY_CONTENT_ENDPOINTS = ["/content/gallery.json", "content/gallery.json"];
@@ -3269,14 +3015,14 @@ function renderGalleryCardMedia(item, detailHref, displayName) {
     return `
       <div class="product-card-slide" data-gallery-card-slide="${index}">
         <a class="product-detail-link" href="${escapeHTML(detailHref)}" aria-label="${escapeHTML(displayName)}">
-          <img class="product-card-image" src="${escapeHTML(entry.image)}" alt="${index === 0 ? escapeHTML(displayName) : ""}" ${index === 0 ? "" : 'aria-hidden="true"'} loading="lazy" decoding="async" onerror="window.__handleGalleryMediaError && window.__handleGalleryMediaError(this)" style="object-position:${escapeHTML(entry.scrollPosition || "center center")};">
+          <img class="product-card-image" ${index === 0 ? `src="${escapeHTML(entry.image)}"` : `data-src="${escapeHTML(entry.image)}"`} alt="${index === 0 ? escapeHTML(displayName) : ""}" ${index === 0 ? "" : 'aria-hidden="true"'} loading="lazy" decoding="async" onerror="window.__handleGalleryMediaError && window.__handleGalleryMediaError(this)" style="object-position:${escapeHTML(entry.scrollPosition || "center center")};">
         </a>
       </div>
     `;
   }).join("");
   const hoverPreviewMarkup = previewSlide?.image ? `
     <div class="product-card-hover-preview" data-gallery-card-hover-preview aria-hidden="true">
-      <img class="product-card-hover-preview-image${hasSingleFullPreview ? " is-full-preview" : ""}" src="${escapeHTML(previewSlide.image)}" alt="" loading="lazy" decoding="async" onerror="window.__handleGalleryMediaError && window.__handleGalleryMediaError(this)" style="object-position:${escapeHTML(previewSlide.scrollPosition || "center center")};">
+      <img class="product-card-hover-preview-image${hasSingleFullPreview ? " is-full-preview" : ""}" data-src="${escapeHTML(previewSlide.image)}" alt="" loading="lazy" decoding="async" onerror="window.__handleGalleryMediaError && window.__handleGalleryMediaError(this)" style="object-position:${escapeHTML(previewSlide.scrollPosition || "center center")};">
     </div>
   ` : "";
 
@@ -3932,9 +3678,56 @@ function buildCategoryFilters(activeCategory, allItems) {
   return filters;
 }
 
+function localizeGalleryFilterGroupLabel(group) {
+  const label = String(group?.label || group?.id || "Filters").trim();
+  return window.MarvellLanguage?.localizeFilterLabel?.(label, group?.id) || label;
+}
+
+function localizeGalleryFilterOptionLabel(group, option) {
+  const label = String(option?.label || option?.id || "").trim();
+  return window.MarvellLanguage?.localizeFilterOptionLabel?.(option?.id, label, group?.id) || label;
+}
+
+function localizeGalleryLabel(label) {
+  const text = String(label || "").trim();
+  return window.MarvellLanguage?.localizeLabel?.(text) || text;
+}
+
+const galleryProgressiveRenderObservers = new WeakMap();
+function getGalleryGridColumnCount(grid) {
+  if (!(grid instanceof HTMLElement)) return window.innerWidth <= 768 ? 2 : 4;
+  const columns = window.getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean);
+  return Math.max(1, columns.length || (window.innerWidth <= 768 ? 2 : (window.innerWidth <= 1024 ? 3 : 4)));
+}
+
+function buildGalleryProductCardMarkup(activeCategory, item, itemIndex) {
+  const baseName = buildDisplayName(item, activeCategory);
+  const name = withDisplayNumber(baseName, itemIndex + 1);
+  const canonicalTitle = titleCaseWords(String(item?.title || item?.name || "").trim()) || baseName;
+  const image = normalizeAssetPath(item.image || item.src || "");
+  const price = formatRupiah(item.price);
+  const productSlug = toSlug(`${name}-${itemIndex + 1}`);
+  const productId = `product-${productSlug || `item-${itemIndex + 1}`}`;
+  const detailHref = `product.html?category=${encodeURIComponent(activeCategory.name)}&title=${encodeURIComponent(canonicalTitle)}&image=${encodeURIComponent(image)}${price ? `&price=${encodeURIComponent(price)}` : ""}`;
+  const favoriteId = `gallery:${toSlug(activeCategory.name || "")}:${toSlug(canonicalTitle || name || "")}:${toSlug(image || String(itemIndex + 1))}`;
+  return `
+    <article class="product-card" id="${escapeHTML(productId)}" style="--item-index:${itemIndex};">
+      <div class="product-card-media">
+        ${renderGalleryCardMedia(item, detailHref, name)}
+        <button class="favorite-toggle" type="button" data-favorite-toggle data-favorite-id="${escapeHTML(favoriteId)}" data-favorite-title="${escapeHTML(name)}" data-favorite-image="${escapeHTML(image)}" data-favorite-href="${escapeHTML(detailHref)}" data-favorite-price="${escapeHTML(price)}" data-favorite-category="${escapeHTML(activeCategory.name)}" data-favorite-source="gallery" data-favorite-sku="${escapeHTML(item.sku || "")}" data-favorite-purchase-mode="${escapeHTML(item.purchaseMode || item.purchase_mode || "")}" aria-label="Save ${escapeHTML(name)}" onclick="return window.MarvellFavorites && window.MarvellFavorites.handleToggleClick ? window.MarvellFavorites.handleToggleClick(event, this) : false;">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5 4.9 13.74a4.79 4.79 0 0 1 0-6.98 5.18 5.18 0 0 1 7.1 0L12 7.77l.01-.01a5.18 5.18 0 0 1 7.1 0 4.79 4.79 0 0 1 0 6.98L12 20.5Z"/></svg>
+        </button>
+      </div>
+    </article>
+  `;
+}
+
 function renderProductGrid(activeCategory, items) {
   const grid = document.getElementById("products-grid");
   if (!(grid instanceof HTMLElement)) return;
+  const existingObserver = galleryProgressiveRenderObservers.get(grid);
+  if (existingObserver) existingObserver.disconnect();
+  galleryProgressiveRenderObservers.delete(grid);
   const safeItems = Array.isArray(items) ? items.filter((item) => isRenderableGalleryItem(item)) : [];
   grid.classList.add("is-transitioning");
   if (!safeItems.length) {
@@ -3943,29 +3736,51 @@ function renderProductGrid(activeCategory, items) {
     return;
   }
 
-  grid.innerHTML = safeItems.map((item, itemIndex) => {
-    const baseName = buildDisplayName(item, activeCategory);
-    const name = withDisplayNumber(baseName, itemIndex + 1);
-    const canonicalTitle = titleCaseWords(String(item?.title || item?.name || "").trim()) || baseName;
-    const image = normalizeAssetPath(item.image || item.src || "");
-    const price = formatRupiah(item.price);
-    const productSlug = toSlug(`${name}-${itemIndex + 1}`);
-    const productId = `product-${productSlug || `item-${itemIndex + 1}`}`;
-    const detailHref = `product.html?category=${encodeURIComponent(activeCategory.name)}&title=${encodeURIComponent(canonicalTitle)}&image=${encodeURIComponent(image)}${price ? `&price=${encodeURIComponent(price)}` : ""}`;
-    const favoriteId = `gallery:${toSlug(activeCategory.name || "")}:${toSlug(canonicalTitle || name || "")}:${toSlug(image || String(itemIndex + 1))}`;
-    return `
-      <article class="product-card" id="${escapeHTML(productId)}" style="--item-index:${itemIndex};">
-        <div class="product-card-media">
-          ${renderGalleryCardMedia(item, detailHref, name)}
-          <button class="favorite-toggle" type="button" data-favorite-toggle data-favorite-id="${escapeHTML(favoriteId)}" data-favorite-title="${escapeHTML(name)}" data-favorite-image="${escapeHTML(image)}" data-favorite-href="${escapeHTML(detailHref)}" data-favorite-price="${escapeHTML(price)}" data-favorite-category="${escapeHTML(activeCategory.name)}" data-favorite-source="gallery" aria-label="Save ${escapeHTML(name)}" onclick="return window.MarvellFavorites && window.MarvellFavorites.handleToggleClick ? window.MarvellFavorites.handleToggleClick(event, this) : false;">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20.5 4.9 13.74a4.79 4.79 0 0 1 0-6.98 5.18 5.18 0 0 1 7.1 0L12 7.77l.01-.01a5.18 5.18 0 0 1 7.1 0 4.79 4.79 0 0 1 0 6.98L12 20.5Z"/></svg>
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("");
+  const columnCount = getGalleryGridColumnCount(grid);
+  const batchSize = Math.max(columnCount * 2, 2);
+  let renderedCount = Math.min(safeItems.length, batchSize);
+  const renderSlice = (from, to) => safeItems.slice(from, to).map((item, index) => buildGalleryProductCardMarkup(activeCategory, item, from + index)).join("");
+  grid.innerHTML = `${renderSlice(0, renderedCount)}${renderedCount < safeItems.length ? '<div class="gallery-progressive-sentinel" aria-hidden="true"></div>' : ""}`;
   initializeGalleryCardCarousels(grid);
   initializeGalleryCardReveal(grid);
+  const appendNextBatch = () => {
+    const sentinel = grid.querySelector(".gallery-progressive-sentinel");
+    if (!(sentinel instanceof HTMLElement)) return;
+    const nextCount = Math.min(safeItems.length, renderedCount + batchSize);
+    sentinel.insertAdjacentHTML("beforebegin", renderSlice(renderedCount, nextCount));
+    const newCards = Array.from(grid.querySelectorAll(".product-card")).slice(renderedCount, nextCount);
+    renderedCount = nextCount;
+    initializeGalleryCardCarousels(grid);
+    window.requestAnimationFrame(() => {
+      newCards.forEach((card) => {
+        if (card instanceof HTMLElement) card.classList.add("is-visible");
+      });
+    });
+    if (renderedCount >= safeItems.length) {
+      const observer = galleryProgressiveRenderObservers.get(grid);
+      if (observer) observer.disconnect();
+      galleryProgressiveRenderObservers.delete(grid);
+      sentinel.remove();
+    }
+  };
+  if (renderedCount < safeItems.length) {
+    if (typeof IntersectionObserver === "undefined") {
+      while (renderedCount < safeItems.length) appendNextBatch();
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) appendNextBatch();
+      }, {
+        root: null,
+        rootMargin: "360px 0px 560px 0px",
+        threshold: 0
+      });
+      const sentinel = grid.querySelector(".gallery-progressive-sentinel");
+      if (sentinel instanceof HTMLElement) {
+        observer.observe(sentinel);
+        galleryProgressiveRenderObservers.set(grid, observer);
+      }
+    }
+  }
   window.requestAnimationFrame(() => grid.classList.remove("is-transitioning"));
 }
 
@@ -4042,6 +3857,21 @@ function initializeGalleryCardCarousels(scope = document) {
     let isProgrammaticScroll = false;
     const card = carousel.closest(".product-card");
     const getActiveIndex = () => (hoverDriven && canAutoHover ? hoverIndex : currentIndex);
+    const ensureImageLoaded = (image) => {
+      if (!(image instanceof HTMLImageElement)) return;
+      const src = String(image.dataset.src || "").trim();
+      if (!src) return;
+      image.src = src;
+      delete image.dataset.src;
+    };
+    const ensureSlideImageLoaded = (index) => {
+      const slide = carousel.querySelector(`[data-gallery-card-slide="${index}"]`);
+      if (!(slide instanceof HTMLElement)) return;
+      ensureImageLoaded(slide.querySelector(".product-card-image"));
+    };
+    const ensureHoverPreviewLoaded = () => {
+      ensureImageLoaded(carousel.querySelector(".product-card-hover-preview-image"));
+    };
     const clearHoverPreview = () => {
       hoverDriven = false;
       carousel.classList.remove("is-hover-preview-active");
@@ -4049,6 +3879,7 @@ function initializeGalleryCardCarousels(scope = document) {
     const updateUi = () => {
       const viewportWidth = viewport.clientWidth || 1;
       currentIndex = Math.max(0, Math.min(slideCount - 1, Math.round(viewport.scrollLeft / viewportWidth)));
+      ensureSlideImageLoaded(currentIndex);
       const activeIndex = getActiveIndex();
       if (card instanceof HTMLElement) {
         card.classList.toggle("is-carousel-engaged", activeIndex > 0);
@@ -4059,6 +3890,7 @@ function initializeGalleryCardCarousels(scope = document) {
     const goToIndex = (index, behavior = "smooth", options = {}) => {
       const nextIndex = Math.max(0, Math.min(slideCount - 1, index));
       if (typeof options.hoverDriven === "boolean") hoverDriven = options.hoverDriven;
+      ensureSlideImageLoaded(nextIndex);
       isProgrammaticScroll = true;
       viewport.scrollTo({
         left: viewport.clientWidth * nextIndex,
@@ -4071,6 +3903,8 @@ function initializeGalleryCardCarousels(scope = document) {
     const activateHoverSlide = () => {
       if (!supportsHover || !canHoverPreview) return;
       if (isProgrammaticScroll || hoverDriven || currentIndex !== 0) return;
+      if (canAutoHover) ensureSlideImageLoaded(hoverIndex);
+      ensureHoverPreviewLoaded();
       hoverDriven = true;
       carousel.classList.add("is-hover-preview-active");
       updateUi();
@@ -4327,11 +4161,12 @@ function setupFilters(activeCategory, allItems) {
   }
 
   const renderFilterGroup = (group) => {
+    const groupLabel = localizeGalleryFilterGroupLabel(group);
     if (group.kind === "range") {
       return `
         <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}" data-filter-kind="range">
           <button class="filter-group-toggle" type="button" aria-expanded="false" aria-controls="filter-panel-${escapeHTML(group.id)}">
-            <span class="filter-group-title">${escapeHTML(group.label)}</span>
+            <span class="filter-group-title">${escapeHTML(groupLabel)}</span>
             <span class="filter-group-icon" aria-hidden="true">+</span>
           </button>
           <div class="filter-group-panel" id="filter-panel-${escapeHTML(group.id)}">
@@ -4343,10 +4178,10 @@ function setupFilters(activeCategory, allItems) {
               <div class="filter-range-sliders">
                 <div class="filter-range-track"></div>
                 <div class="filter-range-fill" data-range-fill></div>
-                <input class="filter-range-input filter-range-input-min" type="range" min="${escapeHTML(group.min)}" max="${escapeHTML(group.max)}" step="${escapeHTML(group.step)}" value="${escapeHTML(group.min)}" data-range-bound="min" data-filter-group="${escapeHTML(group.id)}" aria-label="${escapeHTML(group.label)} minimum">
-                <input class="filter-range-input filter-range-input-max" type="range" min="${escapeHTML(group.min)}" max="${escapeHTML(group.max)}" step="${escapeHTML(group.step)}" value="${escapeHTML(group.max)}" data-range-bound="max" data-filter-group="${escapeHTML(group.id)}" aria-label="${escapeHTML(group.label)} maksimum">
+                <input class="filter-range-input filter-range-input-min" type="range" min="${escapeHTML(group.min)}" max="${escapeHTML(group.max)}" step="${escapeHTML(group.step)}" value="${escapeHTML(group.min)}" data-range-bound="min" data-filter-group="${escapeHTML(group.id)}" aria-label="${escapeHTML(`${groupLabel} minimum`)}">
+                <input class="filter-range-input filter-range-input-max" type="range" min="${escapeHTML(group.min)}" max="${escapeHTML(group.max)}" step="${escapeHTML(group.step)}" value="${escapeHTML(group.max)}" data-range-bound="max" data-filter-group="${escapeHTML(group.id)}" aria-label="${escapeHTML(`${groupLabel} maksimum`)}">
               </div>
-              <p class="filter-range-note">Geser untuk memilih batas harga minimum dan maksimum.</p>
+              <p class="filter-range-note">${escapeHTML(window.MarvellLanguage?.t?.("Slide to choose the minimum and maximum price.", "Geser untuk memilih batas harga minimum dan maksimum.") || "Slide to choose the minimum and maximum price.")}</p>
             </div>
           </div>
         </fieldset>
@@ -4357,7 +4192,7 @@ function setupFilters(activeCategory, allItems) {
       return `
         <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}">
           <button class="filter-group-toggle" type="button" aria-expanded="false" aria-controls="filter-panel-${escapeHTML(group.id)}">
-            <span class="filter-group-title">${escapeHTML(group.label)}</span>
+            <span class="filter-group-title">${escapeHTML(groupLabel)}</span>
             <span class="filter-group-icon" aria-hidden="true">+</span>
           </button>
           <div class="filter-group-panel" id="filter-panel-${escapeHTML(group.id)}">
@@ -4365,7 +4200,8 @@ function setupFilters(activeCategory, allItems) {
               ${group.options.map((option) => {
                 const count = optionCountMap.get(`${group.id}:${option.id}`) ?? 0;
                 const countLabel = formatFilterCount(count);
-                const label = `${option.label} (${countLabel})`;
+                const optionLabel = localizeGalleryFilterOptionLabel(group, option);
+                const label = `${optionLabel} (${countLabel})`;
                 return `
                   <label class="filter-option filter-option--color" data-color-id="${escapeHTML(option.id)}" title="${escapeHTML(label)}" aria-label="${escapeHTML(label)}">
                     <input type="checkbox" data-filter-group="${escapeHTML(group.id)}" value="${escapeHTML(option.id)}" aria-label="${escapeHTML(label)}">
@@ -4387,7 +4223,7 @@ function setupFilters(activeCategory, allItems) {
     return `
       <fieldset class="filter-group" data-filter-group="${escapeHTML(group.id)}">
         <button class="filter-group-toggle" type="button" aria-expanded="false" aria-controls="filter-panel-${escapeHTML(group.id)}">
-          <span class="filter-group-title">${escapeHTML(group.label)}</span>
+          <span class="filter-group-title">${escapeHTML(groupLabel)}</span>
           <span class="filter-group-icon" aria-hidden="true">+</span>
         </button>
         <div class="filter-group-panel" id="filter-panel-${escapeHTML(group.id)}">
@@ -4395,7 +4231,7 @@ function setupFilters(activeCategory, allItems) {
             ${group.options.map((option) => `
               <label class="filter-option">
                 <input type="checkbox" data-filter-group="${escapeHTML(group.id)}" value="${escapeHTML(option.id)}">
-                <span class="filter-option-label">${escapeHTML(option.label)} (${formatFilterCount(optionCountMap.get(`${group.id}:${option.id}`) ?? 0)})</span>
+                <span class="filter-option-label">${escapeHTML(localizeGalleryFilterOptionLabel(group, option))} (${formatFilterCount(optionCountMap.get(`${group.id}:${option.id}`) ?? 0)})</span>
               </label>
             `).join("")}
           </div>
@@ -4408,7 +4244,7 @@ function setupFilters(activeCategory, allItems) {
     <div class="filters-panel">
       ${filters.map((group) => renderFilterGroup(group)).join("")}
       <div class="filter-actions">
-        <button type="button" class="filter-clear" id="filter-clear">Reset filter</button>
+        <button type="button" class="filter-clear" id="filter-clear">${escapeHTML(localizeGalleryLabel("Reset filter"))}</button>
       </div>
     </div>
   `;
@@ -5354,6 +5190,17 @@ const mobileCategoryBackdrop = document.getElementById("mobile-category-backdrop
 const footerAccordionColumns = Array.from(document.querySelectorAll("#site-footer .footer-col"));
 const footerAccordionToggles = Array.from(document.querySelectorAll("#site-footer .footer-accordion-toggle"));
 const POPUPS_ENABLED = true;
+// shared-contact.js may replace the legacy node with the registry-owned
+// backdrop before this page's filter handlers run. Resolve it at interaction
+// time so the filter sheet always toggles the backdrop that is actually in
+// the document.
+const getGalleryPanelBackdrop = () => document.querySelector("[data-mv-backdrop]") || document.getElementById("contact-quick-backdrop");
+const closeGalleryPanelsFromBackdrop = (event) => {
+  const backdrop = getGalleryPanelBackdrop();
+  if (!backdrop || event.target !== backdrop) return;
+  setMenuOpen(false);
+  setFiltersOpen(false);
+};
 const setMenuView = (viewName = "main") => {
   if (!menuViews.length || !menuPanel) return;
   menuPanel.setAttribute("data-menu-current", viewName);
@@ -5467,7 +5314,11 @@ function syncSeasonalMenuEntry(catalog) {
     featuredMenuList.innerHTML = `<a class="menu-link" data-seasonal-fallback="true" data-seasonal-managed="true" data-seasonal-label="${String(rawLabel).replace(/"/g, "&quot;")}" href="${directHref}">${label}</a>`;
   }
 }
-fetch("content/featured.json", { cache: "no-store" })
+// Only when this page is drawing its own menu. assets/secondary-menu.js owns
+// the shared one, and it names the entry "Collections" and nests every edition
+// under it; this would rename it back to whichever edition is running and drop
+// the rest, so the two must not both write to it.
+if (!SHARED_MENU_MANAGED) fetch("content/featured.json", { cache: "no-store" })
   .then((response) => (response.ok ? response.json() : null))
   .then((catalog) => {
     if (catalog) syncSeasonalMenuEntry(catalog);
@@ -5477,9 +5328,10 @@ fetch("content/featured.json", { cache: "no-store" })
   });
 const setFiltersOpen = (isOpen) => {
   const filterButtons = [filtersTrigger, filtersTriggerMobile].filter((button) => button instanceof HTMLButtonElement);
-  if (!filtersPanel || !contactBackdrop || !filterButtons.length) return;
+  const backdrop = getGalleryPanelBackdrop();
+  if (!filtersPanel || !backdrop || !filterButtons.length) return;
   filtersPanel.classList.toggle("is-open", isOpen);
-  contactBackdrop.classList.toggle("is-open", isOpen);
+  backdrop.classList.toggle("is-open", isOpen);
   filtersPanel.setAttribute("aria-hidden", isOpen ? "false" : "true");
   filterButtons.forEach((button) => button.setAttribute("aria-expanded", isOpen ? "true" : "false"));
 };
@@ -5635,7 +5487,7 @@ if (menuPanel && !SHARED_MENU_MANAGED) {
       const openButton = target.closest("[data-menu-open]");
       if (openButton instanceof HTMLElement) {
         const mobileHref = String(openButton.getAttribute("data-menu-mobile-href") || "").trim();
-        if (mobileHref && window.matchMedia("(max-width: 899px)").matches) {
+        if (mobileHref && window.matchMedia("(max-width: 768px)").matches) {
           setMenuOpen(false);
           window.location.href = mobileHref;
           return;
@@ -5740,12 +5592,17 @@ if (menuClose instanceof HTMLButtonElement) {
     menuClose.addEventListener("click", () => setMenuOpen(false));
   }
 }
-if (contactBackdrop) {
+const galleryPanelBackdrop = getGalleryPanelBackdrop();
+if (galleryPanelBackdrop) {
   if (POPUPS_ENABLED) {
-    contactBackdrop.addEventListener("click", () => setMenuOpen(false));
-    contactBackdrop.addEventListener("click", () => setFiltersOpen(false));
+    galleryPanelBackdrop.addEventListener("click", () => setMenuOpen(false));
+    galleryPanelBackdrop.addEventListener("click", () => setFiltersOpen(false));
   }
 }
+// shared-contact.js can replace the backdrop after this script has captured
+// the original node. Delegate the click-away close from the document so the
+// currently active backdrop always closes the filter panel as well as itself.
+if (POPUPS_ENABLED) document.addEventListener("click", closeGalleryPanelsFromBackdrop);
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!POPUPS_ENABLED) return;
@@ -5912,7 +5769,12 @@ window.addEventListener("popstate", () => {
 window.addEventListener("resize", requestPortfolioGatewayRevealUpdate);
 window.addEventListener("resize", syncFooterAccordion);
 </script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script type="module" src="seasonal/seasonal-page.js?v=20260505f"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script type="module" src="seasonal/seasonal-page.js?v=20260921a"></script>
 </body>
 </html>

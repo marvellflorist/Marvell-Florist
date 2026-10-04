@@ -1,8 +1,26 @@
 {
   "name": "marvell-florist-site",
   "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
+    "dev": "npx --yes netlify-cli dev",
+    "dev:admin": "cd marvell-admin && ADMIN_SITE_ORIGIN=http://localhost:8890 npx --yes netlify-cli dev --offline --no-open --framework '#static' --dir public --functions functions --port 8890",
+    "dev:static": "node scripts/dev-server.mjs 8889",
+    "doctor": "node scripts/doctor.mjs",
+    "doctor:live": "node scripts/doctor.mjs --live",
+    "check": "node scripts/check.mjs",
+    "test": "node --test tests/*.test.mjs",
     "cms:test": "./start-local-cms-test.sh",
-    "cms:proxy": "npx --yes decap-server --port 8081"
+    "cms:proxy": "npx --yes decap-server --port 8081",
+    "newsletter:live-server": "node --env-file=.env scripts/live-newsletter-server.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
   }
 }

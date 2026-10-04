@@ -28,8 +28,9 @@
 <meta name="image" content="https://marvellflorist.com/assets/preview.png?v=2">
 <link rel="image_src" href="https://marvellflorist.com/assets/preview.png?v=2">
 <script defer src="assets/site-loader.js?v=20260424d"></script>
-<script src="assets/site-language.js?v=20260505a"></script>
-  <script src="assets/header-template.js?v=20260505j"></script>
+<script src="assets/site-language.js?v=20261004a"></script>
+  <script src="assets/marvell-icons.js?v=20260920e"></script>
+  <script src="assets/header-template.js?v=20260923a"></script>
 <script>
 (() => {
   const legacyHashMap = {
@@ -63,25 +64,10 @@
 <link rel="shortcut icon" href="/assets/logo.webp?v=4" type="image/webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/type.css?v=20260920f">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-@font-face {
-  font-family: "RelationshipDisplay";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Relationship of Melodrame";
-  src: url("assets/fonts/relationship-of-melodrame.woff2?v=2") format("woff2"),
-       url("assets/fonts/relationship-of-melodrame.ttf?v=2") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
 :root {
   --cream: #fff;
   --cream-deep: #eee6da;
@@ -141,7 +127,7 @@ header::before {
 }
 .header-logo-text {
   display: inline-block;
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: 32px;
   line-height: 0.9;
   letter-spacing: 0.01em;
@@ -250,7 +236,7 @@ main { padding-top: 72px; }
 }
 .about-hero-title {
   max-width: 420px;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(24px, 3.1vw, 38px);
   line-height: 0.92;
   font-weight: 400;
@@ -336,7 +322,7 @@ main { padding-top: 72px; }
   display: none;
 }
 .section-title {
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(30px, 3.2vw, 50px);
   line-height: 1.02;
   font-weight: 400;
@@ -513,10 +499,9 @@ main { padding-top: 72px; }
   display: block;
   transition: transform 0.35s ease;
 }
-.about-portfolio-card:hover .about-portfolio-thumb img,
-.about-portfolio-card:focus-visible .about-portfolio-thumb img {
-  transform: scale(1.12);
-}
+/* No zoom on hover. The portfolio carousel on the home page is the one
+   place the site still grows a photograph under the cursor; everywhere
+   else the photograph holds still and only the copy answers. */
 .about-portfolio-title {
   font-family: "Inter Tight", sans-serif;
   font-size: 11px;
@@ -693,7 +678,7 @@ main { padding-top: 72px; }
   display: block;
 }
 .signature-card h3 {
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: 24px;
   line-height: 1;
   font-weight: 400;
@@ -718,25 +703,6 @@ main { padding-top: 72px; }
   margin: 0 auto;
   display: grid;
   gap: 24px;
-}
-#site-footer .footer-closing {
-  text-align: center;
-  margin: 0 auto 6px;
-}
-#site-footer .footer-closing-quote {
-  margin: 0;
-  font-family: "Relationship of Melodrame", "RelationshipDisplay", serif;
-  font-size: clamp(38px, 5vw, 70px);
-  line-height: 0.94;
-  color: rgba(248, 240, 232, 0.96);
-}
-#site-footer .footer-closing-author {
-  margin: 10px 0 0;
-  font-family: "Inter Tight", sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.62);
 }
 #site-footer .footer-grid {
   display: grid;
@@ -859,7 +825,7 @@ main { padding-top: 72px; }
 #site-footer .footer-brand {
   margin: 16px 0 0;
   text-align: center;
-  font-family: "Imperial Script", cursive;
+  font-family: "AdelioDisplayCondensed", sans-serif;
   font-size: clamp(54px, 18vw, 108px);
   line-height: 0.88;
   color: rgba(255, 255, 255, 0.92);
@@ -1083,7 +1049,7 @@ main { padding-top: 72px; }
   <div class="header-bar">
     <a class="header-contact" href="https://wa.me/6281275017456" target="_blank" rel="noopener noreferrer">Contact Us</a>
     <a class="header-logo" href="index.html#home" aria-label="Go to home page">
-      <span class="header-logo-text">Marvell Florist</span>
+      <span class="header-logo-text">MARVELL FLORIST</span>
     </a>
     <a class="search-toggle" href="index.html?search" aria-label="Open search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
@@ -1664,9 +1630,14 @@ if (signatureSection && signatureArtboard) {
   }, { passive: true });
 }
 </script>
-<script src="assets/shared-contact.js?v=20260505b"></script>
-<script src="assets/shared-footer.js?v=20260505a"></script>
-<script src="assets/favorites.js?v=20260505a"></script>
-<script src="assets/secondary-menu.js?v=20260505c"></script>
+<script src="assets/shared-contact.js?v=20260921f"></script>
+<script src="assets/shared-footer.js?v=20260923c"></script>
+<script src="/assets/marvell-shop.js?v=20260922b"></script>
+<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="assets/favorites.js?v=20260923a"></script>
+<script src="/assets/bag.js?v=20260921c"></script>
+<script src="/assets/account.js?v=20260923a"></script>
+
+<script src="assets/secondary-menu.js?v=20260923a"></script>
 </body>
 </html>
