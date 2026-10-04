@@ -65,7 +65,7 @@
 
 # ---------------------------------------------------------------------------
 # Not public. publish = "." serves the whole repository, so source, SQL,
-# setup notes, dev data and debug pages are refused here. These rules come
+# setup notes and dev data are refused here. These rules come
 # first because the first matching redirect wins. /email/ stays public: the
 # sign-in email loads its images from it.
 # ---------------------------------------------------------------------------
@@ -89,18 +89,6 @@
 
 [[redirects]]
   from = "/tests/*"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/CatchAStar/*"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/CatchAStarAssets/*"
   to = "/index.html"
   status = 404
   force = true
@@ -160,18 +148,6 @@
   force = true
 
 [[redirects]]
-  from = "/CatchAStar_Demo_1_Project_Record.md"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/TODO.md"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
   from = "/content/_dev-mothers-day-commerce.json"
   to = "/index.html"
   status = 404
@@ -179,78 +155,6 @@
 
 [[redirects]]
   from = "/content/placeholder-commerce.json"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__footer_legal_debug.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__legal_debug.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__menu_debug.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__menu_debug_click.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__menu_probe.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__menu_style_debug.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__reviews_debug.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/__tap_overlay_probe.html"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/tmp-gallery-inline-js-only.js"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/tmp-index-inline-js-only.js"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/tmp-index-inline.js"
-  to = "/index.html"
-  status = 404
-  force = true
-
-[[redirects]]
-  from = "/tmp-product-inline-js-only.js"
   to = "/index.html"
   status = 404
   force = true

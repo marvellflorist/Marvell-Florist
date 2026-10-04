@@ -12,3 +12,19 @@ node_modules/
 # OS noise
 .DS_Store
 **/.DS_Store
+
+# Not the website: kept on disk, never committed or deployed
+CatchAStar/
+CatchAStarAssets/
+CatchAStar_*.md
+/__*.html
+/tmp-*.js
+/image.png
+/image copy.png
+/skib.png
+/sizing.png
+/cookiesgucci.png
+/cookieslv.png
+/Parcels
+/footer-col-title*
+/TODO.md
