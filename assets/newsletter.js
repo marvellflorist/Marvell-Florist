@@ -61,6 +61,8 @@
     try { localStorage.setItem(key, JSON.stringify(value)); } catch (_error) { /* private browsing */ }
   };
 
+  const hasSubscribed = () => get(DONE_KEY) === true;
+
   const escapeHtml = (value) =>
     String(value ?? "")
       .replace(/&/g, "&amp;")
@@ -518,6 +520,7 @@
       }
 
       put(DONE_KEY, true);
+      stopInvitations();
       // Built from the fields this submit validated, not from storage, so the
       // confirmation can only ever name the person who just filled it in.
       // Escaped at the point of use below: it is somebody's own typing going
@@ -559,6 +562,13 @@
         inline.hidden = true;
         setStatus(inline, SUCCESS());
       });
+
+      // Keep the confirmation long enough to be read, then get the popup out
+      // of the way. DONE_KEY prevents both it and the invitation from coming
+      // back on later pages in this browser.
+      window.setTimeout(() => {
+        if (hasSubscribed()) closeModal();
+      }, 1200);
     } catch (error) {
       const message = error instanceof TypeError
         ? isLiveServer
@@ -578,6 +588,16 @@
   let inviteTimer = 0;
   let hideTimer = 0;
   let autoHideTimer = 0;
+
+  function stopInvitations() {
+    clearTimeout(inviteTimer);
+    clearTimeout(hideTimer);
+    clearTimeout(autoHideTimer);
+    const card = document.querySelector(".nl-card");
+    if (!card) return;
+    card.classList.remove("is-visible");
+    card.hidden = true;
+  }
 
   function scheduleInvite(delay) {
     clearTimeout(inviteTimer);
@@ -602,7 +622,7 @@
   }
 
   function invite() {
-    if (get(DONE_KEY) || /\/(checkout|cart|bag|order)(\.html)?$/i.test(location.pathname)) return;
+    if (hasSubscribed() || /\/(checkout|cart|bag|order)(\.html)?$/i.test(location.pathname)) return;
     const state = get(IMPRESSIONS_KEY) || {};
     if (state.nextAt > Date.now()) {
       scheduleInvite(state.nextAt - Date.now());
@@ -652,7 +672,10 @@
     const block = document.createElement("div");
     block.id = "newsletter";
     block.className = "nl-block nl-footer";
-    block.innerHTML = `<h2>${escapeHtml(TITLE())}</h2>${formMarkup("footer")}`;
+    block.innerHTML = hasSubscribed()
+      ? `<h2>${escapeHtml(t("Marvell updates", "Kabar Marvell"))}</h2>
+         <p class="nl-status">${escapeHtml(SUCCESS())}</p>`
+      : `<h2>${escapeHtml(TITLE())}</h2>${formMarkup("footer")}`;
     const grid = footer.querySelector(".footer-grid");
     if (grid) grid.before(block);
     else footer.prepend(block);
@@ -782,10 +805,12 @@
 
     if (new URL(location.href).searchParams.get("newsletter") === "1") focusSignup();
 
-    const state = get(IMPRESSIONS_KEY) || {};
-    const nextAt = state.nextAt || Date.now() + FIRST_INVITE_MS;
-    if (!state.nextAt) put(IMPRESSIONS_KEY, { nextAt });
-    scheduleInvite(nextAt - Date.now());
+    if (!hasSubscribed()) {
+      const state = get(IMPRESSIONS_KEY) || {};
+      const nextAt = state.nextAt || Date.now() + FIRST_INVITE_MS;
+      if (!state.nextAt) put(IMPRESSIONS_KEY, { nextAt });
+      scheduleInvite(nextAt - Date.now());
+    }
   }
 
   /** Takes somebody to the signup rather than opening anything over the page. */

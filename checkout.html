@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/shop-pages.css?v=20260920f">
+<link rel="stylesheet" href="/assets/shop-pages.css?v=20261007a">
 <link rel="stylesheet" href="/assets/type.css?v=20260920f">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -244,7 +244,7 @@ header, header::before, header::after {
       </div>
     </div>
 
-    <aside class="checkout-aside">
+    <aside class="checkout-aside checkout-order-panel">
       <h2 class="shop-section-title" data-summary-title>Your order</h2>
       <ul class="summary-items" data-summary-items></ul>
       <div class="summary-line">
@@ -281,6 +281,42 @@ header, header::before, header::after {
   let cart = null;
   let payments = { enabled: false };
   let submitting = false;
+
+  const TRANSIENT_RETRY_DELAY_MS = 700;
+
+  function wait(milliseconds) {
+    return new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+  }
+
+  /**
+   * A resumed Supabase project or a newly deployed function can return one
+   * brief 500 while it becomes ready. Retry that narrow failure once; input,
+   * inventory and rate-limit errors are deliberate responses and must not be
+   * repeated behind the shopper's back.
+   */
+  async function validateBagWithTransientRetry(deliveryMethod) {
+    let result = null;
+
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        result = await Shop.validateBag({ deliveryMethod });
+      } catch (_error) {
+        result = {
+          ok: false,
+          code: "server_error",
+          message: t(
+            "Something went wrong on our side. Please try again in a moment.",
+            "Terjadi kendala di sisi kami. Silakan coba lagi sebentar lagi."
+          )
+        };
+      }
+
+      if (result?.code !== "server_error" || attempt === 1) return result;
+      await wait(TRANSIENT_RETRY_DELAY_MS);
+    }
+
+    return result;
+  }
 
   function setText(selector, value) {
     const node = el(selector);
@@ -546,11 +582,11 @@ header, header::before, header::after {
     }
 
     const method = form.querySelector('[name="delivery_method"]:checked')?.value || "pickup";
-    cart = await Shop.validateBag({ deliveryMethod: method });
+    cart = await validateBagWithTransientRetry(method);
 
     if (cart?.ok && Shop.applyCorrections(cart.corrections)) {
       const corrections = cart.corrections;
-      cart = await Shop.validateBag({ deliveryMethod: method });
+      cart = await validateBagWithTransientRetry(method);
       if (cart?.ok) {
         cart.corrections = corrections;
         showNotice(t("Your bag has changed.", "Tas Anda berubah."), true, corrections);
@@ -558,10 +594,14 @@ header, header::before, header::after {
     }
 
     if (!cart?.ok) {
-      showBlocked("shop-notice is-error", escapeHtml(cart?.message || t(
-        "We could not check your bag just now. Please try again.",
-        "Kami belum bisa memeriksa tas Anda. Silakan coba lagi."
-      )));
+      showBlocked("shop-notice is-error", `
+        <span>${escapeHtml(cart?.message || t(
+          "We could not check your bag just now. Please try again.",
+          "Kami belum bisa memeriksa tas Anda. Silakan coba lagi."
+        ))}</span>
+        <a class="shop-btn is-ghost" style="margin-top:8px;justify-self:start;"
+          href="/checkout.html">${escapeHtml(t("Try again", "Coba lagi"))}</a>
+      `);
       return false;
     }
 
@@ -644,7 +684,11 @@ header, header::before, header::after {
       }
     }
 
-    const catalog = await Shop.getCatalog();
+    let catalog = await Shop.getCatalog();
+    if (catalog.failed) {
+      await wait(TRANSIENT_RETRY_DELAY_MS);
+      catalog = await Shop.getCatalog({ force: true });
+    }
     payments = catalog.payments || { enabled: false };
 
     const ready = await refresh();
@@ -687,7 +731,7 @@ header, header::before, header::after {
 })();
 </script>
 
-<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="/assets/newsletter.js?v=20261007a"></script>
 <script src="assets/shared-contact.js?v=20260921f"></script>
 <script src="assets/favorites.js?v=20260923a"></script>
 <script src="/assets/bag.js?v=20260921c"></script>

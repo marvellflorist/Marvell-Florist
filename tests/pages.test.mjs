@@ -120,7 +120,8 @@ async function renderPage(file, {
       return { ok: true, status: 200, json: async () => catalog };
     }
     if (target.includes("/api/cart/validate")) {
-      return { ok: true, status: 200, json: async () => cartResponse || { ok: true, lines: [], corrections: [], subtotal_idr: 0, delivery_fee_idr: 0, total_idr: 0 } };
+      const response = typeof cartResponse === "function" ? cartResponse() : cartResponse;
+      return { ok: true, status: 200, json: async () => response || { ok: true, lines: [], corrections: [], subtotal_idr: 0, delivery_fee_idr: 0, total_idr: 0 } };
     }
     if (target.includes("/content/featured.json")) {
       return { ok: Boolean(featuredContent), status: featuredContent ? 200 : 404, json: async () => featuredContent };
@@ -569,6 +570,57 @@ test("checkout form appears once payments are enabled", async () => {
   assert.equal(email.checked, false, "email marketing is never pre-ticked at checkout");
   assert.equal(whatsapp.checked, false, "WhatsApp marketing is never pre-ticked");
   assert.notEqual(email, whatsapp, "the two consents are separate controls");
+});
+
+test("checkout recovers from one transient cart server error", async () => {
+  const catalog = {
+    ...catalogWith([product()]),
+    payments: { enabled: true, provider: "ipaymu", environment: "sandbox", is_production: false, checkout_mode: "redirect" }
+  };
+  const pricedCart = {
+    ok: true,
+    lines: [{
+      sku: "ST-01", name: "Soft Tones No. 1", slug: "soft-tones-no-1",
+      image: "", quantity: 1, unit_price_idr: 850000, line_total_idr: 850000, available_quantity: 8
+    }],
+    corrections: [], subtotal_idr: 850000, delivery_fee_idr: 0, total_idr: 850000
+  };
+  let attempts = 0;
+
+  const { document } = await renderPage("checkout.html", {
+    url: "https://marvellflorist.com/checkout",
+    catalog,
+    bag: [{ sku: "ST-01", quantity: 1 }],
+    cartResponse: () => {
+      attempts += 1;
+      return attempts === 1
+        ? { ok: false, code: "server_error", message: "Something went wrong on our side." }
+        : pricedCart;
+    }
+  });
+
+  await new Promise((resolve) => setTimeout(resolve, 750));
+
+  assert.equal(attempts, 2);
+  assert.equal(document.querySelector("[data-checkout-form]").hidden, false);
+  assert.equal(document.querySelector("[data-summary-total]").textContent, "Rp850.000");
+});
+
+test("checkout uses a pure-white order panel rather than the cream receipt surface", async () => {
+  const html = await readFile(new URL("checkout.html", ROOT), "utf8");
+  const css = await readFile(new URL("assets/shop-pages.css", ROOT), "utf8");
+
+  assert.match(html, /class="checkout-aside checkout-order-panel"/);
+  assert.match(css, /\.checkout-order-panel\s*\{[^}]*background:\s*#fff;/s);
+});
+
+test("bag and checkout availability states are centred in their page", async () => {
+  const checkoutCss = await readFile(new URL("assets/shop-pages.css", ROOT), "utf8");
+  const bagHtml = await readFile(new URL("bag.html", ROOT), "utf8");
+
+  assert.match(checkoutCss, /#checkout-main > \.shop-loading\s*\{[^}]*place-items:\s*center;[^}]*text-align:\s*center;/s);
+  assert.match(checkoutCss, /#checkout-main > \[data-checkout-blocked\]\.shop-empty\s*\{[^}]*justify-items:\s*center;/s);
+  assert.match(bagHtml, /\.bag-loading\s*\{[^}]*place-items:\s*center;[^}]*text-align:\s*center;/s);
 });
 
 /** A date the server will accept: inside the next year, not in the past. */

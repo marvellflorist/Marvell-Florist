@@ -636,6 +636,28 @@ test("submitting the dialog posts one email opt-in and says so", async () => {
   );
 
   assert.equal(document.querySelector(".nl-footer .nl-form").hidden, true, "nothing left to submit");
+  assert.equal(JSON.parse(dom.window.localStorage.getItem("marvell-note-subscribed")), true,
+    "this browser remembers the successful signup");
+  assert.equal(document.querySelector(".nl-card").hidden, true,
+    "an invitation already behind the signup disappears immediately");
+
+  await new Promise((resolve) => setTimeout(resolve, 1600));
+  assert.equal(confirmation.hidden, true, "the successful signup popup dismisses itself");
+  dom.window.close();
+});
+
+test("a browser that already subscribed is not invited or shown another signup form", () => {
+  const dom = new JSDOM('<!doctype html><html><body><footer id="site-footer"><div class="footer-inner"><div class="footer-grid"></div></div></footer></body></html>', {
+    url: "https://marvellflorist.com/", runScripts: "outside-only"
+  });
+  dom.window.localStorage.setItem("marvell-note-subscribed", "true");
+  dom.window.requestAnimationFrame = (callback) => callback();
+  dom.window.eval(NL_SOURCE);
+  dom.window.document.dispatchEvent(new dom.window.Event("DOMContentLoaded"));
+
+  assert.equal(dom.window.document.querySelector(".nl-card").hidden, true);
+  assert.equal(dom.window.document.querySelector(".nl-footer [data-nl-form]"), null);
+  assert.match(dom.window.document.querySelector(".nl-footer").textContent, /Thank you for subscribing/);
   dom.window.close();
 });
 

@@ -418,6 +418,14 @@
   gap: 18px;
 }
 
+/* Checkout is intentionally paper-white. The cream surface is still useful
+   for the order receipt, but at the point of payment the summary should read
+   as a clean, neutral panel with the same fine rule used throughout the UI. */
+.checkout-order-panel {
+  background: #fff;
+  border: 1px solid rgba(47, 41, 35, 0.16);
+}
+
 .field-grid { display: grid; gap: 22px; }
 .field-grid.is-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -609,6 +617,28 @@
   color: var(--shop-ink-faint);
 }
 
+/* Loading and blocked checkout states occupy the content column on their own.
+   Centre them in that space instead of inheriting the form's left edge. */
+#checkout-main > .shop-loading {
+  min-height: min(42vh, 360px);
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+#checkout-main > [data-checkout-blocked] {
+  margin-inline: auto;
+  text-align: center;
+}
+#checkout-main > [data-checkout-blocked].shop-empty {
+  width: 100%;
+  max-width: none;
+  justify-items: center;
+}
+#checkout-main > [data-checkout-blocked].shop-notice {
+  width: min(100%, 620px);
+  justify-items: center;
+}
+
 /* -- cart page ------------------------------------------------------------ */
 
 .cart-layout {
@@ -736,4 +766,3 @@
 @media (prefers-reduced-motion: reduce) {
   .shop-card-media img { transition: none; }
 }
-

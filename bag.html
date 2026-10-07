@@ -415,7 +415,17 @@ body > header, body > header::after { border: 0 !important; box-shadow: none !im
 }
 .bag-reassurance-title { font-family: "Inter Tight", sans-serif; font-size: 9px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); }
 
-.bag-loading { padding: 40px 0; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0, 0, 0, 0.56); }
+.bag-loading {
+  min-height: calc(100dvh - var(--header-height));
+  padding: var(--header-height) 24px 40px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.56);
+}
 .bag-loading[hidden] { display: none; }
 
 /* -- saved pieces, still one tap from the bag ----------------------------- */
@@ -1040,7 +1050,7 @@ body > header, body > header::after { border: 0 !important; box-shadow: none !im
 })();
 </script>
 
-<script src="/assets/newsletter.js?v=20260921c"></script>
+<script src="/assets/newsletter.js?v=20261007a"></script>
 <script src="assets/shared-contact.js?v=20260921f"></script>
 <script src="assets/purchase-mode.js?v=20260921a"></script>
 <script src="assets/favorites.js?v=20260923a"></script>
